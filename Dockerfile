@@ -1,4 +1,4 @@
-FROM node:latest AS API
+FROM node:latest AS api
 
 WORKDIR /api
 
