@@ -3,16 +3,16 @@ log:
   LogCount: 1 # How many log files should be kept in rotation. Default is 5
 
 hosts:
-  Fin-1:
-    url: 100.89.35.135
+  YourHost1:
+    url: 1.1.1.1
     port: 2375
 
-  Fin-2:
-    url: 100.78.180.21
+  YourHost2:
+    url: 2.2.2.2
     port: 2375
 
-  Fin-3:
-    url: 100.79.86.63
+  YourHost3:
+    url: 3.3.3.3
     port: 2375
 
 mintimeout: 10000 # The minimum time to wait before querying the same server again, defaults to 5000 Ms
