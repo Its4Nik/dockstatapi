@@ -1,0 +1,18 @@
+{
+  "name": "dockstatapi",
+  "version": "1.0.0",
+  "description": "API for docker hosts using dockerode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Its4Nik",
+  "license": "ISC",
+  "dependencies": {
+    "dockerode": "^4.0.2",
+    "express": "^4.19.2",
+    "winston": "^3.14.2",
+    "yamljs": "^0.3.0"
+  }
+}
