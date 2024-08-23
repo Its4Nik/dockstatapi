@@ -15,4 +15,9 @@ hosts:
     url: Fin-3
     port: 2375
 
+container:
+  mc: # Container name
+    link: https://google.com
+    icon: minecraft.png
+
 mintimeout: 10000 # The minimum time to wait before querying the same server again, defaults to 5000 Ms

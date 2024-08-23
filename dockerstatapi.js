@@ -6,6 +6,7 @@ const logger = require('./logger');
 const app = express();
 const config = yaml.load('./hosts.yaml');
 const hosts = config.hosts;
+const containerConfigs = config.container || {}; // Load container-specific configs
 const maxlogsize = config.log.logsize || 1;
 const LogAmount = config.log.LogCount || 5;
 const queryInterval = config.mintimeout || 5000;
@@ -62,16 +63,21 @@ async function queryHostStats(hostName, hostConfig) {
                     tx_bytes: containerStats.networks.eth0.tx_bytes,
                 };
 
+                const containerName = container.Names[0].replace('/', ''); // Remove leading '/' from container names
+                const config = containerConfigs[containerName] || {}; // Get config for the container
+
                 const usage = {
-                    name: container.Names[0],
+                    name: containerName,
                     state: container.State,
-                    cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,
-                    mem_usage: containerStats.memory_stats.usage,
-                    mem_limit: containerStats.memory_stats.limit,
-                    net_rx: containerStats.networks.eth0.rx_bytes,   // Total RX since start
-                    net_tx: containerStats.networks.eth0.tx_bytes,   // Total TX since start
-                    current_net_rx: currentNetRx,                    // Current RX usage
-                    current_net_tx: currentNetTx                     // Current TX usage
+                    cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,  // CPU usage
+                    mem_usage: containerStats.memory_stats.usage,               // Memory usage
+                    mem_limit: containerStats.memory_stats.limit,               // Memory limit
+                    net_rx: containerStats.networks.eth0.rx_bytes,              // Total RX since start
+                    net_tx: containerStats.networks.eth0.tx_bytes,              // Total TX since start
+                    current_net_rx: currentNetRx,                               // Current RX usage
+                    current_net_tx: currentNetTx,                               // Current TX usage
+                    link: config.link || '',                                    // Link for the container
+                    icon: config.icon || ''                                     // Icon for the container
                 };
 
                 hostStats.push(usage);
@@ -88,6 +94,7 @@ async function queryHostStats(hostName, hostConfig) {
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
+
 async function handleHostQueue(hostName, hostConfig) {
     while (true) {
         await queryHostStats(hostName, hostConfig);
