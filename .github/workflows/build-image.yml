@@ -24,4 +24,3 @@ jobs:
           dockerfile-path: Dockerfile # optional
           build-context: . # optional
           build-only: false # optional
-

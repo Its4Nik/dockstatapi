@@ -4,15 +4,15 @@ log:
 
 hosts:
   YourHost1:
-    url: 1.1.1.1
+    url: hetzner
     port: 2375
 
   YourHost2:
-    url: 2.2.2.2
+    url: Fin-2
     port: 2375
 
   YourHost3:
-    url: 3.3.3.3
+    url: Fin-3
     port: 2375
 
 mintimeout: 10000 # The minimum time to wait before querying the same server again, defaults to 5000 Ms

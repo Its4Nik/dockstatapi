@@ -1,6 +1,7 @@
 const express = require('express');
 const yaml = require('yamljs');
 const Docker = require('dockerode');
+const cors = require('cors');
 const logger = require('./logger');
 const app = express();
 const config = yaml.load('./hosts.yaml');
@@ -13,6 +14,10 @@ const port = 7070;
 let latestStats = {};
 let hostQueues = {};
 let previousNetworkStats = {};
+
+app.use(cors({
+    origin: 'http://localhost:3000' // Allow requests from localhost:3000 (React development server)
+}));
 
 function createDockerClient(hostConfig) {
     return new Docker({
