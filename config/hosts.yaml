@@ -6,22 +6,22 @@ log:
 
 hosts:
   YourHost1:
-    url: server.local
+    url: hetzner
     port: 2375
 
   YourHost2:
-    url: raspberrypi.local
-    port: 1234
+    url: Fin-2
+    port: 2375
 
   YourHost3:
-    url: dockerhost.local
-    port: 4321
+    url: Fin-3
+    port: 2375
 
 
 # This is used for DockStat
 # Please see the dockstat documentation for more information
 container:
-  Container: # Container name
+  mc: # Container name
     link: https://github.com
-    icon: minecraft.svg
+    icon: minecraft.png
 

@@ -6,6 +6,7 @@ const fs = require('fs');
 const logger = require('./logger');
 const app = express();
 const port = 7070;
+const key = process.env.SECRET || 'CHANGE-ME';
 
 let config = yaml.load('./config/hosts.yaml');
 let hosts = config.hosts;
@@ -13,13 +14,22 @@ let containerConfigs = config.container || {};
 let maxlogsize = config.log.logsize || 1;
 let LogAmount = config.log.LogCount || 5;
 let queryInterval = config.mintimeout || 5000;
+let latestStats = {};
+let hostQueues = {};
+let previousNetworkStats = {};
 
 app.use(cors());
 app.use(express.json());
 
-let latestStats = {};
-let hostQueues = {};
-let previousNetworkStats = {};
+const authenticateHeader = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || authHeader !== key) {
+        return res.sendStatus(401); // Unauthorized if no header or incorrect key
+    }
+
+    next(); // Header is valid, proceed with the request
+};
 
 function createDockerClient(hostConfig) {
     return new Docker({
@@ -140,7 +150,7 @@ fs.watchFile('./config/hosts.yaml', (curr, prev) => {
 });
 
 // Endpoint to get stats
-app.get('/stats', (req, res) => {
+app.get('/stats', authenticateHeader, (req, res) => {
     res.json(latestStats);
 });
 
@@ -157,6 +167,7 @@ app.listen(port, () => {
     logger.info(`Minimum timeout between stats queries is: ${queryInterval} milliseconds`);
     logger.info(`The max size for Log files is: ${maxlogsize}MB`)
     logger.info(`The amount of log files to keep is: ${LogAmount}`);
+    logger.info(`Secret Key: ${key}`)
     logger.info("Press Ctrl+C to stop the server.");
     logger.info('========================================================================')
 });
