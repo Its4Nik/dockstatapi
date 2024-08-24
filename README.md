@@ -16,10 +16,12 @@ services:
  dockstatapi:
   image: ghcr.io/its4nik/dockstatapi:latest
   container_name: dockstatapi
+  environment:
+    - SECRET="CHANGEME" # This is required in the header 'Authorization': 'CHANGEME'
   ports:
-   - "7070:7070"
+    - "7070:7070"
   volumes:
-   - ./dockstatapi:/api/config # Place your hosts.yaml file here
+    - ./dockstatapi:/api/config # Place your hosts.yaml file here
   restart: always
 ```
 
