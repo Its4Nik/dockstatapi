@@ -29,6 +29,8 @@ const authenticateHeader = (req, res, next) => {
         return res.sendStatus(401); // Unauthorized if no header or incorrect key
     }
 
+    logger.info('Client authenticated! 👍');
+    
     next(); // Header is valid, proceed with the request
 };
 
