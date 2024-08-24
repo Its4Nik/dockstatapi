@@ -100,7 +100,8 @@ async function queryHostStats(hostName, hostConfig) {
             } catch (err) {
                 logger.error(`Failed to fetch stats for container ${container.Names[0]} (${container.Id}): ${err.message}`);
                 // Optionally push error details to hostStats array
-                hostStats.push({ error: `Failed to fetch stats: ${err.message}` });
+                // Causes issues on some weird occasions. More testing needed
+                //hostStats.push({ error: `Failed to fetch stats: ${err.message}` });
             }
         }
 
