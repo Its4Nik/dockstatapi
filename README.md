@@ -14,13 +14,13 @@ docker-compose.yaml
 ```yaml
 services:
  dockstatapi:
-        image: ghcr.io/its4nik/dockstatapi:latest
-        container_name: dockstatapi
-        ports:
-            - "7070:7070"
-        volumes:
-            - ./dockstatapi:/api/config # Place your hosts.yaml file here
-        restart: always
+  image: ghcr.io/its4nik/dockstatapi:latest
+  container_name: dockstatapi
+  ports:
+   - "7070:7070"
+  volumes:
+   - ./dockstatapi:/api/config # Place your hosts.yaml file here
+  restart: always
 ```
 
 Configuration inside the mounted folder, as hosts.yaml
