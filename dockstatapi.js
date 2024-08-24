@@ -25,6 +25,7 @@ const authenticateHeader = (req, res, next) => {
     const authHeader = req.headers['authorization'];
 
     if (!authHeader || authHeader !== key) {
+        logger.error(`${authHeader} != ${key}`);
         return res.sendStatus(401); // Unauthorized if no header or incorrect key
     }
 
