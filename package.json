@@ -2,8 +2,9 @@
   "name": "dockstatapi",
   "version": "1.0.0",
   "description": "API for docker hosts using dockerode",
-  "main": "index.js",
+  "main": "dockerstatsapi.js",
   "scripts": {
+    "start": "node dockerstatsapi.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

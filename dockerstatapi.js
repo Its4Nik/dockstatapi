@@ -2,23 +2,24 @@ const express = require('express');
 const yaml = require('yamljs');
 const Docker = require('dockerode');
 const cors = require('cors');
+const fs = require('fs');
 const logger = require('./logger');
 const app = express();
-const config = yaml.load('./hosts.yaml');
-const hosts = config.hosts;
-const containerConfigs = config.container || {}; // Load container-specific configs
-const maxlogsize = config.log.logsize || 1;
-const LogAmount = config.log.LogCount || 5;
-const queryInterval = config.mintimeout || 5000;
 const port = 7070;
+
+let config = yaml.load('./config/hosts.yaml');
+let hosts = config.hosts;
+let containerConfigs = config.container || {};
+let maxlogsize = config.log.logsize || 1;
+let LogAmount = config.log.LogCount || 5;
+let queryInterval = config.mintimeout || 5000;
+
+app.use(cors());
+app.use(express.json());
 
 let latestStats = {};
 let hostQueues = {};
 let previousNetworkStats = {};
-
-app.use(cors({
-    origin: 'http://localhost:3000' // Allow requests from localhost:3000 (React development server)
-}));
 
 function createDockerClient(hostConfig) {
     return new Docker({
@@ -63,12 +64,14 @@ async function queryHostStats(hostName, hostConfig) {
                     tx_bytes: containerStats.networks.eth0.tx_bytes,
                 };
 
-                const containerName = container.Names[0].replace('/', ''); // Remove leading '/' from container names
-                const config = containerConfigs[containerName] || {}; // Get config for the container
+                const containerName = container.Names[0].replace('/', '');
+                const config = containerConfigs[containerName] || {};
 
                 const usage = {
                     name: containerName,
-                    state: container.State,
+                    id: container.Id,                                           // Container ID
+                    hostName: hostName,                                         // The Host of said container
+                    state: container.State,                                     // Container state (running, exited, starting, ...)
                     cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,  // CPU usage
                     mem_usage: containerStats.memory_stats.usage,               // Memory usage
                     mem_limit: containerStats.memory_stats.limit,               // Memory limit
@@ -82,7 +85,8 @@ async function queryHostStats(hostName, hostConfig) {
 
                 hostStats.push(usage);
             } catch (err) {
-                logger.error(`Failed to fetch stats for container ${container.Id}: ${err.message}`);
+                logger.error(`Failed to fetch stats for container ${container.Names[0]} (${container.Id}): ${err.message}`);
+                // Optionally push error details to hostStats array
                 hostStats.push({ error: `Failed to fetch stats: ${err.message}` });
             }
         }
@@ -98,25 +102,55 @@ async function queryHostStats(hostName, hostConfig) {
 async function handleHostQueue(hostName, hostConfig) {
     while (true) {
         await queryHostStats(hostName, hostConfig);
-        await new Promise(resolve => setTimeout(resolve, queryInterval)); // Wait for the interval before the next query
+        await new Promise(resolve => setTimeout(resolve, queryInterval));
     }
 }
 
+// Initialize the host queues
 function initializeHostQueues() {
     for (const [hostName, hostConfig] of Object.entries(hosts)) {
         hostQueues[hostName] = handleHostQueue(hostName, hostConfig);
     }
 }
 
+// Dynamically reloads the yaml file
+function reloadConfig() {
+    try {
+        config = yaml.load('./config/hosts.yaml');
+        hosts = config.hosts;
+        containerConfigs = config.container || {};
+        maxlogsize = config.log.logsize || 1;
+        LogAmount = config.log.LogCount || 5;
+        queryInterval = config.mintimeout || 5000;
+
+        logger.info('Configuration reloaded successfully.');
+
+        initializeHostQueues();
+    } catch (err) {
+        logger.error(`Failed to reload configuration: ${err.message}`);
+    }
+}
+
+// Watch the YAML file for changes and reload the config
+fs.watchFile('./config/hosts.yaml', (curr, prev) => {
+    if (curr.mtime !== prev.mtime) {
+        logger.info('Detected change in configuration file. Reloading...');
+        reloadConfig();
+    }
+});
+
+// Endpoint to get stats
 app.get('/stats', (req, res) => {
     res.json(latestStats);
 });
 
+// Endpoint to redirect root to /stats
 app.get('/', (req, res) => {
     logger.debug("Redirected client from '/' to '/stats'.");
     res.redirect(301, '/stats');
 });
 
+// Start the server and log the startup message
 app.listen(port, () => {
     logger.info('=============================== DockStat ===============================')
     logger.info(`DockStatAPI is running on http://localhost:${port}/stats`);
