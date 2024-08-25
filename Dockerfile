@@ -1,4 +1,5 @@
-FROM node:latest AS api
+# Stage 1: Build stage
+FROM node:latest AS builder
 
 LABEL maintainer="https://github.com/its4nik"
 LABEL version="1.0"
@@ -9,10 +10,23 @@ LABEL documentation="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /api
 
-COPY . /api
+# Copy only package.json and package-lock.json to leverage Docker cache for npm install
+COPY package*.json ./
 
-RUN npm install -y
+# Install dependencies in the build stage
+RUN npm install --production
+
+# Copy the rest of the application code
+COPY . .
+
+# Stage 2: Production stage
+FROM node:alpine
+
+WORKDIR /api
+
+# Copy the production dependencies from the builder stage
+COPY --from=builder /api .
 
 EXPOSE 7070
 
-ENTRYPOINT [ "npm", "run", "start" ]
+ENTRYPOINT [ "bash", "entrypoint.sh" ]
