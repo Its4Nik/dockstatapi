@@ -25,6 +25,25 @@ services:
   restart: always
 ```
 
+Example docker-socket onfiguration:
+
+```yaml
+socket-proxy:
+ image: lscr.io/linuxserver/socket-proxy:latest
+ container_name: socket-proxy
+ environment:
+  - CONTAINERS=1 # Needed for the api to worrk
+  - INFO=1       # Needed for the api to work
+ volumes:
+  - /var/run/docker.sock:/var/run/docker.sock:ro
+ restart: unless-stopped
+ read_only: true
+ tmpfs:
+  - /run
+ ports:
+  - 2375:2375
+```
+
 Configuration inside the mounted folder, as hosts.yaml
 ```yaml
 mintimeout: 10000 # The minimum time to wait before querying the same server again, defaults to 5000 Ms
