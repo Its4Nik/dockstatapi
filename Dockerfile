@@ -24,6 +24,8 @@ FROM node:alpine
 
 WORKDIR /api
 
+RUN apk add --no-cache bash
+
 # Copy the production dependencies from the builder stage
 COPY --from=builder /api .
 
