@@ -156,6 +156,7 @@ fs.watchFile('./config/hosts.yaml', (curr, prev) => {
 // Endpoint to get stats
 app.get('/stats', authenticateHeader, (req, res) => {
     if (!req.isAuthenticated) {
+        logger.error("req.isAuthenticated:", req.isAuthenticated);
         return res.status(401).json({ error: "Unauthorized" });
     }
     res.json(latestStats);
