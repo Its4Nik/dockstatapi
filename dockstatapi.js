@@ -90,8 +90,8 @@ async function queryHostStats(hostName, hostConfig) {
                     mem_limit: containerStats.memory_stats.limit,               // Memory limit
                     net_rx: containerStats.networks.eth0.rx_bytes,              // Total RX since start
                     net_tx: containerStats.networks.eth0.tx_bytes,              // Total TX since start
-                    current_net_rx: currentNetRx,                               // Current RX usage
-                    current_net_tx: currentNetTx,                               // Current TX usage
+                    current_net_rx: currentNetRx || 'Host network mode',        // Current RX usage
+                    current_net_tx: currentNetTx || 'Host network mode',        // Current TX usage
                     link: config.link || '',                                    // Link for the container
                     icon: config.icon || ''                                     // Icon for the container
                 };
