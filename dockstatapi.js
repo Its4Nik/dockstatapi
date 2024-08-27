@@ -30,7 +30,7 @@ const authenticateHeader = (req, res, next) => {
     }
 
     logger.info('Client authenticated! 👍');
-    
+
     next(); // Header is valid, proceed with the request
 };
 
@@ -155,6 +155,10 @@ fs.watchFile('./config/hosts.yaml', (curr, prev) => {
 
 // Endpoint to get stats
 app.get('/stats', authenticateHeader, (req, res) => {
+    if (!req.isAuthenticated) {
+        // This block is optional but adds an extra layer
+        return res.status(401).json({ error: "Unauthorized" });
+    }
     res.json(latestStats);
 });
 
