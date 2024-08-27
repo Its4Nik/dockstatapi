@@ -66,12 +66,6 @@ async function queryHostStats(hostName, hostConfig) {
 
                 const networkMode = container.HostConfig.NetworkMode;
 
-                // Handle "host" network mode
-                let currentNetRx = "Host network mode";
-                let currentNetTx = "Host network mode";
-                let netRx = "Host network mode";
-                let netTx = "Host network mode";
-
                 if (networkMode !== "host") {
                     // Get the previous network stats for this container
                     const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
@@ -101,10 +95,11 @@ async function queryHostStats(hostName, hostConfig) {
                     cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,  // CPU usage
                     mem_usage: containerStats.memory_stats.usage,               // Memory usage
                     mem_limit: containerStats.memory_stats.limit,               // Memory limit
-                    net_rx: netRx,                                              // Total RX since start or "Host network mode"
-                    net_tx: netTx,                                              // Total TX since start or "Host network mode"
+                    net_rx: netRx || '0',                                       // Total RX since start or "Host network mode"
+                    net_tx: netTx || '0',                                       // Total TX since start or "Host network mode"
                     current_net_rx: currentNetRx,                               // Current RX usage or "Host network mode"
                     current_net_tx: currentNetTx,                               // Current TX usage or "Host network mode"
+                    networkMode: networkMode,
                     link: config.link || '',                                    // Link for the container
                     icon: config.icon || ''                                     // Icon for the container
                 };
