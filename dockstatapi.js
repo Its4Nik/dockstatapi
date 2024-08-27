@@ -26,12 +26,12 @@ const authenticateHeader = (req, res, next) => {
 
     if (!authHeader || authHeader !== key) {
         logger.error(`${authHeader} != ${key}`);
-        return res.sendStatus(401); // Unauthorized if no header or incorrect key
+        return res.status(401).json({ error: "Unauthorized" });
     }
 
     logger.info('Client authenticated! 👍');
 
-    next(); // Header is valid, proceed with the request
+    res.json(latestStats); // Header is valid, proceed with the request
 };
 
 function createDockerClient(hostConfig) {
@@ -155,11 +155,6 @@ fs.watchFile('./config/hosts.yaml', (curr, prev) => {
 
 // Endpoint to get stats
 app.get('/stats', authenticateHeader, (req, res) => {
-    if (!req.isAuthenticated) {
-        logger.error("req.isAuthenticated:", req.isAuthenticated);
-        return res.status(401).json({ error: "Unauthorized" });
-    }
-    res.json(latestStats);
 });
 
 // Endpoint to redirect root to /stats
