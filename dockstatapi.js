@@ -64,18 +64,31 @@ async function queryHostStats(hostName, hostConfig) {
             try {
                 const containerStats = await getContainerStats(docker, container.Id);
 
-                // Get the previous network stats for this container
-                const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
+                const networkMode = container.HostConfig.NetworkMode;
 
-                // Calculate current network usage (difference between current and previous stats)
-                const currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
-                const currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
+                // Handle "host" network mode
+                let currentNetRx = "Host network mode";
+                let currentNetTx = "Host network mode";
+                let netRx = "Host network mode";
+                let netTx = "Host network mode";
 
-                // Store the new stats in the previousNetworkStats object
-                previousNetworkStats[container.Id] = {
-                    rx_bytes: containerStats.networks.eth0.rx_bytes,
-                    tx_bytes: containerStats.networks.eth0.tx_bytes,
-                };
+                if (networkMode !== "host") {
+                    // Get the previous network stats for this container
+                    const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
+
+                    // Calculate current network usage (difference between current and previous stats)
+                    currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
+                    currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
+
+                    // Store the new stats in the previousNetworkStats object
+                    previousNetworkStats[container.Id] = {
+                        rx_bytes: containerStats.networks.eth0.rx_bytes,
+                        tx_bytes: containerStats.networks.eth0.tx_bytes,
+                    };
+
+                    netRx = containerStats.networks.eth0.rx_bytes;
+                    netTx = containerStats.networks.eth0.tx_bytes;
+                }
 
                 const containerName = container.Names[0].replace('/', '');
                 const config = containerConfigs[containerName] || {};
@@ -88,10 +101,10 @@ async function queryHostStats(hostName, hostConfig) {
                     cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,  // CPU usage
                     mem_usage: containerStats.memory_stats.usage,               // Memory usage
                     mem_limit: containerStats.memory_stats.limit,               // Memory limit
-                    net_rx: containerStats.networks.eth0.rx_bytes,              // Total RX since start
-                    net_tx: containerStats.networks.eth0.tx_bytes,              // Total TX since start
-                    current_net_rx: currentNetRx || 'Host network mode',        // Current RX usage
-                    current_net_tx: currentNetTx || 'Host network mode',        // Current TX usage
+                    net_rx: netRx,                                              // Total RX since start or "Host network mode"
+                    net_tx: netTx,                                              // Total TX since start or "Host network mode"
+                    current_net_rx: currentNetRx,                               // Current RX usage or "Host network mode"
+                    current_net_tx: currentNetTx,                               // Current TX usage or "Host network mode"
                     link: config.link || '',                                    // Link for the container
                     icon: config.icon || ''                                     // Icon for the container
                 };
@@ -112,6 +125,7 @@ async function queryHostStats(hostName, hostConfig) {
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
+
 
 async function handleHostQueue(hostName, hostConfig) {
     while (true) {
