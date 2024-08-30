@@ -89,7 +89,7 @@ async function queryDetailedStats(hostName, hostConfig) {
                 runningContainers++;
                 try {
                     const containerStats = await getContainerStats(docker, container.Id);
-                    const networkMode = container.HostConfig.NetworkMode;
+                    const networkMode = container.HostConfig.NetworkMode.toLowerCase();
 
                     const containerName = container.Names[0].replace('/', '');
                     const config = containerConfigs[containerName] || {};
@@ -99,21 +99,25 @@ async function queryDetailedStats(hostName, hostConfig) {
                     totalMemUsage += containerStats.memory_stats.usage || 0;
                     totalMemLimit += containerStats.memory_stats.limit || 0;
 
-                    // Calculate network usage
-                    const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
-                    const currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
-                    const currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
+                    // Calculate network usage only if not using host network mode
+                    let currentNetRx = 0;
+                    let currentNetTx = 0;
+                    if (networkMode !== 'host') {
+                        const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
+                        currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
+                        currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
 
-                    totalNetRx += containerStats.networks.eth0.rx_bytes || 0;
-                    totalNetTx += containerStats.networks.eth0.tx_bytes || 0;
-                    totalCurrentNetRx += currentNetRx;
-                    totalCurrentNetTx += currentNetTx;
+                        totalNetRx += containerStats.networks.eth0.rx_bytes || 0;
+                        totalNetTx += containerStats.networks.eth0.tx_bytes || 0;
+                        totalCurrentNetRx += currentNetRx;
+                        totalCurrentNetTx += currentNetTx;
 
-                    // Store new network stats for next calculation
-                    previousNetworkStats[container.Id] = {
-                        rx_bytes: containerStats.networks.eth0.rx_bytes,
-                        tx_bytes: containerStats.networks.eth0.tx_bytes
-                    };
+                        // Store new network stats for next calculation
+                        previousNetworkStats[container.Id] = {
+                            rx_bytes: containerStats.networks.eth0.rx_bytes,
+                            tx_bytes: containerStats.networks.eth0.tx_bytes
+                        };
+                    }
 
                     containerDetails.push({
                         name: containerName,
@@ -122,10 +126,10 @@ async function queryDetailedStats(hostName, hostConfig) {
                         cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,
                         mem_usage: containerStats.memory_stats.usage,
                         mem_limit: containerStats.memory_stats.limit,
-                        net_rx: containerStats.networks.eth0.rx_bytes,
-                        net_tx: containerStats.networks.eth0.tx_bytes,
-                        current_net_rx: currentNetRx,
-                        current_net_tx: currentNetTx,
+                        net_rx: networkMode !== 'host' ? containerStats.networks.eth0.rx_bytes : null,
+                        net_tx: networkMode !== 'host' ? containerStats.networks.eth0.tx_bytes : null,
+                        current_net_rx: networkMode !== 'host' ? currentNetRx : null,
+                        current_net_tx: networkMode !== 'host' ? currentNetTx : null,
                         networkMode: networkMode,
                         link: config.link || '',
                         icon: config.icon || ''
@@ -152,7 +156,7 @@ async function queryDetailedStats(hostName, hostConfig) {
                     net_tx: null,   // No network TX data
                     current_net_rx: null, // No current network RX data
                     current_net_tx: null, // No current network TX data
-                    networkMode: container.HostConfig.NetworkMode,
+                    networkMode: container.HostConfig.NetworkMode.toLowerCase(),
                     link: (containerConfigs[container.Names[0].replace('/', '')] || {}).link || '',
                     icon: (containerConfigs[container.Names[0].replace('/', '')] || {}).icon || ''
                 });
@@ -181,6 +185,7 @@ async function queryDetailedStats(hostName, hostConfig) {
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
+
 
 
 async function handleHostQueue(hostName, hostConfig) {
