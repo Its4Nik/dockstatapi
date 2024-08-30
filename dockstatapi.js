@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const yaml = require('yamljs');
 const Docker = require('dockerode');
 const cors = require('cors');
@@ -166,6 +167,20 @@ fs.watchFile('./config/hosts.yaml', (curr, prev) => {
 // Endpoint to get stats
 app.get('/stats', authenticateHeader, (req, res) => {
     res.json(latestStats);
+});
+
+app.get('/config', authenticateHeader, (req, res) => {
+    res.set('Content-Type', 'text/plain');
+    fs.readFile(path.join(__dirname, './config/hosts.yaml'), 'utf8', (err, data) => {
+        logger.debug('Requested config file: ' + path.join(__dirname, './config/hosts.yaml'));
+        if (err) {
+            logger.error(err);
+            res.status(500).send('Error reading file');
+        } else {
+            res.write(data);
+            res.end();
+        }
+    });
 });
 
 // Endpoint to redirect root to /stats
