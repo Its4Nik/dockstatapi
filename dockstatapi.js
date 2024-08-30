@@ -28,10 +28,10 @@ const authenticateHeader = (req, res, next) => {
         logger.error(`${authHeader} != ${key}`);
         return res.status(401).json({ error: "Unauthorized" });
     }
-
-    logger.info('Client authenticated! 👍');
-
-    res.json(latestStats); // Header is valid, proceed with the request
+    else {
+        logger.info('Client authenticated! 👍');
+        next();
+    }
 };
 
 function createDockerClient(hostConfig) {
@@ -129,14 +129,12 @@ async function handleHostQueue(hostName, hostConfig) {
     }
 }
 
-// Initialize the host queues
 function initializeHostQueues() {
     for (const [hostName, hostConfig] of Object.entries(hosts)) {
         hostQueues[hostName] = handleHostQueue(hostName, hostConfig);
     }
 }
 
-// Dynamically reloads the yaml file
 function reloadConfig() {
     try {
         config = yaml.load('./config/hosts.yaml');
@@ -154,7 +152,6 @@ function reloadConfig() {
     }
 }
 
-// Watch the YAML file for changes and reload the config
 fs.watchFile('./config/hosts.yaml', (curr, prev) => {
     if (curr.mtime !== prev.mtime) {
         logger.info('Detected change in configuration file. Reloading...');
@@ -162,17 +159,15 @@ fs.watchFile('./config/hosts.yaml', (curr, prev) => {
     }
 });
 
-// Endpoint to get stats
 app.get('/stats', authenticateHeader, (req, res) => {
+    res.json(latestStats);
 });
 
-// Endpoint to redirect root to /stats
 app.get('/', (req, res) => {
     logger.debug("Redirected client from '/' to '/stats'.");
     res.redirect(301, '/stats');
 });
 
-// Start the server and log the startup message
 app.listen(port, () => {
     logger.info('=============================== DockStat ===============================')
     logger.info(`DockStatAPI is running on http://localhost:${port}/stats`);
