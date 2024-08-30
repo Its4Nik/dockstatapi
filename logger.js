@@ -6,7 +6,6 @@ const jsonLogging = process.env.JSON_LOGGING || 'True'
 const maxlogsize = config.log.logsize || 1;
 const LogAmount = config.log.LogCount || 5;
 
-
 if (jsonLogging === 'True') {
     const logger = winston.createLogger({
         level: 'debug',

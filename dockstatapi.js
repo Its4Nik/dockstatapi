@@ -9,6 +9,7 @@ const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
 const jsonLogging = process.env.JSON_LOGGING || 'True'
+const skipAuth = process.env.SKIP_AUTH || 'False'
 
 let config = yaml.load('./config/hosts.yaml');
 let hosts = config.hosts;
@@ -26,13 +27,17 @@ app.use(express.json());
 const authenticateHeader = (req, res, next) => {
     const authHeader = req.headers['authorization'];
 
-    if (!authHeader || authHeader !== key) {
-        logger.error(`${authHeader} != ${key}`);
-        return res.status(401).json({ error: "Unauthorized" });
-    }
-    else {
-        logger.info('Client authenticated! 👍');
+    if (skipAuth === 'True') {
         next();
+    } else {
+        if (!authHeader || authHeader !== key) {
+            logger.error(`${authHeader} != ${key}`);
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        else {
+            logger.info('Client authenticated! 👍');
+            next();
+        }
     }
 };
 
@@ -65,7 +70,6 @@ async function queryHostStats(hostName, hostConfig) {
         for (const container of containers) {
             try {
                 const containerStats = await getContainerStats(docker, container.Id);
-
                 const networkMode = container.HostConfig.NetworkMode;
 
                 if (networkMode !== "host") {
@@ -118,7 +122,8 @@ async function queryHostStats(hostName, hostConfig) {
         latestStats[hostName] = hostStats;
         logger.info(`Fetched stats for ${containers.length} containers from ${hostName}`);
     } catch (err) {
-        latestStats[hostName] = { error: `Failed to connect: ${err.message}` };
+        // Causes a mental breakdown for the frontend:
+        // latestStats[hostName] = { error: `Failed to connect: ${err.message}` };
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
@@ -170,20 +175,18 @@ app.get('/stats', authenticateHeader, (req, res) => {
 });
 
 app.get('/config', authenticateHeader, (req, res) => {
-    res.set('Content-Type', 'text/plain');
-    fs.readFile(path.join(__dirname, './config/hosts.yaml'), 'utf8', (err, data) => {
-        logger.debug('Requested config file: ' + path.join(__dirname, './config/hosts.yaml'));
+    const filePath = path.join(__dirname, './config/hosts.yaml');
+    res.set('Content-Type', 'text/plain'); // Keep as plain text
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        logger.debug('Requested config file: ' + filePath);
         if (err) {
             logger.error(err);
             res.status(500).send('Error reading file');
         } else {
-            res.write(data);
-            res.end();
+            res.send(data);
         }
     });
 });
-
-// Endpoint to redirect root to /stats
 app.get('/', (req, res) => {
     logger.debug("Redirected client from '/' to '/stats'.");
     res.redirect(301, '/stats');
