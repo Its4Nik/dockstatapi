@@ -7,6 +7,8 @@ const logger = require('./logger');
 const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
+const allowLocalhost = process.env.ALLOW_LOCALHOST || 'False';
+const jsonLogging = process.env.JSON_LOGGING || 'True'
 
 let config = yaml.load('./config/hosts.yaml');
 let hosts = config.hosts;
@@ -14,7 +16,7 @@ let containerConfigs = config.container || {};
 let maxlogsize = config.log.logsize || 1;
 let LogAmount = config.log.LogCount || 5;
 let queryInterval = config.mintimeout || 5000;
-let latestStats = {};
+let latestDetailedStats = {};
 let hostQueues = {};
 let previousNetworkStats = {};
 
@@ -24,12 +26,17 @@ app.use(express.json());
 const authenticateHeader = (req, res, next) => {
     const authHeader = req.headers['authorization'];
 
-    if (!authHeader || authHeader !== key) {
-        logger.error(`${authHeader} != ${key}`);
-        return res.status(401).json({ error: "Unauthorized" });
-    }
-    else {
-        logger.info('Client authenticated! 👍');
+    if (allowLocalhost === "False") {
+        if (!authHeader || authHeader !== key) {
+            logger.error(`${authHeader} != ${key}`);
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        else {
+            logger.info('Client authenticated! 👍');
+            next();
+        }
+    } else if (allowLocalhost === "True") {
+        logger.info('Allowed localhost traffic');
         next();
     }
 };
@@ -51,72 +58,126 @@ async function getContainerStats(docker, containerId) {
     });
 }
 
-async function queryHostStats(hostName, hostConfig) {
-    logger.debug(`Querying Docker stats for host: ${hostName} (${hostConfig.url}:${hostConfig.port})`);
+async function queryDetailedStats(hostName, hostConfig) {
+    logger.debug(`Querying Docker detailed stats for host: ${hostName} (${hostConfig.url}:${hostConfig.port})`);
 
     const docker = createDockerClient(hostConfig);
 
     try {
-        const containers = await docker.listContainers();
-        const hostStats = [];
+        const containers = await docker.listContainers({ all: true });
+
+        // Initialize counters and accumulators
+        let totalContainers = 0;
+        let runningContainers = 0;
+        let stoppedContainers = 0;
+        let exitedContainers = 0;
+        let totalCpuUsage = 0;
+        let totalMemUsage = 0;
+        let totalMemLimit = 0;
+        let totalNetRx = 0;
+        let totalNetTx = 0;
+        let totalCurrentNetRx = 0;
+        let totalCurrentNetTx = 0;
+
+        const containerDetails = [];
 
         for (const container of containers) {
-            try {
-                const containerStats = await getContainerStats(docker, container.Id);
+            const state = container.State.toLowerCase();
+            totalContainers++;
 
-                const networkMode = container.HostConfig.NetworkMode;
+            if (state === 'running') {
+                runningContainers++;
+                try {
+                    const containerStats = await getContainerStats(docker, container.Id);
+                    const networkMode = container.HostConfig.NetworkMode;
 
-                if (networkMode !== "host") {
-                    // Get the previous network stats for this container
+                    const containerName = container.Names[0].replace('/', '');
+                    const config = containerConfigs[containerName] || {};
+
+                    // Update totals
+                    totalCpuUsage += containerStats.cpu_stats.cpu_usage.total_usage || 0;
+                    totalMemUsage += containerStats.memory_stats.usage || 0;
+                    totalMemLimit += containerStats.memory_stats.limit || 0;
+
+                    // Calculate network usage
                     const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
+                    const currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
+                    const currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
 
-                    // Calculate current network usage (difference between current and previous stats)
-                    currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
-                    currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
+                    totalNetRx += containerStats.networks.eth0.rx_bytes || 0;
+                    totalNetTx += containerStats.networks.eth0.tx_bytes || 0;
+                    totalCurrentNetRx += currentNetRx;
+                    totalCurrentNetTx += currentNetTx;
 
-                    // Store the new stats in the previousNetworkStats object
+                    // Store new network stats for next calculation
                     previousNetworkStats[container.Id] = {
                         rx_bytes: containerStats.networks.eth0.rx_bytes,
-                        tx_bytes: containerStats.networks.eth0.tx_bytes,
+                        tx_bytes: containerStats.networks.eth0.tx_bytes
                     };
 
-                    netRx = containerStats.networks.eth0.rx_bytes;
-                    netTx = containerStats.networks.eth0.tx_bytes;
+                    containerDetails.push({
+                        name: containerName,
+                        id: container.Id,
+                        state: container.State,
+                        cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,
+                        mem_usage: containerStats.memory_stats.usage,
+                        mem_limit: containerStats.memory_stats.limit,
+                        net_rx: containerStats.networks.eth0.rx_bytes,
+                        net_tx: containerStats.networks.eth0.tx_bytes,
+                        current_net_rx: currentNetRx,
+                        current_net_tx: currentNetTx,
+                        networkMode: networkMode,
+                        link: config.link || '',
+                        icon: config.icon || ''
+                    });
+                } catch (err) {
+                    logger.error(`Failed to fetch detailed stats for container ${container.Names[0]} (${container.Id}): ${err.message}`);
+                }
+            } else {
+                // Update counts for stopped and exited containers
+                if (state === 'exited') {
+                    exitedContainers++;
+                } else if (state === 'paused' || state === 'created') {
+                    stoppedContainers++;
                 }
 
-                const containerName = container.Names[0].replace('/', '');
-                const config = containerConfigs[containerName] || {};
-
-                const usage = {
-                    name: containerName,
-                    id: container.Id,                                           // Container ID
-                    hostName: hostName,                                         // The Host of said container
-                    state: container.State,                                     // Container state (running, exited, starting, ...)
-                    cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,  // CPU usage
-                    mem_usage: containerStats.memory_stats.usage,               // Memory usage
-                    mem_limit: containerStats.memory_stats.limit,               // Memory limit
-                    net_rx: netRx || '0',                                       // Total RX since start or "Host network mode"
-                    net_tx: netTx || '0',                                       // Total TX since start or "Host network mode"
-                    current_net_rx: currentNetRx || '0',                        // Current RX usage or "Host network mode"
-                    current_net_tx: currentNetTx || '0',                        // Current TX usage or "Host network mode"
-                    networkMode: networkMode,
-                    link: config.link || '',                                    // Link for the container
-                    icon: config.icon || ''                                     // Icon for the container
-                };
-
-                hostStats.push(usage);
-            } catch (err) {
-                logger.error(`Failed to fetch stats for container ${container.Names[0]} (${container.Id}): ${err.message}`);
-                // Optionally push error details to hostStats array
-                // Causes issues on some weird occasions. More testing needed
-                //hostStats.push({ error: `Failed to fetch stats: ${err.message}` });
+                containerDetails.push({
+                    name: container.Names[0].replace('/', ''),
+                    id: container.Id,
+                    state: container.State,
+                    cpu_usage: null, // No CPU usage data
+                    mem_usage: null, // No memory usage data
+                    mem_limit: null, // No memory limit data
+                    net_rx: null,   // No network RX data
+                    net_tx: null,   // No network TX data
+                    current_net_rx: null, // No current network RX data
+                    current_net_tx: null, // No current network TX data
+                    networkMode: container.HostConfig.NetworkMode,
+                    link: (containerConfigs[container.Names[0].replace('/', '')] || {}).link || '',
+                    icon: (containerConfigs[container.Names[0].replace('/', '')] || {}).icon || ''
+                });
             }
         }
 
-        latestStats[hostName] = hostStats;
-        logger.info(`Fetched stats for ${containers.length} containers from ${hostName}`);
+        const detailedStats = {
+            total_containers: totalContainers,
+            running_containers: runningContainers,
+            stopped_containers: stoppedContainers,
+            exited_containers: exitedContainers,
+            total_cpu_usage: totalCpuUsage,
+            total_mem_usage: totalMemUsage,
+            total_mem_limit: totalMemLimit,
+            total_net_rx: totalNetRx,
+            total_net_tx: totalNetTx,
+            total_current_net_rx: totalCurrentNetRx,
+            total_current_net_tx: totalCurrentNetTx,
+            container_details: containerDetails
+        };
+
+        latestDetailedStats[hostName] = detailedStats;
+        logger.info(`Fetched detailed stats for ${totalContainers} containers from ${hostName}`);
     } catch (err) {
-        latestStats[hostName] = { error: `Failed to connect: ${err.message}` };
+        latestDetailedStats[hostName] = { error: `Failed to connect: ${err.message}` };
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
@@ -124,7 +185,7 @@ async function queryHostStats(hostName, hostConfig) {
 
 async function handleHostQueue(hostName, hostConfig) {
     while (true) {
-        await queryHostStats(hostName, hostConfig);
+        await queryDetailedStats(hostName, hostConfig);
         await new Promise(resolve => setTimeout(resolve, queryInterval));
     }
 }
@@ -160,7 +221,7 @@ fs.watchFile('./config/hosts.yaml', (curr, prev) => {
 });
 
 app.get('/stats', authenticateHeader, (req, res) => {
-    res.json(latestStats);
+    res.json(latestDetailedStats);
 });
 
 app.get('/', (req, res) => {
@@ -174,6 +235,8 @@ app.listen(port, () => {
     logger.info(`Minimum timeout between stats queries is: ${queryInterval} milliseconds`);
     logger.info(`The max size for Log files is: ${maxlogsize}MB`)
     logger.info(`The amount of log files to keep is: ${LogAmount}`);
+    logger.info(`Allowed localhost traffic: ${allowLocalhost}`);
+    logger.info(`JSON Logging? (True/False): ${jsonLogging}`);
     logger.info(`Secret Key: ${key}`)
     logger.info("Press Ctrl+C to stop the server.");
     logger.info('========================================================================')
