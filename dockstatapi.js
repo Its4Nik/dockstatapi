@@ -107,7 +107,8 @@ async function queryHostStats(hostName, hostConfig) {
                     current_net_tx: currentNetTx || '0',                        // Current TX usage or "Host network mode"
                     networkMode: networkMode,
                     link: config.link || '',                                    // Link for the container
-                    icon: config.icon || ''                                     // Icon for the container
+                    icon: config.icon || '',                                    // Icon for the container
+                    tags: config.tags || '',                                    // Tagging System for the frontend
                 };
 
                 hostStats.push(usage);

@@ -74,6 +74,8 @@ container:
   Container: # Container name
     link: https://github.com
     icon: minecraft.svg
+    tags: raspberry:FF0000,private:0000FF
+
 ```
 
 Example output, as json:
@@ -94,7 +96,8 @@ Example output, as json:
       "current_net_rx": 374856,
       "current_net_tx": 2398062,
       "link": "https://github.com",
-      "icon": "container1.png"
+      "icon": "container1.png",
+      "tags": ""
     },
     {
       "name": "Container2",
@@ -109,7 +112,9 @@ Example output, as json:
       "current_net_rx": 764934,
       "current_net_tx": 826010,
       "link": "",
-      "icon": ""
+      "icon": "",
+      "tags": "raspberry:FF0000"
+
     }
   ],
   "YourHost2": [
@@ -126,7 +131,8 @@ Example output, as json:
       "current_net_rx": 40175210,
       "current_net_tx": 135024358,
       "link": "",
-      "icon": ""
+      "icon": "",
+      "tags": "private:0000FF"
     }
   ]
 }
