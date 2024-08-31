@@ -113,7 +113,7 @@ Example output, as json:
       "current_net_tx": 826010,
       "link": "",
       "icon": "",
-      "tags": "raspberry:FF0000"
+      "tags": "raspberry:pink-950"
 
     }
   ],
@@ -132,7 +132,7 @@ Example output, as json:
       "current_net_tx": 135024358,
       "link": "",
       "icon": "",
-      "tags": "private:0000FF"
+      "tags": "private:violet-400"
     }
   ]
 }
