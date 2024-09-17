@@ -60,7 +60,7 @@ async function getContainerStats(docker, containerId) {
 
 function getTagColor(tag) {
     const tagsConfig = config.tags || {};
-    return tagsConfig[tag] || null; // Return null if tag is not found
+    return tagsConfig[tag] || '';
 }
 
 async function queryHostStats(hostName, hostConfig) {
@@ -78,14 +78,11 @@ async function queryHostStats(hostName, hostConfig) {
                 const networkMode = container.HostConfig.NetworkMode;
 
                 if (networkMode !== "host") {
-                    // Get the previous network stats for this container
                     const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
 
-                    // Calculate current network usage (difference between current and previous stats)
                     currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
                     currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
 
-                    // Store the new stats in the previousNetworkStats object
                     previousNetworkStats[container.Id] = {
                         rx_bytes: containerStats.networks.eth0.rx_bytes,
                         tx_bytes: containerStats.networks.eth0.tx_bytes,
@@ -98,47 +95,45 @@ async function queryHostStats(hostName, hostConfig) {
                 const containerName = container.Names[0].replace('/', '');
                 const config = containerConfigs[containerName] || {};
 
-                // Process tags to the desired format
-                const tagArray = (config.tags || '').split(',').map(tag => {
-                    const color = getTagColor(tag);
-                    return `${tag}:${color}`;
-                }).join(',');
+                const tagArray = (config.tags || '')
+                    .split(',')
+                    .map(tag => {
+                        const color = getTagColor(tag);
+                        return color ? `${tag}:${color}` : tag;
+                    })
+                    .join(',');
 
                 const usage = {
                     name: containerName,
-                    id: container.Id,                                           // Container ID
-                    hostName: hostName,                                         // The Host of said container
-                    state: container.State,                                     // Container state (running, exited, starting, ...)
-                    cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,  // CPU usage
-                    mem_usage: containerStats.memory_stats.usage,               // Memory usage
-                    mem_limit: containerStats.memory_stats.limit,               // Memory limit
-                    net_rx: netRx || '0',                                       // Total RX since start or "Host network mode"
-                    net_tx: netTx || '0',                                       // Total TX since start or "Host network mode"
-                    current_net_rx: currentNetRx || '0',                        // Current RX usage or "Host network mode"
-                    current_net_tx: currentNetTx || '0',                        // Current TX usage or "Host network mode"
+                    id: container.Id,
+                    hostName: hostName,
+                    state: container.State,
+                    cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,
+                    mem_usage: containerStats.memory_stats.usage,
+                    mem_limit: containerStats.memory_stats.limit,
+                    net_rx: netRx || '0',
+                    net_tx: netTx || '0',
+                    current_net_rx: currentNetRx || '0',
+                    current_net_tx: currentNetTx || '0',
                     networkMode: networkMode,
-                    link: config.link || '',                                    // Link for the container
-                    icon: config.icon || '',                                    // Icon for the container
-                    tags: tagArray,                                             // Formatted tags
+                    link: config.link || '',
+                    icon: config.icon || '',
+                    tags: tagArray,
                 };
 
                 hostStats.push(usage);
             } catch (err) {
                 logger.error(`Failed to fetch stats for container ${container.Names[0]} (${container.Id}): ${err.message}`);
-                // Optionally push error details to hostStats array
-                // Causes issues on some weird occasions. More testing needed
-                // hostStats.push({ error: `Failed to fetch stats: ${err.message}` });
             }
         }
 
         latestStats[hostName] = hostStats;
         logger.info(`Fetched stats for ${containers.length} containers from ${hostName}`);
     } catch (err) {
-        // Causes a mental breakdown for the frontend:
-        // latestStats[hostName] = { error: `Failed to connect: ${err.message}` };
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
+
 
 
 async function handleHostQueue(hostName, hostConfig) {
