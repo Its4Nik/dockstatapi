@@ -1,7 +1,7 @@
 const winston = require('winston');
 const yaml = require('yamljs');
 const config = yaml.load('./config/hosts.yaml');
-const jsonLogging = process.env.JSON_LOGGING || 'True'
+const jsonLogging = process.env.JSON_LOGGING || 'False'
 
 const maxlogsize = config.log.logsize || 1;
 const LogAmount = config.log.LogCount || 5;

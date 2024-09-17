@@ -56,25 +56,20 @@ log:
 
 hosts:
   YourHost1:
-    url: server.local
+    url: hetzner
     port: 2375
-
-  YourHost2:
-    url: raspberrypi.local
-    port: 1234
-
-  YourHost3:
-    url: dockerhost.local
-    port: 4321
-
 
 # This is used for DockStat
 # Please see the dockstat documentation for more information
+tags:
+  raspberry: red-200
+  private: violet-400
+
 container:
-  Container: # Container name
+  dozzle: # Container name
     link: https://github.com
-    icon: minecraft.svg
-    tags: raspberry:FF0000,private:0000FF
+    icon: minecraft.png
+    tags: private,raspberry
 
 ```
 

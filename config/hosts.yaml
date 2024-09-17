@@ -4,25 +4,17 @@ log:
   logsize: 10 # Specify the Size of the log files in MB, default is 1MB
   LogCount: 1 # How many log files should be kept in rotation. Default is 5
 
+tags:
+  raspberry: red-200
+  private: violet-400
+
 hosts:
   YourHost1:
     url: hetzner
     port: 2375
 
-  YourHost2:
-    url: Fin-2
-    port: 2375
-
-  YourHost3:
-    url: Fin-3
-    port: 2375
-
-
-# This is used for DockStat
-# Please see the dockstat documentation for more information
 container:
-  mc: # Container name
+  dozzle: # Container name
     link: https://github.com
     icon: minecraft.png
-    tags: raspberry:cyan-700,private:violet-400
-
+    tags: private,raspberry

@@ -8,8 +8,8 @@ const logger = require('./logger');
 const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
-const jsonLogging = process.env.JSON_LOGGING || 'True'
-const skipAuth = process.env.SKIP_AUTH || 'False'
+const jsonLogging = process.env.JSON_LOGGING || 'False'
+const skipAuth = process.env.SKIP_AUTH || 'True'
 
 let config = yaml.load('./config/hosts.yaml');
 let hosts = config.hosts;
@@ -58,6 +58,11 @@ async function getContainerStats(docker, containerId) {
     });
 }
 
+function getTagColor(tag) {
+    const tagsConfig = config.tags || {};
+    return tagsConfig[tag] || null; // Return null if tag is not found
+}
+
 async function queryHostStats(hostName, hostConfig) {
     logger.debug(`Querying Docker stats for host: ${hostName} (${hostConfig.url}:${hostConfig.port})`);
 
@@ -93,6 +98,12 @@ async function queryHostStats(hostName, hostConfig) {
                 const containerName = container.Names[0].replace('/', '');
                 const config = containerConfigs[containerName] || {};
 
+                // Process tags to the desired format
+                const tagArray = (config.tags || '').split(',').map(tag => {
+                    const color = getTagColor(tag);
+                    return `${tag}:${color}`;
+                }).join(',');
+
                 const usage = {
                     name: containerName,
                     id: container.Id,                                           // Container ID
@@ -108,7 +119,7 @@ async function queryHostStats(hostName, hostConfig) {
                     networkMode: networkMode,
                     link: config.link || '',                                    // Link for the container
                     icon: config.icon || '',                                    // Icon for the container
-                    tags: config.tags || '',                                    // Tagging System for the frontend
+                    tags: tagArray,                                             // Formatted tags
                 };
 
                 hostStats.push(usage);
@@ -116,7 +127,7 @@ async function queryHostStats(hostName, hostConfig) {
                 logger.error(`Failed to fetch stats for container ${container.Names[0]} (${container.Id}): ${err.message}`);
                 // Optionally push error details to hostStats array
                 // Causes issues on some weird occasions. More testing needed
-                //hostStats.push({ error: `Failed to fetch stats: ${err.message}` });
+                // hostStats.push({ error: `Failed to fetch stats: ${err.message}` });
             }
         }
 
