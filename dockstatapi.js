@@ -201,7 +201,7 @@ app.get('/', (req, res) => {
 
 app.get('/status', (req, res) => {
     logger.info("Healthcheck requested");
-    return res.status(200).json({ "UP" });
+    return res.status(200).send('UP');
 }
 
 // Start the server and log the startup message
