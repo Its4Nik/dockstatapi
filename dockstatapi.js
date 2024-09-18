@@ -8,8 +8,8 @@ const logger = require('./logger');
 const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
-const jsonLogging = process.env.JSON_LOGGING || 'False'
-const skipAuth = process.env.SKIP_AUTH || 'True'
+const jsonLogging = process.env.JSON_LOGGING || 'True'
+const skipAuth = process.env.SKIP_AUTH || 'False'
 
 let config = yaml.load('./config/hosts.yaml');
 let hosts = config.hosts;
@@ -197,6 +197,11 @@ app.get('/config', authenticateHeader, (req, res) => {
 app.get('/', (req, res) => {
     logger.debug("Redirected client from '/' to '/stats'.");
     res.redirect(301, '/stats');
+});
+
+app.get('/status', (req, res) => {
+    logger.info("Healthcheck requested");
+    return res.status(200).send('UP');
 });
 
 // Start the server and log the startup message

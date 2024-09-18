@@ -24,11 +24,13 @@ FROM node:alpine
 
 WORKDIR /api
 
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash curl
 
 # Copy the production dependencies from the builder stage
 COPY --from=builder /api .
 
 EXPOSE 7070
+
+HEALTHCHECK CMD curl --fail http://localhost:7070/ || exit 1
 
 ENTRYPOINT [ "bash", "entrypoint.sh" ]
