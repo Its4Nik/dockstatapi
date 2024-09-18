@@ -202,7 +202,7 @@ app.get('/', (req, res) => {
 app.get('/status', (req, res) => {
     logger.info("Healthcheck requested");
     return res.status(200).send('UP');
-}
+});
 
 // Start the server and log the startup message
 app.listen(port, () => {
