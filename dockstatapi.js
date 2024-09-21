@@ -20,6 +20,7 @@ let queryInterval = config.mintimeout || 5000;
 let latestStats = {};
 let hostQueues = {};
 let previousNetworkStats = {};
+let generalStats = {};
 
 app.use(cors());
 app.use(express.json());
@@ -69,17 +70,23 @@ async function queryHostStats(hostName, hostConfig) {
     const docker = createDockerClient(hostConfig);
 
     try {
-        const containers = await docker.listContainers();
-        const hostStats = [];
+        const info = await docker.info();
+        const totalMemory = info.MemTotal;
+        const totalCPUs = info.NCPU;
 
-        for (const container of containers) {
+        const containers = await docker.listContainers();
+
+        const statsPromises = containers.map(async (container) => {
             try {
                 const containerStats = await getContainerStats(docker, container.Id);
-                const networkMode = container.HostConfig.NetworkMode;
+                
+                const containerCpuUsage = containerStats.cpu_stats.cpu_usage.total_usage;
 
+                const containerMemoryUsage = containerStats.memory_stats.usage;
+
+                const networkMode = container.HostConfig.NetworkMode;
                 if (networkMode !== "host") {
                     const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
-
                     currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
                     currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
 
@@ -94,7 +101,7 @@ async function queryHostStats(hostName, hostConfig) {
 
                 const containerName = container.Names[0].replace('/', '');
                 const config = containerConfigs[containerName] || {};
-
+                
                 const tagArray = (config.tags || '')
                     .split(',')
                     .map(tag => {
@@ -103,13 +110,13 @@ async function queryHostStats(hostName, hostConfig) {
                     })
                     .join(',');
 
-                const usage = {
+                return {
                     name: containerName,
                     id: container.Id,
                     hostName: hostName,
                     state: container.State,
-                    cpu_usage: containerStats.cpu_stats.cpu_usage.total_usage,
-                    mem_usage: containerStats.memory_stats.usage,
+                    cpu_usage: containerCpuUsage,
+                    mem_usage: containerMemoryUsage,
                     mem_limit: containerStats.memory_stats.limit,
                     net_rx: netRx || '0',
                     net_tx: netTx || '0',
@@ -120,19 +127,37 @@ async function queryHostStats(hostName, hostConfig) {
                     icon: config.icon || '',
                     tags: tagArray,
                 };
-
-                hostStats.push(usage);
             } catch (err) {
                 logger.error(`Failed to fetch stats for container ${container.Names[0]} (${container.Id}): ${err.message}`);
+                return null;
             }
-        }
+        });
 
-        latestStats[hostName] = hostStats;
-        logger.info(`Fetched stats for ${containers.length} containers from ${hostName}`);
+        const hostStats = await Promise.all(statsPromises);
+
+        const validStats = hostStats.filter(stat => stat !== null);
+
+        const totalCpuUsage = validStats.reduce((acc, container) => acc + parseFloat(container.cpu_usage), 0);
+        const totalMemoryUsage = validStats.reduce((acc, container) => acc + container.mem_usage, 0);
+
+        const memoryUsagePercent = ((totalMemoryUsage / totalMemory) * 100).toFixed(2);
+
+        generalStats[hostName] = {
+            containerCount: validStats.length,
+            totalCPUs: totalCPUs,
+            totalMemory: totalMemory,
+            cpuUsage: totalCpuUsage + '%',
+            memoryUsage: memoryUsagePercent + '%',
+        };
+
+        latestStats[hostName] = validStats;
+
+        logger.info(`Fetched stats for ${validStats.length} containers from ${hostName}`);
     } catch (err) {
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
+
 
 
 
@@ -181,6 +206,12 @@ app.get('/stats', authenticateHeader, (req, res) => {
     res.json(latestStats);
 });
 
+// Endpoint for general Host based statistics
+app.get('/hosts', authenticateHeader, (req, res) => {
+    res.json(generalStats);
+});
+
+// Read Only config endpoint
 app.get('/config', authenticateHeader, (req, res) => {
     const filePath = path.join(__dirname, './config/hosts.yaml');
     res.set('Content-Type', 'text/plain'); // Keep as plain text
@@ -194,6 +225,7 @@ app.get('/config', authenticateHeader, (req, res) => {
         }
     });
 });
+
 app.get('/', (req, res) => {
     logger.debug("Redirected client from '/' to '/stats'.");
     res.redirect(301, '/stats');
