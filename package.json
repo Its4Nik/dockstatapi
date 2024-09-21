@@ -11,6 +11,7 @@
   "author": "Its4Nik",
   "license": "ISC",
   "dependencies": {
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "dockerode": "^4.0.2",
     "express": "^4.21.0",

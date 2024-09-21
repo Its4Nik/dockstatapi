@@ -24,7 +24,8 @@ FROM node:alpine
 
 WORKDIR /api
 
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache bash curl python3 pip
+RUN python -m ensurepip --upgrade
 
 # Copy the production dependencies from the builder stage
 COPY --from=builder /api .
