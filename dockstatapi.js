@@ -146,8 +146,8 @@ async function queryHostStats(hostName, hostConfig) {
             containerCount: validStats.length,
             totalCPUs: totalCPUs,
             totalMemory: totalMemory,
-            cpuUsage: totalCpuUsage + '%',
-            memoryUsage: memoryUsagePercent + '%',
+            cpuUsage: totalCpuUsage ,
+            memoryUsage: memoryUsagePercent,
         };
 
         latestStats[hostName] = validStats;
