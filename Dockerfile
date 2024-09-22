@@ -14,9 +14,6 @@ COPY package*.json ./
 
 RUN npm install --production
 
-RUN apt-get update && \
-    apt-get -y install apprise
-
 COPY . .
 
 # Stage 2: Production stage
@@ -24,9 +21,11 @@ FROM node:alpine
 
 WORKDIR /api
 
+COPY --from=builder /api .
+
 RUN apk add --no-cache bash curl
 
-COPY --from=builder /api .
+RUN bash /api/scripts/install_apprise.sh
 
 EXPOSE 7070
 
