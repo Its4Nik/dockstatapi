@@ -21,7 +21,7 @@ FROM node:alpine
 
 WORKDIR /api
 
-RUN apk add --no-cache bash curl python3 pip
+RUN apk add --no-cache bash curl python3
 RUN python -m ensurepip --upgrade
 RUN pip install apprise
 
