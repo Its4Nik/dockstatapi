@@ -2,7 +2,7 @@
 
 ## This tool relies on the [DockerSocket Proxy](https://docs.linuxserver.io/images/docker-socket-proxy/), please see it's documentation for more information.
 
-This is the DockStatAPI used in DockStat.
+This is the DockStatAPI used in [DockStat](https://github.com/its4nik/dockstat).
 
 It features an easy way to configure using a yaml file.
 
