@@ -24,6 +24,11 @@ case "$NOTIFY_TYPE" in
     ;;
 esac
 
+if [[ ! -f ./config/apprise_config.yml ]]; then
+  echo -n "No Apprise configuration found, aborting."
+  exit 1
+fi
+
 # Send notification via Apprise
 apprise -b "$MESSAGE" --config ./config/apprise_config.yml
 
