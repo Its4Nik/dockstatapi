@@ -6,10 +6,10 @@ CONTAINER_NAME=$3 # Container Name
 HOST=$4           # Host Name
 STATE=$5          # Current State
 
-ADD_MESSAGE="${ADD_MESSAGE:-'🆕 Container Added: $CONTAINER_NAME ($CONTAINER_ID) on $HOST'}"
-REMOVE_MESSAGE="${REMOVE_MESSAGE:-'🚫 Container Removed: $CONTAINER_NAME ($CONTAINER_ID) on $HOST'}"
-EXIT_MESSAGE="${EXIT_MESSAGE:-'❌ Container Exited: $CONTAINER_NAME ($CONTAINER_ID) on $HOST'}"
-ANY_MESSAGE="${ANY_MESSAGE:-'⚠️ Container State Changed: $CONTAINER_NAME ($CONTAINER_ID) on $HOST - New State: $STATE'}"
+ADD_MESSAGE="${ADD_MESSAGE:-🆕 Container Added: $CONTAINER_NAME ($CONTAINER_ID) on $HOST}"
+REMOVE_MESSAGE="${REMOVE_MESSAGE:-🚫 Container Removed: $CONTAINER_NAME ($CONTAINER_ID) on $HOST}"
+EXIT_MESSAGE="${EXIT_MESSAGE:-❌ Container Exited: $CONTAINER_NAME ($CONTAINER_ID) on $HOST}"
+ANY_MESSAGE="${ANY_MESSAGE:-⚠️ Container State Changed: $CONTAINER_NAME ($CONTAINER_ID) on $HOST - New State: $STATE}"
 
 case "$NOTIFY_TYPE" in
   ADD)
