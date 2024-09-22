@@ -25,6 +25,7 @@ let generalStats = {};
 let previousContainerStates = {};
 let previousRunningContainers = {};
 
+
 app.use(cors());
 app.use(express.json());
 
@@ -160,7 +161,7 @@ async function queryHostStats(hostName, hostConfig) {
         const info = await docker.info();
         const totalMemory = info.MemTotal;
         const totalCPUs = info.NCPU;
-
+      
         const containers = await docker.listContainers({ all: true });
 
         const statsPromises = containers.map(async (container) => {
@@ -191,7 +192,6 @@ async function queryHostStats(hostName, hostConfig) {
 
                 // Fetch container stats for running containers
                 const containerStats = await getContainerStats(docker, container.Id);
-
                 const containerCpuUsage = containerStats.cpu_stats.cpu_usage.total_usage;
                 const containerMemoryUsage = containerStats.memory_stats.usage;
 
@@ -213,8 +213,8 @@ async function queryHostStats(hostName, hostConfig) {
                 }
 
                 previousContainerStates[container.Id] = containerState;
-
                 const config = containerConfigs[containerName] || {};
+              
                 const tagArray = (config.tags || '')
                     .split(',')
                     .map(tag => {
@@ -227,6 +227,7 @@ async function queryHostStats(hostName, hostConfig) {
                     name: containerName,
                     id: container.Id,
                     hostName: hostName,
+
                     state: containerState,
                     cpu_usage: containerCpuUsage,
                     mem_usage: containerMemoryUsage,
@@ -267,12 +268,10 @@ async function queryHostStats(hostName, hostConfig) {
 
         // Handle container state changes
         await handleContainerStateChanges(hostName, validStats);
-
     } catch (err) {
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
-
 
 async function handleHostQueue(hostName, hostConfig) {
     while (true) {
