@@ -5,6 +5,7 @@ const Docker = require('dockerode');
 const cors = require('cors');
 const fs = require('fs');
 const logger = require('./logger');
+const { exec } = require('child_process');
 const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
@@ -21,6 +22,9 @@ let latestStats = {};
 let hostQueues = {};
 let previousNetworkStats = {};
 let generalStats = {};
+let previousContainerStates = {};
+let previousRunningContainers = {};
+
 
 app.use(cors());
 app.use(express.json());
@@ -49,6 +53,11 @@ function createDockerClient(hostConfig) {
     });
 }
 
+function getTagColor(tag) {
+    const tagsConfig = config.tags || {};
+    return tagsConfig[tag] || '';
+}
+
 async function getContainerStats(docker, containerId) {
     const container = docker.getContainer(containerId);
     return new Promise((resolve, reject) => {
@@ -59,9 +68,88 @@ async function getContainerStats(docker, containerId) {
     });
 }
 
-function getTagColor(tag) {
-    const tagsConfig = config.tags || {};
-    return tagsConfig[tag] || '';
+async function handleContainerStateChanges(hostName, currentContainers) {
+    const currentRunningContainers = currentContainers
+        .filter(container => container.state === 'running')
+        .reduce((map, container) => {
+            map[container.id] = container;
+            return map;
+        }, {});
+
+    const previousHostContainers = previousRunningContainers[hostName] || {};
+
+    // Check for containers that have been removed or exited
+    for (const containerId of Object.keys(previousHostContainers)) {
+        const container = previousHostContainers[containerId];
+        if (!currentRunningContainers[containerId]) {
+            if (container.state === 'running') {
+                // Container removed
+                exec(`bash ./scripts/notify.sh REMOVE ${containerId} ${container.name} ${hostName} ${container.state}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing REMOVE notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container removed: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            }
+            else if (container.state === 'exited') {
+                // Container exited
+                exec(`bash ./scripts/notify.sh EXIT ${containerId} ${container.name} ${hostName} ${container.state}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing EXIT notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container exited: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            }
+        }
+    }
+
+    // Check for new containers or state changes
+    for (const containerId of Object.keys(currentRunningContainers)) {
+        const container = currentRunningContainers[containerId];
+        const previousContainer = previousHostContainers[containerId];
+
+        if (!previousContainer) {
+            // New container added
+            exec(`bash ./scripts/notify.sh ADD ${containerId} ${container.name} ${hostName} ${container.state}`, (error, stdout, stderr) => {
+                if (error) {
+                    logger.error(`Error executing ADD notify.sh: ${error.message}`);
+                } else {
+                    logger.info(`Container added: ${container.name} (${containerId}) to host ${hostName}`);
+                    logger.info(stdout);
+                }
+            });
+        } else if (previousContainer.state !== container.state) {
+            // Container state has changed
+            const newState = container.state;
+            if (newState === 'exited') {
+                exec(`bash ./scripts/notify.sh EXIT ${containerId} ${container.name} ${hostName} ${newState}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing EXIT notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container exited: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            } else {
+                // Any other state change
+                exec(`bash ./scripts/notify.sh ANY ${containerId} ${container.name} ${hostName} ${newState}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing ANY notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container state changed to ${newState}: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            }
+        }
+    }
+
+    // Update the previous state for the next comparison
+    previousRunningContainers[hostName] = currentRunningContainers;
 }
 
 async function queryHostStats(hostName, hostConfig) {
@@ -73,19 +161,44 @@ async function queryHostStats(hostName, hostConfig) {
         const info = await docker.info();
         const totalMemory = info.MemTotal;
         const totalCPUs = info.NCPU;
-
-        const containers = await docker.listContainers();
+      
+        const containers = await docker.listContainers({ all: true });
 
         const statsPromises = containers.map(async (container) => {
             try {
-                const containerStats = await getContainerStats(docker, container.Id);
-                
-                const containerCpuUsage = containerStats.cpu_stats.cpu_usage.total_usage;
+                const containerName = container.Names[0].replace('/', '');
+                const containerState = container.State;
 
+                if (containerState !== 'running') {
+                    previousContainerStates[container.Id] = containerState;
+                    return {
+                        name: containerName,
+                        id: container.Id,
+                        hostName: hostName,
+                        state: containerState,
+                        cpu_usage: 0,
+                        mem_usage: 0,
+                        mem_limit: 0,
+                        net_rx: 0,
+                        net_tx: 0,
+                        current_net_rx: 0,
+                        current_net_tx: 0,
+                        networkMode: container.HostConfig.NetworkMode,
+                        link: containerConfigs[containerName]?.link || '',
+                        icon: containerConfigs[containerName]?.icon || '',
+                        tags: getTagColor(containerConfigs[containerName]?.tags || ''),
+                    };
+                }
+
+                // Fetch container stats for running containers
+                const containerStats = await getContainerStats(docker, container.Id);
+                const containerCpuUsage = containerStats.cpu_stats.cpu_usage.total_usage;
                 const containerMemoryUsage = containerStats.memory_stats.usage;
 
                 const networkMode = container.HostConfig.NetworkMode;
-                if (networkMode !== "host") {
+                let netRx = 0, netTx = 0, currentNetRx = 0, currentNetTx = 0;
+
+                if (networkMode !== 'host' && containerStats.networks?.eth0) {
                     const previousStats = previousNetworkStats[container.Id] || { rx_bytes: 0, tx_bytes: 0 };
                     currentNetRx = containerStats.networks.eth0.rx_bytes - previousStats.rx_bytes;
                     currentNetTx = containerStats.networks.eth0.tx_bytes - previousStats.tx_bytes;
@@ -99,9 +212,9 @@ async function queryHostStats(hostName, hostConfig) {
                     netTx = containerStats.networks.eth0.tx_bytes;
                 }
 
-                const containerName = container.Names[0].replace('/', '');
+                previousContainerStates[container.Id] = containerState;
                 const config = containerConfigs[containerName] || {};
-                
+              
                 const tagArray = (config.tags || '')
                     .split(',')
                     .map(tag => {
@@ -114,14 +227,15 @@ async function queryHostStats(hostName, hostConfig) {
                     name: containerName,
                     id: container.Id,
                     hostName: hostName,
-                    state: container.State,
+
+                    state: containerState,
                     cpu_usage: containerCpuUsage,
                     mem_usage: containerMemoryUsage,
                     mem_limit: containerStats.memory_stats.limit,
-                    net_rx: netRx || '0',
-                    net_tx: netTx || '0',
-                    current_net_rx: currentNetRx || '0',
-                    current_net_tx: currentNetTx || '0',
+                    net_rx: netRx,
+                    net_tx: netTx,
+                    current_net_rx: currentNetRx,
+                    current_net_tx: currentNetTx,
                     networkMode: networkMode,
                     link: config.link || '',
                     icon: config.icon || '',
@@ -134,32 +248,30 @@ async function queryHostStats(hostName, hostConfig) {
         });
 
         const hostStats = await Promise.all(statsPromises);
-
         const validStats = hostStats.filter(stat => stat !== null);
 
         const totalCpuUsage = validStats.reduce((acc, container) => acc + parseFloat(container.cpu_usage), 0);
         const totalMemoryUsage = validStats.reduce((acc, container) => acc + container.mem_usage, 0);
-
         const memoryUsagePercent = ((totalMemoryUsage / totalMemory) * 100).toFixed(2);
 
         generalStats[hostName] = {
             containerCount: validStats.length,
             totalCPUs: totalCPUs,
             totalMemory: totalMemory,
-            cpuUsage: totalCpuUsage ,
+            cpuUsage: totalCpuUsage,
             memoryUsage: memoryUsagePercent,
         };
 
         latestStats[hostName] = validStats;
 
-        logger.info(`Fetched stats for ${validStats.length} containers from ${hostName}`);
+        logger.debug(`Fetched stats for ${validStats.length} containers from ${hostName}`);
+
+        // Handle container state changes
+        await handleContainerStateChanges(hostName, validStats);
     } catch (err) {
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
-
-
-
 
 async function handleHostQueue(hostName, hostConfig) {
     while (true) {

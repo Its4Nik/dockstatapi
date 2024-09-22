@@ -13,6 +13,10 @@ hosts:
     url: hetzner
     port: 2375
 
+  YourHost2:
+    url: 100.78.180.21
+    port: 2375
+
 container:
   dozzle: # Container name
     link: https://github.com

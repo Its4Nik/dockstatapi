@@ -1,0 +1,5 @@
+# Please see the apprise documentation
+urls:
+  - tgram://bottoken/ChatID
+  - rocket://user:password@hostname/RoomID/Channel
+  - ntfy://topic/

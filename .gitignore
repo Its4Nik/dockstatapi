@@ -1,3 +1,4 @@
 dockstat.log
 node_modules
 .dockerignore
+apprise_config.yml
