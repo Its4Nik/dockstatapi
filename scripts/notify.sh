@@ -35,6 +35,13 @@ if [[ ! -f ./config/apprise_config.yml ]]; then
 fi
 
 # Send notification via Apprise
+
+### PYTHON ENVIRONMENT: ###
+. /api/bin/activate
+
 apprise -b "$MESSAGE" --config ./config/apprise_config.yml
+
+deactivate
+###########################
 
 exit 0
