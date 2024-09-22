@@ -21,7 +21,7 @@ FROM node:alpine
 
 WORKDIR /api
 
-RUN apk add --no-cache bash curl apprise
+RUN apk add --no-cache bash curl apprise-doc
 
 COPY --from=builder /api .
 
