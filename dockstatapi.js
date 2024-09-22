@@ -23,7 +23,7 @@ let hostQueues = {};
 let previousNetworkStats = {};
 let generalStats = {};
 let previousContainerStates = {};
-let knownContainers = {};
+let previousRunningContainers = {};
 
 app.use(cors());
 app.use(express.json());
@@ -52,6 +52,11 @@ function createDockerClient(hostConfig) {
     });
 }
 
+function getTagColor(tag) {
+    const tagsConfig = config.tags || {};
+    return tagsConfig[tag] || '';
+}
+
 async function getContainerStats(docker, containerId) {
     const container = docker.getContainer(containerId);
     return new Promise((resolve, reject) => {
@@ -62,9 +67,88 @@ async function getContainerStats(docker, containerId) {
     });
 }
 
-function getTagColor(tag) {
-    const tagsConfig = config.tags || {};
-    return tagsConfig[tag] || '';
+async function handleContainerStateChanges(hostName, currentContainers) {
+    const currentRunningContainers = currentContainers
+        .filter(container => container.state === 'running')
+        .reduce((map, container) => {
+            map[container.id] = container;
+            return map;
+        }, {});
+
+    const previousHostContainers = previousRunningContainers[hostName] || {};
+
+    // Check for containers that have been removed or exited
+    for (const containerId of Object.keys(previousHostContainers)) {
+        const container = previousHostContainers[containerId];
+        if (!currentRunningContainers[containerId]) {
+            if (container.state === 'running') {
+                // Container removed
+                exec(`bash ./scripts/notify.sh REMOVE ${containerId} ${container.name} ${hostName} ${container.state}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing REMOVE notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container removed: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            }
+            else if (container.state === 'exited') {
+                // Container exited
+                exec(`bash ./scripts/notify.sh EXIT ${containerId} ${container.name} ${hostName} ${container.state}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing EXIT notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container exited: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            }
+        }
+    }
+
+    // Check for new containers or state changes
+    for (const containerId of Object.keys(currentRunningContainers)) {
+        const container = currentRunningContainers[containerId];
+        const previousContainer = previousHostContainers[containerId];
+
+        if (!previousContainer) {
+            // New container added
+            exec(`bash ./scripts/notify.sh ADD ${containerId} ${container.name} ${hostName} ${container.state}`, (error, stdout, stderr) => {
+                if (error) {
+                    logger.error(`Error executing ADD notify.sh: ${error.message}`);
+                } else {
+                    logger.info(`Container added: ${container.name} (${containerId}) to host ${hostName}`);
+                    logger.info(stdout);
+                }
+            });
+        } else if (previousContainer.state !== container.state) {
+            // Container state has changed
+            const newState = container.state;
+            if (newState === 'exited') {
+                exec(`bash ./scripts/notify.sh EXIT ${containerId} ${container.name} ${hostName} ${newState}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing EXIT notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container exited: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            } else {
+                // Any other state change
+                exec(`bash ./scripts/notify.sh ANY ${containerId} ${container.name} ${hostName} ${newState}`, (error, stdout, stderr) => {
+                    if (error) {
+                        logger.error(`Error executing ANY notify.sh: ${error.message}`);
+                    } else {
+                        logger.info(`Container state changed to ${newState}: ${container.name} (${containerId}) from host ${hostName}`);
+                        logger.info(stdout);
+                    }
+                });
+            }
+        }
+    }
+
+    // Update the previous state for the next comparison
+    previousRunningContainers[hostName] = currentRunningContainers;
 }
 
 async function queryHostStats(hostName, hostConfig) {
@@ -77,7 +161,6 @@ async function queryHostStats(hostName, hostConfig) {
         const totalMemory = info.MemTotal;
         const totalCPUs = info.NCPU;
 
-        // List all containers, including stopped and exited ones
         const containers = await docker.listContainers({ all: true });
 
         const statsPromises = containers.map(async (container) => {
@@ -85,8 +168,6 @@ async function queryHostStats(hostName, hostConfig) {
                 const containerName = container.Names[0].replace('/', '');
                 const containerState = container.State;
 
-                // If the container is not running, set stats to 0
-                // logger.info(containerName + ' = ' + container.State);
                 if (containerState !== 'running') {
                     previousContainerStates[container.Id] = containerState;
                     return {
@@ -129,22 +210,6 @@ async function queryHostStats(hostName, hostConfig) {
 
                     netRx = containerStats.networks.eth0.rx_bytes;
                     netTx = containerStats.networks.eth0.tx_bytes;
-                }
-
-                const prevState = previousContainerStates[container.Id];
-                if (prevState && prevState !== containerState) {
-                    logger.info(`State change detected for container ${containerName} (${container.Id}): ${prevState} -> ${containerState}`);
-                    exec(`bash ./notify.sh ${containerName} ${prevState} ${containerState}`, (error, stdout, stderr) => {
-                        if (error) {
-                            logger.error(`Error executing notify.js: ${error.message}`);
-                            return;
-                        }
-                        if (stderr) {
-                            logger.error(`notify.js stderr: ${stderr}`);
-                            return;
-                        }
-                        logger.info(stdout);
-                    });
                 }
 
                 previousContainerStates[container.Id] = containerState;
@@ -197,12 +262,16 @@ async function queryHostStats(hostName, hostConfig) {
         };
 
         latestStats[hostName] = validStats;
+
         logger.debug(`Fetched stats for ${validStats.length} containers from ${hostName}`);
+
+        // Handle container state changes
+        await handleContainerStateChanges(hostName, validStats);
+
     } catch (err) {
         logger.error(`Failed to fetch containers from ${hostName}: ${err.message}`);
     }
 }
-
 
 
 async function handleHostQueue(hostName, hostConfig) {

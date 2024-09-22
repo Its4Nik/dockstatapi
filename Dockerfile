@@ -10,13 +10,10 @@ LABEL documentation="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /api
 
-# Copy only package.json and package-lock.json to leverage Docker cache for npm install
 COPY package*.json ./
 
-# Install dependencies in the build stage
 RUN npm install --production
 
-# Copy the rest of the application code
 COPY . .
 
 # Stage 2: Production stage
@@ -26,8 +23,8 @@ WORKDIR /api
 
 RUN apk add --no-cache bash curl python3 pip
 RUN python -m ensurepip --upgrade
+RUN pip install apprise
 
-# Copy the production dependencies from the builder stage
 COPY --from=builder /api .
 
 EXPOSE 7070
