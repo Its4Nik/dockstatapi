@@ -68,70 +68,12 @@ tags:
 container:
   dozzle: # Container name
     link: https://github.com
-    icon: minecraft.png
-    tags: private,raspberry
-
 ```
 
-Example output, as json:
+Please see the documentation for more information on what endpoints will be provieded.
 
-```json
-{
-  "YourHost1": [
-    {
-      "name": "Container1",
-      "id": "XXX",
-      "hostName": "YourHost1",
-      "state": "running",
-      "cpu_usage": 786817264000,
-      "mem_usage": 3099344896,
-      "mem_limit": 8127881216,
-      "net_rx": 374856,
-      "net_tx": 2398062,
-      "current_net_rx": 374856,
-      "current_net_tx": 2398062,
-      "link": "https://github.com",
-      "icon": "container1.png",
-      "tags": ""
-    },
-    {
-      "name": "Container2",
-      "id": "XXX",
-      "hostName": "YourHost1",
-      "state": "running",
-      "cpu_usage": 244237477000,
-      "mem_usage": 33718272,
-      "mem_limit": 8127881216,
-      "net_rx": 764934,
-      "net_tx": 826010,
-      "current_net_rx": 764934,
-      "current_net_tx": 826010,
-      "link": "",
-      "icon": "",
-      "tags": "raspberry:pink-950"
+[Documentation](https://outline.itsnik.de/s/dockstat/doc/backend-api-reference-YzcBbDvY33)
 
-    }
-  ],
-  "YourHost2": [
-    {
-      "name": "Container3",
-      "id": "XXX",
-      "hostName": "YourHost2",
-      "state": "running",
-      "cpu_usage": 816110937034000,
-      "mem_usage": 1045655552,
-      "mem_limit": 8127897600,
-      "net_rx": 40175210,
-      "net_tx": 135024358,
-      "current_net_rx": 40175210,
-      "current_net_tx": 135024358,
-      "link": "",
-      "icon": "",
-      "tags": "private:violet-400"
-    }
-  ]
-}
-```
 ---
 
 This Api uses a "queuing" mechanism to communicate to the servers, so that we dont ask the same server multiple times without getting an answer.
@@ -139,5 +81,3 @@ This Api uses a "queuing" mechanism to communicate to the servers, so that we do
 Feel free to use this API in any of your projects :D
 
 The `/stats` endpoint server all information that are gethered from the server in a json format.
-
-Each server that has been specified will be inside its own structure inside the json structure.
