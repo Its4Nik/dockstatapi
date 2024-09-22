@@ -6,6 +6,7 @@ const cors = require('cors');
 const fs = require('fs');
 const logger = require('./logger');
 const { exec } = require('child_process');
+const rateLimit = require('express-rate-limit');
 const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
@@ -323,8 +324,14 @@ app.get('/hosts', authenticateHeader, (req, res) => {
     res.json(generalStats);
 });
 
+// Configure rate limiter: maximum of 100 requests per 15 minutes
+const configLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+});
+
 // Read Only config endpoint
-app.get('/config', authenticateHeader, (req, res) => {
+app.get('/config', authenticateHeader, configLimiter, (req, res) => {
     const filePath = path.join(__dirname, './config/hosts.yaml');
     res.set('Content-Type', 'text/plain'); // Keep as plain text
     fs.readFile(filePath, 'utf8', (err, data) => {
