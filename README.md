@@ -19,7 +19,6 @@ services:
   environment:
     - SECRET=CHANGEME # This is required in the header 'Authorization': 'CHANGEME'
     - ALLOW_LOCALHOST="False" # Defaults to False
-    - JSON_LOGGING="True" # Defaults to True
   ports:
     - "7070:7070"
   volumes:
