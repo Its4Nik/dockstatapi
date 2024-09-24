@@ -169,6 +169,7 @@ async function queryHostStats(hostName, hostConfig) {
             try {
                 const containerName = container.Names[0].replace('/', '');
                 const containerState = container.State;
+                const containerImage = container.Image;
 
                 if (containerState !== 'running') {
                     previousContainerStates[container.Id] = containerState;
@@ -177,6 +178,7 @@ async function queryHostStats(hostName, hostConfig) {
                         id: container.Id,
                         hostName: hostName,
                         state: containerState,
+                        image: container.Image,
                         cpu_usage: 0,
                         mem_usage: 0,
                         mem_limit: 0,
