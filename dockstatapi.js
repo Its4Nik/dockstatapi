@@ -230,7 +230,7 @@ async function queryHostStats(hostName, hostConfig) {
                     name: containerName,
                     id: container.Id,
                     hostName: hostName,
-
+                    image: container.Image,
                     state: containerState,
                     cpu_usage: containerCpuUsage,
                     mem_usage: containerMemoryUsage,
@@ -364,7 +364,6 @@ app.listen(port, () => {
     logger.info(`Minimum timeout between stats queries is: ${queryInterval} milliseconds`);
     logger.info(`The max size for Log files is: ${maxlogsize}MB`)
     logger.info(`The amount of log files to keep is: ${LogAmount}`);
-    logger.info(`JSON Logging (True/False): ${jsonLogging}`)
     logger.info(`Secret Key: ${key}`)
     logger.info("Press Ctrl+C to stop the server.");
     logger.info('========================================================================')
