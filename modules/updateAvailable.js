@@ -1,11 +1,11 @@
 const logger = require('../logger');
 
 async function getData(target, url) {
-
     if (url === 'null') {
         return false;
     }
     else {
+        logger.debug('Looking for ' + target + ' as a match')
         try {
             const response = await fetch(`${url}/json`, {
                 method: "GET"
@@ -20,6 +20,7 @@ async function getData(target, url) {
 
             for (const image in images) {
                 if (target === image) {
+                    logger.debug('Found: ' + image)
                     return images.hasOwnProperty(target);
                 }
             }

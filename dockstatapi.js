@@ -11,8 +11,7 @@ const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
 const skipAuth = process.env.SKIP_AUTH || 'True'
-const cupUrl = process.env.CUP_URL || 'null'
-
+const cupUrl = process.env.CUP_URL || 'https://cup.hetzner.itsnik.de'
 let config = yaml.load('./config/hosts.yaml');
 let hosts = config.hosts;
 let containerConfigs = config.container || {};
