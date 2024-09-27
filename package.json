@@ -15,8 +15,8 @@
     "cors": "^2.8.5",
     "dockerode": "^4.0.2",
     "express": "^4.21.0",
+    "node-fetch": "^3.3.2",
     "winston": "^3.14.2",
-    "yamljs": "^0.3.0",
-    "express-rate-limit": "^7.4.0"
+    "yamljs": "^0.3.0"
   }
 }

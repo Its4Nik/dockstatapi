@@ -4,14 +4,14 @@ const yaml = require('yamljs');
 const Docker = require('dockerode');
 const cors = require('cors');
 const fs = require('fs');
-const logger = require('./logger');
 const { exec } = require('child_process');
-const rateLimit = require('express-rate-limit');
+const logger = require('./logger');
+const updateAvailable = require('./modules/updateAvailable')
 const app = express();
 const port = 7070;
 const key = process.env.SECRET || 'CHANGE-ME';
-const jsonLogging = process.env.JSON_LOGGING || 'True'
-const skipAuth = process.env.SKIP_AUTH || 'False'
+const skipAuth = process.env.SKIP_AUTH || 'True'
+const cupUrl = process.env.CUP_URL || 'null'
 
 let config = yaml.load('./config/hosts.yaml');
 let hosts = config.hosts;
@@ -41,7 +41,6 @@ const authenticateHeader = (req, res, next) => {
             return res.status(401).json({ error: "Unauthorized" });
         }
         else {
-            logger.info('Client authenticated! 👍');
             next();
         }
     }
@@ -162,14 +161,23 @@ async function queryHostStats(hostName, hostConfig) {
         const info = await docker.info();
         const totalMemory = info.MemTotal;
         const totalCPUs = info.NCPU;
-      
         const containers = await docker.listContainers({ all: true });
 
         const statsPromises = containers.map(async (container) => {
             try {
                 const containerName = container.Names[0].replace('/', '');
                 const containerState = container.State;
-                const containerImage = container.Image;
+                const updateAvailableFlag = await updateAvailable(container.Image, cupUrl);
+                let networkMode = container.HostConfig.NetworkMode;
+
+                // Check if network mode is in the format "container:IDXXXXXXXX"
+                if (networkMode.startsWith("container:")) {
+                    const linkedContainerId = networkMode.split(":")[1];
+                    const linkedContainer = await docker.getContainer(linkedContainerId).inspect();
+                    const linkedContainerName = linkedContainer.Name.replace('/', ''); // Remove leading slash
+
+                    networkMode = `Container: ${linkedContainerName}`; // Format the network mode
+                }
 
                 if (containerState !== 'running') {
                     previousContainerStates[container.Id] = containerState;
@@ -179,6 +187,7 @@ async function queryHostStats(hostName, hostConfig) {
                         hostName: hostName,
                         state: containerState,
                         image: container.Image,
+                        update_available: updateAvailableFlag || false,
                         cpu_usage: 0,
                         mem_usage: 0,
                         mem_limit: 0,
@@ -186,7 +195,7 @@ async function queryHostStats(hostName, hostConfig) {
                         net_tx: 0,
                         current_net_rx: 0,
                         current_net_tx: 0,
-                        networkMode: container.HostConfig.NetworkMode,
+                        networkMode: networkMode,
                         link: containerConfigs[containerName]?.link || '',
                         icon: containerConfigs[containerName]?.icon || '',
                         tags: getTagColor(containerConfigs[containerName]?.tags || ''),
@@ -198,7 +207,6 @@ async function queryHostStats(hostName, hostConfig) {
                 const containerCpuUsage = containerStats.cpu_stats.cpu_usage.total_usage;
                 const containerMemoryUsage = containerStats.memory_stats.usage;
 
-                const networkMode = container.HostConfig.NetworkMode;
                 let netRx = 0, netTx = 0, currentNetRx = 0, currentNetTx = 0;
 
                 if (networkMode !== 'host' && containerStats.networks?.eth0) {
@@ -217,7 +225,7 @@ async function queryHostStats(hostName, hostConfig) {
 
                 previousContainerStates[container.Id] = containerState;
                 const config = containerConfigs[containerName] || {};
-              
+
                 const tagArray = (config.tags || '')
                     .split(',')
                     .map(tag => {
@@ -231,6 +239,7 @@ async function queryHostStats(hostName, hostConfig) {
                     id: container.Id,
                     hostName: hostName,
                     image: container.Image,
+                    update_available: updateAvailableFlag || false,
                     state: containerState,
                     cpu_usage: containerCpuUsage,
                     mem_usage: containerMemoryUsage,
@@ -276,6 +285,7 @@ async function queryHostStats(hostName, hostConfig) {
     }
 }
 
+
 async function handleHostQueue(hostName, hostConfig) {
     while (true) {
         await queryHostStats(hostName, hostConfig);
@@ -292,6 +302,9 @@ function initializeHostQueues() {
 
 // Dynamically reloads the yaml file
 function reloadConfig() {
+    for (const hostName in hostQueues) {
+        hostQueues[hostName] = null;
+    }
     try {
         config = yaml.load('./config/hosts.yaml');
         hosts = config.hosts;
@@ -326,14 +339,8 @@ app.get('/hosts', authenticateHeader, (req, res) => {
     res.json(generalStats);
 });
 
-// Configure rate limiter: maximum of 100 requests per 15 minutes
-const configLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-});
-
 // Read Only config endpoint
-app.get('/config', authenticateHeader, configLimiter, (req, res) => {
+app.get('/config', authenticateHeader, (req, res) => {
     const filePath = path.join(__dirname, './config/hosts.yaml');
     res.set('Content-Type', 'text/plain'); // Keep as plain text
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -348,7 +355,6 @@ app.get('/config', authenticateHeader, configLimiter, (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    logger.debug("Redirected client from '/' to '/stats'.");
     res.redirect(301, '/stats');
 });
 
@@ -365,6 +371,7 @@ app.listen(port, () => {
     logger.info(`The max size for Log files is: ${maxlogsize}MB`)
     logger.info(`The amount of log files to keep is: ${LogAmount}`);
     logger.info(`Secret Key: ${key}`)
+    logger.info(`Cup URL: ${cupUrl}`)
     logger.info("Press Ctrl+C to stop the server.");
     logger.info('========================================================================')
 });
