@@ -1,15 +1,20 @@
 const logger = require('../logger');
 
 async function getData(target, url) {
+    if (target.startsWith("docker.io/library/")) {
+        logger.debug("Replacing docker.io/library")
+        target = target.replace("docker.io/library/", "")
+    }
+
     if (url === 'null') {
         return false;
-    }
-    else {
+    } else {
         logger.debug('Looking for ' + target + ' as a match')
         try {
             const response = await fetch(`${url}/json`, {
                 method: "GET"
             });
+
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
