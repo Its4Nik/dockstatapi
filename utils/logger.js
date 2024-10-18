@@ -1,4 +1,3 @@
-// utils/logger.js
 const winston = require('winston');
 const loggerConfig = require('../config/loggerConfig');
 

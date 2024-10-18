@@ -1,10 +1,10 @@
-// app.js
 const express = require('express');
 const containerRoutes = require('./routes/containerRoutes');
 const swaggerDocs = require('./swagger/swaggerDocs');
 const logger = require('./utils/logger');
 
 const app = express();
+
 app.use(express.json());
 
 // Middleware to log incoming requests

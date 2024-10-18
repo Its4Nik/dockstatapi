@@ -1,4 +1,3 @@
-// config/swaggerConfig.js
 const options = {
     definition: {
         openapi: '3.0.0',
@@ -13,7 +12,7 @@ const options = {
             },
         ],
     },
-    apis: ['./routes/*.js'],
+    apis: ['./routes/*/*.js'],
 };
 
 module.exports = options;

@@ -1,4 +1,3 @@
-// controllers/containerController.js
 const { getDockerClient } = require('../utils/dockerClient');
 const logger = require('../utils/logger');
 
@@ -16,18 +15,16 @@ const getContainers = async (req, res) => {
     }
 };
 
-const getContainerStats = async (req, res) => {
-    const host = req.query.host || 'local';
-    const containerId = req.params.id;
-    logger.info(`Fetching stats for container: ${containerId} from host: ${host}`);
+const getContainerStats = async (containerID, containerHost) => {
+    logger.info(`Fetching stats for container: ${containerID} from host: ${containerHost}`);
     try {
-        const docker = getDockerClient(host);
-        const container = docker.getContainer(containerId);
+        const docker = getDockerClient(containerHost);
+        const container = docker.getContainer(containerID);
         const stats = await container.stats({ stream: false });
-        logger.info(`Successfully fetched stats for container: ${containerId} from host: ${host}`);
+        logger.info(`Successfully fetched stats for container: ${containerID} from host: ${containerHost}`);
         res.status(200).json(stats);
     } catch (error) {
-        logger.error(`Error fetching stats for container: ${containerId} from host: ${host} - ${error.message}`);
+        logger.error(`Error fetching stats for container: ${containerID} from host: ${containerHost} - ${error.message}`);
         res.status(500).json({ error: `Error fetching container stats: ${error.message}` });
     }
 };

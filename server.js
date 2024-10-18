@@ -1,15 +1,16 @@
-// server.js
 const express = require('express');
 const swaggerDocs = require('./swagger/swaggerDocs');
-const statsRoutes = require('./routes/statsRoutes');
+const api = require('./routes/getter/routes');
+const conf = require('./routes/setter/routes')
 const app = express();
 
 // Use Swagger UI
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 swaggerDocs(app);
 
-// Use stats routes
-app.use('/api', statsRoutes);
+// Routes
+app.use('/api', api);
+app.use('/conf', conf)
 
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');

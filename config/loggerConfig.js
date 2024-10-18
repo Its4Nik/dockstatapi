@@ -1,4 +1,3 @@
-// config/loggerConfig.js
 const { format } = require('winston');
 
 module.exports = {
