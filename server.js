@@ -10,14 +10,12 @@ app.use(express.json());
 
 app.use('/api-docs', (req, res, next) => next());
 
-app.use(authMiddleware);
-
 swaggerDocs(app);
 
 // Routes
-app.use('/api', api);
-app.use('/conf', conf);
-app.use('/auth', auth);
+app.use('/api', authMiddleware, api);
+app.use('/conf', authMiddleware, conf);
+app.use('/auth', authMiddleware, auth);
 
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
