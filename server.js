@@ -1,16 +1,23 @@
 const express = require('express');
 const swaggerDocs = require('./swagger/swaggerDocs');
 const api = require('./routes/getter/routes');
-const conf = require('./routes/setter/routes')
+const conf = require('./routes/setter/routes');
+const auth = require('./routes/auth/routes');
+const { authMiddleware } = require('./middleware/authMiddleware');
 const app = express();
 
-// Use Swagger UI
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(express.json());
+
+app.use('/api-docs', (req, res, next) => next());
+
+app.use(authMiddleware);
+
 swaggerDocs(app);
 
 // Routes
 app.use('/api', api);
-app.use('/conf', conf)
+app.use('/conf', conf);
+app.use('/auth', auth);
 
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');

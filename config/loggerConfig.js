@@ -7,9 +7,9 @@ module.exports = {
         format.printf(({ timestamp, level, message }) => `${timestamp} [${level.toUpperCase()}]: ${message}`)
     ),
     transports: {
-        console: true, // Log to console
+        console: true,
         file: {
-            enabled: true,   // Log to file (set to false to disable file logging)
+            enabled: true, 
             filename: 'logs/app.log',
         },
     },

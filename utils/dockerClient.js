@@ -8,6 +8,7 @@ function loadDockerConfig() {
     const configPath = path.join(__dirname, '../config/dockerConfig.json');
     try {
         const rawData = fs.readFileSync(configPath);
+        logger.debug('Refreshed DockerConfig.json')
         return JSON.parse(rawData);
     } catch (error) {
         logger.error('Error loading dockerConfig.json: ' + error.message);
@@ -27,6 +28,7 @@ function createDockerClient(hostConfig) {
 
 // This function will get the Docker client based on the host configuration
 const getDockerClient = (hostName) => {
+    logger.debug(`Getting Docker Client for ${hostName}`);
     const config = loadDockerConfig();  // Dynamically load config
     const hostConfig = config.hosts.find((host) => host.name === hostName);
 
