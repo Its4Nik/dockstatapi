@@ -4,8 +4,9 @@
   "description": "API for docker hosts using dockerode",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "changelog": "echo Changed Files: > CHANGELOG.md && echo -------------- >> CHANGELOG.md && git diff --name-only >> CHANGELOG.md"
   },
   "keywords": [],
   "author": "Its4Nik",
@@ -22,5 +23,8 @@
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.15.0",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
