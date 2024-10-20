@@ -1,3 +1,4 @@
+const { setFetchInterval, parseInterval } = require('../../controllers/scheduler');
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -58,6 +59,35 @@ router.put('/addHost', async (req, res) => {
         logger.error('Error adding host: ' + error.message);
         res.status(500).json({ error: 'Failed to add host.' });
     }
+});
+
+/**
+ * @swagger
+ * /conf/scheduler:
+ *   put:
+ *     summary: Set fetch interval for data fetching
+ *     tags: [Configuration]
+ *     parameters:
+ *       - name: interval
+ *         in: query
+ *         required: true
+ *         description: The new interval for fetching data, e.g., "6h 20m", "300s".
+ *     responses:
+ *       200:
+ *         description: Fetch interval set successfully.
+ *       400:
+ *         description: Invalid interval format or out of range.
+ */
+router.put('/scheduler', (req, res) => {
+    const interval = req.query.interval;
+    const newInterval = parseInterval(interval);
+
+    if (newInterval < 5 * 60 * 1000 || newInterval > 6 * 60 * 60 * 1000) {
+        return res.status(400).json({ error: 'Interval must be between 5 minutes and 6 hours.' });
+    }
+
+    setFetchInterval(newInterval);
+    res.json({ message: `Fetch interval set to ${interval}.` });
 });
 
 /**

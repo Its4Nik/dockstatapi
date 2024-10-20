@@ -26,18 +26,18 @@ function authMiddleware(req, res, next) {
         }
 
         fs.readFile(passwordFile, 'utf8', (err, data) => {
-            if (err){
+            if (err) {
                 logger.error('Error reading password');
                 return res.status(500).json({ message: 'Error reading password' });
-            }    
+            }
 
             const storedData = JSON.parse(data);
             bcrypt.compare(providedPassword, storedData.hash, (err, result) => {
-                if (err){ 
+                if (err) {
                     logger.error('Error validating password - Denied access');
                     return res.status(500).json({ message: 'Error validating password' });
                 }
-                if (!result){
+                if (!result) {
                     console.error('Invalid Password - Denied access');
                     return res.status(401).json({ message: 'Invalid password' });
                 }
@@ -48,4 +48,4 @@ function authMiddleware(req, res, next) {
     });
 }
 
-module.exports = { authMiddleware };
+module.exports = authMiddleware;

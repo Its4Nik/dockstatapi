@@ -2,6 +2,8 @@ const extractRelevantData = require('../../utils/extractHostData');
 const express = require('express');
 const router = express.Router();
 const { getDockerClient } = require('../../utils/dockerClient');
+const { fetchAllContainers } = require('../../utils/containerService');
+const { getCurrentSchedule } = require('../../controllers/scheduler');
 const logger = require('../../utils/logger');
 const path = require('path');
 const fs = require('fs');
@@ -83,7 +85,7 @@ router.get('/host/:hostName/stats', async (req, res) => {
         const info = await docker.info();
         const version = await docker.version();
         const relevantData = extractRelevantData({ hostName, info, version });
-        
+
         res.status(200).json(relevantData);
     } catch (error) {
         logger.error(`Error fetching stats for host: ${hostName} - ${error.message || 'Unknown error'}`);
@@ -165,48 +167,14 @@ router.get('/host/:hostName/stats', async (req, res) => {
  *                   description: Error message detailing the issue encountered.
  */
 router.get('/containers', async (req, res) => {
-    const config = require('../../config/dockerConfig.json');
-    const allContainerData = {};
     logger.info('Fetching all containers across all hosts');
-
-    for (const hostConfig of config.hosts) {
-        const hostName = hostConfig.name;
-        try {
-            const docker = getDockerClient(hostName);
-            const containers = await docker.listContainers({ all: true });
-
-            allContainerData[hostName] = await Promise.all(containers.map(async (container) => {
-                const containerInfo = await docker.getContainer(container.Id).inspect();
-                const containerStats = await docker.getContainer(container.Id).stats({ stream: false });
-                const cpuDelta = containerStats.cpu_stats.cpu_usage.total_usage - containerStats.precpu_stats.cpu_usage.total_usage;
-                const systemCpuDelta = containerStats.cpu_stats.system_cpu_usage - containerStats.precpu_stats.system_cpu_usage;
-                const cpuUsage = systemCpuDelta > 0 ? (cpuDelta / systemCpuDelta) * containerStats.cpu_stats.online_cpus : 0;
-
-                return {
-                    name: container.Names[0].replace('/', ''),
-                    id: container.Id,
-                    hostName: hostName,
-                    state: container.State,
-                    cpu_usage: cpuUsage * 1000000000,
-                    mem_usage: containerStats.memory_stats.usage,
-                    mem_limit: containerStats.memory_stats.limit,
-                    net_rx: containerStats.networks?.eth0?.rx_bytes || 0,
-                    net_tx: containerStats.networks?.eth0?.tx_bytes || 0,
-                    current_net_rx: containerStats.networks?.eth0?.rx_bytes || 0,
-                    current_net_tx: containerStats.networks?.eth0?.tx_bytes || 0,
-                    networkMode: containerInfo.HostConfig.NetworkMode,
-                    link: '',
-                    icon: '',
-                    tags: ''
-                };
-            }));
-        } catch (error) {
-            logger.error(`Error fetching containers for host: ${hostName} - ${error.message}`);
-            allContainerData[hostName] = { error: `Error fetching containers: ${error.message}` };
-        }
+    try {
+        const allContainerData = await fetchAllContainers();
+        res.status(200).json(allContainerData);
+    } catch (error) {
+        logger.error(`Error fetching containers: ${error.message}`);
+        res.status(500).json({ error: 'Failed to fetch containers' });
     }
-
-    res.status(200).json(allContainerData);
 });
 
 /**
@@ -234,7 +202,6 @@ router.get('/containers', async (req, res) => {
  *                   type: string
  *                   description: Error message detailing the issue encountered.
  */
-
 router.get('/config', async (req, res) => {
     const configPath = path.join(__dirname, '../../config/dockerConfig.json');
     try {
@@ -245,6 +212,29 @@ router.get('/config', async (req, res) => {
         logger.error('Error loading dockerConfig.json: ' + error.message);
         res.status(500).json({ error: 'Failed to load Docker configuration' });
     }
+});
+
+/**
+ * @swagger
+ * /api/current-schedule:
+ *   get:
+ *     summary: Get the current fetch schedule in seconds
+ *     tags: [Configuration]
+ *     responses:
+ *       200:
+ *         description: Current fetch schedule retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 interval:
+ *                   type: integer
+ *                   description: Current fetch interval in seconds.
+ */
+router.get('/current-schedule', (req, res) => {
+    const currentSchedule = getCurrentSchedule();
+    res.json(currentSchedule);
 });
 
 module.exports = router;

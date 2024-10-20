@@ -35,16 +35,10 @@ function setFalse() {
  *   post:
  *     summary: Enable authentication by setting a password
  *     tags: [Authentication]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               password:
- *                 type: string
- *                 description: Password to enable authentication
+ *     parameters:
+ *       - name: password
+ *         in: query
+ *         required: true
  *     responses:
  *       200:
  *         description: Authentication enabled.
@@ -55,6 +49,7 @@ function setFalse() {
  */
 router.post('/enable', (req, res) => {
     fs.readFile(passwordBool, 'utf8', (err, data) => {
+        const password = req.query.password;
         if (err) {
             logger.error('Error reading the file:', err);
             return;
@@ -66,7 +61,6 @@ router.post('/enable', (req, res) => {
             return res.status(401).json({ message: 'Passowrd Authentication is already enabled, please dactivate it first' });
         }
 
-        const { password } = req.body;
         if (!password) {
             return res.status(400).json({ message: 'Password is required' });
         }
@@ -100,16 +94,10 @@ router.post('/enable', (req, res) => {
  *   post:
  *     summary: Disable authentication by providing the existing password
  *     tags: [Authentication]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               password:
- *                 type: string
- *                 description: Existing password to disable authentication
+ *     parameters:
+ *       - name: password
+ *         in: query
+ *         required: true
  *     responses:
  *       200:
  *         description: Authentication disabled.
@@ -121,7 +109,7 @@ router.post('/enable', (req, res) => {
  *         description: Error disabling authentication.
  */
 router.post('/disable', (req, res) => {
-    const { password } = req.body;
+    const password = req.query.password;
     if (!password) {
         logger.error('Password is required!');
         return res.status(400).json({ message: 'Password is required' });
