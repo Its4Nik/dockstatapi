@@ -1,29 +1,19 @@
-name: CI - Changelog
-
+name: Generate changelog
 on:
-  push:
-    branches: [refactor]
+  release:
+    types: [created, edited]
 
 jobs:
-  changelog_prerelease:
-    name: Update Changelog For Prerelease
+  generate-changelog:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: main
-      - name: Update Changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
-        with:
-          token: $
-          issues: true
-          issuesWoLabels: true
-          pullRequests: true
-          prWoLabels: true
-          unreleased: true
-          addSections: '{"documentation":{"prefix":" **Documentation:**","labels":["documentation"]}}'
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Update Changelog for PR
-          file_pattern: CHANGELOG.md
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - uses: BobAnkh/auto-generate-changelog@v1.2.5
+      with:
+        REPO_NAME: 'its4nik/dockstatapi'
+        ACCESS_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        PATH: 'CHANGELOG.md'
+        COMMIT_MESSAGE: 'docs(CHANGELOG): update release notes'
+        TYPE: 'feat:Feature,fix:Bug Fixes,docs:Documentation,refactor:Refactor,perf:Performance Improvements'
