@@ -1,8 +1,5 @@
 name: Generate changelog
-on:
-  release:
-    types: [created, edited]
-
+on: push
 jobs:
   generate-changelog:
     runs-on: ubuntu-latest
