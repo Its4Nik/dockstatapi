@@ -1,9 +1,12 @@
-const { setFetchInterval, parseInterval } = require('../../controllers/scheduler');
-const express = require('express');
+const {
+  setFetchInterval,
+  parseInterval,
+} = require("../../controllers/scheduler");
+const express = require("express");
 const router = express.Router();
-const path = require('path');
-const fs = require('fs');
-const logger = require('../../utils/logger');
+const path = require("path");
+const fs = require("fs");
+const logger = require("../../utils/logger");
 
 /**
  * @swagger
@@ -32,33 +35,33 @@ const logger = require('../../utils/logger');
  *       500:
  *         description: An error occurred while adding the host.
  */
-router.put('/addHost', async (req, res) => {
-    const name = req.query.name;
-    const url = req.query.url;
-    const port = req.query.port;
-    const configPath = path.join(__dirname, '../../config/dockerConfig.json');
+router.put("/addHost", async (req, res) => {
+  const name = req.query.name;
+  const url = req.query.url;
+  const port = req.query.port;
+  const configPath = path.join(__dirname, "../../config/dockerConfig.json");
 
-    if (!name || !url || !port) {
-        return res.status(400).json({ error: 'Name, Port and URL are required.' });
+  if (!name || !url || !port) {
+    return res.status(400).json({ error: "Name, Port and URL are required." });
+  }
+
+  try {
+    const rawData = fs.readFileSync(configPath);
+    const config = JSON.parse(rawData);
+
+    // Check for existing host
+    if (config.hosts.some((host) => host.name === name)) {
+      return res.status(400).json({ error: "Host already exists." });
     }
 
-    try {
-        const rawData = fs.readFileSync(configPath);
-        const config = JSON.parse(rawData);
-
-        // Check for existing host
-        if (config.hosts.some(host => host.name === name)) {
-            return res.status(400).json({ error: 'Host already exists.' });
-        }
-
-        config.hosts.push({ name, url, port });
-        fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-        logger.info(`Added new host: ${name}`);
-        res.status(200).json({ message: 'Host added successfully.' });
-    } catch (error) {
-        logger.error('Error adding host: ' + error.message);
-        res.status(500).json({ error: 'Failed to add host.' });
-    }
+    config.hosts.push({ name, url, port });
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    logger.info(`Added new host: ${name}`);
+    res.status(200).json({ message: "Host added successfully." });
+  } catch (error) {
+    logger.error("Error adding host: " + error.message);
+    res.status(500).json({ error: "Failed to add host." });
+  }
 });
 
 /**
@@ -78,16 +81,18 @@ router.put('/addHost', async (req, res) => {
  *       400:
  *         description: Invalid interval format or out of range.
  */
-router.put('/scheduler', (req, res) => {
-    const interval = req.query.interval;
-    const newInterval = parseInterval(interval);
+router.put("/scheduler", (req, res) => {
+  const interval = req.query.interval;
+  const newInterval = parseInterval(interval);
 
-    if (newInterval < 5 * 60 * 1000 || newInterval > 6 * 60 * 60 * 1000) {
-        return res.status(400).json({ error: 'Interval must be between 5 minutes and 6 hours.' });
-    }
+  if (newInterval < 5 * 60 * 1000 || newInterval > 6 * 60 * 60 * 1000) {
+    return res
+      .status(400)
+      .json({ error: "Interval must be between 5 minutes and 6 hours." });
+  }
 
-    setFetchInterval(newInterval);
-    res.json({ message: `Fetch interval set to ${interval}.` });
+  setFetchInterval(newInterval);
+  res.json({ message: `Fetch interval set to ${interval}.` });
 });
 
 /**
@@ -109,32 +114,32 @@ router.put('/scheduler', (req, res) => {
  *       500:
  *         description: An error occurred while removing the host.
  */
-router.delete('/removeHost', async (req, res) => {
-    const hostName = req.query.hostName;
-    const configPath = path.join(__dirname, '../../config/dockerConfig.json');
+router.delete("/removeHost", async (req, res) => {
+  const hostName = req.query.hostName;
+  const configPath = path.join(__dirname, "../../config/dockerConfig.json");
 
-    if (!hostName) {
-        return res.status(400).json({ error: 'Host name is required.' });
+  if (!hostName) {
+    return res.status(400).json({ error: "Host name is required." });
+  }
+
+  try {
+    const rawData = fs.readFileSync(configPath);
+    const config = JSON.parse(rawData);
+
+    // Check for existing host
+    const hostIndex = config.hosts.findIndex((host) => host.name === hostName);
+    if (hostIndex === -1) {
+      return res.status(404).json({ error: "Host not found." });
     }
 
-    try {
-        const rawData = fs.readFileSync(configPath);
-        const config = JSON.parse(rawData);
-
-        // Check for existing host
-        const hostIndex = config.hosts.findIndex(host => host.name === hostName);
-        if (hostIndex === -1) {
-            return res.status(404).json({ error: 'Host not found.' });
-        }
-
-        config.hosts.splice(hostIndex, 1);
-        fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-        logger.info(`Removed host: ${hostName}`);
-        res.status(200).json({ message: 'Host removed successfully.' });
-    } catch (error) {
-        logger.error('Error removing host: ' + error.message);
-        res.status(500).json({ error: 'Failed to remove host.' });
-    }
+    config.hosts.splice(hostIndex, 1);
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    logger.info(`Removed host: ${hostName}`);
+    res.status(200).json({ message: "Host removed successfully." });
+  } catch (error) {
+    logger.error("Error removing host: " + error.message);
+    res.status(500).json({ error: "Failed to remove host." });
+  }
 });
 
 module.exports = router;

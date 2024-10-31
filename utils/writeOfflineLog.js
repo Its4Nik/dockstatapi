@@ -7,8 +7,7 @@ const LOG_FILE_PATH = path.join(__dirname, "../logs/hostStats.json");
 function writeOfflineLog(message) {
   try {
     if (!fs.existsSync(LOG_FILE_PATH)) {
-      // Check if file doesn't exist
-      fs.writeFileSync(LOG_FILE_PATH, message); // Log the message to the file once
+      fs.writeFileSync(LOG_FILE_PATH, message);
     }
   } catch (error) {
     logger.error("Error writing one time reference log: ", error);

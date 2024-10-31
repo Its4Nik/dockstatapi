@@ -437,3 +437,601 @@
 2024-10-31 02:37:49 [INFO]: Old entries cleared from the database.
 2024-10-31 02:37:50 [INFO]: Fetching stats for host: Fin-2
 2024-10-31 02:37:50 [INFO]: Fetching offline Host Stats
+2024-10-31 18:26:39 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:26:39 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:26:39 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:26:39 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:26:39 [INFO]: Database created / opened succesfully
+2024-10-31 18:26:41 [INFO]: Old entries cleared from the database.
+2024-10-31 18:26:41 [INFO]: Data inserted with ID: 146
+2024-10-31 18:29:29 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:29:29 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:29:29 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:29:29 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:29:29 [INFO]: Database created / opened succesfully
+2024-10-31 18:29:31 [INFO]: Old entries cleared from the database.
+2024-10-31 18:29:31 [INFO]: Data inserted with ID: 147
+2024-10-31 18:31:20 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:20 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:20 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:20 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:20 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:22 [INFO]: Old entries cleared from the database.
+2024-10-31 18:31:22 [INFO]: Data inserted with ID: 148
+2024-10-31 18:31:30 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:30 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:30 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:30 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:30 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:30 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:30 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:30 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:30 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:30 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:33 [INFO]: Old entries cleared from the database.
+2024-10-31 18:31:33 [INFO]: Data inserted with ID: 149
+2024-10-31 18:31:36 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:36 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:36 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:36 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:36 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:38 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:38 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:38 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:38 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:38 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:40 [INFO]: Old entries cleared from the database.
+2024-10-31 18:31:40 [INFO]: Data inserted with ID: 150
+2024-10-31 18:31:47 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:47 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:47 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:47 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:47 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:50 [INFO]: Old entries cleared from the database.
+2024-10-31 18:31:50 [INFO]: Data inserted with ID: 151
+2024-10-31 18:31:51 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:51 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:51 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:51 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:51 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:51 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:31:51 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:31:51 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:31:51 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:31:51 [INFO]: Database created / opened succesfully
+2024-10-31 18:31:53 [INFO]: Old entries cleared from the database.
+2024-10-31 18:31:53 [INFO]: Data inserted with ID: 152
+2024-10-31 18:32:20 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:32:20 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:32:20 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:32:20 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:32:20 [INFO]: Database created / opened succesfully
+2024-10-31 18:32:20 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:32:20 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:32:20 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:32:20 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:32:20 [INFO]: Database created / opened succesfully
+2024-10-31 18:32:23 [INFO]: Old entries cleared from the database.
+2024-10-31 18:32:23 [INFO]: Data inserted with ID: 153
+2024-10-31 18:36:00 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:36:00 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:36:00 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:36:00 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:36:00 [INFO]: Database created / opened succesfully
+2024-10-31 18:36:03 [INFO]: Old entries cleared from the database.
+2024-10-31 18:36:03 [INFO]: Data inserted with ID: 154
+2024-10-31 18:36:36 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:36:36 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:36:36 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:36:36 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:36:36 [INFO]: Database created / opened succesfully
+2024-10-31 18:36:39 [INFO]: Old entries cleared from the database.
+2024-10-31 18:36:39 [INFO]: Data inserted with ID: 155
+2024-10-31 18:36:59 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:36:59 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:36:59 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:36:59 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:36:59 [INFO]: Database created / opened succesfully
+2024-10-31 18:37:01 [INFO]: Old entries cleared from the database.
+2024-10-31 18:37:01 [INFO]: Data inserted with ID: 156
+2024-10-31 18:37:03 [INFO]: Hiding:
+2024-10-31 18:38:36 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:38:36 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:38:36 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:38:36 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:38:36 [INFO]: Database created / opened succesfully
+2024-10-31 18:38:37 [INFO]: Old entries cleared from the database.
+2024-10-31 18:38:37 [INFO]: Data inserted with ID: 157
+2024-10-31 18:38:42 [INFO]: Hiding:
+2024-10-31 18:38:57 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:38:57 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:38:57 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:38:57 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:38:57 [INFO]: Database created / opened succesfully
+2024-10-31 18:39:00 [INFO]: Old entries cleared from the database.
+2024-10-31 18:39:00 [INFO]: Data inserted with ID: 158
+2024-10-31 18:39:01 [INFO]: Hiding:
+2024-10-31 18:39:17 [INFO]: Hiding:
+2024-10-31 18:39:40 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:39:40 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:39:40 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:39:40 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:39:40 [INFO]: Database created / opened succesfully
+2024-10-31 18:39:42 [INFO]: Old entries cleared from the database.
+2024-10-31 18:39:42 [INFO]: Data inserted with ID: 159
+2024-10-31 18:39:44 [INFO]: Hiding:
+2024-10-31 18:40:01 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:40:01 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:40:01 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:40:01 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:40:01 [INFO]: Database created / opened succesfully
+2024-10-31 18:40:04 [INFO]: Old entries cleared from the database.
+2024-10-31 18:40:04 [INFO]: Data inserted with ID: 160
+2024-10-31 18:40:04 [INFO]: Hiding:
+2024-10-31 18:40:45 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:40:45 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:40:45 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:40:45 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:40:45 [INFO]: Database created / opened succesfully
+2024-10-31 18:40:47 [INFO]: Old entries cleared from the database.
+2024-10-31 18:40:47 [INFO]: Data inserted with ID: 161
+2024-10-31 18:40:48 [INFO]: Hiding:
+2024-10-31 18:41:06 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:41:06 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:41:06 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:41:06 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:41:06 [INFO]: Database created / opened succesfully
+2024-10-31 18:41:08 [INFO]: Old entries cleared from the database.
+2024-10-31 18:41:08 [INFO]: Data inserted with ID: 162
+2024-10-31 18:41:12 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:41:12 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:41:12 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:41:12 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:41:12 [INFO]: Database created / opened succesfully
+2024-10-31 18:41:14 [INFO]: Old entries cleared from the database.
+2024-10-31 18:41:14 [INFO]: Data inserted with ID: 163
+2024-10-31 18:41:15 [INFO]: Hiding:
+2024-10-31 18:41:40 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:41:40 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:41:40 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:41:40 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:41:40 [INFO]: Database created / opened succesfully
+2024-10-31 18:41:43 [INFO]: Old entries cleared from the database.
+2024-10-31 18:41:43 [INFO]: Data inserted with ID: 164
+2024-10-31 18:41:45 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:41:45 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:41:45 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:41:45 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:41:45 [INFO]: Database created / opened succesfully
+2024-10-31 18:41:48 [INFO]: Old entries cleared from the database.
+2024-10-31 18:41:48 [INFO]: Data inserted with ID: 165
+2024-10-31 18:41:58 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:41:58 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:41:58 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:41:58 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:41:58 [INFO]: Database created / opened succesfully
+2024-10-31 18:42:00 [INFO]: Old entries cleared from the database.
+2024-10-31 18:42:00 [INFO]: Data inserted with ID: 166
+2024-10-31 18:42:15 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:42:15 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:42:15 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:42:15 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:42:15 [INFO]: Database created / opened succesfully
+2024-10-31 18:42:18 [INFO]: Old entries cleared from the database.
+2024-10-31 18:42:18 [INFO]: Data inserted with ID: 167
+2024-10-31 18:42:58 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:42:58 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:42:58 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:42:58 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:42:58 [INFO]: Database created / opened succesfully
+2024-10-31 18:43:00 [INFO]: Old entries cleared from the database.
+2024-10-31 18:43:00 [INFO]: Data inserted with ID: 168
+2024-10-31 18:47:58 [INFO]: Fetching data at interval of 300 seconds.
+2024-10-31 18:47:58 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:47:58 [INFO]: Old entries cleared from the database.
+2024-10-31 18:48:00 [INFO]: Data inserted with ID: 169
+2024-10-31 18:50:41 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:50:41 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:50:41 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:50:41 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:50:41 [INFO]: Database created / opened succesfully
+2024-10-31 18:50:43 [INFO]: Old entries cleared from the database.
+2024-10-31 18:50:43 [INFO]: Data inserted with ID: 170
+2024-10-31 18:51:53 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:51:53 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:51:53 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:51:53 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:51:53 [INFO]: Database created / opened succesfully
+2024-10-31 18:51:55 [INFO]: Old entries cleared from the database.
+2024-10-31 18:51:55 [INFO]: Data inserted with ID: 171
+2024-10-31 18:52:04 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:52:04 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:52:04 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:52:04 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:52:04 [INFO]: Database created / opened succesfully
+2024-10-31 18:52:06 [INFO]: Old entries cleared from the database.
+2024-10-31 18:52:06 [INFO]: Data inserted with ID: 172
+2024-10-31 18:52:12 [ERROR]: ENOENT: no such file or directory, open '../data/frontendConfiguration.json'
+2024-10-31 18:52:42 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:52:42 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:52:42 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:52:42 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:52:42 [INFO]: Database created / opened succesfully
+2024-10-31 18:52:45 [INFO]: Old entries cleared from the database.
+2024-10-31 18:52:45 [INFO]: Data inserted with ID: 173
+2024-10-31 18:53:13 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:53:13 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:53:13 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:53:13 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:53:13 [INFO]: Database created / opened succesfully
+2024-10-31 18:53:15 [INFO]: Old entries cleared from the database.
+2024-10-31 18:53:15 [INFO]: Data inserted with ID: 174
+2024-10-31 18:53:18 [INFO]: Succesfully wrote to file
+2024-10-31 18:53:18 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:53:18 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:53:18 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:53:18 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:53:18 [INFO]: Database created / opened succesfully
+2024-10-31 18:53:21 [INFO]: Old entries cleared from the database.
+2024-10-31 18:53:21 [INFO]: Data inserted with ID: 175
+2024-10-31 18:55:46 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:55:46 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:55:46 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:55:46 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:55:46 [INFO]: Database created / opened succesfully
+2024-10-31 18:55:47 [INFO]: Old entries cleared from the database.
+2024-10-31 18:55:47 [INFO]: Data inserted with ID: 176
+2024-10-31 18:55:49 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:55:49 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:55:49 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:55:49 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:55:49 [INFO]: Database created / opened succesfully
+2024-10-31 18:55:51 [INFO]: Old entries cleared from the database.
+2024-10-31 18:55:51 [INFO]: Data inserted with ID: 177
+2024-10-31 18:55:52 [INFO]: Succesfully wrote to file
+2024-10-31 18:55:52 [INFO]: Succesfully wrote to file
+2024-10-31 18:55:52 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:55:52 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:55:52 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:55:52 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:55:52 [INFO]: Database created / opened succesfully
+2024-10-31 18:55:55 [INFO]: Old entries cleared from the database.
+2024-10-31 18:55:55 [INFO]: Data inserted with ID: 178
+2024-10-31 18:56:09 [INFO]: Succesfully wrote to file
+2024-10-31 18:56:10 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:56:10 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:56:10 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:56:10 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:56:10 [INFO]: Database created / opened succesfully
+2024-10-31 18:56:12 [INFO]: Old entries cleared from the database.
+2024-10-31 18:56:12 [INFO]: Data inserted with ID: 179
+2024-10-31 18:56:17 [ERROR]: Unexpected end of JSON input
+2024-10-31 18:56:38 [ERROR]: Unexpected end of JSON input
+2024-10-31 18:56:50 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:56:50 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:56:50 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:56:50 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:56:50 [INFO]: Database created / opened succesfully
+2024-10-31 18:56:51 [INFO]: Old entries cleared from the database.
+2024-10-31 18:56:51 [INFO]: Data inserted with ID: 180
+2024-10-31 18:56:52 [INFO]: Succesfully wrote to file
+2024-10-31 18:56:52 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:56:52 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:56:52 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:56:52 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:56:52 [INFO]: Database created / opened succesfully
+2024-10-31 18:56:55 [INFO]: Old entries cleared from the database.
+2024-10-31 18:56:55 [INFO]: Data inserted with ID: 181
+2024-10-31 18:57:20 [INFO]: Succesfully wrote to file
+2024-10-31 18:57:20 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:57:20 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:57:20 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:57:20 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:57:20 [INFO]: Database created / opened succesfully
+2024-10-31 18:57:23 [INFO]: Old entries cleared from the database.
+2024-10-31 18:57:23 [INFO]: Data inserted with ID: 182
+2024-10-31 18:57:32 [INFO]: Succesfully wrote to file
+2024-10-31 18:57:33 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:57:33 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:57:33 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:57:33 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:57:33 [INFO]: Database created / opened succesfully
+2024-10-31 18:57:35 [INFO]: Old entries cleared from the database.
+2024-10-31 18:57:35 [INFO]: Data inserted with ID: 183
+2024-10-31 18:59:56 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 18:59:56 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 18:59:56 [INFO]: Server is running on http://localhost:7070
+2024-10-31 18:59:56 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 18:59:56 [INFO]: Database created / opened succesfully
+2024-10-31 18:59:59 [INFO]: Old entries cleared from the database.
+2024-10-31 18:59:59 [INFO]: Data inserted with ID: 184
+2024-10-31 19:00:00 [ERROR]: Unexpected end of JSON input
+2024-10-31 19:01:07 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:01:07 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:01:07 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:01:07 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:01:07 [INFO]: Database created / opened succesfully
+2024-10-31 19:01:09 [INFO]: Old entries cleared from the database.
+2024-10-31 19:01:09 [INFO]: Data inserted with ID: 185
+2024-10-31 19:01:11 [ERROR]: Unexpected end of JSON input
+2024-10-31 19:01:38 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:01:38 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:01:38 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:01:38 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:01:38 [INFO]: Database created / opened succesfully
+2024-10-31 19:01:41 [INFO]: Old entries cleared from the database.
+2024-10-31 19:01:41 [INFO]: Data inserted with ID: 186
+2024-10-31 19:01:58 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:01:58 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:01:58 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:01:58 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:01:58 [INFO]: Database created / opened succesfully
+2024-10-31 19:02:00 [INFO]: Old entries cleared from the database.
+2024-10-31 19:02:00 [INFO]: Data inserted with ID: 187
+2024-10-31 19:02:02 [INFO]: Succesfully wrote to file
+2024-10-31 19:02:02 [INFO]: Succesfully wrote to file
+2024-10-31 19:02:03 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:02:03 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:02:03 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:02:03 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:02:03 [INFO]: Database created / opened succesfully
+2024-10-31 19:02:04 [INFO]: Old entries cleared from the database.
+2024-10-31 19:02:04 [INFO]: Data inserted with ID: 188
+2024-10-31 19:02:19 [INFO]: Succesfully wrote to file
+2024-10-31 19:02:19 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:02:19 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:02:19 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:02:19 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:02:19 [INFO]: Database created / opened succesfully
+2024-10-31 19:02:21 [INFO]: Old entries cleared from the database.
+2024-10-31 19:02:21 [INFO]: Data inserted with ID: 189
+2024-10-31 19:03:24 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:03:24 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:03:24 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:03:24 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:03:24 [INFO]: Database created / opened succesfully
+2024-10-31 19:03:26 [INFO]: Old entries cleared from the database.
+2024-10-31 19:03:26 [INFO]: Data inserted with ID: 190
+2024-10-31 19:03:27 [ERROR]: Unexpected end of JSON input
+2024-10-31 19:06:41 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:06:41 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:06:41 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:06:41 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:06:41 [INFO]: Database created / opened succesfully
+2024-10-31 19:06:43 [INFO]: Old entries cleared from the database.
+2024-10-31 19:06:43 [INFO]: Data inserted with ID: 191
+2024-10-31 19:06:47 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:06:47 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:06:47 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:06:47 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:06:47 [INFO]: Database created / opened succesfully
+2024-10-31 19:06:49 [INFO]: Old entries cleared from the database.
+2024-10-31 19:06:49 [INFO]: Data inserted with ID: 192
+2024-10-31 19:06:54 [INFO]: Succesfully wrote to file
+2024-10-31 19:06:54 [INFO]: Succesfully wrote to file
+2024-10-31 19:06:55 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:06:55 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:06:55 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:06:55 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:06:55 [INFO]: Database created / opened succesfully
+2024-10-31 19:06:56 [INFO]: Old entries cleared from the database.
+2024-10-31 19:06:56 [INFO]: Data inserted with ID: 193
+2024-10-31 19:07:05 [INFO]: Succesfully wrote to file
+2024-10-31 19:07:05 [INFO]: Succesfully wrote to file
+2024-10-31 19:07:06 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:07:06 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:07:06 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:07:06 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:07:06 [INFO]: Database created / opened succesfully
+2024-10-31 19:07:07 [INFO]: Old entries cleared from the database.
+2024-10-31 19:07:07 [INFO]: Data inserted with ID: 194
+2024-10-31 19:07:17 [INFO]: Succesfully wrote to file
+2024-10-31 19:07:17 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:07:17 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:07:17 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:07:17 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:07:17 [INFO]: Database created / opened succesfully
+2024-10-31 19:07:19 [INFO]: Old entries cleared from the database.
+2024-10-31 19:07:19 [INFO]: Data inserted with ID: 195
+2024-10-31 19:07:35 [INFO]: Succesfully wrote to file
+2024-10-31 19:07:35 [INFO]: Succesfully wrote to file
+2024-10-31 19:07:35 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:07:35 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:07:35 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:07:35 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:07:35 [INFO]: Database created / opened succesfully
+2024-10-31 19:07:37 [INFO]: Old entries cleared from the database.
+2024-10-31 19:07:37 [INFO]: Data inserted with ID: 196
+2024-10-31 19:09:28 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:09:28 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:09:28 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:09:28 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:09:29 [INFO]: Database created / opened succesfully
+2024-10-31 19:09:31 [INFO]: Old entries cleared from the database.
+2024-10-31 19:09:31 [INFO]: Data inserted with ID: 197
+2024-10-31 19:09:38 [INFO]: Succesfully wrote to file
+2024-10-31 19:09:38 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:09:38 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:09:38 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:09:38 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:09:38 [INFO]: Database created / opened succesfully
+2024-10-31 19:09:41 [INFO]: Old entries cleared from the database.
+2024-10-31 19:09:41 [INFO]: Data inserted with ID: 198
+2024-10-31 19:09:43 [INFO]: Succesfully wrote to file
+2024-10-31 19:09:44 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:09:44 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:09:44 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:09:44 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:09:44 [INFO]: Database created / opened succesfully
+2024-10-31 19:09:46 [INFO]: Old entries cleared from the database.
+2024-10-31 19:09:46 [INFO]: Data inserted with ID: 199
+2024-10-31 19:09:55 [INFO]: Succesfully wrote to file
+2024-10-31 19:09:55 [INFO]: Succesfully wrote to file
+2024-10-31 19:09:56 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:09:56 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:09:56 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:09:56 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:09:56 [INFO]: Database created / opened succesfully
+2024-10-31 19:09:57 [INFO]: Old entries cleared from the database.
+2024-10-31 19:09:57 [INFO]: Data inserted with ID: 200
+2024-10-31 19:10:03 [INFO]: Succesfully wrote to file
+2024-10-31 19:10:03 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:10:03 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:10:03 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:10:03 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:10:03 [INFO]: Database created / opened succesfully
+2024-10-31 19:10:05 [INFO]: Old entries cleared from the database.
+2024-10-31 19:10:05 [INFO]: Data inserted with ID: 201
+2024-10-31 19:10:15 [INFO]: Succesfully wrote to file
+2024-10-31 19:10:15 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:10:15 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:10:15 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:10:15 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:10:15 [INFO]: Database created / opened succesfully
+2024-10-31 19:10:16 [INFO]: Old entries cleared from the database.
+2024-10-31 19:10:16 [INFO]: Data inserted with ID: 202
+2024-10-31 19:10:29 [INFO]: Succesfully wrote to file
+2024-10-31 19:10:29 [INFO]: Succesfully wrote to file
+2024-10-31 19:10:29 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:10:29 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:10:29 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:10:29 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:10:29 [INFO]: Database created / opened succesfully
+2024-10-31 19:10:31 [INFO]: Old entries cleared from the database.
+2024-10-31 19:10:31 [INFO]: Data inserted with ID: 203
+2024-10-31 19:11:01 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:11:01 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:11:01 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:11:01 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:11:01 [INFO]: Database created / opened succesfully
+2024-10-31 19:11:03 [INFO]: Old entries cleared from the database.
+2024-10-31 19:11:03 [INFO]: Data inserted with ID: 204
+2024-10-31 19:11:20 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:11:20 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:11:20 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:11:20 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:11:20 [INFO]: Database created / opened succesfully
+2024-10-31 19:11:22 [INFO]: Old entries cleared from the database.
+2024-10-31 19:11:22 [INFO]: Data inserted with ID: 205
+2024-10-31 19:15:34 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:15:34 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:15:34 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:15:34 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:15:34 [INFO]: Database created / opened succesfully
+2024-10-31 19:15:36 [INFO]: Old entries cleared from the database.
+2024-10-31 19:15:36 [INFO]: Data inserted with ID: 206
+2024-10-31 19:20:11 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:20:11 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:20:11 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:20:11 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:20:11 [INFO]: Database created / opened succesfully
+2024-10-31 19:20:14 [INFO]: Old entries cleared from the database.
+2024-10-31 19:20:14 [INFO]: Data inserted with ID: 207
+2024-10-31 19:22:02 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:22:02 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:22:02 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:22:02 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:22:02 [INFO]: Database created / opened succesfully
+2024-10-31 19:22:05 [INFO]: Old entries cleared from the database.
+2024-10-31 19:22:05 [INFO]: Data inserted with ID: 208
+2024-10-31 19:26:31 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 19:26:31 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 19:26:31 [INFO]: Server is running on http://localhost:7070
+2024-10-31 19:26:31 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 19:26:31 [INFO]: Database created / opened succesfully
+2024-10-31 19:26:32 [INFO]: Old entries cleared from the database.
+2024-10-31 19:26:32 [INFO]: Data inserted with ID: 209
+2024-10-31 20:00:45 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:00:45 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:00:45 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:00:45 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:00:45 [INFO]: Database created / opened succesfully
+2024-10-31 20:00:48 [INFO]: Old entries cleared from the database.
+2024-10-31 20:00:48 [INFO]: Data inserted with ID: 210
+2024-10-31 20:00:59 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:00:59 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:00:59 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:00:59 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:00:59 [INFO]: Database created / opened succesfully
+2024-10-31 20:01:02 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:01:02 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:01:02 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:01:02 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:01:02 [INFO]: Database created / opened succesfully
+2024-10-31 20:01:04 [INFO]: Old entries cleared from the database.
+2024-10-31 20:01:04 [INFO]: Data inserted with ID: 211
+2024-10-31 20:02:07 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:02:07 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:02:07 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:02:07 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:02:07 [INFO]: Database created / opened succesfully
+2024-10-31 20:02:12 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:02:12 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:02:12 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:02:12 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:02:12 [INFO]: Database created / opened succesfully
+2024-10-31 20:02:14 [INFO]: Old entries cleared from the database.
+2024-10-31 20:02:15 [INFO]: Data inserted with ID: 212
+2024-10-31 20:02:22 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:02:22 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:02:22 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:02:22 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:02:22 [INFO]: Database created / opened succesfully
+2024-10-31 20:02:24 [INFO]: Old entries cleared from the database.
+2024-10-31 20:02:25 [INFO]: Data inserted with ID: 213
+2024-10-31 20:02:39 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:02:39 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:02:39 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:02:39 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:02:39 [INFO]: Database created / opened succesfully
+2024-10-31 20:02:41 [INFO]: Old entries cleared from the database.
+2024-10-31 20:02:41 [INFO]: Data inserted with ID: 214
+2024-10-31 20:02:52 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:02:52 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:02:52 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:02:52 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:02:52 [INFO]: Database created / opened succesfully
+2024-10-31 20:02:54 [INFO]: Old entries cleared from the database.
+2024-10-31 20:02:54 [INFO]: Data inserted with ID: 215
+2024-10-31 20:03:03 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:03:03 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:03:03 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:03:03 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:03:03 [INFO]: Database created / opened succesfully
+2024-10-31 20:03:06 [INFO]: Old entries cleared from the database.
+2024-10-31 20:03:06 [INFO]: Data inserted with ID: 216
+2024-10-31 20:03:26 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:03:26 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:03:26 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:03:26 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:03:26 [INFO]: Database created / opened succesfully
+2024-10-31 20:03:29 [INFO]: Old entries cleared from the database.
+2024-10-31 20:03:29 [INFO]: Data inserted with ID: 217
+2024-10-31 20:03:58 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:03:58 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:03:58 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:03:58 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:03:58 [INFO]: Database created / opened succesfully
+2024-10-31 20:04:01 [INFO]: Old entries cleared from the database.
+2024-10-31 20:04:01 [INFO]: Data inserted with ID: 218
+2024-10-31 20:04:11 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:04:11 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:04:11 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:04:11 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:04:11 [INFO]: Database created / opened succesfully
+2024-10-31 20:04:13 [INFO]: Old entries cleared from the database.
+2024-10-31 20:04:13 [INFO]: Data inserted with ID: 219
+2024-10-31 20:05:05 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 20:05:05 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 20:05:05 [INFO]: Server is running on http://localhost:7070
+2024-10-31 20:05:05 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 20:05:05 [INFO]: Database created / opened succesfully
+2024-10-31 20:05:07 [INFO]: Old entries cleared from the database.
+2024-10-31 20:05:07 [INFO]: Data inserted with ID: 220
+2024-10-31 22:00:15 [INFO]: Creating Docker client for host: 100.89.35.135 on port: 2375
+2024-10-31 22:00:15 [INFO]: Data fetching scheduled every 300 seconds.
+2024-10-31 22:00:15 [INFO]: Server is running on http://localhost:7070
+2024-10-31 22:00:15 [INFO]: Swagger docs available at http://localhost:7070/api-docs
+2024-10-31 22:00:15 [INFO]: Database created / opened succesfully
+2024-10-31 22:00:17 [INFO]: Old entries cleared from the database.
+2024-10-31 22:00:17 [INFO]: Data inserted with ID: 221

@@ -256,6 +256,7 @@ router.get("/current-schedule", (req, res) => {
  * /api/status:
  *   get:
  *     summary: Check server status
+ *     tags: [Misc]
  *     description: Returns a 200 status with an "up" message to indicate the server is up and running. Used for Healthchecks
  *     responses:
  *       200:
@@ -271,6 +272,63 @@ router.get("/current-schedule", (req, res) => {
  */
 router.get("/status", (req, res) => {
   res.status(200).json({ status: "up" });
+});
+
+/**
+ * @swagger
+ * /api/frontend-config:
+ *   get:
+ *     summary: Get Frontend Configuration
+ *     tags: [Configuration]
+ *     description: Retrieves the frontend configuration data.
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: Container Name
+ *                   hidden:
+ *                     type: boolean
+ *                     description: Whether the container is hidden
+ *                   tags:
+ *                     type: array
+ *                     items:
+ *                       type: string
+ *                     description: Tags associated with the container
+ *                   pinned:
+ *                     type: boolean
+ *                     description: Whether the container is pinned
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ */
+router.get("/frontend-config", (req, res) => {
+  const configPath = path.join(
+    __dirname,
+    "../../data/frontendConfiguration.json",
+  );
+  try {
+    const rawData = fs.readFileSync(configPath);
+    const jsonData = JSON.parse(rawData.toString());
+    res.status(200).json(jsonData);
+  } catch (error) {
+    logger.error("Error loading frontendConfiguration.json: " + error.message);
+    res.status(500).json({ error: "Failed to load Frontend configuration" });
+  }
 });
 
 module.exports = router;

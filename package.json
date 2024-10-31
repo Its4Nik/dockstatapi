@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "offline": "OFFLINE=true nodemon server.js",
-    "changelog": "echo Changed Files: > CHANGELOG.md && echo -------------- >> CHANGELOG.md && git diff --name-only >> CHANGELOG.md"
+    "dep": "bash ./utils/createDependencyGraph.sh"
   },
   "keywords": [],
   "author": "Its4Nik",
@@ -27,6 +27,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "dependency-cruiser": "^16.5.0",
     "nodemon": "^3.1.7"
   }
 }

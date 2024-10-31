@@ -23,3 +23,5 @@ DockStat and DockStatAPI are 2 fully OpenSource projects, DockStatAPI is a simpl
 
 The Backend (DockStatAPI) is fully written in JavaScript
 EOF
+
+npm run start

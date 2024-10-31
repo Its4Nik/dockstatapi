@@ -1,4 +1,3 @@
-// controllers/fetchData.js
 const db = require("../config/db");
 const { fetchAllContainers } = require("../utils/containerService");
 const logger = require("./../utils/logger");
