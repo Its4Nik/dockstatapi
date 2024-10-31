@@ -22,7 +22,7 @@ app.use('/conf', authMiddleware, conf);
 app.use('/auth', authMiddleware, auth);
 app.use('/data', authMiddleware, data);
 
-app.listen(3000, () => {
-    logger.info('Server is running on http://localhost:3000');
-    logger.info('Swagger docs available at http://localhost:3000/api-docs');
+app.listen(7070, () => {
+    logger.info('Server is running on http://localhost:7070');
+    logger.info('Swagger docs available at http://localhost:7070/api-docs');
 });

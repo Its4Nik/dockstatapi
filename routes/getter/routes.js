@@ -1,12 +1,16 @@
-const extractRelevantData = require('../../utils/extractHostData');
-const express = require('express');
+const extractRelevantData = require("../../utils/extractHostData");
+const express = require("express");
 const router = express.Router();
-const { getDockerClient } = require('../../utils/dockerClient');
-const { fetchAllContainers } = require('../../utils/containerService');
-const { getCurrentSchedule } = require('../../controllers/scheduler');
-const logger = require('../../utils/logger');
-const path = require('path');
-const fs = require('fs');
+const {
+  writeOfflineLog,
+  readOfflineLog,
+} = require("../../utils/writeOfflineLog");
+const { getDockerClient } = require("../../utils/dockerClient");
+const { fetchAllContainers } = require("../../utils/containerService");
+const { getCurrentSchedule } = require("../../controllers/scheduler");
+const logger = require("../../utils/logger");
+const path = require("path");
+const fs = require("fs");
 
 /**
  * @swagger
@@ -29,11 +33,11 @@ const fs = require('fs');
  *                   example: ["local", "remote1"]
  */
 
-router.get('/hosts', (req, res) => {
-    const config = require('../../config/dockerConfig.json');
-    const hosts = config.hosts.map((host) => host.name);
-    logger.info('Fetching all available Docker hosts');
-    res.status(200).json({ hosts });
+router.get("/hosts", (req, res) => {
+  const config = require("../../config/dockerConfig.json");
+  const hosts = config.hosts.map((host) => host.name);
+  logger.info("Fetching all available Docker hosts");
+  res.status(200).json({ hosts });
 });
 
 /**
@@ -77,20 +81,30 @@ router.get('/hosts', (req, res) => {
  *                   type: string
  *                   description: Error message detailing the issue encountered.
  */
-router.get('/host/:hostName/stats', async (req, res) => {
-    const hostName = req.params.hostName;
-    logger.info(`Fetching stats for host: ${hostName}`);
+router.get("/host/:hostName/stats", async (req, res) => {
+  const hostName = req.params.hostName;
+  logger.info(`Fetching stats for host: ${hostName}`);
+  if (process.env.OFFLINE === "true") {
+    logger.info("Fetching offline Host Stats");
+    res.status(200).json(readOfflineLog);
+  } else {
     try {
-        const docker = getDockerClient(hostName);
-        const info = await docker.info();
-        const version = await docker.version();
-        const relevantData = extractRelevantData({ hostName, info, version });
+      const docker = getDockerClient(hostName);
+      const info = await docker.info();
+      const version = await docker.version();
+      const relevantData = extractRelevantData({ hostName, info, version });
 
-        res.status(200).json(relevantData);
+      writeOfflineLog(JSON.stringify(relevantData));
+      res.status(200).json(relevantData);
     } catch (error) {
-        logger.error(`Error fetching stats for host: ${hostName} - ${error.message || 'Unknown error'}`);
-        res.status(500).json({ error: `Error fetching host stats: ${error.message || 'Unknown error'}` });
+      logger.error(
+        `Error fetching stats for host: ${hostName} - ${error.message || "Unknown error"}`,
+      );
+      res.status(500).json({
+        error: `Error fetching host stats: ${error.message || "Unknown error"}`,
+      });
     }
+  }
 });
 
 /**
@@ -166,15 +180,15 @@ router.get('/host/:hostName/stats', async (req, res) => {
  *                   type: string
  *                   description: Error message detailing the issue encountered.
  */
-router.get('/containers', async (req, res) => {
-    logger.info('Fetching all containers across all hosts');
-    try {
-        const allContainerData = await fetchAllContainers();
-        res.status(200).json(allContainerData);
-    } catch (error) {
-        logger.error(`Error fetching containers: ${error.message}`);
-        res.status(500).json({ error: 'Failed to fetch containers' });
-    }
+router.get("/containers", async (req, res) => {
+  logger.info("Fetching all containers across all hosts");
+  try {
+    const allContainerData = await fetchAllContainers();
+    res.status(200).json(allContainerData);
+  } catch (error) {
+    logger.error(`Error fetching containers: ${error.message}`);
+    res.status(500).json({ error: "Failed to fetch containers" });
+  }
 });
 
 /**
@@ -202,16 +216,16 @@ router.get('/containers', async (req, res) => {
  *                   type: string
  *                   description: Error message detailing the issue encountered.
  */
-router.get('/config', async (req, res) => {
-    const configPath = path.join(__dirname, '../../config/dockerConfig.json');
-    try {
-        const rawData = fs.readFileSync(configPath);
-        const jsonData = JSON.parse(rawData.toString());
-        res.status(200).json(jsonData);
-    } catch (error) {
-        logger.error('Error loading dockerConfig.json: ' + error.message);
-        res.status(500).json({ error: 'Failed to load Docker configuration' });
-    }
+router.get("/config", async (req, res) => {
+  const configPath = path.join(__dirname, "../../config/dockerConfig.json");
+  try {
+    const rawData = fs.readFileSync(configPath);
+    const jsonData = JSON.parse(rawData.toString());
+    res.status(200).json(jsonData);
+  } catch (error) {
+    logger.error("Error loading dockerConfig.json: " + error.message);
+    res.status(500).json({ error: "Failed to load Docker configuration" });
+  }
 });
 
 /**
@@ -232,9 +246,31 @@ router.get('/config', async (req, res) => {
  *                   type: integer
  *                   description: Current fetch interval in seconds.
  */
-router.get('/current-schedule', (req, res) => {
-    const currentSchedule = getCurrentSchedule();
-    res.json(currentSchedule);
+router.get("/current-schedule", (req, res) => {
+  const currentSchedule = getCurrentSchedule();
+  res.json(currentSchedule);
+});
+
+/**
+ * @swagger
+ * /api/status:
+ *   get:
+ *     summary: Check server status
+ *     description: Returns a 200 status with an "up" message to indicate the server is up and running. Used for Healthchecks
+ *     responses:
+ *       200:
+ *         description: Server is running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "up"
+ */
+router.get("/status", (req, res) => {
+  res.status(200).json({ status: "up" });
 });
 
 module.exports = router;

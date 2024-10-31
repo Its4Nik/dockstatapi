@@ -1,1 +1,0 @@
-// This file could be extended later for ORM purposes or validations, but with SQLite, we are directly running queries via `db.js`.

@@ -33,7 +33,8 @@ async function fetchAllContainers() {
                     networkMode: containerInfo.HostConfig.NetworkMode,
                     link: '',
                     icon: '',
-                    tags: ''
+                    tags: '',
+                    visible: '' || true
                 };
             }));
         } catch (error) {
