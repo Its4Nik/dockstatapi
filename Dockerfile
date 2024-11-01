@@ -2,8 +2,8 @@
 FROM node:latest AS builder
 
 LABEL maintainer="https://github.com/its4nik"
-LABEL version="1.0"
-LABEL description="API for DockStat: Docker container statistics."
+LABEL version="2"
+LABEL description="API for DockStat"
 LABEL license="BSD-3-Clause license "
 LABEL repository="https://github.com/its4nik/dockstatapi"
 LABEL documentation="https://github.com/its4nik/dockstatapi"

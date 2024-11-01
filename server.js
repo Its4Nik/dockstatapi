@@ -10,7 +10,7 @@ const app = express();
 const logger = require("./utils/logger");
 const { scheduleFetch } = require("./controllers/scheduler");
 
-const PORT = '9876';
+const PORT = "7070";
 
 app.use(express.json());
 
