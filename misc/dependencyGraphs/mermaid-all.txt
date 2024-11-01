@@ -16,6 +16,7 @@ subgraph 5["utils"]
 8["containerService.js"]
 N["extractHostData.js"]
 O["writeOfflineLog.js"]
+U["rateLimiter.js"]
 end
 subgraph C["middleware"]
 D["authMiddleware.js"]
@@ -65,4 +66,5 @@ R-->K
 R-->M
 R-->Q
 R-->T
+R-->U
 T-->2
