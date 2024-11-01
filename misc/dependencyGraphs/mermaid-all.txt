@@ -14,33 +14,33 @@ end
 subgraph 5["utils"]
 6["dockerClient.js"]
 8["containerService.js"]
-N["extractHostData.js"]
-O["writeOfflineLog.js"]
-U["rateLimiter.js"]
+O["extractHostData.js"]
+P["writeOfflineLog.js"]
 end
 subgraph C["middleware"]
 D["authMiddleware.js"]
+E["rateLimiter.js"]
 end
-subgraph E["routes"]
-subgraph F["auth"]
-G["routes.js"]
+subgraph F["routes"]
+subgraph G["auth"]
+H["routes.js"]
 end
-subgraph H["data"]
-I["routes.js"]
+subgraph I["data"]
+J["routes.js"]
 end
-subgraph J["frontendController"]
-K["routes.js"]
+subgraph K["frontendController"]
+L["routes.js"]
 end
-subgraph L["getter"]
-M["routes.js"]
+subgraph M["getter"]
+N["routes.js"]
 end
-subgraph P["setter"]
-Q["routes.js"]
+subgraph Q["setter"]
+R["routes.js"]
 end
 end
-R["server.js"]
-subgraph S["swagger"]
-T["swaggerDocs.js"]
+S["server.js"]
+subgraph T["swagger"]
+U["swaggerDocs.js"]
 end
 4-->6
 7-->1
@@ -49,22 +49,22 @@ end
 8-->6
 B-->1
 B-->7
-I-->1
-K-->A
-M-->9
-M-->B
-M-->8
-M-->6
-M-->N
-M-->O
-Q-->B
+J-->1
+L-->A
+N-->9
+N-->B
+N-->8
+N-->6
+N-->O
+N-->P
 R-->B
-R-->D
-R-->G
-R-->I
-R-->K
-R-->M
-R-->Q
-R-->T
-R-->U
-T-->2
+S-->B
+S-->D
+S-->E
+S-->H
+S-->J
+S-->L
+S-->N
+S-->R
+S-->U
+U-->2

@@ -1,6 +1,6 @@
 {
   "name": "dockstatapi",
-  "version": "1.0.0",
+  "version": "2",
   "description": "API for docker hosts using dockerode",
   "main": "server.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "Its4Nik",
-  "license": "ISC",
+  "license": "BSD 3-Clause License",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "child_process": "^1.0.2",

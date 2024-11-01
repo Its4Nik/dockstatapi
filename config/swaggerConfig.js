@@ -1,28 +1,29 @@
 const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Your API Documentation',
-            version: '1.0.0',
-            description: 'API documentation with authentication',
-        },
-        components: {
-            securitySchemes: {
-                passwordAuth: {
-                    type: 'apiKey',
-                    in: 'header',
-                    name: 'x-password',
-                    description: 'Password required for authentication',
-                },
-            },
-        },
-        security: [
-            {
-                passwordAuth: [],
-            },
-        ],
+  definition: {
+    failOnErrors: true,
+    openapi: "3.0.0",
+    info: {
+      title: "DockStatAPI",
+      version: "2",
+      description: "An API used to query muliple docker hosts",
     },
-    apis: ['./routes/*/*.js'], // Point to your route files
+    components: {
+      securitySchemes: {
+        passwordAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "x-password",
+          description: "Password required for authentication",
+        },
+      },
+    },
+    security: [
+      {
+        passwordAuth: [],
+      },
+    ],
+  },
+  apis: ["./routes/*/*.js"],
 };
 
 module.exports = options;
