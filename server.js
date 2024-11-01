@@ -9,6 +9,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 const app = express();
 const logger = require("./utils/logger");
 const { scheduleFetch } = require("./controllers/scheduler");
+const { limiter } = require("./utils/rateLimiter");
 
 const PORT = "7070";
 

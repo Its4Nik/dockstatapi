@@ -29,4 +29,4 @@ EXPOSE 7070
 
 HEALTHCHECK CMD curl --fail http://localhost:7070/api/status || exit 1
 
-ENTRYPOINT [ "bash", "entrypoint.sh" ]
+ENTRYPOINT [ "bash", "misc/entrypoint.sh" ]
