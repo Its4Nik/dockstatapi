@@ -10,6 +10,8 @@ const app = express();
 const logger = require("./utils/logger");
 const { scheduleFetch } = require("./controllers/scheduler");
 
+const PORT = '9876';
+
 app.use(express.json());
 
 app.use("/api-docs", (req, res, next) => next());
@@ -24,7 +26,7 @@ app.use("/auth", authMiddleware, auth);
 app.use("/data", authMiddleware, data);
 app.use("/frontend", authMiddleware, frontend);
 
-app.listen(7070, () => {
-  logger.info("Server is running on http://localhost:7070");
-  logger.info("Swagger docs available at http://localhost:7070/api-docs");
+app.listen(PORT, () => {
+  logger.info(`Server is running on http://localhost:${PORT}`);
+  logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });
