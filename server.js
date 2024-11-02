@@ -1,15 +1,23 @@
 const express = require("express");
+const app = express();
+
+// Utility:
 const swaggerDocs = require("./swagger/swaggerDocs");
+const logger = require("./utils/logger");
+
+// Routes:
 const api = require("./routes/getter/routes");
 const conf = require("./routes/setter/routes");
 const auth = require("./routes/auth/routes");
 const data = require("./routes/data/routes");
 const frontend = require("./routes/frontendController/routes");
+
+// Middleware:
 const authMiddleware = require("./middleware/authMiddleware");
-const app = express();
-const logger = require("./utils/logger");
-const { scheduleFetch } = require("./controllers/scheduler");
 const { limiter } = require("./middleware/rateLimiter");
+
+// Controllers
+const { scheduleFetch } = require("./controllers/scheduler");
 
 const PORT = "7070";
 

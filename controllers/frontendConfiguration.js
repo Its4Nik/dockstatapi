@@ -2,7 +2,13 @@ const fs = require("fs");
 const path = require("path");
 const dataPath = path.join(__dirname, "../data/frontendConfiguration.json");
 const logger = require("../utils/logger");
+const { PythonShellErrorWithLogs } = require("python-shell");
+const expression =
+  "https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)";
+const regex = new RegExp(expression);
 
+///////////////////////////////////////////////////////////////
+// Hide Containers:
 async function hideContainer(containerName) {
   try {
     let data = await readData();
@@ -19,6 +25,7 @@ async function hideContainer(containerName) {
     }
   } catch (error) {
     logger.error(error);
+    throw new Error(error);
   }
 }
 
@@ -36,9 +43,12 @@ async function unhideContainer(containerName) {
     }
   } catch (error) {
     logger.error(error);
+    throw new Error(error);
   }
 }
 
+///////////////////////////////////////////////////////////////
+// Tag containers
 async function addTagToContainer(containerName, tag) {
   try {
     let data = await readData();
@@ -58,6 +68,7 @@ async function addTagToContainer(containerName, tag) {
     }
   } catch (error) {
     logger.error(error);
+    throw new Error(error);
   }
 }
 
@@ -77,9 +88,12 @@ async function removeTagFromContainer(containerName, tag) {
     }
   } catch (error) {
     logger.error(error);
+    throw new Error(error);
   }
 }
 
+///////////////////////////////////////////////////////////////
+// Pin containers
 async function pinContainer(containerName) {
   try {
     let data = await readData();
@@ -96,6 +110,7 @@ async function pinContainer(containerName) {
     }
   } catch (error) {
     logger.error(error);
+    throw new Error(error);
   }
 }
 
@@ -113,9 +128,107 @@ async function unpinContainer(containerName) {
     }
   } catch (error) {
     logger.error(error);
+    throw new Error(error);
   }
 }
 
+///////////////////////////////////////////////////////////////
+// Add/remove link from containers
+async function setLink(containerName, link) {
+  if (link.match(regex)) {
+    try {
+      let data = await readData();
+      const containerIndex = data.findIndex(
+        (container) => container.name === containerName,
+      );
+
+      if (containerIndex !== -1) {
+        data[containerIndex].link = `${link}`;
+        await saveData(data);
+      } else {
+        data.push({ name: containerName, link: `${link}` });
+        await saveData(data);
+      }
+    } catch (error) {
+      logger.error(error);
+      throw new Error(error);
+    }
+  } else {
+    logger.error(`Provided link is not valid: ${link}`);
+    throw new Error(`Provided link is not valid: ${link}`);
+  }
+}
+
+async function removeLink(containerName) {
+  try {
+    let data = await readData();
+    const containerIndex = data.findIndex(
+      (container) => container.name === containerName,
+    );
+
+    if (containerIndex !== -1) {
+      delete data[containerIndex].link;
+      await saveData(data);
+      cleanupData();
+    }
+  } catch (error) {
+    logger.error(error);
+    throw new Error(error);
+  }
+}
+
+///////////////////////////////////////////////////////////////
+// Add/remove icon from containers
+async function setIcon(containerName, icon, custom) {
+  try {
+    let data = await readData();
+    const containerIndex = data.findIndex(
+      (container) => container.name === containerName,
+    );
+
+    if (custom === true) {
+      if (containerIndex !== -1) {
+        data[containerIndex].icon = `custom/${icon}`;
+        await saveData(data);
+      } else {
+        data.push({ name: containerName, icon: `custom/${icon}` });
+        await saveData(data);
+      }
+    } else {
+      if (containerIndex !== -1) {
+        data[containerIndex].icon = `${icon}`;
+        await saveData(data);
+      } else {
+        data.push({ name: containerName, icon: `${icon}` });
+        await saveData(data);
+      }
+    }
+  } catch (error) {
+    logger.error(error);
+    throw new Error(error);
+  }
+}
+
+async function removeIcon(containerName) {
+  try {
+    let data = await readData();
+    const containerIndex = data.findIndex(
+      (container) => container.name === containerName,
+    );
+
+    if (containerIndex !== -1) {
+      delete data[containerIndex].icon;
+      await saveData(data);
+      cleanupData();
+    }
+  } catch (error) {
+    logger.error(error);
+    throw new Error(error);
+  }
+}
+
+///////////////////////////////////////////////////////////////
+// Data specific functionss
 async function readData() {
   try {
     const data = await fs.promises.readFile(dataPath, "utf-8");
@@ -176,5 +289,8 @@ module.exports = {
   removeTagFromContainer,
   pinContainer,
   unpinContainer,
-  cleanupData,
+  setLink,
+  removeLink,
+  setIcon,
+  removeIcon,
 };
