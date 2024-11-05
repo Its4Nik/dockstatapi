@@ -3,13 +3,11 @@ const loggerConfig = require("../config/loggerConfig");
 
 const transports = [new winston.transports.Console()];
 
-if (loggerConfig.transports.file.enabled) {
-  transports.push(
-    new winston.transports.File({
-      filename: loggerConfig.transports.file.filename,
-    }),
-  );
-}
+transports.push(
+  new winston.transports.File({
+    filename: "./logs/app.log",
+  }),
+);
 
 const logger = winston.createLogger({
   level: loggerConfig.level,

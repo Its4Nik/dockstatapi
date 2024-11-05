@@ -83,8 +83,9 @@ router.post("/enable", (req, res) => {
 
         const passwordData = { hash, salt };
         fs.writeFile(passwordFile, JSON.stringify(passwordData), (err) => {
-          if (err)
+          if (err) {
             return res.status(500).json({ message: "Error saving password" });
+          }
           setTrue();
           res.json({ message: "Authentication enabled" });
         });

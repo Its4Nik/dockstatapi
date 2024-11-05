@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const logger = require("../../logger");
 
 const templatePath = path.join(__dirname, "template.json");
 const containersPath = path.join(__dirname, "../../../data/states.json");
@@ -21,9 +22,9 @@ function setTemplate(newTemplate) {
       JSON.stringify(newTemplate, null, 2),
       "utf8",
     );
-    console.log("Template updated successfully");
+    logger.log("Template updated successfully");
   } catch (error) {
-    console.error("Failed to update template:", error);
+    logger.error("Failed to update template:", error);
   }
 }
 
@@ -50,10 +51,10 @@ function renderTemplate(containerId) {
     return Object.keys(containerData).reduce(
       (text, key) =>
         text.replace(new RegExp(`{{${key}}}`, "g"), containerData[key]),
-      template.text,
+      template.message,
     );
   } catch (error) {
-    console.error("Failed to load containers:", error);
+    logger.error("Failed to load containers:", error);
     return null;
   }
 }

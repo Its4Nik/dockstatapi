@@ -1,28 +1,41 @@
+// path: controllers/scheduler.js
+
 const fetchData = require("./fetchData");
 const logger = require("../utils/logger");
 const db = require("../config/db");
 
-let fetchInterval = 5 * 60 * 1000;
+let fetchInterval = 5 * 60 * 1000; // Fetch data every 5 minutes by default
 let intervalId;
+let cleanupIntervalId;
 
 const scheduleFetch = () => {
   fetchData().then(() => {
     cleanupOldEntries();
   });
+
   intervalId = setInterval(() => {
     logger.info(
       `Fetching data at interval of ${fetchInterval / 1000} seconds.`,
     );
-    cleanupOldEntries();
     fetchData();
   }, fetchInterval);
+
+  // Schedule cleanup every 24 hours (86400000 ms)
+  cleanupIntervalId = setInterval(
+    () => {
+      cleanupOldEntries();
+    },
+    24 * 60 * 60 * 1000,
+  );
+
   logger.info(`Data fetching scheduled every ${fetchInterval / 1000} seconds.`);
+  logger.info("Old entries cleanup scheduled every 24 hours.");
 };
 
 const setFetchInterval = (newInterval) => {
   if (intervalId) {
     clearInterval(intervalId);
-    logger.info(`Cleared existing fetch interval.`);
+    logger.info("Cleared existing fetch interval.");
   }
   fetchInterval = newInterval;
   scheduleFetch();
@@ -61,7 +74,7 @@ const cleanupOldEntries = async () => {
   ).toISOString();
   try {
     await db.run("DELETE FROM data WHERE timestamp < ?", twentyFourHoursAgo);
-    logger.info(`Old entries cleared from the database.`);
+    logger.info("Old entries cleared from the database.");
   } catch (error) {
     logger.error(`Error clearing old entries: ${error.message}`);
   }
