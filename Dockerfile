@@ -23,7 +23,9 @@ WORKDIR /api
 
 COPY --from=builder /api .
 
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache \
+    bash \
+    curl
 
 EXPOSE 7070
 
