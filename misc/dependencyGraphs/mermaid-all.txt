@@ -3,68 +3,104 @@ flowchart LR
 subgraph 0["config"]
 1["db.js"]
 2["swaggerConfig.js"]
-9["dockerConfig.json"]
+B["dockerConfig.json"]
 end
 subgraph 3["controllers"]
 4["containerController.js"]
-7["fetchData.js"]
-A["frontendConfiguration.js"]
-B["scheduler.js"]
+7["databaseMigration.js"]
+8["fetchData.js"]
+C["frontendConfiguration.js"]
+D["scheduler.js"]
 end
 subgraph 5["utils"]
 6["dockerClient.js"]
-8["containerService.js"]
-O["extractHostData.js"]
-P["writeOfflineLog.js"]
+A["containerService.js"]
+Q["extractHostData.js"]
+R["writeOfflineLog.js"]
+subgraph U["notifications"]
+V["_notify.js"]
+W["discord.js"]
+subgraph X["data"]
+Y["template.js"]
 end
-subgraph C["middleware"]
-D["authMiddleware.js"]
-E["rateLimiter.js"]
+Z["email.js"]
+10["pushbullet.js"]
+11["pushover.js"]
+12["slack.js"]
+13["telegram.js"]
+14["whatsapp.js"]
 end
-subgraph F["routes"]
-subgraph G["auth"]
-H["routes.js"]
 end
-subgraph I["data"]
+9["child_process"]
+subgraph E["middleware"]
+F["authMiddleware.js"]
+G["rateLimiter.js"]
+end
+subgraph H["routes"]
+subgraph I["auth"]
 J["routes.js"]
 end
-subgraph K["frontendController"]
+subgraph K["data"]
 L["routes.js"]
 end
-subgraph M["getter"]
+subgraph M["frontendController"]
 N["routes.js"]
 end
-subgraph Q["setter"]
-R["routes.js"]
+subgraph O["getter"]
+P["routes.js"]
+end
+subgraph S["notifications"]
+T["routes.js"]
+end
+subgraph 15["setter"]
+16["routes.js"]
 end
 end
-S["server.js"]
-subgraph T["swagger"]
-U["swaggerDocs.js"]
+17["server.js"]
+subgraph 18["swagger"]
+19["swaggerDocs.js"]
 end
 4-->6
 7-->1
-7-->8
+8-->1
+8-->A
 8-->9
-8-->6
-B-->1
-B-->7
-J-->1
-L-->A
-N-->9
-N-->B
-N-->8
-N-->6
-N-->O
-N-->P
-R-->B
-S-->B
-S-->D
-S-->E
-S-->H
-S-->J
-S-->L
-S-->N
-S-->R
-S-->U
-U-->2
+A-->B
+A-->6
+D-->1
+D-->8
+L-->1
+N-->C
+P-->B
+P-->D
+P-->A
+P-->6
+P-->Q
+P-->R
+T-->V
+V-->W
+V-->Z
+V-->10
+V-->11
+V-->12
+V-->13
+V-->14
+W-->Y
+Z-->Y
+10-->Y
+11-->Y
+12-->Y
+13-->Y
+14-->Y
+16-->D
+17-->D
+17-->F
+17-->G
+17-->J
+17-->L
+17-->N
+17-->P
+17-->T
+17-->16
+17-->19
+19-->2

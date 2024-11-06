@@ -1,0 +1,37 @@
+flowchart LR
+
+subgraph 0["routes"]
+subgraph 1["notifications"]
+2["routes.js"]
+end
+end
+subgraph 3["utils"]
+subgraph 4["notifications"]
+5["_notify.js"]
+6["discord.js"]
+subgraph 7["data"]
+8["template.js"]
+end
+9["email.js"]
+A["pushbullet.js"]
+B["pushover.js"]
+C["slack.js"]
+D["telegram.js"]
+E["whatsapp.js"]
+end
+end
+2-->5
+5-->6
+5-->9
+5-->A
+5-->B
+5-->C
+5-->D
+5-->E
+6-->8
+9-->8
+A-->8
+B-->8
+C-->8
+D-->8
+E-->8

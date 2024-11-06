@@ -11,16 +11,18 @@ subgraph 3["controllers"]
 end
 subgraph 5["config"]
 6["db.js"]
-A["dockerConfig.json"]
+B["dockerConfig.json"]
 end
-subgraph 8["utils"]
-9["containerService.js"]
-B["dockerClient.js"]
+8["child_process"]
+subgraph 9["utils"]
+A["containerService.js"]
+C["dockerClient.js"]
 end
 2-->4
 4-->6
 4-->7
 7-->6
-7-->9
-9-->A
-9-->B
+7-->A
+7-->8
+A-->B
+A-->C

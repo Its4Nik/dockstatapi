@@ -13,21 +13,23 @@ subgraph 5["controllers"]
 6["scheduler.js"]
 8["fetchData.js"]
 end
-subgraph 9["utils"]
-A["containerService.js"]
-B["dockerClient.js"]
-C["extractHostData.js"]
-D["writeOfflineLog.js"]
+9["child_process"]
+subgraph A["utils"]
+B["containerService.js"]
+C["dockerClient.js"]
+D["extractHostData.js"]
+E["writeOfflineLog.js"]
 end
 2-->4
 2-->6
-2-->A
 2-->B
 2-->C
 2-->D
+2-->E
 6-->7
 6-->8
 8-->7
-8-->A
-A-->4
-A-->B
+8-->B
+8-->9
+B-->4
+B-->C
