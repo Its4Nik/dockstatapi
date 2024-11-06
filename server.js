@@ -37,6 +37,11 @@ app.use("/data", limiter, authMiddleware, data);
 app.use("/frontend", limiter, authMiddleware, frontend);
 app.use("/notification-service", limiter, authMiddleware, notificationService);
 
+// Default route
+router.get("/", (req, res) => {
+  res.redirect("/api-docs");
+});
+
 app.listen(PORT, () => {
   logger.info(`Server is running on http://localhost:${PORT}`);
   logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
