@@ -47,23 +47,9 @@ const fetchData = async () => {
     if (JSON.stringify(previousState) !== JSON.stringify(containerStatus)) {
       fs.writeFileSync(filePath, JSON.stringify(containerStatus, null, 2));
       logger.info(`Container states saved to ${filePath}`);
-
-      //TODO: rewrite every notification service using custom js modules
-      exec(
-        path.resolve(__dirname, "../misc/apprise.ppy"),
-        (error, stdout, stderr) => {
-          if (error) {
-            logger.error("Error executing apprise.py:", error.message);
-            return;
-          }
-          if (stderr) {
-            logger.warn("apprise.py stderr:", stderr);
-          }
-          logger.info("apprise.py executed successfully:", stdout);
-        },
-      );
+      //TODO: logic + notification levels per service
     } else {
-      logger.info("No state change detected, apprise.py not triggered.");
+      logger.info("No state change detected, notifications not triggered.");
     }
   } catch (error) {
     logger.error("Error fetching data:", error.message);

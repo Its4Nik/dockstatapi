@@ -1,12 +1,10 @@
-// path: controllers/scheduler.js
-
 const fetchData = require("./fetchData");
 const logger = require("../utils/logger");
 const db = require("../config/db");
+const regex = /(\d{1,5})([smh])/g;
 
 let fetchInterval = 5 * 60 * 1000; // Fetch data every 5 minutes by default
 let intervalId;
-let cleanupIntervalId;
 
 const scheduleFetch = () => {
   fetchData().then(() => {
@@ -20,7 +18,6 @@ const scheduleFetch = () => {
     fetchData();
   }, fetchInterval);
 
-  // Schedule cleanup every 24 hours (86400000 ms)
   cleanupIntervalId = setInterval(
     () => {
       cleanupOldEntries();
@@ -50,7 +47,6 @@ const parseInterval = (interval) => {
   };
 
   let totalMilliseconds = 0;
-  const regex = /(\d+)([smh])/g;
   let match;
 
   while ((match = regex.exec(interval))) {

@@ -2,9 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const dataPath = path.join(__dirname, "../data/frontendConfiguration.json");
 const logger = require("../utils/logger");
-const { PythonShellErrorWithLogs } = require("python-shell");
 const expression =
-  "https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)";
+  "https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_+.~#?&//=]*)";
 const regex = new RegExp(expression);
 
 ///////////////////////////////////////////////////////////////

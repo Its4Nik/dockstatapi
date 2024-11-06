@@ -30,12 +30,12 @@ swaggerDocs(app);
 scheduleFetch();
 
 // Routes
-app.use("/api", authMiddleware, limiter, api);
-app.use("/conf", authMiddleware, limiter, conf);
-app.use("/auth", authMiddleware, limiter, auth);
-app.use("/data", authMiddleware, limiter, data);
-app.use("/frontend", authMiddleware, limiter, frontend);
-app.use("/notification-service", authMiddleware, limiter, notificationService);
+app.use("/api", limiter, authMiddleware, api);
+app.use("/conf", limiter, authMiddleware, conf);
+app.use("/auth", limiter, authMiddleware, auth);
+app.use("/data", limiter, authMiddleware, data);
+app.use("/frontend", limiter, authMiddleware, frontend);
+app.use("/notification-service", limiter, authMiddleware, notificationService);
 
 app.listen(PORT, () => {
   logger.info(`Server is running on http://localhost:${PORT}`);
