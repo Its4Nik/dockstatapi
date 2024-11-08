@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const {
+
+import {
   hideContainer,
   unhideContainer,
   addTagToContainer,
@@ -11,7 +12,7 @@ const {
   removeLink,
   setIcon,
   removeIcon,
-} = require("../../controllers/frontendConfiguration");
+} from "../../controllers/frontendConfiguration.js";
 
 /*
 ____   ___  ____ _____
@@ -585,4 +586,4 @@ router.delete("/remove-icon/:containerName", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

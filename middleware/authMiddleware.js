@@ -1,9 +1,8 @@
-const bcrypt = require("bcrypt");
-const fs = require("fs");
-const path = require("path");
-const logger = require("../utils/logger");
-const passwordFile = path.join(__dirname, "password.json");
-const passwordBool = path.join(__dirname, "usePassword.txt");
+import bcrypt from "bcrypt";
+import fs from "fs";
+import logger from "../utils/logger.js";
+const passwordFile = "./middleware/password.json";
+const passwordBool = "./middleware/usePassword.txt";
 
 function authMiddleware(req, res, next) {
   fs.readFile(passwordBool, "utf8", (err, data) => {
@@ -47,4 +46,4 @@ function authMiddleware(req, res, next) {
   });
 }
 
-module.exports = authMiddleware;
+export default authMiddleware;

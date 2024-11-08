@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const db = require("../../config/db");
-const logger = require("../../utils/logger");
+import db from "../../config/db.js";
+import logger from "../../utils/logger.js";
 
 function formatRows(rows) {
   return rows.reduce((acc, row, index) => {
@@ -108,4 +108,4 @@ router.delete("/clear", (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

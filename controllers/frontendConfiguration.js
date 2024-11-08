@@ -1,7 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const dataPath = path.join(__dirname, "../data/frontendConfiguration.json");
-const logger = require("../utils/logger");
+import fs from "fs";
+import logger from "../utils/logger.js";
+const dataPath = "./data/frontendConfiguration.json";
 const expression =
   "https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_+.~#?&//=]*)";
 const regex = new RegExp(expression);
@@ -281,7 +280,7 @@ async function cleanupData() {
   }
 }
 
-module.exports = {
+export {
   hideContainer,
   unhideContainer,
   addTagToContainer,

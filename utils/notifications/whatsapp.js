@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import logger from "../logger.js";
 import { renderTemplate } from "./data/template.js";
 
-const whatsapp_api_url = process.env.WHATSAPP_API_URL; // e.g., Twilio or other API service
+const whatsapp_api_url = process.env.WHATSAPP_API_URL;
 const whatsapp_recipient = process.env.WHATSAPP_RECIPIENT;
 
 export async function whatsappNotification(containerId) {

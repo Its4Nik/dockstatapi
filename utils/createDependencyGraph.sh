@@ -18,7 +18,7 @@ while read line; do
         -T mermaid \
         -x "^node_modules|logger|.dependency-cruiser|path|fs" \
         -f ./misc/dependencyGraphs/mermaid-${route}.txt \
-        ${target_route}.js
+        ${target_route}
 
 done < <(cat $TMP)
 

@@ -23,4 +23,4 @@ function extractRelevantData(jsonData) {
   };
 }
 
-module.exports = extractRelevantData;
+export default extractRelevantData;

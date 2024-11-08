@@ -1,8 +1,25 @@
-const config = require("../config/dockerConfig.json");
-const logger = require("./logger");
-const { getDockerClient } = require("./dockerClient");
+import logger from "./logger.js";
+import getDockerClient from "./dockerClient.js";
+import fs from "fs";
+const configPath = "./config/dockerConfig.json";
+
+function loadConfig() {
+  try {
+    const configData = fs.readFileSync(configPath, "utf-8");
+    return JSON.parse(configData);
+  } catch (error) {
+    logger.error(`Failed to load config: ${error.message}`);
+    return null;
+  }
+}
 
 async function fetchAllContainers() {
+  const config = loadConfig();
+  if (!config || !config.hosts) {
+    logger.error("Invalid or missing host configuration.");
+    return {};
+  }
+
   const allContainerData = {};
 
   for (const hostConfig of config.hosts) {
@@ -60,4 +77,4 @@ async function fetchAllContainers() {
   return allContainerData;
 }
 
-module.exports = { fetchAllContainers };
+export default fetchAllContainers;

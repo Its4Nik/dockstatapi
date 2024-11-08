@@ -1,12 +1,11 @@
-const logger = require("../../utils/logger");
-
-const { telegramNotification } = require("./telegram");
-const { slackNotification } = require("./slack");
-const { discordNotification } = require("./discord");
-const { emailNotification } = require("./email");
-const { whatsappNotification } = require("./whatsapp");
-const { pushbulletNotification } = require("./pushbullet");
-const { pushoverNotification } = require("./pushover");
+import logger from "../../utils/logger.js";
+import { telegramNotification } from "./telegram.js";
+import { slackNotification } from "./slack.js";
+import { discordNotification } from "./discord.js";
+import { emailNotification } from "./email.js";
+import { whatsappNotification } from "./whatsapp.js";
+import { pushbulletNotification } from "./pushbullet.js";
+import { pushoverNotification } from "./pushover.js";
 
 async function notify(type, containerId) {
   if (!containerId) {
@@ -50,10 +49,10 @@ async function notify(type, containerId) {
   }
 }
 
-if (require.main === module) {
+if (import.meta.url === process.argv[1]) {
   const [type, containerId] = process.argv.slice(2);
   notify(type, containerId);
   console.log(`Testing ${type}, with: ${containerId}`);
 }
 
-module.exports = notify;
+export default notify;

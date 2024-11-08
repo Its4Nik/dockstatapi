@@ -1,16 +1,17 @@
-const extractRelevantData = require("../../utils/extractHostData");
-const express = require("express");
-const router = express.Router();
-const {
+import extractRelevantData from "../../utils/extractHostData.js";
+import express from "express";
+import {
   writeOfflineLog,
   readOfflineLog,
-} = require("../../utils/writeOfflineLog");
-const { getDockerClient } = require("../../utils/dockerClient");
-const { fetchAllContainers } = require("../../utils/containerService");
-const { getCurrentSchedule } = require("../../controllers/scheduler");
-const logger = require("../../utils/logger");
-const path = require("path");
-const fs = require("fs");
+} from "../../utils/writeOfflineLog.js";
+import getDockerClient from "../../utils/dockerClient.js";
+import fetchAllContainers from "../../utils/containerService.js";
+import { getCurrentSchedule } from "../../controllers/scheduler.js";
+import logger from "../../utils/logger.js";
+import path from "path";
+import fs from "fs";
+const configPath = "./config/dockerConfig.json";
+const router = express.Router();
 
 /**
  * @swagger
@@ -34,8 +35,7 @@ const fs = require("fs");
  */
 
 router.get("/hosts", (req, res) => {
-  const config = require("../../config/dockerConfig.json");
-  const hosts = config.hosts.map((host) => host.name);
+  const hosts = configPath.hosts.map((host) => host.name);
   logger.info("Fetching all available Docker hosts");
   res.status(200).json({ hosts });
 });
@@ -217,7 +217,6 @@ router.get("/containers", async (req, res) => {
  *                   description: Error message detailing the issue encountered.
  */
 router.get("/config", async (req, res) => {
-  const configPath = path.join(__dirname, "../../config/dockerConfig.json");
   try {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
@@ -317,10 +316,7 @@ router.get("/status", (req, res) => {
  *                   description: Error message
  */
 router.get("/frontend-config", (req, res) => {
-  const configPath = path.join(
-    __dirname,
-    "../../data/frontendConfiguration.json",
-  );
+  const configPath = "/data/frontendConfiguration.json";
   try {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
@@ -331,4 +327,4 @@ router.get("/frontend-config", (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

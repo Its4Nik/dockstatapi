@@ -1,9 +1,8 @@
-const db = require("../config/db");
-const { fetchAllContainers } = require("../utils/containerService");
-const logger = require("./../utils/logger");
-const path = require("path");
-const fs = require("fs");
-const { exec } = require("child_process");
+import db from "../config/db.js";
+import fetchAllContainers from "../utils/containerService.js";
+import logger from "./../utils/logger.js";
+import path from "path";
+import fs from "fs";
 
 const fetchData = async () => {
   try {
@@ -37,7 +36,7 @@ const fetchData = async () => {
       }));
     });
 
-    const filePath = path.resolve(__dirname, "../data/states.json");
+    const filePath = "./data/states.json";
     let previousState = {};
 
     if (fs.existsSync(filePath)) {
@@ -56,4 +55,4 @@ const fetchData = async () => {
   }
 };
 
-module.exports = fetchData;
+export default fetchData;

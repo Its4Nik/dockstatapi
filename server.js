@@ -1,25 +1,27 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 const app = express();
 
 // Utility:
-const swaggerDocs = require("./swagger/swaggerDocs");
-const logger = require("./utils/logger");
+import swaggerDocs from "./swagger/swaggerDocs.js";
+
+import logger from "./utils/logger.js";
 
 // Routes:
-const api = require("./routes/getter/routes");
-const conf = require("./routes/setter/routes");
-const auth = require("./routes/auth/routes");
-const data = require("./routes/data/routes");
-const frontend = require("./routes/frontendController/routes");
-const notificationService = require("./routes/notifications/routes");
+import api from "./routes/getter/routes.js";
+import conf from "./routes/setter/routes.js";
+import auth from "./routes/auth/routes.js";
+import data from "./routes/data/routes.js";
+import frontend from "./routes/frontendController/routes.js";
+import notificationService from "./routes/notifications/routes.js";
 
 // Middleware:
-const authMiddleware = require("./middleware/authMiddleware");
-const { limiter } = require("./middleware/rateLimiter");
+import authMiddleware from "./middleware/authMiddleware.js";
+
+import { limiter } from "./middleware/rateLimiter.js";
 
 // Controllers
-const { scheduleFetch } = require("./controllers/scheduler");
+import { scheduleFetch } from "./controllers/scheduler.js";
 
 const PORT = "7070";
 

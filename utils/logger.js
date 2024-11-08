@@ -1,5 +1,5 @@
-const winston = require("winston");
-const loggerConfig = require("../config/loggerConfig");
+import winston from "winston";
+import loggerConfig from "../config/loggerConfig.js";
 
 const transports = [new winston.transports.Console()];
 
@@ -15,4 +15,4 @@ const logger = winston.createLogger({
   transports,
 });
 
-module.exports = logger;
+export default logger;

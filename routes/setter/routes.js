@@ -1,12 +1,13 @@
-const {
+import {
   setFetchInterval,
   parseInterval,
-} = require("../../controllers/scheduler");
-const express = require("express");
+} from "../../controllers/scheduler.js";
+import logger from "../../utils/logger.js";
+import express from "express";
+import path from "path";
+import fs from "fs";
 const router = express.Router();
-const path = require("path");
-const fs = require("fs");
-const logger = require("../../utils/logger");
+const configPath = "./config/dockerConfig.json";
 
 /**
  * @swagger
@@ -39,7 +40,6 @@ router.put("/addHost", async (req, res) => {
   const name = req.query.name;
   const url = req.query.url;
   const port = req.query.port;
-  const configPath = path.join(__dirname, "../../config/dockerConfig.json");
 
   if (!name || !url || !port) {
     return res.status(400).json({ error: "Name, Port and URL are required." });
@@ -116,7 +116,6 @@ router.put("/scheduler", (req, res) => {
  */
 router.delete("/removeHost", async (req, res) => {
   const hostName = req.query.hostName;
-  const configPath = path.join(__dirname, "../../config/dockerConfig.json");
 
   if (!hostName) {
     return res.status(400).json({ error: "Host name is required." });
@@ -142,4 +141,4 @@ router.delete("/removeHost", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

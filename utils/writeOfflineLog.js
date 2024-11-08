@@ -1,8 +1,7 @@
-const fs = require("fs");
-const path = require("path");
-const logger = require("../utils/logger");
+import fs from "fs";
+import logger from "../utils/logger.js";
 
-const LOG_FILE_PATH = path.join(__dirname, "../logs/hostStats.json");
+const LOG_FILE_PATH = "./logs/hostStats.json";
 
 function writeOfflineLog(message) {
   try {
@@ -25,7 +24,4 @@ function readOfflineLog() {
   });
 }
 
-module.exports = {
-  writeOfflineLog,
-  readOfflineLog,
-};
+export { writeOfflineLog, readOfflineLog };

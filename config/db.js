@@ -1,7 +1,6 @@
-const sqlite3 = require("sqlite3").verbose();
-const logger = require("./../utils/logger");
-const path = require("path");
-const dbPath = path.join(__dirname, "../data/database.db");
+import sqlite3 from "sqlite3";
+import logger from "./../utils/logger.js";
+const dbPath = "./data/database.db";
 
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
@@ -16,4 +15,4 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
-module.exports = db;
+export default db;

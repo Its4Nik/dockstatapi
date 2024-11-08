@@ -1,11 +1,10 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const fs = require("fs");
-const path = require("path");
-const logger = require("../../utils/logger");
+import express from "express";
+import bcrypt from "bcrypt";
+import fs from "fs";
+import logger from "../../utils/logger.js";
 const router = express.Router();
-const passwordFile = path.join(__dirname, "../../middleware/password.json");
-const passwordBool = path.join(__dirname, "../../middleware/usePassword.txt");
+const passwordFile = "./middleware/password.json";
+const passwordBool = "./middleware/usePassword.txt";
 const saltRounds = 10;
 
 function setTrue() {
@@ -143,4 +142,4 @@ router.post("/disable", (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

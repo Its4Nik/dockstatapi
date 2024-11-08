@@ -1,7 +1,7 @@
-const fs = require("fs");
-const path = require("path");
-const { getDockerClient } = require("../utils/dockerClient");
-const logger = require("../utils/logger");
+import fs from "fs";
+import path from "path";
+import { getDockerClient } from "../utils/dockerClient.js";
+import logger from "../utils/logger.js";
 
 const getContainers = async (req, res) => {
   const host = req.query.host || "local";
@@ -43,7 +43,7 @@ const getContainerStats = async (containerID, containerHost) => {
   }
 };
 
-module.exports = {
+export default {
   getContainers,
   getContainerStats,
 };

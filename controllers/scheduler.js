@@ -1,6 +1,6 @@
-const fetchData = require("./fetchData");
-const logger = require("../utils/logger");
-const db = require("../config/db");
+import fetchData from "./fetchData.js";
+import logger from "../utils/logger.js";
+import db from "../config/db.js";
 const regex = /(\d{1,5})([smh])/g;
 
 let fetchInterval = 5 * 60 * 1000; // Fetch data every 5 minutes by default
@@ -18,7 +18,7 @@ const scheduleFetch = () => {
     fetchData();
   }, fetchInterval);
 
-  cleanupIntervalId = setInterval(
+  let cleanupIntervalId = setInterval(
     () => {
       cleanupOldEntries();
     },
@@ -76,9 +76,4 @@ const cleanupOldEntries = async () => {
   }
 };
 
-module.exports = {
-  scheduleFetch,
-  setFetchInterval,
-  parseInterval,
-  getCurrentSchedule,
-};
+export { scheduleFetch, setFetchInterval, parseInterval, getCurrentSchedule };

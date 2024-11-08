@@ -1,5 +1,5 @@
-const db = require("../config/db");
-const logger = require("../utils/logger");
+import db from "../config/db.js";
+import logger from "../utils/logger.js";
 
 function clearOldEntries() {
   const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
@@ -17,4 +17,4 @@ function clearOldEntries() {
   );
 }
 
-module.exports = clearOldEntries;
+export default clearOldEntries;

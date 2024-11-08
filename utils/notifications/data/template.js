@@ -1,9 +1,7 @@
-const fs = require("fs");
-const path = require("path");
-const logger = require("../../logger");
-
-const templatePath = path.join(__dirname, "template.json");
-const containersPath = path.join(__dirname, "../../../data/states.json");
+import fs from "fs";
+import logger from "../../logger.js";
+const templatePath = "./utils/notifications/data/template.json";
+const containersPath = "./data/states.json";
 
 function getTemplate() {
   try {
@@ -59,4 +57,4 @@ function renderTemplate(containerId) {
   }
 }
 
-module.exports = { getTemplate, setTemplate, renderTemplate };
+export { getTemplate, setTemplate, renderTemplate };

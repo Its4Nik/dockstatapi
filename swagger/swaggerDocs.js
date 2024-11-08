@@ -1,10 +1,10 @@
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerConfig = require("../config/swaggerConfig");
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerConfig from "../config/swaggerConfig.js";
 
 const swaggerDocs = (app) => {
   const specs = swaggerJsdoc(swaggerConfig);
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 };
 
-module.exports = swaggerDocs;
+export default swaggerDocs;

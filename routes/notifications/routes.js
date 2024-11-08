@@ -1,13 +1,10 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const logger = require("../../utils/logger");
-const path = require("path");
-const fs = require("fs");
-const notify = require("../../utils/notifications/_notify");
-const dataTemplate = path.join(
-  __dirname,
-  "../../utils/notifications/data/template.json",
-);
+import logger from "../../utils/logger.js";
+import path from "path";
+import fs from "fs";
+import notify from "../../utils/notifications/_notify.js";
+const dataTemplate = "./utils/notifications/data/template.json";
 /**
  * @swagger
  * /notification-service/get-template:
@@ -156,4 +153,4 @@ router.post("/test/:type/:containerId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

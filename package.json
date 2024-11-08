@@ -3,32 +3,29 @@
   "version": "2",
   "description": "API for docker hosts using dockerode",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "dev:trace": "nodemon --trace-warnings server.js",
     "offline": "OFFLINE=true nodemon server.js",
-    "dep": "bash ./utils/createDependencyGraph.sh"
+    "dep": "bash ./utils/createDependencyGraph.sh",
+    "dep:remove": "bash ./utils/removeUnusedDeps.sh && bash ./utils/createDependencyGraph.sh"
   },
   "keywords": [],
   "author": "Its4Nik",
   "license": "BSD 3-Clause License",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "child_process": "^1.0.2",
-    "cors": "^2.8.5",
     "dockerode": "^4.0.2",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
-    "js-yaml": "^4.1.0",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.16",
-    "python-shell": "^5.0.0",
     "sqlite3": "^5.1.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "twilio": "^5.3.5",
-    "winston": "^3.15.0",
-    "yamljs": "^0.3.0"
+    "winston": "^3.15.0"
   },
   "devDependencies": {
     "dependency-cruiser": "^16.5.0",

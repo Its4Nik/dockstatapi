@@ -1,11 +1,11 @@
-const Docker = require("dockerode");
-const fs = require("fs");
-const path = require("path");
-const logger = require("./logger");
+import Docker from "dockerode";
+import fs from "fs";
+import path from "path";
+import logger from "./logger.js";
 
 // Function to dynamically load config on each request
 function loadDockerConfig() {
-  const configPath = path.join(__dirname, "../config/dockerConfig.json");
+  const configPath = "./config/dockerConfig.json";
   try {
     const rawData = fs.readFileSync(configPath);
     logger.debug("Refreshed DockerConfig.json");
@@ -42,4 +42,4 @@ const getDockerClient = (hostName) => {
   return createDockerClient(hostConfig);
 };
 
-module.exports = { getDockerClient };
+export default getDockerClient;
