@@ -1,5 +1,5 @@
 # custom paths:
-data/*
+src/data/*
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
 ### Node ###

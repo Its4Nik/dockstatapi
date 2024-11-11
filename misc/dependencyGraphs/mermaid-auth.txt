@@ -1,8 +1,0 @@
-flowchart LR
-
-subgraph 0["routes"]
-subgraph 1["auth"]
-2["routes.js"]
-end
-end
-
