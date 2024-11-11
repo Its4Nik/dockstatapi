@@ -1,7 +1,7 @@
 import logger from "./logger.js";
 import getDockerClient from "./dockerClient.js";
 import fs from "fs";
-const configPath = "./config/dockerConfig.json";
+const configPath = "./src/config/dockerConfig.json";
 
 function loadConfig() {
   try {

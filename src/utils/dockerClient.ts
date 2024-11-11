@@ -5,7 +5,7 @@ import logger from "./logger.js";
 
 // Function to dynamically load config on each request
 function loadDockerConfig() {
-  const configPath = "./config/dockerConfig.json";
+  const configPath = "./src/config/dockerConfig.json";
   try {
     const rawData = fs.readFileSync(configPath);
     logger.debug("Refreshed DockerConfig.json");

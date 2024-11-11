@@ -10,7 +10,7 @@ import { getCurrentSchedule } from "../../controllers/scheduler.js";
 import logger from "../../utils/logger.js";
 import path from "path";
 import fs from "fs";
-const configPath = "./config/dockerConfig.json";
+const configPath = "./src/config/dockerConfig.json";
 const router = express.Router();
 
 /**

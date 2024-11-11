@@ -2,6 +2,8 @@ import db from "../config/db.js";
 import fetchAllContainers from "../utils/containerService.js";
 import logger from "./../utils/logger.js";
 import fs from "fs";
+const filePath = "./src/data/states.json";
+let previousState = {};
 
 const fetchData = async () => {
   try {
@@ -34,9 +36,6 @@ const fetchData = async () => {
         host: container.hostName,
       }));
     });
-
-    const filePath = "./data/states.json";
-    let previousState = {};
 
     if (fs.existsSync(filePath)) {
       previousState = JSON.parse(fs.readFileSync(filePath, "utf8"));

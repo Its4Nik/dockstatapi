@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node ./src/server.ts",
-    "dev": "nodemon ./src/server.ts",
-    "offline": "OFFLINE=true nodemon ./src/server.ts",
+    "dev": "nodemon",
+    "dev:trace": "nodemon --trace-deprecatio",
+    "offline": "OFFLINE=true nodemon",
     "dep": "bash ./src/utils/createDependencyGraph.sh",
     "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && bash ./src/utils/createDependencyGraph.sh"
   },
@@ -32,7 +33,8 @@
     "@types/node": "^22.9.0",
     "dependency-cruiser": "^16.5.0",
     "nodemon": "^3.1.7",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2"
   },
   "nodemonConfig": {
     "ignore": [

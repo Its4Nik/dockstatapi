@@ -6,7 +6,8 @@
     "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true
   },
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Recommended",

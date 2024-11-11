@@ -7,7 +7,7 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 const router = express.Router();
-const configPath = "./config/dockerConfig.json";
+const configPath = "./src/config/dockerConfig.json";
 
 /**
  * @swagger
