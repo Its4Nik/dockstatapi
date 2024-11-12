@@ -1,6 +1,7 @@
 # custom paths:
 src/data/*
-
+dockerConfig.json
+password.json
 # Created by https://www.toptal.com/developers/gitignore/api/node
 ### Node ###
 # Logs
