@@ -1,6 +1,6 @@
 import fs from "fs";
-import logger from "../utils/logger.js";
-const dataPath = "./data/frontendConfiguration.json";
+import logger from "../utils/logger";
+const dataPath = "./src/data/frontendConfiguration.json";
 const expression =
   "https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_+.~#?&//=]*)";
 const regex = new RegExp(expression);
@@ -21,7 +21,7 @@ async function hideContainer(containerName) {
       data.push({ name: containerName, hidden: true });
       await saveData(data);
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -39,7 +39,7 @@ async function unhideContainer(containerName) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -64,7 +64,7 @@ async function addTagToContainer(containerName, tag) {
       data.push({ name: containerName, tags: [tag] });
       await saveData(data);
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -84,7 +84,7 @@ async function removeTagFromContainer(containerName, tag) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -106,7 +106,7 @@ async function pinContainer(containerName) {
       data.push({ name: containerName, pinned: true });
       await saveData(data);
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -124,7 +124,7 @@ async function unpinContainer(containerName) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -147,7 +147,7 @@ async function setLink(containerName, link) {
         data.push({ name: containerName, link: `${link}` });
         await saveData(data);
       }
-    } catch (error) {
+    } catch (error: any) {
       logger.error(error);
       throw new Error(error);
     }
@@ -169,7 +169,7 @@ async function removeLink(containerName) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -201,7 +201,7 @@ async function setIcon(containerName, icon, custom) {
         await saveData(data);
       }
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -219,7 +219,7 @@ async function removeIcon(containerName) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new Error(error);
   }
@@ -231,7 +231,7 @@ async function readData() {
   try {
     const data = await fs.promises.readFile(dataPath, "utf-8");
     return JSON.parse(data);
-  } catch (error) {
+  } catch (error: any) {
     console.error("readData");
     if (error.code === "ENOENT") {
       await saveData([]);
@@ -250,7 +250,7 @@ async function saveData(data) {
       "utf-8",
     );
     logger.info("Succesfully wrote to file");
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
   }
 }
@@ -275,7 +275,7 @@ async function cleanupData() {
     }
 
     await saveData(cleanedData);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
   }
 }

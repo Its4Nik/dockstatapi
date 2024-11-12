@@ -1,7 +1,7 @@
 import Docker from "dockerode";
 import fs from "fs";
 import path from "path";
-import logger from "./logger.js";
+import logger from "./logger";
 
 // Function to dynamically load config on each request
 function loadDockerConfig() {
@@ -10,7 +10,7 @@ function loadDockerConfig() {
     const rawData = fs.readFileSync(configPath);
     logger.debug("Refreshed DockerConfig.json");
     return JSON.parse(rawData);
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error loading dockerConfig.json: " + error.message);
     throw new Error("Failed to load Docker configuration");
   }

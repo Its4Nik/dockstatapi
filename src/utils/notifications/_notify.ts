@@ -1,11 +1,11 @@
-import logger from "../../utils/logger.js";
-import { telegramNotification } from "./telegram.js";
-import { slackNotification } from "./slack.js";
-import { discordNotification } from "./discord.js";
-import { emailNotification } from "./email.js";
-import { whatsappNotification } from "./whatsapp.js";
-import { pushbulletNotification } from "./pushbullet.js";
-import { pushoverNotification } from "./pushover.js";
+import logger from "../../utils/logger";
+import { telegramNotification } from "./telegram";
+import { slackNotification } from "./slack";
+import { discordNotification } from "./discord";
+import { emailNotification } from "./email";
+import { whatsappNotification } from "./whatsapp";
+import { pushbulletNotification } from "./pushbullet";
+import { pushoverNotification } from "./pushover";
 
 async function notify(type, containerId) {
   if (!containerId) {

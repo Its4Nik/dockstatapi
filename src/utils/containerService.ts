@@ -1,5 +1,5 @@
-import logger from "./logger.js";
-import getDockerClient from "./dockerClient.js";
+import logger from "./logger";
+import getDockerClient from "./dockerClient";
 import fs from "fs";
 const configPath = "./src/config/dockerConfig.json";
 
@@ -7,7 +7,7 @@ function loadConfig() {
   try {
     const configData = fs.readFileSync(configPath, "utf-8");
     return JSON.parse(configData);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(`Failed to load config: ${error.message}`);
     return null;
   }
@@ -64,7 +64,7 @@ async function fetchAllContainers() {
           };
         }),
       );
-    } catch (error) {
+    } catch (error: any) {
       logger.error(
         `Error fetching containers for host: ${hostName} - ${error.message}`,
       );

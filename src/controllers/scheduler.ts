@@ -1,15 +1,19 @@
-import fetchData from "./fetchData.js";
-import logger from "../utils/logger.js";
-import db from "../config/db.js";
+import fetchData from "./fetchData";
+import logger from "../utils/logger";
+import db from "../config/db";
 const regex = /(\d{1,5})([smh])/g;
 
 let fetchInterval = 5 * 60 * 1000; // Fetch data every 5 minutes by default
-let intervalId;
+const cleanupInterval = 24 * 60 * 60 * 1000; // every 24hrs
+let intervalId: NodeJS.Timeout;
 
 const scheduleFetch = () => {
-  fetchData().then(() => {
+  try {
+    fetchData();
     cleanupOldEntries();
-  });
+  } catch (error: any) {
+    logger.error(`Error during scheduled fetch: ${error}`);
+  }
 
   intervalId = setInterval(() => {
     logger.info(
@@ -18,18 +22,24 @@ const scheduleFetch = () => {
     fetchData();
   }, fetchInterval);
 
-  let cleanupIntervalId = setInterval(
-    () => {
-      cleanupOldEntries();
-    },
-    24 * 60 * 60 * 1000,
-  );
+  setInterval(() => {
+    cleanupOldEntries();
+  }, cleanupInterval);
 
   logger.info(`Data fetching scheduled every ${fetchInterval / 1000} seconds.`);
   logger.info("Old entries cleanup scheduled every 24 hours.");
+
+  // Additional 20-second interval to log process exit listeners, if any
+  setInterval(() => {
+    const exitListeners = process.listeners("exit");
+
+    if (exitListeners.length > 0) {
+      logger.info(`Exit listeners detected: ${exitListeners}`);
+    }
+  }, 20000);
 };
 
-const setFetchInterval = (newInterval) => {
+const setFetchInterval = (newInterval: number) => {
   if (intervalId) {
     clearInterval(intervalId);
     logger.info("Cleared existing fetch interval.");
@@ -39,8 +49,8 @@ const setFetchInterval = (newInterval) => {
   logger.info(`Fetch interval updated to ${fetchInterval / 1000} seconds.`);
 };
 
-const parseInterval = (interval) => {
-  const timeUnits = {
+const parseInterval = (interval: string) => {
+  const timeUnits: { [key: string]: number } = {
     s: 1000,
     m: 60 * 1000,
     h: 60 * 60 * 1000,
@@ -69,10 +79,10 @@ const cleanupOldEntries = async () => {
     Date.now() - 24 * 60 * 60 * 1000,
   ).toISOString();
   try {
-    await db.run("DELETE FROM data WHERE timestamp < ?", twentyFourHoursAgo);
+    db.run("DELETE FROM data WHERE timestamp < ?", twentyFourHoursAgo, Error);
     logger.info("Old entries cleared from the database.");
-  } catch (error) {
-    logger.error(`Error clearing old entries: ${error.message}`);
+  } catch (Error: any) {
+    logger.error(`Error clearing old entries: ${Error.message}`);
   }
 };
 

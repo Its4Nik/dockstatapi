@@ -12,7 +12,7 @@ import {
   removeLink,
   setIcon,
   removeIcon,
-} from "../../controllers/frontendConfiguration.js";
+} from "../../controllers/frontendConfiguration";
 
 /*
 ____   ___  ____ _____
@@ -69,7 +69,7 @@ router.post("/show/:containerName", async (req, res) => {
   try {
     await unhideContainer(containerName);
     res.json({ success: true, message: "Container unhidden successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -127,7 +127,7 @@ router.post("/tag/:containerName/:tag", async (req, res) => {
   try {
     await addTagToContainer(containerName, tag);
     res.json({ success: true, message: "Tag added successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -179,7 +179,7 @@ router.post("/pin/:containerName", async (req, res) => {
   try {
     await pinContainer(containerName);
     res.json({ success: true, message: "Container pinned successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -237,7 +237,7 @@ router.post("/add-link/:containerName/:link", async (req, res) => {
   try {
     await setLink(containerName, link);
     res.json({ success: true, message: "Link added successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -305,7 +305,7 @@ router.post(
 
       await setIcon(containerName, icon, custom);
       res.json({ success: true, message: "Icon added successfully." });
-    } catch (error) {
+    } catch (error: any) {
       res.status(500).json({ success: false, error: error.message });
     }
   },
@@ -367,7 +367,7 @@ router.delete("/hide/:containerName", async (req, res) => {
   try {
     await hideContainer(target);
     res.json({ success: true, message: `Container, ${target}, hidden.` });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -425,7 +425,7 @@ router.delete("/remove-tag/:containerName/:tag", async (req, res) => {
   try {
     await removeTagFromContainer(containerName, tag);
     res.json({ success: true, message: "Tag removed successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -477,7 +477,7 @@ router.delete("/unpin/:containerName", async (req, res) => {
   try {
     await unpinContainer(containerName);
     res.json({ success: true, message: "Container unpinned successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -529,7 +529,7 @@ router.delete("/remove-link/:containerName", async (req, res) => {
   try {
     await removeLink(containerName);
     res.json({ success: true, message: "Link removed successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -581,7 +581,7 @@ router.delete("/remove-icon/:containerName", async (req, res) => {
   try {
     await removeIcon(containerName);
     res.json({ success: true, message: "Icon removed successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
 });

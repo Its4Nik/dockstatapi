@@ -47,7 +47,7 @@ const options: {
       },
     ],
   },
-  apis: ["./routes/*/*.js"],
+  apis: ["./src/routes/*/*.ts"],
 };
 
 export default options;

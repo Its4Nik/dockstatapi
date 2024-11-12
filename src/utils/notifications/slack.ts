@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import logger from "../logger.js";
-import { renderTemplate } from "./data/template.js";
+import logger from "../logger";
+import { renderTemplate } from "./data/template";
 
 const slack_webhook_url = process.env.SLACK_WEBHOOK_URL;
 
@@ -21,7 +21,7 @@ export async function slackNotification(containerId) {
         text: slack_message,
       }),
     });
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error sending Slack message:", error);
   }
 }

@@ -9,12 +9,20 @@ const db: sqlite3.Database = new sqlite3.Database(
     if (err) {
       logger.error("Error opening database:", err.message);
     } else {
-      db.run(`CREATE TABLE IF NOT EXISTS data (
+      db.run(
+        `CREATE TABLE IF NOT EXISTS data (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             info TEXT NOT NULL,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-        )`);
-      logger.info("Database created / opened successfully");
+        )`,
+        (tableErr: Error | null) => {
+          if (tableErr) {
+            logger.error("Error creating table:", tableErr.message);
+          } else {
+            logger.info("Database created / opened successfully");
+          }
+        },
+      );
     }
   },
 );

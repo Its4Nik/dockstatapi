@@ -1,9 +1,9 @@
 import express from "express";
 const router = express.Router();
-import db from "../../config/db.js";
-import logger from "../../utils/logger.js";
+import db from "../../config/db";
+import logger from "../../utils/logger";
 
-function formatRows(rows) {
+function formatRows(rows: any) {
   return rows.reduce((acc, row, index) => {
     acc[index] = JSON.parse(row.info);
     return acc;
@@ -14,20 +14,69 @@ function formatRows(rows) {
  * @swagger
  * /data/latest:
  *   get:
- *     summary: Retrieve the latest entry from the database
- *     tags: [Database queries]
+ *     summary: Retrieve the latest container statistics for a specific host
+ *     tags: [Container Stats]
  *     responses:
  *       200:
- *         description: A JSON object containing the latest entry's 'info' data.
+ *         description: A JSON object containing the latest container statistics for the specified host.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *             example:
- *               name: "Container A"
- *               id: "abcd1234"
- *               cpu_usage: 30
- *               mem_usage: 2048
+ *               properties:
+ *                 Fin-2:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                         description: The name of the container
+ *                         example: "Container A"
+ *                       id:
+ *                         type: string
+ *                         description: Unique identifier for the container
+ *                         example: "abcd1234"
+ *                       hostName:
+ *                         type: string
+ *                         description: Name of the host system running this container
+ *                         example: "Fin-2"
+ *                       state:
+ *                         type: string
+ *                         description: Current state of the container
+ *                         example: "running"
+ *                       cpu_usage:
+ *                         type: number
+ *                         description: CPU usage percentage for this container
+ *                         example: 30
+ *                       mem_usage:
+ *                         type: number
+ *                         description: Memory usage in bytes
+ *                         example: 2097152
+ *                       mem_limit:
+ *                         type: number
+ *                         description: Memory limit in bytes set for this container
+ *                         example: 8123764736
+ *                       net_rx:
+ *                         type: number
+ *                         description: Total network received bytes since container start
+ *                         example: 151763111
+ *                       net_tx:
+ *                         type: number
+ *                         description: Total network transmitted bytes since container start
+ *                         example: 7104386
+ *                       current_net_rx:
+ *                         type: number
+ *                         description: Current received bytes in the recent period
+ *                         example: 1048576
+ *                       current_net_tx:
+ *                         type: number
+ *                         description: Current transmitted bytes in the recent period
+ *                         example: 524288
+ *                       networkMode:
+ *                         type: string
+ *                         description: Networking mode for the container
+ *                         example: "bridge"
  */
 router.get("/latest", (req, res) => {
   db.get(
@@ -46,7 +95,7 @@ router.get("/latest", (req, res) => {
  * @swagger
  * /data/time/24h:
  *   get:
- *     summary: Retrieve entries from the last 24 hours from the database
+ *     summary: Retrieve container statistics entries from the last 24 hours
  *     tags: [Database queries]
  *     responses:
  *       200:
@@ -55,17 +104,39 @@ router.get("/latest", (req, res) => {
  *           application/json:
  *             schema:
  *               type: object
- *             example:
- *               0:
- *                 name: "Container A"
- *                 id: "abcd1234"
- *                 cpu_usage: 30
- *                 mem_usage: 2048
- *               1:
- *                 name: "Container B"
- *                 id: "efgh5678"
- *                 cpu_usage: 45
- *                 mem_usage: 3072
+ *               properties:
+ *                 0:
+ *                   type: object
+ *                   description: Statistics for the first entry within 24 hours.
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       example: "Container A"
+ *                     id:
+ *                       type: string
+ *                       example: "abcd1234"
+ *                     cpu_usage:
+ *                       type: number
+ *                       example: 30
+ *                     mem_usage:
+ *                       type: number
+ *                       example: 2048
+ *                 1:
+ *                   type: object
+ *                   description: Statistics for the second entry within 24 hours.
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       example: "Container B"
+ *                     id:
+ *                       type: string
+ *                       example: "efgh5678"
+ *                     cpu_usage:
+ *                       type: number
+ *                       example: 45
+ *                     mem_usage:
+ *                       type: number
+ *                       example: 3072
  */
 router.get("/time/24h", (req, res) => {
   const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -86,7 +157,7 @@ router.get("/time/24h", (req, res) => {
  * @swagger
  * /data/clear:
  *   delete:
- *     summary: Clear all entries from the database
+ *     summary: Clear all container statistics entries from the database
  *     tags: [Database queries]
  *     responses:
  *       200:
@@ -95,8 +166,11 @@ router.get("/time/24h", (req, res) => {
  *           application/json:
  *             schema:
  *               type: object
- *             example:
- *               message: "Database cleared successfully."
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message upon database clearance
+ *                   example: "Database cleared successfully."
  */
 router.delete("/clear", (req, res) => {
   db.run("DELETE FROM data", (err) => {

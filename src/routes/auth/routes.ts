@@ -1,10 +1,10 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import fs from "fs";
-import logger from "../../utils/logger.js";
+import logger from "../../utils/logger";
 const router = express.Router();
-const passwordFile = "./middleware/password.json";
-const passwordBool = "./middleware/usePassword.txt";
+const passwordFile = "./src/middleware/password.json";
+const passwordBool = "./src/middleware/usePassword.txt";
 const saltRounds = 10;
 
 function setTrue() {
@@ -86,6 +86,7 @@ router.post("/enable", (req, res) => {
             return res.status(500).json({ message: "Error saving password" });
           }
           setTrue();
+          logger.debug("Authentication enabled");
           res.json({ message: "Authentication enabled" });
         });
       });

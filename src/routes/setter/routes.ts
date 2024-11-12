@@ -1,8 +1,5 @@
-import {
-  setFetchInterval,
-  parseInterval,
-} from "../../controllers/scheduler.js";
-import logger from "../../utils/logger.js";
+import { setFetchInterval, parseInterval } from "../../controllers/scheduler";
+import logger from "../../utils/logger";
 import express from "express";
 import path from "path";
 import fs from "fs";
@@ -58,7 +55,7 @@ router.put("/addHost", async (req, res) => {
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     logger.info(`Added new host: ${name}`);
     res.status(200).json({ message: "Host added successfully." });
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error adding host: " + error.message);
     res.status(500).json({ error: "Failed to add host." });
   }
@@ -135,7 +132,7 @@ router.delete("/removeHost", async (req, res) => {
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     logger.info(`Removed host: ${hostName}`);
     res.status(200).json({ message: "Host removed successfully." });
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error removing host: " + error.message);
     res.status(500).json({ error: "Failed to remove host." });
   }

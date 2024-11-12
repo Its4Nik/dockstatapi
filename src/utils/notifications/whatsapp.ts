@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import logger from "../logger.js";
-import { renderTemplate } from "./data/template.js";
+import logger from "../logger";
+import { renderTemplate } from "./data/template";
 
 const whatsapp_api_url = process.env.WHATSAPP_API_URL;
 const whatsapp_recipient = process.env.WHATSAPP_RECIPIENT;
@@ -23,7 +23,7 @@ export async function whatsappNotification(containerId) {
         body: whatsapp_message,
       }),
     });
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error sending WhatsApp message:", error);
   }
 }

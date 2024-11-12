@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import logger from "../logger.js";
-import { renderTemplate } from "./data/template.js";
+import logger from "../logger";
+import { renderTemplate } from "./data/template";
 
 const telegram_bot_token = process.env.TELEGRAM_BOT_TOKEN;
 const telegram_chat_id = process.env.TELEGRAM_CHAT_ID;
@@ -26,7 +26,7 @@ export async function telegramNotification(containerId) {
         }),
       },
     );
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error sending message:", error);
   }
 }

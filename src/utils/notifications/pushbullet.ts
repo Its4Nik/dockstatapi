@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import logger from "../logger.js";
-import { renderTemplate } from "./data/template.js";
+import logger from "../logger";
+import { renderTemplate } from "./data/template";
 
 const pushbullet_access_token = process.env.PUSHBULLET_ACCESS_TOKEN;
 
@@ -24,7 +24,7 @@ export async function pushbulletNotification(containerId) {
         body: pushbullet_message,
       }),
     });
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error sending Pushbullet message:", error);
   }
 }

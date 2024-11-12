@@ -1,5 +1,5 @@
 import fs from "fs";
-import logger from "../../logger.js";
+import logger from "../../logger";
 const templatePath = "./utils/notifications/data/template.json";
 const containersPath = "./data/states.json";
 
@@ -7,7 +7,7 @@ function getTemplate() {
   try {
     const data = fs.readFileSync(templatePath, "utf8");
     return JSON.parse(data);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to load template:", error);
     return null;
   }
@@ -21,7 +21,7 @@ function setTemplate(newTemplate) {
       "utf8",
     );
     logger.log("Template updated successfully");
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Failed to update template:", error);
   }
 }
@@ -51,7 +51,7 @@ function renderTemplate(containerId) {
         text.replace(new RegExp(`{{${key}}}`, "g"), containerData[key]),
       template.message,
     );
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Failed to load containers:", error);
     return null;
   }

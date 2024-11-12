@@ -1,15 +1,12 @@
-import extractRelevantData from "../../utils/extractHostData.js";
+import extractRelevantData from "../../utils/extractHostData";
 import express from "express";
-import {
-  writeOfflineLog,
-  readOfflineLog,
-} from "../../utils/writeOfflineLog.js";
-import getDockerClient from "../../utils/dockerClient.js";
-import fetchAllContainers from "../../utils/containerService.js";
-import { getCurrentSchedule } from "../../controllers/scheduler.js";
-import logger from "../../utils/logger.js";
-import path from "path";
+import { writeOfflineLog, readOfflineLog } from "../../utils/writeOfflineLog";
+import getDockerClient from "../../utils/dockerClient";
+import fetchAllContainers from "../../utils/containerService";
+import { getCurrentSchedule } from "../../controllers/scheduler";
+import logger from "../../utils/logger";
 import fs from "fs";
+import { DockerConfig } from "../../types/dockerConfig";
 const configPath = "./src/config/dockerConfig.json";
 const router = express.Router();
 
@@ -33,11 +30,23 @@ const router = express.Router();
  *                     type: string
  *                   example: ["local", "remote1"]
  */
-
 router.get("/hosts", (req, res) => {
-  const hosts = configPath.hosts.map((host) => host.name);
-  logger.info("Fetching all available Docker hosts");
-  res.status(200).json({ hosts });
+  logger.info(`Fetching config: ${configPath}`);
+  try {
+    const rawData = fs.readFileSync(configPath, "utf-8");
+    const config: DockerConfig = JSON.parse(rawData);
+
+    if (!config.hosts) {
+      throw new Error("No hosts defined in configuration.");
+    }
+
+    const hosts = config.hosts.map((host) => host.name);
+    logger.info("Fetching all available Docker hosts");
+    res.status(200).json({ hosts });
+  } catch (error: any) {
+    logger.error("Error fetching hosts: " + error.message);
+    res.status(500).json({ error: "Failed to fetch Docker hosts" });
+  }
 });
 
 /**
@@ -96,7 +105,7 @@ router.get("/host/:hostName/stats", async (req, res) => {
 
       writeOfflineLog(JSON.stringify(relevantData));
       res.status(200).json(relevantData);
-    } catch (error) {
+    } catch (error: any) {
       logger.error(
         `Error fetching stats for host: ${hostName} - ${error.message || "Unknown error"}`,
       );
@@ -185,7 +194,7 @@ router.get("/containers", async (req, res) => {
   try {
     const allContainerData = await fetchAllContainers();
     res.status(200).json(allContainerData);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(`Error fetching containers: ${error.message}`);
     res.status(500).json({ error: "Failed to fetch containers" });
   }
@@ -221,7 +230,7 @@ router.get("/config", async (req, res) => {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
     res.status(200).json(jsonData);
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error loading dockerConfig.json: " + error.message);
     res.status(500).json({ error: "Failed to load Docker configuration" });
   }
@@ -316,12 +325,12 @@ router.get("/status", (req, res) => {
  *                   description: Error message
  */
 router.get("/frontend-config", (req, res) => {
-  const configPath = "/data/frontendConfiguration.json";
+  const configPath = "./src/data/frontendConfiguration.json";
   try {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
     res.status(200).json(jsonData);
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error loading frontendConfiguration.json: " + error.message);
     res.status(500).json({ error: "Failed to load Frontend configuration" });
   }

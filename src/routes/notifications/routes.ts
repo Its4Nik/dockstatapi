@@ -1,10 +1,26 @@
-import express from "express";
-const router = express.Router();
-import logger from "../../utils/logger.js";
-import path from "path";
+import { Request, Response, Router } from "express";
+import logger from "../../utils/logger";
 import fs from "fs";
-import notify from "../../utils/notifications/_notify.js";
-const dataTemplate = "./utils/notifications/data/template.json";
+import notify from "../../utils/notifications/_notify";
+const dataTemplate = "./src/utils/notifications/data/template.json";
+const router = Router();
+
+///////////
+// Will be moved!
+
+interface TemplateData {
+  text: string;
+}
+
+function isTemplateData(data: any): data is TemplateData {
+  return (
+    data !== null && typeof data === "object" && typeof data.text === "string"
+  );
+}
+
+// Will be moved
+///////////!
+
 /**
  * @swagger
  * /notification-service/get-template:
@@ -36,7 +52,7 @@ const dataTemplate = "./utils/notifications/data/template.json";
  *                   type: string
  *                   description: Error message
  */
-router.get("/get-template", (req, res) => {
+router.get("/get-template", (req: Request, res: Response) => {
   fs.readFile(dataTemplate, "utf-8", (error, data) => {
     if (error) {
       logger.error("Errored opening:", error);
@@ -81,8 +97,17 @@ router.get("/get-template", (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-router.post("/set-template", (req, res) => {
-  const newData = req.body;
+router.post("/set-template", (req: Request, res: Response) => {
+  const newData: TemplateData = req.body;
+
+  // Use type guard to validate newData before proceeding
+  if (!isTemplateData(newData)) {
+    return res
+      .status(400)
+      .json({
+        message: "Invalid input format. Expected JSON with a 'text' field.",
+      });
+  }
 
   fs.writeFile(
     dataTemplate,
@@ -143,12 +168,12 @@ router.post("/set-template", (req, res) => {
  *                 message:
  *                   type: string
  */
-router.post("/test/:type/:containerId", async (req, res) => {
+router.post("/test/:type/:containerId", async (req: Request, res: Response) => {
   const { type, containerId } = req.params;
   try {
     await notify(type, containerId);
     res.json({ success: true, message: `Sent test notification to ${type}` });
-  } catch (error) {
+  } catch (error: any) {
     res.json({ success: false, message: `Errored: ${error}` });
   }
 });

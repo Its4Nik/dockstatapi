@@ -1,5 +1,5 @@
 import winston from "winston";
-import loggerConfig from "../config/loggerConfig.js";
+import loggerConfig from "../config/loggerConfig";
 
 const transports = [new winston.transports.Console()];
 

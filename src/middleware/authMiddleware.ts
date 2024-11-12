@@ -1,19 +1,22 @@
 import bcrypt from "bcrypt";
 import fs from "fs";
-import logger from "../utils/logger.js";
-const passwordFile = "./middleware/password.json";
-const passwordBool = "./middleware/usePassword.txt";
+import { Request, Response, NextFunction } from "express";
+import logger from "../utils/logger";
 
-function authMiddleware(req, res, next) {
-  fs.readFile(passwordBool, "utf8", (err, data) => {
-    if (err) {
-      logger.error("Error reading the file:", err);
-      return;
-    }
+const passwordFile = "./src/middleware/password.json";
+const passwordBool = "./src/middleware/usePassword.txt";
 
-    const isAuthEnabled = data.trim() === "true";
+async function authMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const authStatusData = await fs.promises.readFile(passwordBool, "utf8");
+    const isAuthEnabled = authStatusData.trim() === "true";
 
     if (!isAuthEnabled) {
+      logger.debug("Authentication disabled, skipping login process...");
       return next();
     }
 
@@ -23,27 +26,23 @@ function authMiddleware(req, res, next) {
       return res.status(401).json({ message: "Password required" });
     }
 
-    fs.readFile(passwordFile, "utf8", (err, data) => {
-      if (err) {
-        logger.error("Error reading password");
-        return res.status(500).json({ message: "Error reading password" });
-      }
+    const passwordData = await fs.promises.readFile(passwordFile, "utf8");
+    const storedData = JSON.parse(passwordData);
 
-      const storedData = JSON.parse(data);
-      bcrypt.compare(providedPassword, storedData.hash, (err, result) => {
-        if (err) {
-          logger.error("Error validating password - Denied access");
-          return res.status(500).json({ message: "Error validating password" });
-        }
-        if (!result) {
-          console.error("Invalid Password - Denied access");
-          return res.status(401).json({ message: "Invalid password" });
-        }
+    const passwordMatch = await bcrypt.compare(
+      providedPassword as string,
+      storedData.hash,
+    );
+    if (!passwordMatch) {
+      logger.error("Invalid Password - Denied access");
+      return res.status(401).json({ message: "Invalid password" });
+    }
 
-        next();
-      });
-    });
-  });
+    next();
+  } catch (error: any) {
+    logger.error("Error in authMiddleware:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 }
 
 export default authMiddleware;

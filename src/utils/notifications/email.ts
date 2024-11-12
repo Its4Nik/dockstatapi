@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-import logger from "../logger.js";
-import { renderTemplate } from "./data/template.js";
+import logger from "../logger";
+import { renderTemplate } from "./data/template";
 
 const email_sender = process.env.EMAIL_SENDER;
 const email_recipient = process.env.EMAIL_RECIPIENT;
@@ -30,7 +30,7 @@ export async function emailNotification(containerId) {
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error sending email:", error);
   }
 }

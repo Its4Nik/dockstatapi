@@ -1,5 +1,5 @@
-import getDockerClient from "../utils/dockerClient.js";
-import logger from "../utils/logger.js";
+import getDockerClient from "../utils/dockerClient";
+import logger from "../utils/logger";
 import { Request, Response } from "express";
 
 const getContainers = async (req: Request, res: Response): Promise<void> => {
@@ -10,12 +10,12 @@ const getContainers = async (req: Request, res: Response): Promise<void> => {
     const containers = await docker.listContainers();
 
     res.status(200).json(containers);
-  } catch (err) {
+  } catch (error: any) {
     logger.error(
-      `Error fetching containers from host: ${host} - ${err.message || "Unknown error"} - Full error: ${JSON.stringify(err, null, 2)}`,
+      `Error fetching containers from host: ${host} - ${error.message || "Unknown error"} - Full error: ${JSON.stringify(error, null, 2)}`,
     );
     res.status(500).json({
-      error: `Error fetching containers: ${err.message || "Unknown error"}`,
+      error: `Error fetching containers: ${error.message || "Unknown error"}`,
     });
   }
 };
@@ -36,7 +36,7 @@ const getContainerStats = async (
       `Successfully fetched stats for container: ${containerID} from host: ${containerHost}`,
     );
     res.status(200).json(stats);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(
       `Error fetching stats for container: ${containerID} from host: ${containerHost} - ${error.message}`,
     );
