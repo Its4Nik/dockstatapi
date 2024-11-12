@@ -5,10 +5,8 @@
   "main": "src/server.ts",
   "type": "module",
   "scripts": {
-    "start": "node ./src/server.ts",
     "dev": "nodemon",
     "dev:trace": "nodemon --trace-uncaught --trace-warnings",
-    "offline": "OFFLINE=true nodemon",
     "dep": "bash ./src/utils/createDependencyGraph.sh",
     "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && bash ./src/utils/createDependencyGraph.sh"
   },
@@ -16,6 +14,8 @@
   "author": "Its4Nik",
   "license": "BSD 3-Clause License",
   "dependencies": {
+    "@types/dockerode": "^3.3.31",
+    "@types/supports-color": "^8.1.3",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.7",
     "bcrypt": "^5.1.1",

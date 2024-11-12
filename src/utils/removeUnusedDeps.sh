@@ -1,13 +1,20 @@
 #!/bin/bash
 
-TMP="$(npx depcheck --ignores dependency-cruiser --quiet --oneline | tail -n 1)"
+TMP="$(npx depcheck --ignores dependency-cruiser,tsx,@types/bcrypt,@types/express,@types/express-handlebars,@types/node,ts-node --quiet --oneline | tail -n 1 | tr -d '\n')"
 
-echo
-echo "Removing these unused dependencies:"
-for entry in "$TMP"; do
-    echo $entry
-done
-echo
+lines=$(echo "$TMP" | tr -s ' ' '\n' | wc -l)
+
+if ((lines == 0)); then
+    echo "No unused dependencies."
+else
+    echo
+    echo "Removing these unused dependencies:"
+    for entry in $TMP; do
+        echo "$entry"
+    done
+    echo
+fi
+
 
 read -n 1 -p "Delete unused dependencies? (y/n) " input
 echo
@@ -23,3 +30,5 @@ case $input in
         exit 1
         ;;
 esac
+
+exit 2

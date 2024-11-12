@@ -2,22 +2,22 @@ flowchart LR
 
 subgraph 0["routes"]
 subgraph 1["notifications"]
-2["routes.js"]
+2["routes.ts"]
 end
 end
 subgraph 3["utils"]
 subgraph 4["notifications"]
-5["_notify.js"]
-6["discord.js"]
+5["_notify.ts"]
+6["discord.ts"]
 subgraph 7["data"]
-8["template.js"]
+8["template.ts"]
 end
-9["email.js"]
-A["pushbullet.js"]
-B["pushover.js"]
-C["slack.js"]
-D["telegram.js"]
-E["whatsapp.js"]
+9["email.ts"]
+A["pushbullet.ts"]
+B["pushover.ts"]
+C["slack.ts"]
+D["telegram.ts"]
+E["whatsapp.ts"]
 end
 end
 2-->5

@@ -6,7 +6,7 @@ import fetchAllContainers from "../../utils/containerService";
 import { getCurrentSchedule } from "../../controllers/scheduler";
 import logger from "../../utils/logger";
 import fs from "fs";
-import { DockerConfig } from "../../types/dockerConfig";
+import { JsonObject } from "swagger-ui-express";
 const configPath = "./src/config/dockerConfig.json";
 const router = express.Router();
 
@@ -34,13 +34,13 @@ router.get("/hosts", (req, res) => {
   logger.info(`Fetching config: ${configPath}`);
   try {
     const rawData = fs.readFileSync(configPath, "utf-8");
-    const config: DockerConfig = JSON.parse(rawData);
+    const config: JsonObject = JSON.parse(rawData);
 
     if (!config.hosts) {
       throw new Error("No hosts defined in configuration.");
     }
 
-    const hosts = config.hosts.map((host) => host.name);
+    const hosts: any = config.hosts.map((host: any) => host.name);
     logger.info("Fetching all available Docker hosts");
     res.status(200).json({ hosts });
   } catch (error: any) {

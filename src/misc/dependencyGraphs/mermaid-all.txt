@@ -1,101 +1,97 @@
 flowchart LR
 
-subgraph 0["config"]
-1["db.js"]
-2["swaggerConfig.js"]
+0["server.ts"]
+subgraph 1["controllers"]
+2["scheduler.ts"]
+5["fetchData.ts"]
+J["frontendConfiguration.ts"]
 end
-subgraph 3["controllers"]
-4["containerController.js"]
-7["databaseMigration.js"]
-8["fetchData.js"]
-A["frontendConfiguration.js"]
-B["scheduler.js"]
+subgraph 3["config"]
+4["db.ts"]
+15["swaggerConfig.ts"]
 end
-subgraph 5["utils"]
-6["dockerClient.js"]
-9["containerService.js"]
-O["extractHostData.js"]
-P["writeOfflineLog.js"]
-subgraph S["notifications"]
-T["_notify.js"]
-U["discord.js"]
-subgraph V["data"]
-W["template.js"]
-end
-X["email.js"]
-Y["pushbullet.js"]
-Z["pushover.js"]
-10["slack.js"]
-11["telegram.js"]
-12["whatsapp.js"]
-end
-end
-subgraph C["middleware"]
-D["authMiddleware.js"]
-E["rateLimiter.js"]
-end
-subgraph F["routes"]
-subgraph G["auth"]
-H["routes.js"]
-end
-subgraph I["data"]
-J["routes.js"]
-end
-subgraph K["frontendController"]
-L["routes.js"]
-end
-subgraph M["getter"]
-N["routes.js"]
-end
+subgraph 6["utils"]
+7["containerService.ts"]
+8["dockerClient.ts"]
+M["extractHostData.ts"]
+N["writeOfflineLog.ts"]
 subgraph Q["notifications"]
-R["routes.js"]
+R["_notify.ts"]
+S["discord.ts"]
+subgraph T["data"]
+U["template.ts"]
 end
-subgraph 13["setter"]
-14["routes.js"]
+V["email.ts"]
+W["pushbullet.ts"]
+X["pushover.ts"]
+Y["slack.ts"]
+Z["telegram.ts"]
+10["whatsapp.ts"]
 end
 end
-15["server.js"]
-subgraph 16["swagger"]
-17["swaggerDocs.js"]
+subgraph 9["middleware"]
+A["authMiddleware.ts"]
+B["rateLimiter.ts"]
 end
-4-->6
-7-->1
-8-->1
-8-->9
-9-->6
-B-->1
-B-->8
-J-->1
-L-->A
-N-->B
-N-->9
-N-->6
-N-->O
-N-->P
-R-->T
-T-->U
-T-->X
-T-->Y
-T-->Z
-T-->10
-T-->11
-T-->12
-U-->W
-X-->W
-Y-->W
-Z-->W
-10-->W
-11-->W
-12-->W
-14-->B
-15-->B
-15-->D
-15-->E
-15-->H
-15-->J
-15-->L
-15-->N
-15-->R
-15-->14
-15-->17
-17-->2
+subgraph C["routes"]
+subgraph D["auth"]
+E["routes.ts"]
+end
+subgraph F["data"]
+G["routes.ts"]
+end
+subgraph H["frontendController"]
+I["routes.ts"]
+end
+subgraph K["getter"]
+L["routes.ts"]
+end
+subgraph O["notifications"]
+P["routes.ts"]
+end
+subgraph 11["setter"]
+12["routes.ts"]
+end
+end
+subgraph 13["swagger"]
+14["swaggerDocs.ts"]
+end
+0-->2
+0-->A
+0-->B
+0-->E
+0-->G
+0-->I
+0-->L
+0-->P
+0-->12
+0-->14
+2-->4
+2-->5
+5-->4
+5-->7
+7-->8
+G-->4
+I-->J
+L-->2
+L-->7
+L-->8
+L-->M
+L-->N
+P-->R
+R-->S
+R-->V
+R-->W
+R-->X
+R-->Y
+R-->Z
+R-->10
+S-->U
+V-->U
+W-->U
+X-->U
+Y-->U
+Z-->U
+10-->U
+12-->2
+14-->15

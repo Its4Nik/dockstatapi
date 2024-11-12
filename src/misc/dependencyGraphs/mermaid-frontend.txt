@@ -2,10 +2,10 @@ flowchart LR
 
 subgraph 0["routes"]
 subgraph 1["frontendController"]
-2["routes.js"]
+2["routes.ts"]
 end
 end
 subgraph 3["controllers"]
-4["frontendConfiguration.js"]
+4["frontendConfiguration.ts"]
 end
 2-->4
