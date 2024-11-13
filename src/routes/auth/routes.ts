@@ -13,7 +13,7 @@ function setTrue() {
       logger.error("Error writing to the file:", err);
       return;
     }
-    logger.info(`Status "true" has been written to the file.`);
+    logger.info(`Enabled authentication`);
   });
 }
 
@@ -23,7 +23,7 @@ function setFalse() {
       logger.error("Error writing to the file:", err);
       return;
     }
-    logger.info(`Status "false" has been written to the file.`);
+    logger.info(`Disabled authentication`);
   });
 }
 
@@ -65,6 +65,7 @@ router.post("/enable", (req, res) => {
     }
 
     if (!password) {
+      logger.error("Pathword is required  ");
       return res.status(400).json({ message: "Password is required" });
     }
 
@@ -81,8 +82,9 @@ router.post("/enable", (req, res) => {
         }
 
         const passwordData = { hash, salt };
-        fs.writeFile(passwordFile, JSON.stringify(passwordData), (err) => {
-          if (err) {
+        fs.writeFile(passwordFile, JSON.stringify(passwordData), (error) => {
+          if (error) {
+            logger.error("Error saving password: ", error);
             return res.status(500).json({ message: "Error saving password" });
           }
           setTrue();

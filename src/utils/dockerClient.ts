@@ -1,39 +1,47 @@
+// src/utils/dockerClient.ts
 import Docker from "dockerode";
 import fs from "fs";
-import path from "path";
 import logger from "./logger";
-import { JsonObject } from "swagger-ui-express";
 
-// Function to dynamically load config on each request
-function loadDockerConfig() {
+interface DockerHostConfig {
+  name: string;
+  url: string;
+  port?: number;
+}
+
+interface DockerConfig {
+  hosts: DockerHostConfig[];
+}
+
+function loadDockerConfig(): DockerConfig {
   const configPath = "./src/config/dockerConfig.json";
   try {
-    const rawData: any = fs.readFileSync(configPath);
+    const rawData = fs.readFileSync(configPath, "utf-8");
     logger.debug("Refreshed DockerConfig.json");
-    return JSON.parse(rawData);
-  } catch (error: any) {
-    logger.error("Error loading dockerConfig.json: " + error.message);
+    return JSON.parse(rawData) as DockerConfig;
+  } catch (error) {
+    logger.error(
+      "Error loading dockerConfig.json: " + (error as Error).message,
+    );
     throw new Error("Failed to load Docker configuration");
   }
 }
 
-// Function to create the Docker client using separate url and port
-function createDockerClient(hostConfig: any) {
+function createDockerClient(hostConfig: DockerHostConfig): Docker {
   logger.info(
-    `Creating Docker client for host: ${hostConfig.url} on port: ${hostConfig.port}`,
+    `Creating Docker client for host: ${hostConfig.url} on port: ${hostConfig.port || 2375}`,
   );
   return new Docker({
     host: hostConfig.url,
-    port: hostConfig.port || 2375, // Use 2375 as default port for non-TLS
-    protocol: "http", // Ensure the use of http for non-TLS
+    port: hostConfig.port || 2375,
+    protocol: "http",
   });
 }
 
-// This function will get the Docker client based on the host configuration
-const getDockerClient = (hostName: string) => {
+const getDockerClient = (hostName: string): Docker => {
   logger.debug(`Getting Docker Client for ${hostName}`);
-  const config = loadDockerConfig(); // Dynamically load config
-  const hostConfig = config.hosts.find((host: any) => host.name === hostName);
+  const config = loadDockerConfig();
+  const hostConfig = config.hosts.find((host) => host.name === hostName);
 
   if (!hostConfig) {
     const errorMsg = `Docker host ${hostName} not found in configuration`;

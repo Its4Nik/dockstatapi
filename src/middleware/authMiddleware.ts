@@ -16,6 +16,7 @@ async function authMiddleware(
     const isAuthEnabled = authStatusData.trim() === "true";
 
     if (!isAuthEnabled) {
+      logger.warn("You are not using authentication, please enable it.");
       logger.debug("Authentication disabled, skipping login process...");
       return next();
     }
@@ -38,6 +39,7 @@ async function authMiddleware(
       return res.status(401).json({ message: "Invalid password" });
     }
 
+    logger.debug("Authentication succesfull");
     next();
   } catch (error: any) {
     logger.error("Error in authMiddleware:", error);

@@ -1,10 +1,10 @@
 import db from "../config/db";
 import fetchAllContainers from "../utils/containerService";
-import logger from "./../utils/logger";
+import logger from "../utils/logger";
 import fs from "fs";
-
 const filePath = "./src/data/states.json";
-let previousState = {};
+
+let previousState: { [key: string]: any } = {};
 
 interface Container {
   name: string;
@@ -17,10 +17,10 @@ interface AllContainerData {
   [host: string]: Container[];
 }
 
-const fetchData = () => {
+const fetchData = async (): Promise<void> => {
   try {
-    const allContainerData: any =
-      (fetchAllContainers() as Promise<AllContainerData>) || {};
+    const allContainerData: AllContainerData =
+      (await fetchAllContainers()) || {};
 
     if (process.env.OFFLINE === "true") {
       logger.info("No new data inserted --- OFFLINE MODE");
@@ -30,8 +30,7 @@ const fetchData = () => {
         [JSON.stringify(allContainerData)],
         function (error) {
           if (error) {
-            logger.info("Error inserting data:", error.message);
-            console.error("Error inserting data:", error.message);
+            logger.error("Error inserting data:", error.message);
             return;
           }
           logger.info(`Data inserted with ID: ${this.lastID}`);

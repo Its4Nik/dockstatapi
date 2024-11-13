@@ -41,7 +41,7 @@ router.get("/hosts", (req, res) => {
     }
 
     const hosts: any = config.hosts.map((host: any) => host.name);
-    logger.info("Fetching all available Docker hosts");
+    logger.debug("Fetching all available Docker hosts");
     res.status(200).json({ hosts });
   } catch (error: any) {
     logger.error("Error fetching hosts: " + error.message);
@@ -193,6 +193,7 @@ router.get("/containers", async (req, res) => {
   logger.info("Fetching all containers across all hosts");
   try {
     const allContainerData = await fetchAllContainers();
+    logger.debug("Fetched /api/containers");
     res.status(200).json(allContainerData);
   } catch (error: any) {
     logger.error(`Error fetching containers: ${error.message}`);
@@ -229,6 +230,7 @@ router.get("/config", async (req, res) => {
   try {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
+    logger.debug("Fetching /api/config");
     res.status(200).json(jsonData);
   } catch (error: any) {
     logger.error("Error loading dockerConfig.json: " + error.message);
@@ -256,6 +258,7 @@ router.get("/config", async (req, res) => {
  */
 router.get("/current-schedule", (req, res) => {
   const currentSchedule = getCurrentSchedule();
+  logger.debug("Fetching current shedule");
   res.json(currentSchedule);
 });
 
@@ -279,6 +282,7 @@ router.get("/current-schedule", (req, res) => {
  *                   example: "up"
  */
 router.get("/status", (req, res) => {
+  logger.debug("Fetching /api/status");
   res.status(200).json({ status: "up" });
 });
 
@@ -329,6 +333,7 @@ router.get("/frontend-config", (req, res) => {
   try {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
+    logger.debug("Fetching frontendConfiguration.json");
     res.status(200).json(jsonData);
   } catch (error: any) {
     logger.error("Error loading frontendConfiguration.json: " + error.message);

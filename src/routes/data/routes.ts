@@ -81,11 +81,18 @@ function formatRows(rows: any) {
 router.get("/latest", (req, res) => {
   db.get(
     "SELECT info FROM data ORDER BY timestamp DESC LIMIT 1",
-    (err, row) => {
-      if (err) {
-        logger.error("Error fetching latest data:", err.message);
+    (error, row: any) => {
+      if (error) {
+        logger.error("Error fetching latest data:", error.message);
         return res.status(500).json({ error: "Internal server error" });
       }
+
+      if (!row) {
+        logger.warn("No data available for /data/latest");
+        return res.status(404).json({ error: "No data available" });
+      }
+
+      logger.debug("Fetching /data/latest");
       res.json(JSON.parse(row.info));
     },
   );
@@ -143,11 +150,12 @@ router.get("/time/24h", (req, res) => {
   db.all(
     "SELECT info FROM data WHERE timestamp >= ?",
     [oneDayAgo],
-    (err, rows) => {
-      if (err) {
-        logger.error("Error fetching data from last 24 hours:", err.message);
+    (error, rows) => {
+      if (error) {
+        logger.error("Error fetching data from last 24 hours:", error.message);
         return res.status(500).json({ error: "Internal server error" });
       }
+      logger.debug("Fetching /data/time/24h");
       res.json(formatRows(rows));
     },
   );
@@ -178,6 +186,7 @@ router.delete("/clear", (req, res) => {
       logger.error("Error clearing the database:", err.message);
       return res.status(500).json({ error: "Internal server error" });
     }
+    logger.debug("Database cleared successfully");
     res.json({ message: "Database cleared successfully" });
   });
 });

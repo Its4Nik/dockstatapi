@@ -1,6 +1,6 @@
 import express from "express";
+import logger from "../../utils/logger";
 const router = express.Router();
-
 import {
   hideContainer,
   unhideContainer,
@@ -68,9 +68,9 @@ router.post("/show/:containerName", async (req, res) => {
   const { containerName } = req.params;
   try {
     await unhideContainer(containerName);
-    res.json({ success: true, message: "Container unhidden successfully." });
+    res.status(200).json({ message: "Container unhidden successfully." });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
