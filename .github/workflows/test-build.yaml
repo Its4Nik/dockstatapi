@@ -1,8 +1,9 @@
-name: Buiod dockstatapi:latest
+name: Test building
 
 on:
-  release:
-    types: [published]
+  pull_request:
+    branches:
+      - "dev"
 
 permissions:
   packages: write
@@ -31,15 +32,15 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=sha,format=long,prefix=
+            type=raw,enable=true,priority=200,prefix=,suffix=,value=nightly
           flavor: |
-            latest=true
+            latest=false
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          platforms: linux/amd64,linux/arm64
-          push: true
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: false
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           cache-from: type=gha
