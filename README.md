@@ -6,8 +6,37 @@ With this new release a cupple of extra features (compared to v1) are going to b
 ### Feature List:
 
 - Swagger API Documentation
-- "Offline" mode (useful when working on the backend without available test docker sockets)
 - Database (Keeps data for 24 hours max)
 - Advanced authentication using hashes and salt
+- Custom TypeScript notification modules! (Easy to add and configure!)
+- `http` API to configure the backend
+- Multi-arch docker builds (using buildx github action)
+- Advanced security through middlewares: rate-limiting and authentication
 
 # 🔗 DockStatAPI v2 Documentation
+
+_⚠️ = Deprecation warning_
+
+- [Introduction](https://outline.itsnik.de/s/dockstat)
+
+  - [DockstatAPI v2](https://outline.itsnik.de/s/dockstat/doc/dockstatapi-v2-XRMDKRqMIg)
+
+    - [API reference](https://outline.itsnik.de/s/dockstat/doc/api-reference-1PTxqx1MQ6)
+    - [How dependency graphs are made](https://outline.itsnik.de/s/dockstat/doc/how-the-dependecy-graphs-are-made-svuZbEHH9g)
+
+  - [DockStat v1](https://outline.itsnik.de/s/dockstat/doc/dockstat-v1-zVaFS4zROI)
+
+    - [⚠️ Customisation](https://outline.itsnik.de/s/dockstat/doc/customization-PiBz4OpQIZ)
+      - [⚠️ Themes](https://outline.itsnik.de/s/dockstat/doc/themes-BFhN6ZBbYx)
+    - [⚠️ Installation](https://outline.itsnik.de/s/dockstat/doc/installation-DaO99bB86q)
+
+  - [⚠️ DockStatAPI v1](https://outline.itsnik.de/s/dockstat/doc/dockstatapi-v1-jLcVCfPNmS)
+    - [⚠️ Integrations](https://outline.itsnik.de/s/dockstat/doc/integrations-Agq1oL6HxF)
+    - [⚠️ Backend API reference](https://outline.itsnik.de/s/dockstat/doc/backend-api-reference-YzcBbDvY33)
+
+# DockStat(APIs) goals
+
+DockStack tries to be a lightweigh and more "dashboard" like then [portainer](https://github.com/portainer/portainer), [cAdvisor](https://github.com/google/cadvisor), [dockge](https://github.com/louislam/dockge), ...
+I also try to add some "extensions", like in V1 with [🥤cup](https://github.com/sergi0g/cup).
+Everything is configured through a backend with Swagger documentation, so that you can follow the code and understand the new v2 frontend better!
+DockStat is mainly used for teaching [myself](https://github.com/Its4Nik) more about TypeScript, APIs and backend development!

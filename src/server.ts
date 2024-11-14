@@ -13,7 +13,7 @@ import { scheduleFetch } from "./controllers/scheduler";
 
 // Initialize express app
 const app = express();
-const PORT: number = 7070; // Port should be a number
+const PORT: number = 9876; // Port should be a number
 
 // Middleware to parse JSON requests
 app.use(express.json());

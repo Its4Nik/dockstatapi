@@ -23,4 +23,4 @@ DockStat and DockStatAPI are 2 fully OpenSource projects, DockStatAPI is a simpl
 
 EOF
 
-npm run start
+exec node dist/server.js
