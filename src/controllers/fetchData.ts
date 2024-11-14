@@ -14,7 +14,7 @@ interface Container {
 }
 
 interface AllContainerData {
-  [host: string]: Container[];
+  [host: object]: Container[];
 }
 
 const fetchData = async (): Promise<void> => {

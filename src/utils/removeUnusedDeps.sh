@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TMP="$(npx depcheck --ignores dependency-cruiser,tsx,@types/bcrypt,@types/express,@types/express-handlebars,@types/node,ts-node --quiet --oneline | tail -n 1 | tr -d '\n')"
+TMP="$(npx depcheck --ignores @types/supports-color,ipaddr.js,dependency-cruiser,tsx,@types/bcrypt,@types/express,@types/express-handlebars,@types/node,ts-node --quiet --oneline | tail -n 1 | tr -d '\n')"
 
 lines=$(echo "$TMP" | tr -s ' ' '\n' | wc -l)
 

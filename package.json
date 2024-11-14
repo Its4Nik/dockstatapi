@@ -8,7 +8,8 @@
     "dev": "nodemon",
     "dev:trace": "nodemon --trace-uncaught --trace-warnings",
     "dep": "bash ./src/utils/createDependencyGraph.sh",
-    "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && bash ./src/utils/createDependencyGraph.sh"
+    "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && bash ./src/utils/createDependencyGraph.sh",
+    "test:build": "npx tsc"
   },
   "keywords": [],
   "author": "Its4Nik",
