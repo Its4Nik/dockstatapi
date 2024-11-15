@@ -5,7 +5,7 @@ import { renderTemplate } from "./data/template";
 const whatsapp_api_url = process.env.WHATSAPP_API_URL;
 const whatsapp_recipient = process.env.WHATSAPP_RECIPIENT;
 
-export async function whatsappNotification(containerId) {
+export async function whatsappNotification(containerId: string) {
   const whatsapp_message = renderTemplate(containerId);
   if (!whatsapp_message) {
     logger.error("Failed to create notification message.");

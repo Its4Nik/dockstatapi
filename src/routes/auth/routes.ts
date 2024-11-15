@@ -1,30 +1,73 @@
-import express from "express";
+import { Router, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import fs from "fs";
+import fs from "fs/promises";
 import logger from "../../utils/logger";
-const router = express.Router();
-const passwordFile = "./src/middleware/password.json";
-const passwordBool = "./src/middleware/usePassword.txt";
-const saltRounds = 10;
+const passwordFile: string = "./src/middleware/password.json";
+const passwordBool: string = "./src/middleware/usePassword.txt";
+const saltRounds: number = 10;
+const router: Router = Router();
 
-function setTrue() {
-  fs.writeFile(passwordBool, "true", "utf8", (err) => {
-    if (err) {
-      logger.error("Error writing to the file:", err);
-      return;
-    }
-    logger.info(`Enabled authentication`);
-  });
+let passwordData: {
+  hash: string;
+  salt: string;
+};
+
+async function authEnabled() {
+  let isAuthEnabled: boolean = false;
+  let data: string = "";
+  try {
+    data = await fs.readFile(passwordBool, "utf8");
+    isAuthEnabled = data.trim() === "true";
+    return isAuthEnabled;
+  } catch (error) {
+    logger.error("Error reading file: ", error);
+    return isAuthEnabled;
+  }
 }
 
-function setFalse() {
-  fs.writeFile(passwordBool, "false", "utf8", (err) => {
-    if (err) {
-      logger.error("Error writing to the file:", err);
-      return;
-    }
+async function readPasswordFile() {
+  let data: string = "";
+  try {
+    data = await fs.readFile(passwordFile, "utf8");
+    return data;
+  } catch (error) {
+    logger.error("Could not read saved password: ", error);
+    return data;
+  }
+}
+
+async function writePasswordFile(passwordData: string) {
+  try {
+    await fs.writeFile(passwordFile, passwordData);
+    setTrue();
+    logger.debug("Authentication enabled");
+    return "Authentication enabled";
+  } catch (error) {
+    logger.error("Error writing password file:", error);
+    return error;
+  }
+}
+
+async function setTrue() {
+  try {
+    await fs.writeFile(passwordBool, "true", "utf8");
+    logger.info(`Enabled authentication`);
+    return;
+  } catch (error) {
+    logger.error("Error writing to the file:", error);
+    return;
+  }
+}
+
+async function setFalse() {
+  try {
+    await fs.writeFile(passwordBool, "false", "utf8");
     logger.info(`Disabled authentication`);
-  });
+    return;
+  } catch (error) {
+    logger.error("Error writing to the file:", error);
+    return;
+  }
 }
 
 /**
@@ -45,53 +88,37 @@ function setFalse() {
  *       500:
  *         description: Error saving password.
  */
-router.post("/enable", (req, res) => {
-  fs.readFile(passwordBool, "utf8", (err, data) => {
-    const password = req.query.password;
+router.post("/enable", (req: Request, res: Response) => {
+  const password = req.query.password as string;
+  if (await authEnabled()) {
+    logger.error(
+      "Password Authentication is already enabled, please deactivate it first",
+    );
+    return res.status(401).json({
+      message:
+        "Password Authentication is already enabled, please deactivate it first",
+    });
+  }
+
+  if (!password) {
+    logger.error("Password is required");
+    return res.status(400).json({ message: "Password is required" });
+  }
+
+  bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) {
-      logger.error("Error reading the file:", err);
-      return;
+      logger.error("Error generating salt");
+      return res.status(500).json({ message: "Error generating salt" });
     }
 
-    const isAuthEnabled = data.trim() === "true";
-    if (isAuthEnabled) {
-      logger.error(
-        "Passowrd Authentication is already enabled, please dactivate it first",
-      );
-      return res.status(401).json({
-        message:
-          "Passowrd Authentication is already enabled, please dactivate it first",
-      });
-    }
-
-    if (!password) {
-      logger.error("Pathword is required  ");
-      return res.status(400).json({ message: "Password is required" });
-    }
-
-    bcrypt.genSalt(saltRounds, (err, salt) => {
+    bcrypt.hash(password, salt, (err, hash) => {
       if (err) {
-        logger.error("Error generating salt");
-        return res.status(500).json({ message: "Error generating salt" });
+        logger.error("Error hashing password");
+        return res.status(500).json({ message: "Error hashing password" });
       }
 
-      bcrypt.hash(password, salt, (err, hash) => {
-        if (err) {
-          logger.error("Error hashing password");
-          return res.status(500).json({ message: "Error hashing password" });
-        }
-
-        const passwordData = { hash, salt };
-        fs.writeFile(passwordFile, JSON.stringify(passwordData), (error) => {
-          if (error) {
-            logger.error("Error saving password: ", error);
-            return res.status(500).json({ message: "Error saving password" });
-          }
-          setTrue();
-          logger.debug("Authentication enabled");
-          res.json({ message: "Authentication enabled" });
-        });
-      });
+      passwordData = { hash, salt };
+      writePasswordFile(JSON.stringify(passwordData));
     });
   });
 });
@@ -116,32 +143,40 @@ router.post("/enable", (req, res) => {
  *       500:
  *         description: Error disabling authentication.
  */
-router.post("/disable", (req, res) => {
-  const password = req.query.password;
+router.post("/disable", (req: Request, res: Response) => {
+  const password = req.query.password as string;
   if (!password) {
     logger.error("Password is required!");
     return res.status(400).json({ message: "Password is required" });
   }
 
-  fs.readFile(passwordFile, "utf8", (err, data) => {
-    if (err) {
-      logger.error("Error reading password");
-      return res.status(500).json({ message: "Error reading password" });
-    }
+  await new Promise(async (resolve, reject) => {
+    try {
+      const storedData = JSON.parse(await readPasswordFile());
+      bcrypt.compare(
+        password,
+        storedData.hash,
+        (compareErr: any, result: boolean) => {
+          if (compareErr) {
+            logger.error("Error validating password");
+            return res
+              .status(500)
+              .json({ message: "Error validating password" });
+          }
+          if (!result) {
+            logger.error("Invalid password");
+            return res.status(401).json({ message: "Invalid password" });
+          }
 
-    const storedData = JSON.parse(data);
-    bcrypt.compare(password, storedData.hash, (err, result) => {
-      if (err) {
-        logger.error("Error validating password");
-        return res.status(500).json({ message: "Error validating password" });
-      }
-      if (!result) {
-        logger.error("Invalid password");
-        return res.status(401).json({ message: "Invalid password" });
-      }
-      setFalse();
-      res.json({ message: "Authentication disabled" });
-    });
+          setFalse();
+          res.json({ message: "Authentication disabled" });
+          resolve(storedData);
+          return res.status(200).json({ message: "Authentication enabled" });
+        },
+      );
+    } catch (error) {
+      reject(error);
+    }
   });
 });
 

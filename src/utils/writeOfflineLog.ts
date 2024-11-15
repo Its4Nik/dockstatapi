@@ -3,25 +3,24 @@ import logger from "../utils/logger";
 
 const LOG_FILE_PATH = "./logs/hostStats.json";
 
-function writeOfflineLog(message) {
+async function writeOfflineLog(message: string) {
   try {
     if (!fs.existsSync(LOG_FILE_PATH)) {
-      fs.writeFileSync(LOG_FILE_PATH, message);
+      await fs.promises.writeFile(LOG_FILE_PATH, message);
     }
-  } catch (error: any) {
+  } catch (error) {
     logger.error("Error writing one time reference log: ", error);
   }
 }
 
-function readOfflineLog() {
-  fs.readFile(LOG_FILE_PATH, "utf-8", (err, data) => {
-    if (err) {
-      logger.error("Error reading offline log:", err);
-    }
-
+async function readOfflineLog() {
+  try {
+    const data = await fs.promises.readFile(LOG_FILE_PATH, "utf-8");
     logger.debug("Returning data:", data);
     return data;
-  });
+  } catch (error) {
+    logger.error("Error reading offline log:", error);
+  }
 }
 
 export { writeOfflineLog, readOfflineLog };

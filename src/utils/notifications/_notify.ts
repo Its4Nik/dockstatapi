@@ -7,7 +7,7 @@ import { whatsappNotification } from "./whatsapp";
 import { pushbulletNotification } from "./pushbullet";
 import { pushoverNotification } from "./pushover";
 
-async function notify(type, containerId) {
+async function notify(type: string, containerId: string) {
   if (!containerId) {
     logger.error("Container ID is required.");
     throw new Error("Container ID is required.");
@@ -47,12 +47,6 @@ async function notify(type, containerId) {
       logger.error(errorMsg);
       throw new Error(errorMsg);
   }
-}
-
-if (import.meta.url === process.argv[1]) {
-  const [type, containerId] = process.argv.slice(2);
-  notify(type, containerId);
-  console.log(`Testing ${type}, with: ${containerId}`);
 }
 
 export default notify;

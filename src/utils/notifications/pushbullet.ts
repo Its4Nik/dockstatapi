@@ -4,8 +4,8 @@ import { renderTemplate } from "./data/template";
 
 const pushbullet_access_token = process.env.PUSHBULLET_ACCESS_TOKEN;
 
-export async function pushbulletNotification(containerId) {
-  const pushbullet_message = renderTemplate(containerId);
+export async function pushbulletNotification(containerId: string) {
+  const pushbullet_message: string = renderTemplate(containerId);
   if (!pushbullet_message) {
     logger.error("Failed to create notification message.");
     return;
