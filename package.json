@@ -36,6 +36,7 @@
     "@types/express": "^5.0.0",
     "@types/express-handlebars": "^5.3.1",
     "@types/node": "^22.9.0",
+    "@types/nodemailer": "^6.4.16",
     "dependency-cruiser": "^16.5.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",

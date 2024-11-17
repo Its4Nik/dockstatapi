@@ -2,10 +2,10 @@ import fetch from "node-fetch";
 import logger from "../logger";
 import { renderTemplate } from "./data/template";
 
-const pushover_user_key = process.env.PUSHOVER_USER_KEY;
-const pushover_api_token = process.env.PUSHOVER_API_TOKEN;
+const pushover_user_key: string | undefined = process.env.PUSHOVER_USER_KEY;
+const pushover_api_token: string | undefined = process.env.PUSHOVER_API_TOKEN;
 
-export async function pushoverNotification(containerId) {
+export async function pushoverNotification(containerId: string) {
   const pushover_message = renderTemplate(containerId);
   if (!pushover_message) {
     logger.error("Failed to create notification message.");
@@ -19,9 +19,9 @@ export async function pushoverNotification(containerId) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
-        token: pushover_api_token,
-        user: pushover_user_key,
-        message: pushover_message,
+        token: pushover_api_token as string,
+        user: pushover_user_key as string,
+        message: pushover_message as string,
       }),
     });
   } catch (error: any) {

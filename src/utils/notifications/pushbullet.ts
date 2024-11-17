@@ -2,7 +2,8 @@ import fetch from "node-fetch";
 import logger from "../logger";
 import { renderTemplate } from "./data/template";
 
-const pushbullet_access_token = process.env.PUSHBULLET_ACCESS_TOKEN;
+const pushbullet_access_token: string | undefined =
+  process.env.PUSHBULLET_ACCESS_TOKEN;
 
 export async function pushbulletNotification(containerId: string) {
   const pushbullet_message: string = renderTemplate(containerId);
@@ -15,7 +16,7 @@ export async function pushbulletNotification(containerId: string) {
     await fetch("https://api.pushbullet.com/v2/pushes", {
       method: "POST",
       headers: {
-        "Access-Token": pushbullet_access_token,
+        "Access-Token": pushbullet_access_token as string,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

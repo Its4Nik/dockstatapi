@@ -1,30 +1,31 @@
-import nodemailer from "nodemailer";
+import { SendMailOptions, createTransport } from "nodemailer";
 import logger from "../logger";
 import { renderTemplate } from "./data/template";
 
-const email_sender = process.env.EMAIL_SENDER;
-const email_recipient = process.env.EMAIL_RECIPIENT;
-const email_password = process.env.EMAIL_PASSWORD;
+const email_sender: string | undefined = process.env.EMAIL_SENDER;
+const email_recipient: string | undefined = process.env.EMAIL_RECIPIENT;
+const email_password: string | undefined = process.env.EMAIL_PASSWORD;
+const email_service: string | undefined = process.env.EMAIL_SERVICE;
 
-export async function emailNotification(containerId) {
-  const email_message = renderTemplate(containerId);
+export async function emailNotification(containerId: string) {
+  const email_message: string = renderTemplate(containerId);
   if (!email_message) {
     logger.error("Failed to create notification message.");
     return;
   }
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
+  const transporter = createTransport({
+    service: email_service,
     auth: {
       user: email_sender,
       pass: email_password,
     },
   });
 
-  const mailOptions = {
+  const mailOptions: SendMailOptions = {
     from: email_sender,
     to: email_recipient,
-    subject: "Container Notification",
+    subject: "DockStat",
     text: email_message,
   };
 

@@ -2,9 +2,9 @@ import fetch from "node-fetch";
 import logger from "../logger";
 import { renderTemplate } from "./data/template";
 
-const discord_webhook_url = process.env.DISCORD_WEBHOOK_URL;
+const discord_webhook_url: string | undefined = process.env.DISCORD_WEBHOOK_URL;
 
-export async function discordNotification(containerId) {
+export async function discordNotification(containerId: string) {
   const discord_message = renderTemplate(containerId);
   if (!discord_message) {
     logger.error("Failed to create notification message.");
@@ -12,7 +12,7 @@ export async function discordNotification(containerId) {
   }
 
   try {
-    await fetch(discord_webhook_url, {
+    await fetch(discord_webhook_url as string, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
