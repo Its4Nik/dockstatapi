@@ -90,7 +90,7 @@ async function fetchAllContainers(): Promise<AllContainerData> {
               net_tx: containerStats.networks?.eth0?.tx_bytes || 0,
               current_net_rx: containerStats.networks?.eth0?.rx_bytes || 0,
               current_net_tx: containerStats.networks?.eth0?.tx_bytes || 0,
-              networkMode: containerInfo.HostConfig.NetworkMode,
+              networkMode: containerInfo.HostConfig.NetworkMode || "unknown",
             };
           } catch (containerError: any) {
             logger.error(

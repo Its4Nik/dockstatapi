@@ -1,14 +1,13 @@
 import extractRelevantData from "../../utils/extractHostData";
-import express from "express";
+import { Router, Request, Response } from "express";
 import { writeOfflineLog, readOfflineLog } from "../../utils/writeOfflineLog";
 import getDockerClient from "../../utils/dockerClient";
 import fetchAllContainers from "../../utils/containerService";
 import { getCurrentSchedule } from "../../controllers/scheduler";
 import logger from "../../utils/logger";
 import fs from "fs";
-import { JsonObject } from "swagger-ui-express";
 const configPath = "./src/config/dockerConfig.json";
-const router = express.Router();
+const router = Router();
 
 /**
  * @swagger
@@ -30,11 +29,11 @@ const router = express.Router();
  *                     type: string
  *                   example: ["local", "remote1"]
  */
-router.get("/hosts", (req, res) => {
+router.get("/hosts", (req: Request, res: Response) => {
   logger.info(`Fetching config: ${configPath}`);
   try {
     const rawData = fs.readFileSync(configPath, "utf-8");
-    const config: JsonObject = JSON.parse(rawData);
+    const config = JSON.parse(rawData);
 
     if (!config.hosts) {
       throw new Error("No hosts defined in configuration.");
@@ -90,7 +89,7 @@ router.get("/hosts", (req, res) => {
  *                   type: string
  *                   description: Error message detailing the issue encountered.
  */
-router.get("/host/:hostName/stats", async (req, res) => {
+router.get("/host/:hostName/stats", async (req: Request, res: Response) => {
   const hostName = req.params.hostName;
   logger.info(`Fetching stats for host: ${hostName}`);
   if (process.env.OFFLINE === "true") {
@@ -189,7 +188,7 @@ router.get("/host/:hostName/stats", async (req, res) => {
  *                   type: string
  *                   description: Error message detailing the issue encountered.
  */
-router.get("/containers", async (req, res) => {
+router.get("/containers", async (req: Request, res: Response) => {
   logger.info("Fetching all containers across all hosts");
   try {
     const allContainerData = await fetchAllContainers();
@@ -226,7 +225,7 @@ router.get("/containers", async (req, res) => {
  *                   type: string
  *                   description: Error message detailing the issue encountered.
  */
-router.get("/config", async (req, res) => {
+router.get("/config", async (req: Request, res: Response) => {
   try {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
@@ -256,7 +255,7 @@ router.get("/config", async (req, res) => {
  *                   type: integer
  *                   description: Current fetch interval in seconds.
  */
-router.get("/current-schedule", (req, res) => {
+router.get("/current-schedule", (req: Request, res: Response) => {
   const currentSchedule = getCurrentSchedule();
   logger.debug("Fetching current shedule");
   res.json(currentSchedule);
@@ -281,7 +280,7 @@ router.get("/current-schedule", (req, res) => {
  *                   type: string
  *                   example: "up"
  */
-router.get("/status", (req, res) => {
+router.get("/status", (req: Request, res: Response) => {
   logger.debug("Fetching /api/status");
   res.status(200).json({ status: "up" });
 });
@@ -328,7 +327,7 @@ router.get("/status", (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-router.get("/frontend-config", (req, res) => {
+router.get("/frontend-config", (req: Request, res: Response) => {
   const configPath = "./src/data/frontendConfiguration.json";
   try {
     const rawData = fs.readFileSync(configPath);

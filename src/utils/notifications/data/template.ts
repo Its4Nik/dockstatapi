@@ -1,7 +1,7 @@
 import fs from "fs";
 import logger from "../../logger";
-const templatePath = "./utils/notifications/data/template.json";
-const containersPath = "./data/states.json";
+const templatePath: string = "./utils/notifications/data/template.json";
+const containersPath: string = "./data/states.json";
 
 function getTemplate() {
   try {
@@ -13,20 +13,20 @@ function getTemplate() {
   }
 }
 
-function setTemplate(newTemplate) {
+function setTemplate(newTemplate: string) {
   try {
     fs.writeFileSync(
       templatePath,
       JSON.stringify(newTemplate, null, 2),
       "utf8",
     );
-    logger.log("Template updated successfully");
+    logger.debug("Template updated successfully");
   } catch (error: any) {
     logger.error("Failed to update template:", error);
   }
 }
 
-function renderTemplate(containerId) {
+function renderTemplate(containerId: string) {
   const template = getTemplate();
   if (!template) return null;
 
@@ -36,7 +36,7 @@ function renderTemplate(containerId) {
 
     let containerData = null;
     for (const host in containers) {
-      containerData = containers[host].find((c) => c.id === containerId);
+      containerData = containers[host].find((c: any) => c.id === containerId);
       if (containerData) break;
     }
 

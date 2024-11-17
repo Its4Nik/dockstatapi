@@ -1,4 +1,32 @@
-function extractRelevantData(jsonData) {
+interface Component {
+  Name: string;
+  Version: string;
+}
+
+interface JsonData {
+  hostName: string;
+  info: {
+    ID: string;
+    Containers: number;
+    ContainersRunning: number;
+    ContainersPaused: number;
+    ContainersStopped: number;
+    Images: number;
+    OperatingSystem: string;
+    KernelVersion: string;
+    Architecture: string;
+    MemTotal: number;
+    NCPU: number;
+  };
+  version: {
+    Components: Component[];
+  };
+}
+
+type ComponentMap = Record<string, string>;
+
+// Export the function with type annotations
+function extractRelevantData(jsonData: JsonData) {
   return {
     hostName: jsonData.hostName,
     info: {
@@ -15,10 +43,13 @@ function extractRelevantData(jsonData) {
       NCPU: jsonData.info.NCPU,
     },
     version: {
-      Components: jsonData.version.Components.reduce((acc, component) => {
-        acc[component.Name] = component.Version;
-        return acc;
-      }, {}),
+      Components: jsonData.version.Components.reduce<ComponentMap>(
+        (acc, component) => {
+          acc[component.Name] = component.Version;
+          return acc;
+        },
+        {},
+      ),
     },
   };
 }

@@ -1,7 +1,7 @@
-import winston from "winston";
+import winston, { transport } from "winston";
 import loggerConfig from "../config/loggerConfig";
 
-const transports = [new winston.transports.Console()];
+const transports: transport[] = [new winston.transports.Console()];
 
 transports.push(
   new winston.transports.File({
