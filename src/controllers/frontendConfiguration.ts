@@ -1,17 +1,17 @@
 import fs from "fs";
 import logger from "../utils/logger";
-const dataPath = "./src/data/frontendConfiguration.json";
-const expression =
+const dataPath: string = "./src/data/frontendConfiguration.json";
+const expression: string =
   "https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_+.~#?&//=]*)";
 const regex = new RegExp(expression);
 
 ///////////////////////////////////////////////////////////////
 // Hide Containers:
-async function hideContainer(containerName) {
+async function hideContainer(containerName: string) {
   try {
     let data = await readData();
     const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -27,11 +27,11 @@ async function hideContainer(containerName) {
   }
 }
 
-async function unhideContainer(containerName) {
+async function unhideContainer(containerName: string) {
   try {
     let data = await readData();
     const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -47,11 +47,11 @@ async function unhideContainer(containerName) {
 
 ///////////////////////////////////////////////////////////////
 // Tag containers
-async function addTagToContainer(containerName, tag) {
+async function addTagToContainer(containerName: string, tag: string) {
   try {
     let data = await readData();
     const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -70,16 +70,16 @@ async function addTagToContainer(containerName, tag) {
   }
 }
 
-async function removeTagFromContainer(containerName, tag) {
+async function removeTagFromContainer(containerName: string, tag: string) {
   try {
     let data = await readData();
     const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1 && data[containerIndex].tags) {
       data[containerIndex].tags = data[containerIndex].tags.filter(
-        (t) => t !== tag,
+        (t: any) => t !== tag,
       );
       await saveData(data);
       cleanupData();
@@ -92,11 +92,11 @@ async function removeTagFromContainer(containerName, tag) {
 
 ///////////////////////////////////////////////////////////////
 // Pin containers
-async function pinContainer(containerName) {
+async function pinContainer(containerName: string) {
   try {
-    let data = await readData();
-    const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+    let data: any = await readData();
+    const containerIndex: number = data.findIndex(
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -112,11 +112,11 @@ async function pinContainer(containerName) {
   }
 }
 
-async function unpinContainer(containerName) {
+async function unpinContainer(containerName: string) {
   try {
     let data = await readData();
     const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -132,12 +132,12 @@ async function unpinContainer(containerName) {
 
 ///////////////////////////////////////////////////////////////
 // Add/remove link from containers
-async function setLink(containerName, link) {
+async function setLink(containerName: string, link: string) {
   if (link.match(regex)) {
     try {
-      let data = await readData();
-      const containerIndex = data.findIndex(
-        (container) => container.name === containerName,
+      let data: any = await readData();
+      const containerIndex: any = data.findIndex(
+        (container: any) => container.name === containerName,
       );
 
       if (containerIndex !== -1) {
@@ -157,11 +157,11 @@ async function setLink(containerName, link) {
   }
 }
 
-async function removeLink(containerName) {
+async function removeLink(containerName: string) {
   try {
     let data = await readData();
     const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -177,11 +177,11 @@ async function removeLink(containerName) {
 
 ///////////////////////////////////////////////////////////////
 // Add/remove icon from containers
-async function setIcon(containerName, icon, custom) {
+async function setIcon(containerName: string, icon: string, custom: boolean) {
   try {
     let data = await readData();
-    const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+    const containerIndex: number = data.findIndex(
+      (container: any) => container.name === containerName,
     );
 
     if (custom === true) {
@@ -207,11 +207,11 @@ async function setIcon(containerName, icon, custom) {
   }
 }
 
-async function removeIcon(containerName) {
+async function removeIcon(containerName: string) {
   try {
     let data = await readData();
     const containerIndex = data.findIndex(
-      (container) => container.name === containerName,
+      (container: any) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -242,7 +242,7 @@ async function readData() {
   }
 }
 
-async function saveData(data) {
+async function saveData(data: any) {
   try {
     await fs.promises.writeFile(
       dataPath,

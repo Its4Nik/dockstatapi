@@ -39,7 +39,7 @@ router.get("/hosts", (req: Request, res: Response) => {
       throw new Error("No hosts defined in configuration.");
     }
 
-    const hosts: any = config.hosts.map((host: any) => host.name);
+    const hosts = config.hosts.map((host: any) => host.name);
     logger.debug("Fetching all available Docker hosts");
     res.status(200).json({ hosts });
   } catch (error: any) {

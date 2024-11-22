@@ -53,8 +53,9 @@ router.put("/addHost", async (req: Request, res: Response) => {
   }
 
   try {
-    const rawData = fs.readFileSync(configPath, "utf-8");
-    const config: DockerConfig = JSON.parse(rawData);
+    const config: DockerConfig = JSON.parse(
+      fs.readFileSync(configPath, "utf-8"),
+    );
 
     if (config.hosts.some((host) => host.name === name)) {
       return res.status(400).json({ error: "Host already exists." });
@@ -88,7 +89,7 @@ router.put("/addHost", async (req: Request, res: Response) => {
  *       400:
  *         description: Invalid interval format or out of range.
  */
-router.put("/scheduler", (req: Request, res: Response) => {
+router.put("/scheduler", (req: any, res: any) => {
   const interval = req.query.interval as string;
 
   try {

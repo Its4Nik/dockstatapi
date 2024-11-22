@@ -24,7 +24,8 @@ async function authMiddleware(
     const providedPassword = req.headers["x-password"];
     if (!providedPassword) {
       logger.error("Password required - Denied");
-      return res.status(401).json({ message: "Password required" });
+      res.status(401).json({ message: "Password required" });
+      return;
     }
 
     const passwordData = await fs.promises.readFile(passwordFile, "utf8");
@@ -36,7 +37,8 @@ async function authMiddleware(
     );
     if (!passwordMatch) {
       logger.error("Invalid Password - Denied access");
-      return res.status(401).json({ message: "Invalid password" });
+      res.status(401).json({ message: "Invalid password" });
+      return;
     }
 
     logger.debug("Authentication succesfull");
