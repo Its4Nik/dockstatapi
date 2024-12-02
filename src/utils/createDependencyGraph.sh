@@ -18,7 +18,7 @@ spawn_worker(){
     npx depcruise \
         -p cli-feedback \
         -T mermaid \
-        -x "../node_modules|logger|.dependency-cruiser|path|fs" \
+        -x "../node_modules|logger|.dependency-cruiser|path|fs|net" \
         -f ./misc/dependencyGraphs/mermaid-${route}.txt \
         ${target_route} || exit 1
 }
