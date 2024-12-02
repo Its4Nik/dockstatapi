@@ -12,7 +12,7 @@ let passwordData: {
   salt: string;
 };
 
-async function authEnabled() {
+async function authEnabled(): Promise<boolean> {
   let isAuthEnabled: boolean = false;
   let data: string = "";
   try {
@@ -88,7 +88,7 @@ async function setFalse() {
  *       500:
  *         description: Error saving password.
  */
-router.post("/enable", (req: Request, res: Response) => {
+router.post("/enable", async (req: Request, res: Response) => {
   const password = req.query.password as string;
   if (await authEnabled()) {
     logger.error(
@@ -143,7 +143,7 @@ router.post("/enable", (req: Request, res: Response) => {
  *       500:
  *         description: Error disabling authentication.
  */
-router.post("/disable", (req: Request, res: Response) => {
+router.post("/disable", async (req: Request, res: Response) => {
   const password = req.query.password as string;
   if (!password) {
     logger.error("Password is required!");

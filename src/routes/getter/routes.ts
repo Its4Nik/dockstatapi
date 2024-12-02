@@ -6,6 +6,7 @@ import fetchAllContainers from "../../utils/containerService";
 import { getCurrentSchedule } from "../../controllers/scheduler";
 import logger from "../../utils/logger";
 import fs from "fs";
+import checkReachability from "../../utils/connectionChecker";
 const configPath = "./src/config/dockerConfig.json";
 const router = Router();
 
@@ -265,24 +266,39 @@ router.get("/current-schedule", (req: Request, res: Response) => {
  * @swagger
  * /api/status:
  *   get:
- *     summary: Check server status
+ *     summary: Check the DockStatAPI and docker socket status of each host
  *     tags: [Misc]
- *     description: Returns a 200 status with an "up" message to indicate the server is up and running. Used for Healthchecks
+ *     description: Returns the status of the backend and online components, indicating which nodes are reachable or offline.
  *     responses:
  *       200:
- *         description: Server is running
+ *         description: Server and backend status
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 status:
- *                   type: string
- *                   example: "up"
+ *                 backendReachable:
+ *                   type: boolean
+ *                   example: true
+ *                 online:
+ *                   type: object
+ *                   properties:
+ *                     Host-1:
+ *                       type: boolean
+ *                       example: true
+ *                     Host-2:
+ *                       type: boolean
+ *                       example: false
  */
-router.get("/status", (req: Request, res: Response) => {
+
+router.get("/status", async (req: Request, res: Response) => {
   logger.debug("Fetching /api/status");
-  res.status(200).json({ status: "up" });
+  try {
+    let jsonData = await checkReachability();
+    res.status(200).json(jsonData);
+  } catch (error: any) {
+    logger.error(`Error while fetching data: ${error}`);
+  }
 });
 
 /**

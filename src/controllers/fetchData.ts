@@ -4,7 +4,7 @@ import logger from "../utils/logger";
 import fs from "fs";
 const filePath = "./src/data/states.json";
 
-let previousState: { [key: string]: any } = {};
+let previousState: { [key: string]: string } = {};
 
 interface Container {
   name: string;

@@ -10,10 +10,12 @@ import conf from "./routes/setter/routes";
 import authMiddleware from "./middleware/authMiddleware";
 import { limiter } from "./middleware/rateLimiter";
 import { scheduleFetch } from "./controllers/scheduler";
+import cors from "cors";
 
 // Initialize express app
 const app = express();
 const PORT: number = 9876; // Port should be a number
+app.use(cors());
 
 // Middleware to parse JSON requests
 app.use(express.json());
