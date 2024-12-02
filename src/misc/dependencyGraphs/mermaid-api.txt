@@ -15,16 +15,20 @@ end
 subgraph 8["utils"]
 9["containerService.ts"]
 A["dockerClient.ts"]
-B["extractHostData.ts"]
-C["writeOfflineLog.ts"]
+B["connectionChecker.ts"]
+D["extractHostData.ts"]
+E["writeOfflineLog.ts"]
 end
+C["net"]
 2-->4
+2-->B
 2-->9
 2-->A
-2-->B
-2-->C
+2-->D
+2-->E
 4-->6
 4-->7
 7-->6
 7-->9
 9-->A
+B-->C

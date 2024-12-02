@@ -8,25 +8,26 @@ J["frontendConfiguration.ts"]
 end
 subgraph 3["config"]
 4["db.ts"]
-15["swaggerConfig.ts"]
+17["swaggerConfig.ts"]
 end
 subgraph 6["utils"]
 7["containerService.ts"]
 8["dockerClient.ts"]
-M["extractHostData.ts"]
-N["writeOfflineLog.ts"]
-subgraph Q["notifications"]
-R["_notify.ts"]
-S["discord.ts"]
-subgraph T["data"]
-U["template.ts"]
+M["connectionChecker.ts"]
+O["extractHostData.ts"]
+P["writeOfflineLog.ts"]
+subgraph S["notifications"]
+T["_notify.ts"]
+U["discord.ts"]
+subgraph V["data"]
+W["template.ts"]
 end
-V["email.ts"]
-W["pushbullet.ts"]
-X["pushover.ts"]
-Y["slack.ts"]
-Z["telegram.ts"]
-10["whatsapp.ts"]
+X["email.ts"]
+Y["pushbullet.ts"]
+Z["pushover.ts"]
+10["slack.ts"]
+11["telegram.ts"]
+12["whatsapp.ts"]
 end
 end
 subgraph 9["middleware"]
@@ -46,15 +47,16 @@ end
 subgraph K["getter"]
 L["routes.ts"]
 end
-subgraph O["notifications"]
-P["routes.ts"]
+subgraph Q["notifications"]
+R["routes.ts"]
 end
-subgraph 11["setter"]
-12["routes.ts"]
+subgraph 13["setter"]
+14["routes.ts"]
 end
 end
-subgraph 13["swagger"]
-14["swaggerDocs.ts"]
+N["net"]
+subgraph 15["swagger"]
+16["swaggerDocs.ts"]
 end
 0-->2
 0-->A
@@ -63,9 +65,9 @@ end
 0-->G
 0-->I
 0-->L
-0-->P
-0-->12
+0-->R
 0-->14
+0-->16
 2-->4
 2-->5
 5-->4
@@ -74,24 +76,26 @@ end
 G-->4
 I-->J
 L-->2
+L-->M
 L-->7
 L-->8
-L-->M
-L-->N
-P-->R
-R-->S
-R-->V
-R-->W
-R-->X
-R-->Y
-R-->Z
-R-->10
-S-->U
-V-->U
-W-->U
-X-->U
-Y-->U
-Z-->U
-10-->U
-12-->2
-14-->15
+L-->O
+L-->P
+M-->N
+R-->T
+T-->U
+T-->X
+T-->Y
+T-->Z
+T-->10
+T-->11
+T-->12
+U-->W
+X-->W
+Y-->W
+Z-->W
+10-->W
+11-->W
+12-->W
+14-->2
+16-->17
