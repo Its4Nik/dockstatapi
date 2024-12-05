@@ -3,8 +3,10 @@ declare global {
     interface ProcessEnv {
       // Node specific:
       NODE_ENV: "development" | "production";
-      // Miscelainious
-      //OFFLINE: boolean;
+
+      // High Availability
+      IS_MASTER: string | undefined;
+      HA_NODE: string | undefined;
       // Notification services:
       DISCORD_WEBHOOK_URL: string | undefined;
 

@@ -19,7 +19,7 @@ async function authEnabled(): Promise<boolean> {
     data = await fs.readFile(passwordBool, "utf8");
     isAuthEnabled = data.trim() === "true";
     return isAuthEnabled;
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error reading file: ", error);
     return isAuthEnabled;
   }
@@ -30,7 +30,7 @@ async function readPasswordFile() {
   try {
     data = await fs.readFile(passwordFile, "utf8");
     return data;
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Could not read saved password: ", error);
     return data;
   }
@@ -42,7 +42,7 @@ async function writePasswordFile(passwordData: string) {
     setTrue();
     logger.debug("Authentication enabled");
     return "Authentication enabled";
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error writing password file:", error);
     return error;
   }
@@ -53,7 +53,7 @@ async function setTrue() {
     await fs.writeFile(passwordBool, "true", "utf8");
     logger.info(`Enabled authentication`);
     return;
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error writing to the file:", error);
     return;
   }
@@ -64,7 +64,7 @@ async function setFalse() {
     await fs.writeFile(passwordBool, "false", "utf8");
     logger.info(`Disabled authentication`);
     return;
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error writing to the file:", error);
     return;
   }
@@ -174,7 +174,7 @@ router.post("/disable", async (req: Request, res: Response) => {
           return res.status(200).json({ message: "Authentication enabled" });
         },
       );
-    } catch (error) {
+    } catch (error: any) {
       reject(error);
     }
   });

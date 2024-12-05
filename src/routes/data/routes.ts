@@ -3,11 +3,14 @@ const router = express.Router();
 import db from "../../config/db";
 import logger from "../../utils/logger";
 
-function formatRows(rows: any) {
-  return rows.reduce((acc, row, index) => {
-    acc[index] = JSON.parse(row.info);
-    return acc;
-  }, {});
+function formatRows(rows: { info: string }[]): Record<number, any> {
+  return rows.reduce(
+    (acc: Record<number, any>, row, index: number): Record<number, any> => {
+      acc[index] = JSON.parse(row.info);
+      return acc;
+    },
+    {},
+  );
 }
 
 /**

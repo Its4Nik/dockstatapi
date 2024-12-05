@@ -8,7 +8,7 @@ async function writeOfflineLog(message: string) {
     if (!fs.existsSync(LOG_FILE_PATH)) {
       await fs.promises.writeFile(LOG_FILE_PATH, message);
     }
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error writing one time reference log: ", error);
   }
 }
@@ -18,7 +18,7 @@ async function readOfflineLog() {
     const data = await fs.promises.readFile(LOG_FILE_PATH, "utf-8");
     logger.debug("Returning data:", data);
     return data;
-  } catch (error) {
+  } catch (error: any) {
     logger.error("Error reading offline log:", error);
   }
 }

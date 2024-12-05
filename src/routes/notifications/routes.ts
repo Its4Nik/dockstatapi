@@ -19,7 +19,7 @@ function isTemplateData(data: any): data is TemplateData {
 }
 
 // Will be moved
-///////////!
+///////////
 
 /**
  * @swagger
@@ -100,13 +100,10 @@ router.get("/get-template", (req: Request, res: Response) => {
 router.post("/set-template", (req: Request, res: Response) => {
   const newData: TemplateData = req.body;
 
-  // Use type guard to validate newData before proceeding
   if (!isTemplateData(newData)) {
-    return res
-      .status(400)
-      .json({
-        message: "Invalid input format. Expected JSON with a 'text' field.",
-      });
+    return res.status(400).json({
+      message: "Invalid input format. Expected JSON with a 'text' field.",
+    });
   }
 
   fs.writeFile(
