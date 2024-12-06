@@ -22,7 +22,7 @@ function formatRows(rows: DataRow[]): Record<number, any> {
  * /data/latest:
  *   get:
  *     summary: Retrieve the latest container statistics for a specific host
- *     tags: [Container Stats]
+ *     tags: [Database queries]
  *     responses:
  *       200:
  *         description: A JSON object containing the latest container statistics for the specified host.

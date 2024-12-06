@@ -9,9 +9,7 @@ spawn_worker(){
     local target_route="$(echo "$line" | cut -d '"' -f2).ts"
     local route=$(echo "$line" | awk '{print $1}')
 
-    echo
-    echo "Route: $route"
-    echo ${target_route}
+    echo -e "\nRoute: $route \n${target_route}"
 
     sleep 0.5
 
