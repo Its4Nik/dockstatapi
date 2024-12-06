@@ -1,7 +1,9 @@
 # custom paths:
 src/data/*
 dockerConfig.json
-password.json
+
+./src/middleware/password.json
+
 .test*
 # Created by https://www.toptal.com/developers/gitignore/api/node
 ### Node ###
@@ -143,3 +145,7 @@ dist
 
 # SvelteKit build / generate output
 .svelte-kit
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

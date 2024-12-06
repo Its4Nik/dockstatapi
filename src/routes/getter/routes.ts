@@ -344,11 +344,25 @@ router.get("/status", async (req: Request, res: Response) => {
  *                   description: Error message
  */
 router.get("/frontend-config", (req: Request, res: Response) => {
-  const configPath = "./src/data/frontendConfiguration.json";
+  const configPath: string = "./src/data/frontendConfiguration.json";
+
+  fs.stat(configPath, (exists) => {
+    if (exists == null) {
+      logger.debug(`${configPath} exists, trying to read it`)
+    } else if (exists.code === 'ENOENT') {
+      logger.warn(`${configPath} doesn't exist, trying to create it`)
+      fs.promises.writeFile(
+        configPath,
+        JSON.stringify([], null, 2),
+        "utf-8",
+      );
+    }
+  });
+
   try {
     const rawData = fs.readFileSync(configPath);
     const jsonData = JSON.parse(rawData.toString());
-    logger.debug("Fetching frontendConfiguration.json");
+
     res.status(200).json(jsonData);
   } catch (error: any) {
     logger.error("Error loading frontendConfiguration.json: " + error.message);
