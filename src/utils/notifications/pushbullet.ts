@@ -6,7 +6,7 @@ const pushbullet_access_token: string | undefined =
   process.env.PUSHBULLET_ACCESS_TOKEN;
 
 export async function pushbulletNotification(containerId: string) {
-  const pushbullet_message: string = renderTemplate(containerId);
+  const pushbullet_message: string | null = renderTemplate(containerId);
   if (!pushbullet_message) {
     logger.error("Failed to create notification message.");
     return;

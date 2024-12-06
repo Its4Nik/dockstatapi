@@ -5,7 +5,7 @@ import { renderTemplate } from "./_template";
 const discord_webhook_url: string | undefined = process.env.DISCORD_WEBHOOK_URL;
 
 export async function discordNotification(containerId: string) {
-  const discord_message = renderTemplate(containerId);
+  const discord_message: string | null = renderTemplate(containerId);
   if (!discord_message) {
     logger.error("Failed to create notification message.");
     return;

@@ -5,7 +5,7 @@ import { renderTemplate } from "./_template";
 const slack_webhook_url: string | undefined = process.env.SLACK_WEBHOOK_URL;
 
 export async function slackNotification(containerId: string) {
-  const slack_message: string = renderTemplate(containerId);
+  const slack_message: string | null = renderTemplate(containerId);
   if (!slack_message) {
     logger.error("Failed to create notification message.");
     return;

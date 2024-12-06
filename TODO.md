@@ -9,3 +9,4 @@
 - [X] Update more files to correct TS syntax => remove "any"
 - [ ] Websockets
 - [X] Better /api/status endpoint with connection status of each host
+- [X] Update notification service

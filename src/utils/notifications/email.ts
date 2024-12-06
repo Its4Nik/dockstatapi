@@ -8,7 +8,7 @@ const email_password: string | undefined = process.env.EMAIL_PASSWORD;
 const email_service: string | undefined = process.env.EMAIL_SERVICE;
 
 export async function emailNotification(containerId: string) {
-  const email_message: string = renderTemplate(containerId);
+  const email_message: string | null = renderTemplate(containerId);
   if (!email_message) {
     logger.error("Failed to create notification message.");
     return;

@@ -6,7 +6,7 @@ const pushover_user_key: string | undefined = process.env.PUSHOVER_USER_KEY;
 const pushover_api_token: string | undefined = process.env.PUSHOVER_API_TOKEN;
 
 export async function pushoverNotification(containerId: string) {
-  const pushover_message = renderTemplate(containerId);
+  const pushover_message: string | null = renderTemplate(containerId);
   if (!pushover_message) {
     logger.error("Failed to create notification message.");
     return;

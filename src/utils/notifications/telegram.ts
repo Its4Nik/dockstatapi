@@ -6,7 +6,7 @@ const telegram_bot_token: string | undefined = process.env.TELEGRAM_BOT_TOKEN;
 const telegram_chat_id: string | undefined = process.env.TELEGRAM_CHAT_ID;
 
 export async function telegramNotification(containerId: string) {
-  const telegram_message: string = renderTemplate(containerId);
+  const telegram_message: string | null = renderTemplate(containerId);
   if (!telegram_message) {
     logger.error("Failed to create notification message.");
     return;

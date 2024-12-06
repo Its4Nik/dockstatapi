@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM node:alpine AS builder
+FROM node:latest AS builder
 
 LABEL maintainer="https://github.com/its4nik"
 LABEL version="2"

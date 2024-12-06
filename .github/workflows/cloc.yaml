@@ -1,0 +1,19 @@
+name: Count Lines of Code
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  cloc:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Count Lines of Code (cloc)
+      uses: djdefi/cloc-action@6
+      with:
+        options: --md --report-file=cloc.md --by-percent cmb
