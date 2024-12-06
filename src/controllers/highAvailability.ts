@@ -17,7 +17,8 @@ const useUnsafeConnection = process.env.HA_UNSAFE || "false";
 const configFiles: string[] = [
   "./src/data/dockerConfig.json",
   "./src/data/states.json",
-  "./src/data/template.json"
+  "./src/data/template.json",
+  "./src/data/frontendConfiguration.json"
 ];
 
 async function writeConfig(data: HighAvailabilityConfig, filePath: string): Promise<void> {
