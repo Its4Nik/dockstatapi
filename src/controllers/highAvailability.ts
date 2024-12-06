@@ -26,11 +26,12 @@ async function writeConfig(data: HighAvailabilityConfig): Promise<void> {
   }
 }
 
-async function readConfig() {
+async function readConfig(): Promise<HighAvailabilityConfig | null> {
   try {
     logger.debug("Reading HA-Config");
-    const data = await fs.promises.readFile(dataPath);
-    console.log(data);
+    const data: HighAvailabilityConfig = JSON.parse(
+      fs.readFileSync(dataPath, "utf-8"),
+    );
     return data;
   } catch (error: any) {
     logger.error(`Error reading HA-Config: ${(error as Error).message}`);

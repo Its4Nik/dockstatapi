@@ -1,3 +1,4 @@
+// src/controllers/fetchData.ts
 import db from "../config/db";
 import fetchAllContainers from "../utils/containerService";
 import logger from "../utils/logger";
@@ -14,7 +15,7 @@ interface Container {
 }
 
 interface AllContainerData {
-  [host: object]: Container[];
+  [host: string]: Container[] | { error: string };
 }
 
 const fetchData = async (): Promise<void> => {
@@ -41,14 +42,20 @@ const fetchData = async (): Promise<void> => {
     const containerStatus: AllContainerData = {};
 
     Object.keys(allContainerData).forEach((host) => {
-      containerStatus[host] = (allContainerData[host] || []).map(
-        (container: Container) => ({
+      const containers = allContainerData[host];
+
+      // Handle if the containers are an array, otherwise handle the error
+      if (Array.isArray(containers)) {
+        containerStatus[host] = containers.map((container: Container) => ({
           name: container.name,
           id: container.id,
           state: container.state,
-          host: container.hostName,
-        }),
-      );
+          hostName: container.hostName,
+        }));
+      } else {
+        // If there's an error, handle it separately
+        containerStatus[host] = { error: "Error fetching containers" };
+      }
     });
 
     if (fs.existsSync(filePath)) {
@@ -56,6 +63,7 @@ const fetchData = async (): Promise<void> => {
       previousState = fileData ? JSON.parse(fileData) : {};
     }
 
+    // Compare previous and current state
     if (JSON.stringify(previousState) !== JSON.stringify(containerStatus)) {
       fs.writeFileSync(filePath, JSON.stringify(containerStatus, null, 2));
       logger.info(`Container states saved to ${filePath}`);

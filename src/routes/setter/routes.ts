@@ -43,34 +43,46 @@ interface DockerConfig {
  *       500:
  *         description: An error occurred while adding the host.
  */
-router.put("/addHost", async (req: Request, res: Response) => {
-  const name = req.query.name as string;
-  const url = req.query.url as string;
-  const port = req.query.port as string;
 
-  if (!name || !url || !port) {
-    return res.status(400).json({ error: "Name, Port, and URL are required." });
-  }
+router.put(
+  "/addHost",
+  async (
+    req: Request<
+      unknown,
+      unknown,
+      unknown,
+      { name: string; url: string; port: string }
+    >,
+    res: Response,
+  ): Promise<void> => {
+    const { name, url, port } = req.query;
 
-  try {
-    const config: DockerConfig = JSON.parse(
-      fs.readFileSync(configPath, "utf-8"),
-    );
-
-    if (config.hosts.some((host) => host.name === name)) {
-      return res.status(400).json({ error: "Host already exists." });
+    if (!name || !url || !port) {
+      res.status(400).json({ error: "Name, Port, and URL are required." });
+      return;
     }
 
-    config.hosts.push({ name, url, port });
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    logger.info(`Added new host: ${name}`);
-    res.status(200).json({ message: "Host added successfully." });
-  } catch (error: unknown) {
-    const err = error as Error;
-    logger.error("Error adding host: " + err.message);
-    res.status(500).json({ error: "Failed to add host." });
-  }
-});
+    try {
+      const config: DockerConfig = JSON.parse(
+        fs.readFileSync(configPath, "utf-8"),
+      );
+
+      if (config.hosts.some((host) => host.name === name)) {
+        res.status(400).json({ error: "Host already exists." });
+        return;
+      }
+
+      config.hosts.push({ name, url, port });
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+      logger.info(`Added new host: ${name}`);
+      res.status(200).json({ message: "Host added successfully." });
+    } catch (error: unknown) {
+      const err = error as Error;
+      logger.error("Error adding host: " + err.message);
+      res.status(500).json({ error: "Failed to add host." });
+    }
+  },
+);
 
 /**
  * @swagger
@@ -129,31 +141,40 @@ router.put("/scheduler", (req: any, res: any) => {
  *       500:
  *         description: An error occurred while removing the host.
  */
-router.delete("/removeHost", async (req: Request, res: Response) => {
+router.delete("/removeHost", (req: Request, res: Response): void => {
   const hostName = req.query.hostName as string;
 
   if (!hostName) {
-    return res.status(400).json({ error: "Host name is required." });
+    res.status(400).json({ error: "Host name is required." });
+    return;
   }
 
-  try {
-    const rawData = fs.readFileSync(configPath, "utf-8");
-    const config: DockerConfig = JSON.parse(rawData);
+  fs.promises
+    .readFile(configPath, "utf-8")
+    .then((rawData) => {
+      const config: DockerConfig = JSON.parse(rawData);
+      const hostIndex = config.hosts.findIndex(
+        (host) => host.name === hostName,
+      );
 
-    const hostIndex = config.hosts.findIndex((host) => host.name === hostName);
-    if (hostIndex === -1) {
-      return res.status(404).json({ error: "Host not found." });
-    }
+      if (hostIndex === -1) {
+        res.status(404).json({ error: "Host not found." });
+        return;
+      }
 
-    config.hosts.splice(hostIndex, 1);
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    logger.info(`Removed host: ${hostName}`);
-    res.status(200).json({ message: "Host removed successfully." });
-  } catch (error: unknown) {
-    const err = error as Error;
-    logger.error("Error removing host: " + err.message);
-    res.status(500).json({ error: "Failed to remove host." });
-  }
+      config.hosts.splice(hostIndex, 1);
+
+      return fs.promises
+        .writeFile(configPath, JSON.stringify(config, null, 2))
+        .then(() => {
+          logger.info(`Removed host: ${hostName}`);
+          res.status(200).json({ message: "Host removed successfully." });
+        });
+    })
+    .catch((error) => {
+      logger.error("Error removing host: " + (error as Error).message);
+      res.status(500).json({ error: "Failed to remove host." });
+    });
 });
 
 export default router;

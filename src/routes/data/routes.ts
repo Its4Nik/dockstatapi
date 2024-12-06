@@ -3,7 +3,11 @@ const router = express.Router();
 import db from "../../config/db";
 import logger from "../../utils/logger";
 
-function formatRows(rows: { info: string }[]): Record<number, any> {
+interface DataRow {
+  info: string;
+}
+
+function formatRows(rows: DataRow[]): Record<number, any> {
   return rows.reduce(
     (acc: Record<number, any>, row, index: number): Record<number, any> => {
       acc[index] = JSON.parse(row.info);
@@ -153,7 +157,7 @@ router.get("/time/24h", (req, res) => {
   db.all(
     "SELECT info FROM data WHERE timestamp >= ?",
     [oneDayAgo],
-    (error, rows) => {
+    (error, rows: DataRow[]) => {
       if (error) {
         logger.error("Error fetching data from last 24 hours:", error.message);
         return res.status(500).json({ error: "Internal server error" });

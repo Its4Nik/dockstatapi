@@ -88,39 +88,40 @@ async function setFalse() {
  *       500:
  *         description: Error saving password.
  */
-router.post("/enable", async (req: Request, res: Response) => {
-  const password = req.query.password as string;
-  if (await authEnabled()) {
-    logger.error(
-      "Password Authentication is already enabled, please deactivate it first",
-    );
-    return res.status(401).json({
-      message:
+router.post("/enable", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const password = req.query.password as string;
+
+    if (await authEnabled()) {
+      logger.error(
         "Password Authentication is already enabled, please deactivate it first",
-    });
-  }
-
-  if (!password) {
-    logger.error("Password is required");
-    return res.status(400).json({ message: "Password is required" });
-  }
-
-  bcrypt.genSalt(saltRounds, (err, salt) => {
-    if (err) {
-      logger.error("Error generating salt");
-      return res.status(500).json({ message: "Error generating salt" });
+      );
+      res.status(401).json({
+        message:
+          "Password Authentication is already enabled, please deactivate it first",
+      });
+      return;
     }
 
-    bcrypt.hash(password, salt, (err, hash) => {
-      if (err) {
-        logger.error("Error hashing password");
-        return res.status(500).json({ message: "Error hashing password" });
-      }
+    if (!password) {
+      logger.error("Password is required");
+      res.status(400).json({ message: "Password is required" });
+      return;
+    }
 
-      passwordData = { hash, salt };
-      writePasswordFile(JSON.stringify(passwordData));
-    });
-  });
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+
+    const passwordData = { hash, salt };
+    writePasswordFile(JSON.stringify(passwordData));
+
+    res
+      .status(200)
+      .json({ message: "Password Authentication enabled successfully" });
+  } catch (error) {
+    logger.error(`Error enabling password authentication: ${error}`);
+    res.status(500).json({ message: "An error occurred" });
+  }
 });
 
 /**
@@ -143,41 +144,31 @@ router.post("/enable", async (req: Request, res: Response) => {
  *       500:
  *         description: Error disabling authentication.
  */
-router.post("/disable", async (req: Request, res: Response) => {
-  const password = req.query.password as string;
-  if (!password) {
-    logger.error("Password is required!");
-    return res.status(400).json({ message: "Password is required" });
-  }
+router.post("/disable", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const password = req.query.password as string;
 
-  await new Promise(async (resolve, reject) => {
-    try {
-      const storedData = JSON.parse(await readPasswordFile());
-      bcrypt.compare(
-        password,
-        storedData.hash,
-        (compareErr: any, result: boolean) => {
-          if (compareErr) {
-            logger.error("Error validating password");
-            return res
-              .status(500)
-              .json({ message: "Error validating password" });
-          }
-          if (!result) {
-            logger.error("Invalid password");
-            return res.status(401).json({ message: "Invalid password" });
-          }
-
-          setFalse();
-          res.json({ message: "Authentication disabled" });
-          resolve(storedData);
-          return res.status(200).json({ message: "Authentication enabled" });
-        },
-      );
-    } catch (error: any) {
-      reject(error);
+    if (!password) {
+      logger.error("Password is required!");
+      res.status(400).json({ message: "Password is required" });
+      return;
     }
-  });
+
+    const storedData = JSON.parse(await readPasswordFile());
+
+    const isPasswordValid = await bcrypt.compare(password, storedData.hash);
+    if (!isPasswordValid) {
+      logger.error("Invalid password");
+      res.status(401).json({ message: "Invalid password" });
+      return;
+    }
+
+    await setFalse(); // Assuming this is an async function
+    res.status(200).json({ message: "Authentication disabled" });
+  } catch (error) {
+    logger.error(`Error disabling authentication: ${error}`);
+    res.status(500).json({ message: "An error occurred" });
+  }
 });
 
 export default router;

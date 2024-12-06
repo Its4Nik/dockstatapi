@@ -16,8 +16,8 @@ const router = Router();
  */
 router.get("/config", async (req: Request, res: Response) => {
   logger.info("Getting the HA-Config");
-  var data = await readConfig();
-  res.status(200).json({ data });
+  let data = await readConfig();
+  res.status(200).json(data);
 });
 
 export default router;

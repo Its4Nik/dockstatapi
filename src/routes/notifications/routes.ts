@@ -97,29 +97,28 @@ router.get("/get-template", (req: Request, res: Response) => {
  *                   type: string
  *                   description: Error message
  */
-router.post("/set-template", (req: Request, res: Response) => {
+router.post("/set-template", (req: Request, res: Response): void => {
   const newData: TemplateData = req.body;
 
   if (!isTemplateData(newData)) {
-    return res.status(400).json({
+    res.status(400).json({
       message: "Invalid input format. Expected JSON with a 'text' field.",
     });
+    return;
   }
 
-  fs.writeFile(
-    dataTemplate,
-    JSON.stringify(newData, null, 2),
-    "utf-8",
-    (error) => {
-      if (error) {
-        logger.error("Errored writing to file:", error);
-        return res
-          .status(500)
-          .json({ message: `Error writing to file: ${error}` });
-      }
+  fs.promises
+    .writeFile(dataTemplate, JSON.stringify(newData, null, 2), "utf-8")
+    .then(() => {
+      logger.info("Template updated successfully.");
       res.json({ message: "Template updated successfully." });
-    },
-  );
+    })
+    .catch((error) => {
+      logger.error("Error writing to file: " + error.message);
+      res
+        .status(500)
+        .json({ message: `Error writing to file: ${error.message}` });
+    });
 });
 
 /**
