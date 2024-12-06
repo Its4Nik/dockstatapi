@@ -6,7 +6,12 @@ import {
   synchronizeFilesWithNodes,
   prepareFilesForSync,
   HighAvailabilityConfig,
+  ensureFileExists,
 } from "../../controllers/highAvailability";
+
+interface SyncRequestBody {
+  files: Record<string, string>;
+}
 
 const router = Router();
 
@@ -36,7 +41,37 @@ router.get("/config", async (req: Request, res: Response) => {
  *       200:
  *         description: Files synchronized successfully.
  */
-router.post("/sync", synchronizeFilesWithNodes);
+router.post(
+  "/sync",
+  async (
+    req: Request<{}, {}, SyncRequestBody>,
+    res: Response,
+  ): Promise<void> => {
+    try {
+      const { files } = req.body;
+
+      if (!files || typeof files !== "object") {
+        const errorMsg =
+          "Invalid request: 'files' object is missing or invalid.";
+        logger.error(errorMsg);
+        res.status(400).json({ message: errorMsg });
+        return;
+      }
+
+      logger.info("Received synchronization request from master node.");
+
+      for (const [filePath, content] of Object.entries(files)) {
+        await ensureFileExists(filePath, content);
+      }
+
+      logger.info("Synchronization completed successfully.");
+      res.status(200).json({ message: "Synchronization completed." });
+    } catch (error) {
+      logger.error(`Error during synchronization: ${(error as Error).message}`);
+      res.status(500).json({ message: "Synchronization failed." });
+    }
+  },
+);
 
 /**
  * @swagger

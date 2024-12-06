@@ -60,42 +60,37 @@ async function prepareFilesForSync(): Promise<Record<string, string>> {
 }
 
 async function synchronizeFilesWithNodes(): Promise<void> {
-  try {
-    const haConfig = await readConfig();
-    if (!haConfig || !haConfig.master || haConfig.nodes.length === 0) {
-      logger.warn("No slave nodes to synchronize with.");
-      return;
+  const haConfig = await readConfig();
+
+  if (!haConfig || !haConfig.master || haConfig.nodes.length === 0) {
+    logger.warn("No slave nodes to synchronize with.");
+    return;
+  }
+
+  const files = await prepareFilesForSync();
+
+  for (const node of haConfig.nodes) {
+    let nodeUrl = "";
+    if (useUnsafeConnection == "true") {
+      nodeUrl = `http://${node}/ha/sync`;
+    } else {
+      nodeUrl = `https://${node}/ha/sync`;
     }
+    logger.info(`Synchronizing files with node: ${node}`);
 
-    const files = await prepareFilesForSync();
+    const response = await fetch(nodeUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ files }),
+    });
 
-    for (const node of haConfig.nodes) {
-      let nodeUrl = "";
-      if (useUnsafeConnection == "true") {
-        nodeUrl = `http://${node}/ha/sync`;
-      } else {
-        nodeUrl = `https://${node}/ha/sync`;
-      }
-      logger.info(`Synchronizing files with node: ${node}`);
-
-      const response = await fetch(nodeUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ files }),
-      });
-
-      if (response.ok) {
-        logger.info(`Files synchronized successfully with node: ${node}`);
-      } else {
-        logger.error(
-          `Failed to synchronize files with node ${node}. Status: ${response.status}`,
-        );
-      }
+    if (response.ok) {
+      logger.info(`Files synchronized successfully with node: ${node}`);
+    } else {
+      logger.error(
+        `Failed to synchronize files with node ${node}. Status: ${response.status}`,
+      );
     }
-  } catch (error) {
-    logger.error(
-      `Error during file synchronization: ${(error as Error).message}`,
-    );
   }
 }
 
@@ -114,6 +109,43 @@ function monitorConfigFiles(): void {
   logger.info("Started monitoring configuration files for changes.");
 }
 
+async function startMasterNode() {
+  if (process.env.HA_MASTER == "true") {
+    const haConfig: HighAvailabilityConfig = {
+      active: true,
+      master: true,
+      nodes: process.env.HA_NODE
+        ? process.env.HA_NODE.split(",").map((node) => node.trim())
+        : [],
+    };
+    logger.debug("Writing HA-Config");
+    await writeConfig(haConfig);
+
+    logger.info("Running startup sync...");
+    await synchronizeFilesWithNodes();
+    logger.info("Watching config file in ./data");
+    monitorConfigFiles();
+  } else {
+    logger.info("This is a slave node");
+  }
+}
+
+async function ensureFileExists(
+  filePath: string,
+  content: string,
+): Promise<void> {
+  try {
+    const dirPath = path.dirname(filePath);
+    await fs.promises.mkdir(dirPath, { recursive: true });
+    await fs.promises.writeFile(filePath, content, { flag: "w" });
+    logger.info(`File created/updated: ${filePath}`);
+  } catch (error) {
+    logger.error(
+      `Error creating/updating file ${filePath}: ${(error as Error).message}`,
+    );
+  }
+}
+
 export {
   HighAvailabilityConfig,
   writeConfig,
@@ -121,4 +153,6 @@ export {
   prepareFilesForSync,
   synchronizeFilesWithNodes,
   monitorConfigFiles,
+  startMasterNode,
+  ensureFileExists,
 };

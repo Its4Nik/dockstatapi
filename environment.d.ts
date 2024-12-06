@@ -1,3 +1,5 @@
+import { Unzip } from "zlib";
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
