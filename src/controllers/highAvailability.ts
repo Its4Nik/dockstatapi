@@ -15,8 +15,8 @@ const useUnsafeConnection = process.env.HA_UNSAFE || "false";
 
 // List of configuration files to monitor and synchronize
 const configFiles: string[] = [
-  "./src/data/highAvailibility.json",
-  "./src/config/someOtherConfig.json",
+  "./src/data/dockerConfig.json",
+  "./src/data/states.json",
 ];
 
 async function writeConfig(data: HighAvailabilityConfig): Promise<void> {
@@ -59,6 +59,33 @@ async function prepareFilesForSync(): Promise<Record<string, string>> {
   return fileData;
 }
 
+async function checkApiReachable(node: string): Promise<boolean> {
+  let nodeUrl =
+    useUnsafeConnection === "true"
+      ? `http://${node}/api/status`
+      : `https://${node}/api/status`;
+
+  try {
+    const response = await fetch(nodeUrl);
+    if (!response.ok) {
+      logger.error(`Failed to reach node ${node}. Status: ${response.status}`);
+      return false;
+    }
+
+    const data = await response.json();
+    if (data.ApiReachable) {
+      logger.info(`Node ${node} is reachable.`);
+      return true;
+    } else {
+      logger.error(`Node ${node} is not reachable. ApiReachable: false`);
+      return false;
+    }
+  } catch (error) {
+    logger.error(`Error reaching node ${node}: ${(error as Error).message}`);
+    return false;
+  }
+}
+
 async function synchronizeFilesWithNodes(): Promise<void> {
   const haConfig = await readConfig();
 
@@ -70,12 +97,18 @@ async function synchronizeFilesWithNodes(): Promise<void> {
   const files = await prepareFilesForSync();
 
   for (const node of haConfig.nodes) {
-    let nodeUrl = "";
-    if (useUnsafeConnection == "true") {
-      nodeUrl = `http://${node}/ha/sync`;
-    } else {
-      nodeUrl = `https://${node}/ha/sync`;
+    if (!(await checkApiReachable(node))) {
+      logger.warn(
+        `Skipping file sync with ${node} due to connectivity issues.`,
+      );
+      continue; // Skip synchronization if the node is unreachable
     }
+
+    let nodeUrl =
+      useUnsafeConnection == "true"
+        ? `http://${node}/ha/sync`
+        : `https://${node}/ha/sync`;
+
     logger.info(`Synchronizing files with node: ${node}`);
 
     const response = await fetch(nodeUrl, {
