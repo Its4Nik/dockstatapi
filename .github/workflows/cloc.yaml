@@ -1,5 +1,9 @@
 name: Count Lines of Code
 
+permissions:
+  issues: write
+  pull-requests: write
+
 on:
   push:
     branches: [ main ]
@@ -17,3 +21,8 @@ jobs:
       uses: djdefi/cloc-action@6
       with:
         options: --md --report-file=cloc.md --by-percent cmb
+    
+    - name: Create comment from markdown file
+      uses: GrantBirki/comment@v2.1.0
+      with:
+        file: cloc.md
