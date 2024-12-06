@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import logger from "../logger";
-import { renderTemplate } from "./data/template";
+import { renderTemplate } from "./_template";
 
 const telegram_bot_token: string | undefined = process.env.TELEGRAM_BOT_TOKEN;
 const telegram_chat_id: string | undefined = process.env.TELEGRAM_CHAT_ID;

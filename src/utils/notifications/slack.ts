@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import logger from "../logger";
-import { renderTemplate } from "./data/template";
+import { renderTemplate } from "./_template";
 
 const slack_webhook_url: string | undefined = process.env.SLACK_WEBHOOK_URL;
 

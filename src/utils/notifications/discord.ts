@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import logger from "../logger";
-import { renderTemplate } from "./data/template";
+import { renderTemplate } from "./_template";
 
 const discord_webhook_url: string | undefined = process.env.DISCORD_WEBHOOK_URL;
 

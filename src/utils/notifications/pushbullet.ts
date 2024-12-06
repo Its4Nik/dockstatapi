@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import logger from "../logger";
-import { renderTemplate } from "./data/template";
+import { renderTemplate } from "./_template";
 
 const pushbullet_access_token: string | undefined =
   process.env.PUSHBULLET_ACCESS_TOKEN;

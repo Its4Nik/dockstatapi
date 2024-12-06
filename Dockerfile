@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM node:latest AS builder
+FROM node:alpine AS builder
 
 LABEL maintainer="https://github.com/its4nik"
 LABEL version="2"
@@ -8,7 +8,7 @@ LABEL license="BSD-3-Clause license"
 LABEL repository="https://github.com/its4nik/dockstatapi"
 LABEL documentation="https://github.com/its4nik/dockstatapi"
 
-WORKDIR /api
+WORKDIR /build
 
 COPY package*.json tsconfig.json ./
 
@@ -18,12 +18,11 @@ COPY src ./src
 RUN npx tsc
 
 # Stage 2: Production stage
-FROM node:alpine
+FROM node:alpine AS build
 
 WORKDIR /api
 
-COPY --from=builder /api/dist ./dist
-COPY --from=builder /api/node_modules ./node_modules
+COPY --from=builder /build/dist ./dist
 
 RUN apk add --no-cache \
     bash \

@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import logger from "../logger";
-import { renderTemplate } from "./data/template";
+import { renderTemplate } from "./_template";
 
 const pushover_user_key: string | undefined = process.env.PUSHOVER_USER_KEY;
 const pushover_api_token: string | undefined = process.env.PUSHOVER_API_TOKEN;

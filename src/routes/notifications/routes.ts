@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import logger from "../../utils/logger";
 import fs from "fs";
 import notify from "../../utils/notifications/_notify";
-const dataTemplate = "./src/utils/notifications/data/template.json";
+const dataTemplate = "./src/data/template.json";
 const router = Router();
 
 ///////////

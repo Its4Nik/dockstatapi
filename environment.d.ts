@@ -7,8 +7,9 @@ declare global {
       NODE_ENV: "development" | "production";
 
       // High Availability
-      HA_MASTER: string | undefined;
-      HA_NODE: string | undefined;
+      HA_MASTER: string | undefined; //bool
+      HA_MASTER_IP: string | undefined;
+      HA_NODE: string | undefined; //ip list with port seperated by "," like: "10.0.0.4:5012,10.0.0.5:9876"
       HA_UNSAFE: string | undefined;
 
       // Notification services:
@@ -34,4 +35,4 @@ declare global {
   }
 }
 
-export {};
+export { };

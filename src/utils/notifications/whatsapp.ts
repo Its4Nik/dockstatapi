@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import logger from "../logger";
-import { renderTemplate } from "./data/template";
+import { renderTemplate } from "./_template";
 
 const whatsapp_api_url: string | undefined = process.env.WHATSAPP_API_URL;
 const whatsapp_recipient: string | undefined = process.env.WHATSAPP_RECIPIENT;

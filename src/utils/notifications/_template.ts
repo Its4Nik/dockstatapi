@@ -1,14 +1,18 @@
 import fs from "fs";
-import logger from "../../logger";
-const templatePath: string = "./utils/notifications/data/template.json";
-const containersPath: string = "./data/states.json";
+import logger from "../logger";
+const templatePath: string = "./src/data/template.json";
+const containersPath: string = "./src/data/states.json";
+
+interface Template {
+  "text": string
+}
 
 function getTemplate() {
   try {
     const data = fs.readFileSync(templatePath, "utf8");
     return JSON.parse(data);
   } catch (error: any) {
-    console.error("Failed to load template:", error);
+    logger.error("Failed to load template:", error);
     return null;
   }
 }
@@ -27,8 +31,11 @@ function setTemplate(newTemplate: string) {
 }
 
 function renderTemplate(containerId: string) {
-  const template = getTemplate();
-  if (!template) return null;
+  const template: Template = getTemplate();
+  if (!template) {
+    logger.error("Template is missing or not a string");
+    return null;
+  }
 
   try {
     const data = fs.readFileSync(containersPath, "utf8");
@@ -41,7 +48,7 @@ function renderTemplate(containerId: string) {
     }
 
     if (!containerData) {
-      console.error(`Container with ID ${containerId} not found`);
+      logger.error(`Container with ID ${containerId} not found`);
       return null;
     }
 
@@ -49,12 +56,13 @@ function renderTemplate(containerId: string) {
     return Object.keys(containerData).reduce(
       (text, key) =>
         text.replace(new RegExp(`{{${key}}}`, "g"), containerData[key]),
-      template.message,
+      template.text,
     );
   } catch (error: any) {
     logger.error("Failed to load containers:", error);
     return null;
   }
 }
+
 
 export { getTemplate, setTemplate, renderTemplate };

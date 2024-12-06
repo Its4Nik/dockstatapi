@@ -1,6 +1,6 @@
 import { SendMailOptions, createTransport } from "nodemailer";
 import logger from "../logger";
-import { renderTemplate } from "./data/template";
+import { renderTemplate } from "./_template";
 
 const email_sender: string | undefined = process.env.EMAIL_SENDER;
 const email_recipient: string | undefined = process.env.EMAIL_RECIPIENT;
