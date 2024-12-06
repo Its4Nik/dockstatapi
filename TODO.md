@@ -3,9 +3,9 @@
 - [ ] Add automatic notifications when container state changes, according to selected level for notification service
 - [ ] Image update and update notifications
 - [ ] trigger container restart / stop / start via backend routes
-- [ ] Add more logging
+- [X] Add more logging
 - [ ] Strucuture code differently
 - [ ] Write new README and make the docs better
-- [ ] Update more files to correct TS syntax => remove "any"
+- [X] Update more files to correct TS syntax => remove "any"
 - [ ] Websockets
 - [X] Better /api/status endpoint with connection status of each host

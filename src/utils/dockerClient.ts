@@ -14,7 +14,7 @@ interface DockerConfig {
 }
 
 function loadDockerConfig(): DockerConfig {
-  const configPath = "./src/config/dockerConfig.json";
+  const configPath = "./src/data/dockerConfig.json";
   try {
     const rawData = fs.readFileSync(configPath, "utf-8");
     logger.debug("Refreshed DockerConfig.json");

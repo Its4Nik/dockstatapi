@@ -2,7 +2,7 @@ import logger from "./logger";
 import { ContainerInfo, ContainerStats, ContainerInspectInfo } from "dockerode";
 import getDockerClient from "./dockerClient";
 import fs from "fs";
-const configPath = "./src/config/dockerConfig.json";
+const configPath = "./src/data/dockerConfig.json";
 
 interface HostConfig {
   name: string;

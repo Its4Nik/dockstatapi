@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as net from "net";
 import logger from "../config/loggerConfig";
 
-const filePath: string = "./src/config/dockerConfig.json";
+const filePath: string = "./src/data/dockerConfig.json";
 
 interface Host {
   name: string;

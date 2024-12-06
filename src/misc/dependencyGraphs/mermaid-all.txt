@@ -2,100 +2,107 @@ flowchart LR
 
 0["server.ts"]
 subgraph 1["controllers"]
-2["scheduler.ts"]
-5["fetchData.ts"]
-J["frontendConfiguration.ts"]
+2["highAvailability.ts"]
+3["scheduler.ts"]
+6["fetchData.ts"]
+K["frontendConfiguration.ts"]
 end
-subgraph 3["config"]
-4["db.ts"]
-17["swaggerConfig.ts"]
+subgraph 4["config"]
+5["db.ts"]
+1A["swaggerConfig.ts"]
 end
-subgraph 6["utils"]
-7["containerService.ts"]
-8["dockerClient.ts"]
-M["connectionChecker.ts"]
-O["extractHostData.ts"]
-P["writeOfflineLog.ts"]
-subgraph S["notifications"]
-T["_notify.ts"]
-U["discord.ts"]
-subgraph V["data"]
-W["template.ts"]
+subgraph 7["utils"]
+8["containerService.ts"]
+9["dockerClient.ts"]
+N["connectionChecker.ts"]
+P["extractHostData.ts"]
+Q["writeOfflineLog.ts"]
+subgraph V["notifications"]
+W["_notify.ts"]
+X["discord.ts"]
+subgraph Y["data"]
+Z["template.ts"]
 end
-X["email.ts"]
-Y["pushbullet.ts"]
-Z["pushover.ts"]
-10["slack.ts"]
-11["telegram.ts"]
-12["whatsapp.ts"]
-end
-end
-subgraph 9["middleware"]
-A["authMiddleware.ts"]
-B["rateLimiter.ts"]
-end
-subgraph C["routes"]
-subgraph D["auth"]
-E["routes.ts"]
-end
-subgraph F["data"]
-G["routes.ts"]
-end
-subgraph H["frontendController"]
-I["routes.ts"]
-end
-subgraph K["getter"]
-L["routes.ts"]
-end
-subgraph Q["notifications"]
-R["routes.ts"]
-end
-subgraph 13["setter"]
-14["routes.ts"]
+10["email.ts"]
+11["pushbullet.ts"]
+12["pushover.ts"]
+13["slack.ts"]
+14["telegram.ts"]
+15["whatsapp.ts"]
 end
 end
-N["net"]
-subgraph 15["swagger"]
-16["swaggerDocs.ts"]
+subgraph A["middleware"]
+B["authMiddleware.ts"]
+C["rateLimiter.ts"]
+end
+subgraph D["routes"]
+subgraph E["auth"]
+F["routes.ts"]
+end
+subgraph G["data"]
+H["routes.ts"]
+end
+subgraph I["frontendController"]
+J["routes.ts"]
+end
+subgraph L["getter"]
+M["routes.ts"]
+end
+subgraph R["highavailability"]
+S["routes.ts"]
+end
+subgraph T["notifications"]
+U["routes.ts"]
+end
+subgraph 16["setter"]
+17["routes.ts"]
+end
+end
+O["net"]
+subgraph 18["swagger"]
+19["swaggerDocs.ts"]
 end
 0-->2
-0-->A
+0-->3
 0-->B
-0-->E
-0-->G
-0-->I
-0-->L
-0-->R
-0-->14
-0-->16
-2-->4
-2-->5
-5-->4
-5-->7
-7-->8
-G-->4
-I-->J
-L-->2
-L-->M
-L-->7
-L-->8
-L-->O
-L-->P
+0-->C
+0-->F
+0-->H
+0-->J
+0-->M
+0-->S
+0-->U
+0-->17
+0-->19
+3-->5
+3-->6
+6-->5
+6-->8
+8-->9
+H-->5
+J-->K
+M-->3
 M-->N
-R-->T
-T-->U
-T-->X
-T-->Y
-T-->Z
-T-->10
-T-->11
-T-->12
+M-->8
+M-->9
+M-->P
+M-->Q
+N-->O
+S-->2
 U-->W
-X-->W
-Y-->W
-Z-->W
-10-->W
-11-->W
-12-->W
-14-->2
-16-->17
+W-->X
+W-->10
+W-->11
+W-->12
+W-->13
+W-->14
+W-->15
+X-->Z
+10-->Z
+11-->Z
+12-->Z
+13-->Z
+14-->Z
+15-->Z
+17-->3
+19-->1A

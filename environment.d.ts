@@ -5,8 +5,10 @@ declare global {
       NODE_ENV: "development" | "production";
 
       // High Availability
-      IS_MASTER: string | undefined;
+      HA_MASTER: string | undefined;
       HA_NODE: string | undefined;
+      HA_UNSAFE: string | undefined;
+
       // Notification services:
       DISCORD_WEBHOOK_URL: string | undefined;
 

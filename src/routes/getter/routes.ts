@@ -7,7 +7,7 @@ import { getCurrentSchedule } from "../../controllers/scheduler";
 import logger from "../../utils/logger";
 import fs from "fs";
 import checkReachability from "../../utils/connectionChecker";
-const configPath = "./src/config/dockerConfig.json";
+const configPath = "./src/data/dockerConfig.json";
 const router = Router();
 
 /**

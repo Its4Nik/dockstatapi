@@ -1,8 +1,8 @@
 import { createLogger, format, transports } from "winston";
 
-const gray = "\x1b[90m"; // Dark gray
-const reset = "\x1b[0m"; // default
-const white = "\x1b[97m"; // white
+const gray = "\x1b[90m";
+const reset = "\x1b[0m";
+const white = "\x1b[97m";
 const red = "\x1b[31m";
 const green = "\x1b[32m";
 const yellow = "\x1b[33m";

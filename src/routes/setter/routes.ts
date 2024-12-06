@@ -4,7 +4,7 @@ import { Router, Request, Response } from "express";
 import fs from "fs";
 
 const router = Router();
-const configPath: string = "./src/config/dockerConfig.json";
+const configPath: string = "./src/data/dockerConfig.json";
 
 interface Host {
   name: string;

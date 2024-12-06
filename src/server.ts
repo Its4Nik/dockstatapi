@@ -11,7 +11,7 @@ import authMiddleware from "./middleware/authMiddleware";
 import ha from "./routes/highavailability/routes";
 import { limiter } from "./middleware/rateLimiter";
 import { scheduleFetch } from "./controllers/scheduler";
-import { configureHighAvailability } from "./controllers/highAvailability";
+import { monitorConfigFiles } from "./controllers/highAvailability";
 import cors from "cors";
 
 // Initialize express app
@@ -29,9 +29,6 @@ app.use("/api-docs", (req: Request, res: Response, next: NextFunction) =>
 swaggerDocs(app);
 scheduleFetch();
 
-// Generate High availabiliy config
-configureHighAvailability();
-
 // Routes with Middleware
 app.use("/api", limiter, authMiddleware, api);
 app.use("/conf", limiter, authMiddleware, conf);
@@ -48,6 +45,12 @@ app.get("/", (req: Request, res: Response) => {
 
 // Start the server
 app.listen(PORT, () => {
+  if (process.env.HA_MASTER == "true") {
+    logger.info("This is a master node watching config file in ./data");
+    monitorConfigFiles();
+  } else {
+    logger.info("This is a slave node");
+  }
   logger.info(`Server is running on http://localhost:${PORT}`);
   logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });
