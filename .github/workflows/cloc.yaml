@@ -20,7 +20,7 @@ jobs:
     - name: Count Lines of Code (cloc)
       uses: djdefi/cloc-action@6
       with:
-        options: --md --report-file=cloc.md --exclude-dir=node_modules
+        options: --md --report-file=cloc.md --exclude-dir=node_modules --exclude-lang=YAML
     
     - name: Create comment from markdown file
       uses: GrantBirki/comment@v2.1.0
