@@ -1,7 +1,10 @@
 # custom paths:
-src/data/*
-dockerConfig.json
+src/data/database.db
+src/data/dockerConfig.json
+src/data/highAvailability.json
+src/data/states.json
 
+dockerConfig.json
 ./src/middleware/password.json
 
 .test*
