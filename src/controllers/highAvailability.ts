@@ -18,7 +18,7 @@ interface NodeCache {
   [nodes: string]: Node;
 }
 
-const haMasterPath: string = "./src/data/highAvailibility.json";
+const haMasterPath: string = "./src/data/highAvailability.json";
 const haNodePath: string = "./src/data/haNode.json";
 const nodeCachePath: string = "./src/data/nodeCache.json";
 const useUnsafeConnection = process.env.HA_UNSAFE || "false";

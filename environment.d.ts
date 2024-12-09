@@ -1,5 +1,3 @@
-import { Unzip } from "zlib";
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -19,6 +17,7 @@ declare global {
       EMAIL_SENDER: string | undefined;
       EMAIL_RECIPIENT: string | undefined;
       EMAIL_PASSWORD: string | undefined;
+      EMAIL_SERVICE: string | undefined;
 
       PUSHBULLET_ACCESS_TOKEN: string | undefined;
 

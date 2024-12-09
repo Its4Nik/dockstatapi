@@ -1,0 +1,3 @@
+{
+  "text": "{{name}} ({{id}}) on {{hostName}} is {{state}}"
+}

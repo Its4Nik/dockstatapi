@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM node:latest AS builder
+FROM node:alpine AS builder
 
 LABEL maintainer="https://github.com/its4nik"
 LABEL version="2"
@@ -10,25 +10,20 @@ LABEL documentation="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /build
 
-COPY package*.json tsconfig.json ./
+ENV NODE_NO_WARNINGS=1
+COPY tsconfig.json environment.d.ts package*.json tsconfig.json ./
+RUN npm i
+COPY ./src ./
+RUN npm run build:mini
 
-RUN npm install
-
-COPY src ./src
-RUN npx tsc
-
-# Stage 2: Production stage
-FROM node:alpine AS build
-
+# Stage 2 running
+FROM alpine:latest AS main
 WORKDIR /api
+RUN pkg add node
 
-COPY --from=builder /build/dist ./dist
-
-RUN apk add --no-cache \
-    bash \
-    curl
+COPY --from=builder /build/src/misc/entrypoint.sh /api/entrypoint.sh
+COPY --from=builder /build/dist/* /api/
 
 EXPOSE 9876
-HEALTHCHECK CMD curl --fail http://localhost:9876/api/status || exit 1
 
-ENTRYPOINT [ "bash", "src/misc/entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]

@@ -3,14 +3,16 @@
   "version": "2",
   "description": "API for docker hosts using dockerode",
   "main": "src/server.ts",
-  "type": "module",
   "scripts": {
     "start": "tsx src/server.ts",
+    "start:build": "npx tsc && export NODE_NO_WARNINGS=1 && node dist/server.js",
     "dev": "nodemon",
     "dev:trace": "nodemon --trace-uncaught --trace-warnings",
     "dep": "bash ./src/utils/createDependencyGraph.sh",
     "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && bash ./src/utils/createDependencyGraph.sh",
-    "test:build": "npx tsc"
+    "build": "npx tsc",
+    "build:mini": "npx tsc && bash ./src/misc/minifyDist.sh --build-only",
+    "mini": "bash ./src/misc/minifyDist.sh"
   },
   "keywords": [],
   "author": "Its4Nik",
@@ -41,12 +43,14 @@
     "@types/express": "^5.0.0",
     "@types/express-handlebars": "^5.3.1",
     "@types/node": "^22.9.0",
-    "@types/nodemailer": "^6.4.16",
+    "@types/node-fetch": "^2.6.12",
+    "@types/nodemailer": "^6.4.17",
     "dependency-cruiser": "^16.5.0",
     "nodemon": "^3.1.7",
     "ora": "^8.1.1",
     "ts-node": "^10.9.2",
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.2",
+    "uglify-js": "^3.19.3"
   },
   "nodemonConfig": {
     "ignore": [
