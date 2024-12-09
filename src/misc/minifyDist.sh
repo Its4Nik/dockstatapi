@@ -4,11 +4,10 @@ dist="$(pwd)/dist"
 TMP="$(mktemp)"
 
 run_script() {
-  echo -n "⏳ Minifying : $(basename "$1")"
+  echo -ne "\r⏳ Minifying : $(basename "$1")"
   npx uglifyjs --no-annotations --in-situ "$1" > /dev/null
   echo -ne "\r✔️  Minified  : $(basename "$1")\n"
 }
-
 
 if [ -d "$dist" ]; then
   echo "::: Dist directory exists."

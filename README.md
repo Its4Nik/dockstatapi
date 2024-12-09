@@ -1,4 +1,5 @@
 # DockStatAPI v2
+![Dockstat Logo](.github/DockStat.png)
 
 This specific branch contains the currently WIP **DockStatAPI-v2**, this update will bring major breaking changes so please be careful.
 With this new release a cupple of extra features (compared to v1) are going to be available.
@@ -8,10 +9,12 @@ With this new release a cupple of extra features (compared to v1) are going to b
 - Swagger API Documentation
 - Database (Keeps data for 24 hours max)
 - Advanced authentication using hashes and salt
-- Custom TypeScript notification modules! (Easy to add and configure!)
+- Custom TypeScript/JavaScript notification modules! (Easy to add and configure!)
 - `http` API to configure the backend
 - Multi-arch docker builds (using buildx github action)
 - Advanced security through middlewares: rate-limiting and authentication
+- Multi Arch Docker builds through docker buildx
+- High Availability using single master and ulimited worker nodes!
 
 # 🔗 DockStatAPI v2 Documentation
 

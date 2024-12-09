@@ -5,7 +5,7 @@
 - [ ] trigger container restart / stop / start via backend routes
 - [X] Add more logging
 - [X] Structure code differently
-- [ ] Write new README and make the docs better
+- [X] Write new README and make the docs better
 - [X] Update more files to correct TS syntax => remove "any"
 - [ ] Websockets
 - [X] Better /api/status endpoint with connection status of each host
