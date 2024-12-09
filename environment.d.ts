@@ -5,6 +5,7 @@ declare global {
     interface ProcessEnv {
       // Node specific:
       NODE_ENV: "development" | "production";
+      TRUSTED_PROXYS: string | undefined;
 
       // High Availability
       HA_MASTER: string | undefined; //bool
@@ -35,4 +36,4 @@ declare global {
   }
 }
 
-export { };
+export {};
