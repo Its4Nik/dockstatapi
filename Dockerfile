@@ -19,7 +19,7 @@ RUN npm run build:mini
 # Stage 2 running
 FROM alpine:latest AS main
 WORKDIR /api
-RUN pkg add node
+RUN apk add node
 
 COPY --from=builder /build/src/misc/entrypoint.sh /api/entrypoint.sh
 COPY --from=builder /build/dist/* /api/
