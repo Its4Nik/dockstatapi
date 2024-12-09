@@ -1,4 +1,3 @@
-// src/controllers/fetchData.ts
 import db from "../config/db";
 import fetchAllContainers from "../utils/containerService";
 import logger from "../utils/logger";

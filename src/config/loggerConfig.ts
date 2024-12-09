@@ -33,7 +33,7 @@ const logger = createLogger({
       const levelColorized = colorLog(info.level.toLowerCase(), level);
       const message = `${white}${info.message}${reset}`;
 
-      return `${timestamp}  ${levelColorized} : ${message}`;
+      return `${timestamp} ${levelColorized} : ${message}`;
     }),
   ),
   transports: [

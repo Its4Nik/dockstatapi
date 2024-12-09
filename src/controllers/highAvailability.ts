@@ -9,8 +9,18 @@ interface HighAvailabilityConfig {
   nodes: string[];
 }
 
+interface Node {
+  ip: string;
+  id: number;
+}
+
+interface NodeCache {
+  [nodes: string]: Node;
+}
+
 const haMasterPath: string = "./src/data/highAvailibility.json";
-const haNodePath: string = "./src/data/haNode.json"
+const haNodePath: string = "./src/data/haNode.json";
+const nodeCachePath: string = "./src/data/nodeCache.json";
 const useUnsafeConnection = process.env.HA_UNSAFE || "false";
 
 // List of configuration files to monitor and synchronize
@@ -18,18 +28,23 @@ const configFiles: string[] = [
   "./src/data/dockerConfig.json",
   "./src/data/states.json",
   "./src/data/template.json",
-  "./src/data/frontendConfiguration.json"
+  "./src/data/frontendConfiguration.json",
+  "./src/data/nodeCache.json",
 ];
 
-async function writeConfig(data: HighAvailabilityConfig, filePath: string): Promise<void> {
+async function writeConfig(
+  data: HighAvailabilityConfig | NodeCache,
+  filePath: string,
+): Promise<void> {
   try {
+    logger.debug(`writing ${filePath}`);
     const dirPath: string = path.dirname(filePath);
     await fs.promises.mkdir(dirPath, { recursive: true });
 
     const jsonData = JSON.stringify(data, null, 2);
     await fs.promises.writeFile(filePath, jsonData);
 
-    logger.debug("HA-Config has been written.");
+    logger.debug(`${filePath} has been written`);
   } catch (error) {
     logger.error(`Error writing config: ${(error as Error).message}`);
   }
@@ -147,10 +162,12 @@ function monitorConfigFiles(): void {
 async function startMasterNode() {
   if (process.env.HA_MASTER == "true") {
     if (!process.env.HA_MASTER_IP) {
-      logger.error("Master's IP is not set, please set the HA_MASTER_IP variable (example: 10.0.0.4:9876)");
+      logger.error(
+        "Master's IP is not set, please set the HA_MASTER_IP variable (example: 10.0.0.4:9876)",
+      );
     } else {
       const haNodeConfig: any = {
-        master: "HA_MASTER_IP"
+        master: "HA_MASTER_IP",
       };
       const haConfig: HighAvailabilityConfig = {
         active: true,
@@ -159,9 +176,21 @@ async function startMasterNode() {
           ? process.env.HA_NODE.split(",").map((node) => node.trim())
           : [],
       };
+
+      const nodeCache: NodeCache = process.env.HA_NODE
+        ? process.env.HA_NODE.split(",").reduce((cache, node, index) => {
+            const [ip, id] = node.trim().split(":");
+            if (ip && id) {
+              cache[`node${index + 1}`] = { ip, id: parseInt(id, 10) };
+            }
+            return cache;
+          }, {} as NodeCache)
+        : {};
+
       logger.debug("Writing HA-Config(s)");
       await writeConfig(haConfig, haMasterPath);
       await writeConfig(haNodeConfig, haNodePath);
+      await writeConfig(nodeCache, nodeCachePath);
 
       logger.info("Running startup sync...");
       await synchronizeFilesWithNodes();

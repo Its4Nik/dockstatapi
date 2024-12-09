@@ -16,7 +16,7 @@ import cors from "cors";
 
 // Initialize express app
 const app = express();
-const PORT: number = 9876; // Port should be a number
+const PORT: number = 9876;
 app.use(cors());
 
 // Middleware to parse JSON requests
