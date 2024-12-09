@@ -3,27 +3,27 @@
 dist="$(pwd)/dist"
 TMP="$(mktemp)"
 
-npx tsc
+run_script() {
+  echo -n "⏳ Minifying : $(basename "$1")"
+  npx uglifyjs --no-annotations --in-situ "$1" > /dev/null
+  echo -ne "\r✔️  Minified  : $(basename "$1")\n"
+}
 
-if [ -d $dist ]; then
+
+if [ -d "$dist" ]; then
   echo "::: Dist directory exists."
 else
   echo "::: Dist does not exist... Running npx tsc"
   npx tsc
 fi
 
-tree -f -n -i $dist | grep ".js" > $TMP
+export -f run_script
 
-while read -r line; do
-    echo "Minifying $line" & \
-    npx uglifyjs --no-annotations --in-situ $line & \
-done < $TMP
+find "$dist" -type f -exec bash -c 'run_script "$0"' {} \;
 
-wait
+echo
 
-echo -e "\n\n\n\n\n\n\n\n\n"
-
-if [[ $1 = "--build-only" ]]; then
+if [[ $1 == "--build-only" ]]; then
     exit 0
 fi
 
