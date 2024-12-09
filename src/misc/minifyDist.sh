@@ -1,7 +1,6 @@
 #!/bin/bash
 
 dist="$(pwd)/dist"
-TMP="$(mktemp)"
 
 run_script() {
   echo -ne "\r⏳ Minifying : $(basename "$1")"
