@@ -6,7 +6,6 @@ import { emailNotification } from "./email";
 import { whatsappNotification } from "./whatsapp";
 import { pushbulletNotification } from "./pushbullet";
 import { pushoverNotification } from "./pushover";
-import fs from "fs/promises";
 import path from "path";
 
 async function loadCustomNotification(scriptPath: string, containerId: string) {

@@ -1,0 +1,52 @@
+{
+  "Fin-2": [
+    {
+      "name": "AUTH-worker",
+      "id": "a84ca83bb0e7f8c24fe472b9164d40a4bae518ece8369e6776f722b81dd65bcf",
+      "state": "running",
+      "hostName": "Fin-2"
+    },
+    {
+      "name": "AUTH-authentik",
+      "id": "a6b6c34350b40f310fa24b0a3564b0e8897ca604acd483713cad8a27b7284cef",
+      "state": "running",
+      "hostName": "Fin-2"
+    },
+    {
+      "name": "AUTH-redis",
+      "id": "83c6f0f6704c61f132e9daf4ecb54cd66c646a91f96a358ed1357ae76d3d612e",
+      "state": "running",
+      "hostName": "Fin-2"
+    },
+    {
+      "name": "AUTH-postgres",
+      "id": "6b9e587cedd9fde51edb92b25d654f38611001dab8bcb7fa7428b1aca20e2214",
+      "state": "running",
+      "hostName": "Fin-2"
+    },
+    {
+      "name": "dockstatdev",
+      "id": "121f71d53bbda5bc4f633ed8cf127c2904b649fd6bf224ea6f73083320386aed",
+      "state": "running",
+      "hostName": "Fin-2"
+    },
+    {
+      "name": "dockstatapi",
+      "id": "462f4dd54133be50b4550dc2e38b8744a6fd6dba73839042a26b661921f5db1c",
+      "state": "running",
+      "hostName": "Fin-2"
+    },
+    {
+      "name": "cup",
+      "id": "e5a580a7d68874e47b59e84a001bf9aacab1fc3826acba4d6c5164829631fee7",
+      "state": "running",
+      "hostName": "Fin-2"
+    },
+    {
+      "name": "docker-proxy-fin-2",
+      "id": "8fa10b2fbc2aacea399c69ca95a6f243f407ca136a49236396cc602d17ce4cf3",
+      "state": "running",
+      "hostName": "Fin-2"
+    }
+  ]
+}

@@ -2,8 +2,8 @@ import { Router, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import fs from "fs/promises";
 import logger from "../../utils/logger";
-const passwordFile: string = "./src/middleware/password.json";
-const passwordBool: string = "./src/middleware/usePassword.txt";
+const passwordFile: string = "./src/data/password.json";
+const passwordBool: string = "./src/data/usePassword.txt";
 const saltRounds: number = 10;
 const router: Router = Router();
 

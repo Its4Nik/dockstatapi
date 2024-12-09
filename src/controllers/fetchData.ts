@@ -30,7 +30,7 @@ const fetchData = async (): Promise<void> => {
         [JSON.stringify(allContainerData)],
         function (error) {
           if (error) {
-            logger.error("Error inserting data:", error.message);
+            logger.error("Error inserting data:", error);
             return;
           }
           logger.info(`Data inserted with ID: ${this.lastID}`);

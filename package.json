@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "tsx src/server.ts",
-    "start:build": "npx tsc && export NODE_NO_WARNINGS=1 && node dist/server.js",
+    "start:build": "npx tsc && node dist/server.js",
     "dev": "nodemon",
     "dev:trace": "nodemon --trace-uncaught --trace-warnings",
     "dep": "bash ./src/utils/createDependencyGraph.sh",
@@ -28,6 +28,7 @@
     "dockerode": "^4.0.2",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
+    "https": "^1.0.0",
     "ipaddr.js": "^2.2.0",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.16",
@@ -48,6 +49,7 @@
     "dependency-cruiser": "^16.5.0",
     "nodemon": "^3.1.7",
     "ora": "^8.1.1",
+    "pkg": "^5.8.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "uglify-js": "^3.19.3"

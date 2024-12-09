@@ -3,8 +3,8 @@ import fs from "fs";
 import { Request, Response, NextFunction } from "express";
 import logger from "../utils/logger";
 
-const passwordFile = "./src/middleware/password.json";
-const passwordBool = "./src/middleware/usePassword.txt";
+const passwordFile = "./src/data/password.json";
+const passwordBool = "./src/data/usePassword.txt";
 
 async function authMiddleware(
   req: Request,

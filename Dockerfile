@@ -9,21 +9,37 @@ LABEL repository="https://github.com/its4nik/dockstatapi"
 LABEL documentation="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /build
+RUN apk add bash
 
 ENV NODE_NO_WARNINGS=1
+
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json ./
 RUN npm i
-COPY ./src ./
+COPY ./src ./src
 RUN npm run build:mini
 
-# Stage 2 running
-FROM alpine:latest AS main
-WORKDIR /api
-RUN apk add node
+# Stage 2: main stage
+FROM alpine AS main
 
-COPY --from=builder /build/src/misc/entrypoint.sh /api/entrypoint.sh
-COPY --from=builder /build/dist/* /api/
+# Needed packages
+RUN apk add --update npm
+WORKDIR /build
+RUN mkdir -p /build/src/data
+
+COPY package*.json .
+RUN npm ci --only=production
+COPY --from=builder /build/dist/* /build/src
+COPY --from=builder /build/src/misc/entrypoint.sh /build/entrypoint.sh
+
+RUN node src/config/db.js
+
+# Stage 2: Production stage
+FROM alpine AS production
+# Needed packages
+RUN apk add --update bash nodejs
+
+WORKDIR /api
+COPY --from=main /build /api
 
 EXPOSE 9876
-
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "bash", "./entrypoint.sh" ]
