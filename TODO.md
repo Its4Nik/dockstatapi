@@ -4,7 +4,7 @@
 - [ ] Image update and update notifications
 - [ ] trigger container restart / stop / start via backend routes
 - [X] Add more logging
-- [ ] Structure code differently
+- [X] Structure code differently
 - [ ] Write new README and make the docs better
 - [X] Update more files to correct TS syntax => remove "any"
 - [ ] Websockets
