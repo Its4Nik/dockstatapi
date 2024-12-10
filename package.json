@@ -63,8 +63,7 @@
     "delay": 2500
   },
   "engines": {
-    "npm": ">=10.8.2",
-    "node": ">=v20.18.1"
+    "npm": ">=10.8.2"
   },
   "repository": "git@github.com:Its4Nik/dockstatapi.git"
 }
