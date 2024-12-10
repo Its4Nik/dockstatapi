@@ -9,10 +9,15 @@ LABEL repository="https://github.com/its4nik/dockstatapi"
 LABEL documentation="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /build
-RUN apk add bash yarn
+RUN apk update && \
+    apk upgrade && \
+    apk add bash
+
 ENV NODE_NO_WARNINGS=1
+
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
-RUN yarn install
+RUN npm install
+
 COPY ./src ./src
 RUN npm run build:mini
 
@@ -20,12 +25,18 @@ RUN npm run build:mini
 FROM alpine AS main
 
 # Needed packages
-RUN apk add --update npm yarn
+RUN apk update && \
+    apk upgrade && \
+    apk add --update npm
+
 WORKDIR /build
+
 RUN mkdir -p /build/src/data
 
-COPY package*.json .
-RUN yarn install --prod
+COPY package*.json yarn.lock ./
+
+RUN npm install --omit=dev
+
 COPY --from=builder /build/dist/* /build/src
 COPY --from=builder /build/src/misc/entrypoint.sh /build/entrypoint.sh
 
@@ -33,10 +44,10 @@ RUN node src/config/db.js
 
 # Stage 2: Production stage
 FROM alpine AS production
-# Needed packages
 RUN apk add --update bash nodejs
 
 WORKDIR /api
+
 COPY --from=main /build /api
 
 EXPOSE 9876
