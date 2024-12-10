@@ -9,8 +9,7 @@ LABEL repository="https://github.com/its4nik/dockstatapi"
 LABEL documentation="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /build
-RUN apk add bash
-RUN npm i -g yarn
+RUN apk add bash yarn
 ENV NODE_NO_WARNINGS=1
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
 RUN yarn install
@@ -21,8 +20,7 @@ RUN npm run build:mini
 FROM alpine AS main
 
 # Needed packages
-RUN apk add --update npm
-RUN npm i -g yarn
+RUN apk add --update npm yarn
 WORKDIR /build
 RUN mkdir -p /build/src/data
 
