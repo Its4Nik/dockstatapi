@@ -16,7 +16,7 @@ RUN apk update && \
 ENV NODE_NO_WARNINGS=1
 
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
-RUN npm install
+RUN npm install --verbose
 
 COPY ./src ./src
 RUN npm run build:mini
@@ -33,9 +33,9 @@ WORKDIR /build
 
 RUN mkdir -p /build/src/data
 
-COPY package*.json yarn.lock ./
+COPY package*.json ./
 
-RUN npm install --omit=dev
+RUN npm install --omit=dev --verbose
 
 COPY --from=builder /build/dist/* /build/src
 COPY --from=builder /build/src/misc/entrypoint.sh /build/entrypoint.sh
