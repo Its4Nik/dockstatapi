@@ -10,11 +10,10 @@ LABEL documentation="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /build
 RUN apk add bash
-
+RUN npm i -g yarn
 ENV NODE_NO_WARNINGS=1
-
-COPY tsconfig.json environment.d.ts package*.json tsconfig.json ./
-RUN npm i
+COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
+RUN yarn install
 COPY ./src ./src
 RUN npm run build:mini
 
@@ -23,11 +22,12 @@ FROM alpine AS main
 
 # Needed packages
 RUN apk add --update npm
+RUN npm i -g yarn
 WORKDIR /build
 RUN mkdir -p /build/src/data
 
 COPY package*.json .
-RUN npm ci --only=production
+RUN yarn install --prod
 COPY --from=builder /build/dist/* /build/src
 COPY --from=builder /build/src/misc/entrypoint.sh /build/entrypoint.sh
 

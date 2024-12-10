@@ -65,5 +65,6 @@
   "engines": {
     "npm": ">=10.8.2",
     "node": ">=v20.18.1"
-  }
+  },
+  "repository": "git@github.com:Its4Nik/dockstatapi.git"
 }
