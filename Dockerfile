@@ -33,8 +33,7 @@ WORKDIR /build
 
 RUN mkdir -p /build/src/data
 
-COPY package*.json ./
-
+COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
 RUN npm install --omit=dev --verbose
 
 COPY --from=builder /build/dist/* /build/src
