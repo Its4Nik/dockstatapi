@@ -9,6 +9,7 @@ import fs from "fs";
 import checkReachability from "../../utils/connectionChecker";
 const configPath = "./src/data/dockerConfig.json";
 const router = Router();
+const userConf = "./src/data/user.conf";
 
 /**
  * @swagger
@@ -46,6 +47,48 @@ router.get("/hosts", (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error("Error fetching hosts: " + error.message);
     res.status(500).json({ error: "Failed to fetch Docker hosts" });
+  }
+});
+
+/**
+ * @swagger
+ * /api/system:
+ *   get:
+ *     summary: Retrieve system configuration details
+ *     tags: [Misc]
+ *     responses:
+ *       200:
+ *         description: A JSON object containing the system configuration details.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               description: The parsed configuration details.
+ *       500:
+ *         description: An error occurred while fetching the system configuration.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message detailing the issue encountered.
+ */
+router.get("/system", (req: Request, res: Response) => {
+  logger.info(`Fetching ${userConf}`);
+
+  try {
+    const rawData = fs.readFileSync(userConf, "utf8");
+    const config = JSON.parse(rawData);
+
+    if (!config) {
+      res.status(500).json({ error: `Error received empty ${userConf}` });
+    }
+    res.status(200).json(config);
+  } catch (error: any) {
+    logger.error(`Could not fetch ${userConf}: ${error}`);
+    res.status(500).json({ error: `Failed to fetch ${userConf}` });
   }
 });
 
@@ -348,14 +391,10 @@ router.get("/frontend-config", (req: Request, res: Response) => {
 
   fs.stat(configPath, (exists) => {
     if (exists == null) {
-      logger.debug(`${configPath} exists, trying to read it`)
-    } else if (exists.code === 'ENOENT') {
-      logger.warn(`${configPath} doesn't exist, trying to create it`)
-      fs.promises.writeFile(
-        configPath,
-        JSON.stringify([], null, 2),
-        "utf-8",
-      );
+      logger.debug(`${configPath} exists, trying to read it`);
+    } else if (exists.code === "ENOENT") {
+      logger.warn(`${configPath} doesn't exist, trying to create it`);
+      fs.promises.writeFile(configPath, JSON.stringify([], null, 2), "utf-8");
     }
   });
 

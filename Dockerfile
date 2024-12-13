@@ -12,11 +12,12 @@ LABEL org.opencontainers.image.licenses="BSD-3-Clause license"
 LABEL org.opencontainers.image.source="https://github.com/its4nik/dockstatapi"
 
 WORKDIR /build
+ENV NODE_NO_WARNINGS=1
+
 RUN apk update && \
     apk upgrade && \
     apk add bash
 
-ENV NODE_NO_WARNINGS=1
 
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
 RUN npm install --verbose
@@ -46,6 +47,7 @@ RUN node src/config/db.js
 
 # Stage 2: Production stage
 FROM alpine AS production
+ARG RUNNING_IN_DOCKER=true
 RUN apk add --update bash nodejs
 
 WORKDIR /api

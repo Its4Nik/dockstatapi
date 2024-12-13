@@ -5,6 +5,10 @@ declare global {
       NODE_ENV: "development" | "production";
       TRUSTED_PROXYS: string | undefined;
 
+      // User.conf
+      RUNNING_IN_DOCKER: string | undefined;
+      VERSION: string | undefined;
+
       // High Availability
       HA_MASTER: string | undefined; //bool
       HA_MASTER_IP: string | undefined;
@@ -31,6 +35,8 @@ declare global {
 
       WHATSAPP_API_URL: string | undefined;
       WHATSAPP_RECIPIENT: string | undefined;
+
+      CUSTOM_NOTIFICATION: string | undefined; // enter the script name without .js here and without custom/...
     }
   }
 }

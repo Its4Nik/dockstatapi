@@ -1,6 +1,6 @@
 - [ ] Better Offline mode using "faker" library or self written (probably self written)
 - [X] HA compatibility
-- [ ] Add automatic notifications when container state changes, according to selected level for notification service
+- [X] !!! Needs testing !!! Add automatic notifications when container state changes, according to selected level for notification service
 - [ ] Image update and update notifications
 - [ ] trigger container restart / stop / start via backend routes
 - [X] Add more logging
