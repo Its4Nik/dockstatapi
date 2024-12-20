@@ -45,7 +45,7 @@ COPY --from=builder /build/src/misc/entrypoint.sh /build/entrypoint.sh
 
 RUN node src/config/db.js
 
-# Stage 2: Production stage
+# Stage 3: Production stage
 FROM alpine AS production
 ARG RUNNING_IN_DOCKER=true
 RUN apk add --update bash nodejs
