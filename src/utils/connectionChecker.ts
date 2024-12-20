@@ -66,8 +66,8 @@ async function checkReachability(): Promise<StatusResponse | undefined> {
     const data = fs.readFileSync(filePath, "utf-8");
     const parsedData = JSON.parse(data);
     const hosts: Host[] = parsedData.hosts;
-    const resp = await checkHostStatus(hosts);
-    return resp;
+    return await checkHostStatus(hosts);
+
   } catch (error: any) {
     logger.error(`Error reading file: ${error}`);
     return undefined;
