@@ -42,6 +42,7 @@ RUN npm install --omit=dev --verbose
 
 COPY --from=builder /build/dist/* /build/src
 COPY --from=builder /build/src/misc/entrypoint.sh /build/entrypoint.sh
+COPY --from=builder /build/src/misc/createEnvFile.sh /build/createEnvFile.sh
 
 RUN node src/config/db.js
 

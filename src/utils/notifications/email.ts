@@ -8,6 +8,15 @@ const email_password: string | undefined = process.env.EMAIL_PASSWORD;
 const email_service: string | undefined = process.env.EMAIL_SERVICE;
 
 export async function emailNotification(containerId: string) {
+  // Validate email configuration parameters
+  if (!email_sender || !email_recipient || !email_password || !email_service) {
+    logger.error(
+      "Email notification failed: Missing configuration parameters. " +
+        "Please ensure EMAIL_SENDER, EMAIL_RECIPIENT, EMAIL_PASSWORD, and EMAIL_SERVICE are set in environment variables.",
+    );
+    return;
+  }
+
   const email_message: string | null = renderTemplate(containerId);
   if (!email_message) {
     logger.error("Failed to create notification message.");

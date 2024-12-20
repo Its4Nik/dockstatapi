@@ -25,5 +25,6 @@ DockStat and DockStatAPI are 2 fully OpenSource projects, DockStatAPI is a simpl
 
 "
 
+bash "./createEnvFile.sh" "$VERSION"
 
 exec node src/server.js
