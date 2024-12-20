@@ -17,6 +17,10 @@ interface Node {
   id: number;
 }
 
+interface HaNodeConfig {
+  master: string;
+}
+
 interface NodeCache {
   [nodes: string]: Node;
 }
@@ -64,7 +68,7 @@ async function releaseLock(): Promise<void> {
 }
 
 async function writeConfig(
-  data: HighAvailabilityConfig | NodeCache,
+  data: HighAvailabilityConfig | NodeCache | HaNodeConfig,
   filePath: string,
 ): Promise<void> {
   await acquireLock();
@@ -203,10 +207,6 @@ async function startMasterNode() {
         "Master's IP is not set, please set the HA_MASTER_IP variable (example: 10.0.0.4:9876)",
       );
     } else {
-      interface HaNodeConfig {
-        master: string;
-      }
-
       const haNodeConfig: HaNodeConfig = {
         master: "HA_MASTER_IP",
       };

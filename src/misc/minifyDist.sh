@@ -3,9 +3,8 @@
 dist="$(pwd)/dist"
 
 run_script() {
-  echo -ne "\r⏳ Minifying : $(basename "$1")"
   npx uglifyjs --no-annotations --in-situ "$1" > /dev/null
-  echo -ne "\r✔️  Minified  : $(basename "$1")\n"
+  echo "✔️  Minified  : $(basename "$1")"
 }
 
 if [ -d "$dist" ]; then
@@ -15,9 +14,20 @@ else
   npx tsc
 fi
 
-export -f run_script
+max_jobs=$(nproc)
+job_count=0
 
-find "$dist" -type f -exec bash -c 'run_script "$0"' {} \;
+for file in $(find "$dist" -type f); do
+  run_script "$file" &
+  ((job_count++))
+
+  if ((job_count >= max_jobs)); then
+    wait
+    job_count=0
+  fi
+done
+
+wait
 
 echo
 
