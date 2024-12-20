@@ -3,7 +3,7 @@ import logger from "../utils/logger";
 import os from "os";
 
 const userConf = "./src/data/user.conf";
-const inDocker: boolean = process.env.RUNNING_IN_DOCKER ? true : false;
+const inDocker: boolean = !!process.env.RUNNING_IN_DOCKER;
 const version: string = process.env.VERSION ? process.env.VERSION : "unknown";
 
 function writeUserConf() {
@@ -52,14 +52,9 @@ function writeUserConf() {
     backendVersion: version,
   };
 
+  logger.info("Starting the server...");
   logger.info(
-    `Starting...
-At: ${startDetails.startedAt}
-Version: ${startDetails.backendVersion}
-Docker: ${installationDetails.inDocker}
-Installed as: ${installationDetails.installedBy}
-Platform: ${installationDetails.platform}
-Arch: ${installationDetails.arch}`,
+    `At: ${startDetails.startedAt} - Version: ${startDetails.backendVersion} - Docker: ${installationDetails.inDocker} - Installed as: ${installationDetails.installedBy} - Platform: ${installationDetails.platform} - Arch: ${installationDetails.arch}`,
   );
 }
 

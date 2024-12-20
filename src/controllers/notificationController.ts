@@ -2,28 +2,18 @@ import notify from "../utils/notifications/_notify";
 import logger from "../utils/logger";
 
 const notificationTypes = {
-  discord: process.env.DISCORD_WEBHOOK_URL ? true : false,
-  email:
+  discord: !!process.env.DISCORD_WEBHOOK_URL,
+  email: !!(
     process.env.EMAIL_SENDER &&
     process.env.EMAIL_RECIPIENT &&
     process.env.EMAIL_PASSWORD
-      ? true
-      : false,
-  pushbullet: process.env.PUSHBULLET_ACCESS_TOKEN ? true : false,
-  pushover:
-    process.env.PUSHOVER_API_TOKEN && process.env.PUSHOVER_USER_KEY
-      ? true
-      : false,
-  slack: process.env.SLACK_WEBHOOK_URL ? true : false,
-  telegram:
-    process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID
-      ? true
-      : false,
-  whatsapp:
-    process.env.WHATSAPP_API_URL && process.env.WHATSAPP_RECIPIENT
-      ? true
-      : false,
-  custom: process.env.CUSTOM_NOTIFICATION ? true : false,
+  ),
+  pushbullet: !!process.env.PUSHBULLET_ACCESS_TOKEN,
+  pushover: !!(process.env.PUSHOVER_API_TOKEN && process.env.PUSHOVER_USER_KEY),
+  slack: !!process.env.SLACK_WEBHOOK_UR,
+  telegram: !!(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID),
+  whatsapp: !!(process.env.WHATSAPP_API_URL && process.env.WHATSAPP_RECIPIENT),
+  custom: !!process.env.CUSTOM_NOTIFICATION,
   customList: process.env.CUSTOM_NOTIFICATION,
 };
 
