@@ -1,0 +1,106 @@
+flowchart LR
+
+0["server.ts"]
+subgraph 1["controllers"]
+2["highAvailability.ts"]
+3["scheduler.ts"]
+6["fetchData.ts"]
+K["frontendConfiguration.ts"]
+end
+subgraph 4["config"]
+5["db.ts"]
+19["swaggerConfig.ts"]
+end
+subgraph 7["utils"]
+8["containerService.ts"]
+9["dockerClient.ts"]
+N["connectionChecker.ts"]
+P["extractHostData.ts"]
+Q["writeOfflineLog.ts"]
+subgraph V["notifications"]
+W["_notify.ts"]
+X["discord.ts"]
+Y["_template.ts"]
+Z["email.ts"]
+10["pushbullet.ts"]
+11["pushover.ts"]
+12["slack.ts"]
+13["telegram.ts"]
+14["whatsapp.ts"]
+end
+end
+subgraph A["middleware"]
+B["authMiddleware.ts"]
+C["rateLimiter.ts"]
+end
+subgraph D["routes"]
+subgraph E["auth"]
+F["routes.ts"]
+end
+subgraph G["data"]
+H["routes.ts"]
+end
+subgraph I["frontendController"]
+J["routes.ts"]
+end
+subgraph L["getter"]
+M["routes.ts"]
+end
+subgraph R["highavailability"]
+S["routes.ts"]
+end
+subgraph T["notifications"]
+U["routes.ts"]
+end
+subgraph 15["setter"]
+16["routes.ts"]
+end
+end
+O["net"]
+subgraph 17["swagger"]
+18["swaggerDocs.ts"]
+end
+0-->2
+0-->3
+0-->B
+0-->C
+0-->F
+0-->H
+0-->J
+0-->M
+0-->S
+0-->U
+0-->16
+0-->18
+3-->5
+3-->6
+6-->5
+6-->8
+8-->9
+H-->5
+J-->K
+M-->3
+M-->N
+M-->8
+M-->9
+M-->P
+M-->Q
+N-->O
+S-->2
+U-->W
+W-->X
+W-->Z
+W-->10
+W-->11
+W-->12
+W-->13
+W-->14
+X-->Y
+Z-->Y
+10-->Y
+11-->Y
+12-->Y
+13-->Y
+14-->Y
+16-->3
+18-->19

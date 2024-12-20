@@ -1,6 +1,13 @@
 # custom paths:
-data/*
+src/data/database.db
+src/data/dockerConfig.json
+src/data/highAvailability.json
+src/data/states.json
+src/data/user.conf
+src/data/password.json
+src/data/ha.lock
 
+.test*
 # Created by https://www.toptal.com/developers/gitignore/api/node
 ### Node ###
 # Logs
@@ -141,3 +148,7 @@ dist
 
 # SvelteKit build / generate output
 .svelte-kit
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

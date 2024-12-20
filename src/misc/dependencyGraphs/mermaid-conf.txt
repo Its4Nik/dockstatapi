@@ -1,0 +1,24 @@
+flowchart LR
+
+subgraph 0["routes"]
+subgraph 1["setter"]
+2["routes.ts"]
+end
+end
+subgraph 3["controllers"]
+4["scheduler.ts"]
+7["fetchData.ts"]
+end
+subgraph 5["config"]
+6["db.ts"]
+end
+subgraph 8["utils"]
+9["containerService.ts"]
+A["dockerClient.ts"]
+end
+2-->4
+4-->6
+4-->7
+7-->6
+7-->9
+9-->A

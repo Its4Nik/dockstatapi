@@ -1,0 +1,6 @@
+{
+  "ignore": ["src/logs", "**/fixtures/**", ".gitignore", "**/*.json"],
+  "execMap": {
+    "ts": "tsx"
+  }
+}

@@ -1,0 +1,12 @@
+- [ ] Better Offline mode using "faker" library or self written (probably self written)
+- [X] HA compatibility
+- [X] !!! Needs testing !!! Add automatic notifications when container state changes, according to selected level for notification service
+- [ ] Image update and update notifications
+- [ ] trigger container restart / stop / start via backend routes
+- [X] Add more logging
+- [X] Structure code differently
+- [X] Write new README and make the docs better
+- [X] Update more files to correct TS syntax => remove "any"
+- [ ] Websockets
+- [X] Better /api/status endpoint with connection status of each host
+- [X] Update notification service

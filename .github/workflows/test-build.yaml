@@ -1,8 +1,9 @@
-name: Buiod dockstatapi:latest
+name: Test building
 
 on:
-  release:
-    types: [published]
+  pull_request:
+    branches:
+      - "dev"
 
 permissions:
   packages: write
@@ -12,6 +13,20 @@ jobs:
   build-main:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Node.js using nvm
+      - name: Set up Node.js version from .nvmrc
+        run: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm install
+          nvm use
+          node -v
+          npm -v
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -23,7 +38,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ github.token }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Docker tags
         uses: docker/metadata-action@v5
@@ -31,11 +46,9 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=sha,format=long,prefix=
-          flavor: |
-            latest=true
+            type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.sha }}
 
-      - name: Build and push
+      - name: Build and Push Docker Images
         uses: docker/build-push-action@v5
         with:
           platforms: linux/amd64,linux/arm64
