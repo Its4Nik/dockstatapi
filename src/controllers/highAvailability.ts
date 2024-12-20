@@ -203,7 +203,11 @@ async function startMasterNode() {
         "Master's IP is not set, please set the HA_MASTER_IP variable (example: 10.0.0.4:9876)",
       );
     } else {
-      const haNodeConfig: any = {
+      interface HaNodeConfig {
+        master: string;
+      }
+
+      const haNodeConfig: HaNodeConfig = {
         master: "HA_MASTER_IP",
       };
       const haConfig: HighAvailabilityConfig = {
