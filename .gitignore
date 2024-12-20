@@ -5,9 +5,7 @@ src/data/highAvailability.json
 src/data/states.json
 src/data/user.conf
 src/data/password.json
-
-dockerConfig.json
-./src/middleware/password.json
+src/data/ha.lock
 
 .test*
 # Created by https://www.toptal.com/developers/gitignore/api/node

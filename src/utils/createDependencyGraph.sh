@@ -11,8 +11,6 @@ spawn_worker(){
 
     echo -e "\nRoute: $route \n${target_route}"
 
-    sleep 0.5
-
     npx depcruise \
         -p cli-feedback \
         -T mermaid \
@@ -33,8 +31,6 @@ npx depcruise \
     ./server.ts || exit 1
 
 wait
-
-sleep 0.5
 
 echo -e "\n========\n\n  DONE\n\n========"
 

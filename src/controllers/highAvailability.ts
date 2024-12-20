@@ -2,6 +2,9 @@ import logger from "../utils/logger";
 import fs from "fs";
 import chokidar from "chokidar";
 import path from "path";
+import { promisify } from "util";
+
+const sleep = promisify(setTimeout);
 
 interface HighAvailabilityConfig {
   active: boolean;
@@ -22,35 +25,67 @@ const haMasterPath: string = "./src/data/highAvailability.json";
 const haNodePath: string = "./src/data/haNode.json";
 const nodeCachePath: string = "./src/data/nodeCache.json";
 const useUnsafeConnection = process.env.HA_UNSAFE || "false";
+const lockFilePath: string = "./src/data/ha.lock";
 
-// List of configuration files to monitor and synchronize
 const configFiles: string[] = [
   "./src/data/dockerConfig.json",
   "./src/data/states.json",
   "./src/data/template.json",
   "./src/data/frontendConfiguration.json",
   "./src/data/nodeCache.json",
+  "./src/data/usePassword.txt",
+  "./src/data/password.json",
 ];
+
+async function acquireLock(): Promise<void> {
+  while (fs.existsSync(lockFilePath)) {
+    logger.warn("Lock file exists, waiting...");
+    await sleep(100);
+  }
+
+  try {
+    await fs.promises.writeFile(lockFilePath, "locked", { flag: "wx" });
+    logger.debug("Lock acquired.");
+  } catch (error) {
+    logger.error(`Error acquiring lock: ${(error as Error).message}`);
+    throw new Error("Failed to acquire lock.");
+  }
+}
+
+async function releaseLock(): Promise<void> {
+  try {
+    if (fs.existsSync(lockFilePath)) {
+      await fs.promises.unlink(lockFilePath);
+      logger.debug("Lock released.");
+    }
+  } catch (error) {
+    logger.error(`Error releasing lock: ${(error as Error).message}`);
+  }
+}
 
 async function writeConfig(
   data: HighAvailabilityConfig | NodeCache,
   filePath: string,
 ): Promise<void> {
+  await acquireLock();
   try {
-    logger.debug(`writing ${filePath}`);
+    logger.debug(`Writing ${filePath}`);
     const dirPath: string = path.dirname(filePath);
     await fs.promises.mkdir(dirPath, { recursive: true });
 
     const jsonData = JSON.stringify(data, null, 2);
     await fs.promises.writeFile(filePath, jsonData);
 
-    logger.debug(`${filePath} has been written`);
+    logger.debug(`${filePath} has been written.`);
   } catch (error) {
     logger.error(`Error writing config: ${(error as Error).message}`);
+  } finally {
+    await releaseLock();
   }
 }
 
 async function readConfig(): Promise<HighAvailabilityConfig | null> {
+  await acquireLock();
   try {
     logger.debug("Reading HA-Config");
     const data: HighAvailabilityConfig = JSON.parse(
@@ -60,6 +95,8 @@ async function readConfig(): Promise<HighAvailabilityConfig | null> {
   } catch (error: any) {
     logger.error(`Error reading HA-Config: ${(error as Error).message}`);
     return null;
+  } finally {
+    await releaseLock();
   }
 }
 
@@ -194,7 +231,7 @@ async function startMasterNode() {
 
       logger.info("Running startup sync...");
       await synchronizeFilesWithNodes();
-      logger.info("Watching config file in ./data");
+      logger.info("Watching config files in ./data");
       monitorConfigFiles();
     }
   } else {
@@ -206,6 +243,7 @@ async function ensureFileExists(
   filePath: string,
   content: string,
 ): Promise<void> {
+  await acquireLock();
   try {
     const dirPath = path.dirname(filePath);
     await fs.promises.mkdir(dirPath, { recursive: true });
@@ -215,6 +253,8 @@ async function ensureFileExists(
     logger.error(
       `Error creating/updating file ${filePath}: ${(error as Error).message}`,
     );
+  } finally {
+    await releaseLock();
   }
 }
 

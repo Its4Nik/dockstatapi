@@ -4,7 +4,7 @@ import os from "os";
 
 const userConf = "./src/data/user.conf";
 const inDocker: boolean = !!process.env.RUNNING_IN_DOCKER;
-const version: string = process.env.VERSION ? process.env.VERSION : "unknown";
+const version: string = process.env.VERSION || "unknown";
 
 function writeUserConf() {
   let previousConfig = null;

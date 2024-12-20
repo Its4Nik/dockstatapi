@@ -2,7 +2,7 @@
 ![Dockstat Logo](.github/DockStat.png)
 
 This specific branch contains the currently WIP **DockStatAPI-v2**, this update will bring major breaking changes so please be careful.
-With this new release a cupple of extra features (compared to v1) are going to be available.
+With this new release a couple of extra features (compared to v1) are going to be available.
 
 ### Feature List:
 

@@ -22,7 +22,7 @@ async function checkHostStatus(hosts: Host[]): Promise<StatusResponse> {
 
     const isOnline = await checkPort(url, parseInt(port, 10));
 
-    results[name] = isOnline ? true : false;
+    results[name] = !!isOnline;
 
     if (results[name] == true) {
       logger.debug(`${host.url}:${port} is online`);

@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
-import swaggerDocs from "./swagger/swaggerDocs";
+import swaggerDocs from "./utils/swaggerDocs";
 import auth from "./routes/auth/routes";
 import data from "./routes/data/routes";
 import frontend from "./routes/frontendController/routes";
@@ -12,6 +12,7 @@ import trustedProxies from "./controllers/proxy";
 import { limiter } from "./middleware/rateLimiter";
 import { scheduleFetch } from "./controllers/scheduler";
 import cors from "cors";
+import { blockWhileLocked } from "./middleware/checkLock";
 
 const initializeApp = (app: express.Application): void => {
   app.use(cors());
@@ -24,15 +25,16 @@ const initializeApp = (app: express.Application): void => {
   trustedProxies(app); // Configures proxies using CSV string
   scheduleFetch();
 
-  app.use("/api", limiter, authMiddleware, api);
-  app.use("/conf", limiter, authMiddleware, conf);
-  app.use("/auth", limiter, authMiddleware, auth);
-  app.use("/data", limiter, authMiddleware, data);
-  app.use("/frontend", limiter, authMiddleware, frontend);
+  app.use("/api", limiter, authMiddleware, blockWhileLocked, api);
+  app.use("/conf", limiter, authMiddleware, blockWhileLocked, conf);
+  app.use("/auth", limiter, authMiddleware, blockWhileLocked, auth);
+  app.use("/data", limiter, authMiddleware, blockWhileLocked, data);
+  app.use("/frontend", limiter, authMiddleware, blockWhileLocked, frontend);
   app.use(
     "/notification-service",
     limiter,
     authMiddleware,
+    blockWhileLocked,
     notificationService,
   );
   app.use("/ha", limiter, authMiddleware, ha);
