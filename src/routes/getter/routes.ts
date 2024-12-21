@@ -134,7 +134,7 @@ router.get("/system", (req: Request, res: Response) => {
  *                   description: Error message detailing the issue encountered.
  */
 router.get("/host/:hostName/stats", async (req: Request, res: Response) => {
-  const hostName = req.params.hostName;
+  const {hostName} = req.params;
   logger.info(`Fetching stats for host: ${hostName}`);
   if (process.env.OFFLINE === "true") {
     logger.info("Fetching offline Host Stats");
