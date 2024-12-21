@@ -7,7 +7,7 @@ LABEL description="API for DockStat"
 LABEL license="BSD-3-Clause license"
 LABEL repository="https://github.com/its4nik/dockstatapi"
 LABEL documentation="https://github.com/its4nik/dockstatapi"
-LABEL org.opencontainers.image.description "The DockSatAPI is a free and OpenSource backend for gathering container statistics across hosts"
+LABEL org.opencontainers.image.description="The DockSatAPI is a free and OpenSource backend for gathering container statistics across hosts"
 LABEL org.opencontainers.image.licenses="BSD-3-Clause license"
 LABEL org.opencontainers.image.source="https://github.com/its4nik/dockstatapi"
 
@@ -48,8 +48,6 @@ RUN node src/config/db.js
 
 # Stage 3: Production stage
 FROM alpine AS production
-ARG RUNNING_IN_DOCKER=true
-RUN apk add --update bash nodejs
 
 WORKDIR /api
 
