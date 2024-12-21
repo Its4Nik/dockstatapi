@@ -185,22 +185,22 @@ async function setIcon(containerName: string, icon: string, custom: boolean) {
     );
 
     if (custom === true) {
-      if (containerIndex !== -1) {
-        data[containerIndex].icon = `custom/${icon}`;
-        await saveData(data);
-      } else {
-        data.push({ name: containerName, icon: `custom/${icon}` });
-        await saveData(data);
-      }
-    } else {
-      if (containerIndex !== -1) {
-        data[containerIndex].icon = `${icon}`;
-        await saveData(data);
-      } else {
-        data.push({ name: containerName, icon: `${icon}` });
-        await saveData(data);
-      }
-    }
+          if (containerIndex !== -1) {
+            data[containerIndex].icon = `custom/${icon}`;
+            await saveData(data);
+          } else {
+            data.push({ name: containerName, icon: `custom/${icon}` });
+            await saveData(data);
+          }
+        }
+    else if (containerIndex !== -1) {
+            data[containerIndex].icon = `${icon}`;
+            await saveData(data);
+          }
+    else {
+            data.push({ name: containerName, icon: `${icon}` });
+            await saveData(data);
+          }
   } catch (error: any) {
     logger.error(error);
     throw new Error(error);
