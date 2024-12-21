@@ -14,7 +14,7 @@ With this new release a couple of extra features (compared to v1) are going to b
 - Multi-arch docker builds (using buildx github action)
 - Advanced security through middlewares: rate-limiting and authentication
 - Multi Arch Docker builds through docker buildx
-- High Availability using single master and ulimited worker nodes!
+- High Availability using single master and unlimited worker nodes!
 
 # 🔗 DockStatAPI v2 Documentation
 
