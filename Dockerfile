@@ -20,7 +20,7 @@ RUN apk update && \
 
 
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
-RUN npm install --verbose
+RUN npm install
 
 COPY ./src ./src
 RUN npm run build:mini
