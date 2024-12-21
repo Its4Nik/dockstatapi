@@ -45,7 +45,7 @@ function renderTemplate(containerId: string) {
     for (const host in containers) {
       containerData = containers[host].find((c: any) => c.id === containerId);
       if (containerData) {
-        break;
+        break();
     }
 
     if (!containerData) {
