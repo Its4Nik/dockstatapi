@@ -1,106 +1,125 @@
 flowchart LR
 
 0["server.ts"]
-subgraph 1["controllers"]
-2["highAvailability.ts"]
-3["scheduler.ts"]
-6["fetchData.ts"]
-K["frontendConfiguration.ts"]
+subgraph 1["config"]
+2["hostsystem.ts"]
+B["db.ts"]
+1G["swaggerConfig.ts"]
 end
-subgraph 4["config"]
-5["db.ts"]
-19["swaggerConfig.ts"]
+3["os"]
+subgraph 4["controllers"]
+5["highAvailability.ts"]
+9["proxy.ts"]
+A["scheduler.ts"]
+C["fetchData.ts"]
+R["frontendConfiguration.ts"]
 end
-subgraph 7["utils"]
-8["containerService.ts"]
-9["dockerClient.ts"]
-N["connectionChecker.ts"]
-P["extractHostData.ts"]
-Q["writeOfflineLog.ts"]
-subgraph V["notifications"]
-W["_notify.ts"]
-X["discord.ts"]
-Y["_template.ts"]
-Z["email.ts"]
-10["pushbullet.ts"]
-11["pushover.ts"]
-12["slack.ts"]
-13["telegram.ts"]
-14["whatsapp.ts"]
+6["util"]
+7["init.ts"]
+8["process"]
+subgraph D["utils"]
+E["containerService.ts"]
+F["dockerClient.ts"]
+U["connectionChecker.ts"]
+W["extractHostData.ts"]
+X["writeOfflineLog.ts"]
+subgraph 12["notifications"]
+13["_notify.ts"]
+14["discord.ts"]
+16["_template.ts"]
+17["email.ts"]
+18["pushbullet.ts"]
+19["pushover.ts"]
+1A["slack.ts"]
+1B["telegram.ts"]
+1C["whatsapp.ts"]
 end
+1F["swaggerDocs.ts"]
 end
-subgraph A["middleware"]
-B["authMiddleware.ts"]
-C["rateLimiter.ts"]
+subgraph G["middleware"]
+H["authMiddleware.ts"]
+I["checkLock.ts"]
+J["rateLimiter.ts"]
 end
-subgraph D["routes"]
-subgraph E["auth"]
-F["routes.ts"]
-end
-subgraph G["data"]
-H["routes.ts"]
-end
-subgraph I["frontendController"]
-J["routes.ts"]
-end
-subgraph L["getter"]
+subgraph K["routes"]
+subgraph L["auth"]
 M["routes.ts"]
 end
-subgraph R["highavailability"]
-S["routes.ts"]
+subgraph N["data"]
+O["routes.ts"]
 end
-subgraph T["notifications"]
-U["routes.ts"]
+subgraph P["frontendController"]
+Q["routes.ts"]
 end
-subgraph 15["setter"]
-16["routes.ts"]
+subgraph S["getter"]
+T["routes.ts"]
+end
+subgraph Y["highavailability"]
+Z["routes.ts"]
+end
+subgraph 10["notifications"]
+11["routes.ts"]
+end
+subgraph 1D["setter"]
+1E["routes.ts"]
 end
 end
-O["net"]
-subgraph 17["swagger"]
-18["swaggerDocs.ts"]
-end
+V["net"]
+15["https"]
 0-->2
-0-->3
-0-->B
-0-->C
-0-->F
-0-->H
-0-->J
-0-->M
-0-->S
-0-->U
-0-->16
-0-->18
-3-->5
-3-->6
-6-->5
-6-->8
-8-->9
-H-->5
-J-->K
-M-->3
-M-->N
-M-->8
-M-->9
-M-->P
-M-->Q
-N-->O
-S-->2
-U-->W
-W-->X
-W-->Z
-W-->10
-W-->11
-W-->12
-W-->13
-W-->14
-X-->Y
-Z-->Y
-10-->Y
-11-->Y
-12-->Y
-13-->Y
-14-->Y
-16-->3
-18-->19
+0-->5
+0-->7
+2-->3
+5-->6
+7-->9
+7-->A
+7-->H
+7-->I
+7-->J
+7-->M
+7-->O
+7-->Q
+7-->T
+7-->Z
+7-->11
+7-->1E
+7-->1F
+7-->8
+A-->B
+A-->C
+C-->B
+C-->E
+E-->F
+O-->B
+Q-->R
+T-->A
+T-->U
+T-->E
+T-->F
+T-->W
+T-->X
+U-->V
+Z-->5
+11-->13
+13-->14
+13-->17
+13-->18
+13-->19
+13-->1A
+13-->1B
+13-->1C
+14-->16
+14-->15
+17-->16
+18-->16
+18-->15
+19-->16
+19-->15
+1A-->16
+1A-->15
+1B-->16
+1B-->15
+1C-->16
+1C-->15
+1E-->A
+1F-->1G
