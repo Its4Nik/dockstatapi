@@ -2,7 +2,7 @@
 FROM node:alpine AS builder
 
 LABEL maintainer="https://github.com/its4nik"
-LABEL version="2"
+LABEL version="2.0.0"
 LABEL description="API for DockStat"
 LABEL license="BSD-3-Clause license"
 LABEL repository="https://github.com/its4nik/dockstatapi"
@@ -49,9 +49,9 @@ RUN node src/config/db.js
 # Stage 3: Production stage
 FROM alpine AS production
 
-RUN apk add --update bash curl
+RUN apk add --update bash curl nodejs
 HEALTHCHECK --interval=5m --timeout=3s \
-            CMD curl -f http://localhost:9876/api/status || exit 1
+    CMD curl -f http://localhost:9876/api/status || exit 1
 
 WORKDIR /api
 

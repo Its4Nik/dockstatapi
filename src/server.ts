@@ -7,11 +7,13 @@ import writeUserConf from "./config/hostsystem";
 const app = express();
 const PORT: number = 9876;
 
+logger.info("Server starting up...");
+logger.info(`Server is running on http://localhost:${PORT}`);
+logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs\n`);
+
 writeUserConf();
 initializeApp(app);
 
 app.listen(PORT, () => {
-  logger.info(`Server is running on http://localhost:${PORT}`);
-  logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
   startMasterNode();
 });

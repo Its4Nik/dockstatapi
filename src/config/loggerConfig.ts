@@ -8,6 +8,16 @@ const green = "\x1b[32m";
 const yellow = "\x1b[33m";
 const blue = "\x1b[34m";
 
+const ignoreExitListenerLogs = format((info) => {
+  if (
+    typeof info.message === "string" &&
+    info.message.includes("Exit listeners detected")
+  ) {
+    return false; // Silences annoying logs
+  }
+  return info;
+});
+
 function colorLog(level: string, levelName: string) {
   switch (level) {
     case "info":
@@ -26,6 +36,7 @@ function colorLog(level: string, levelName: string) {
 const logger = createLogger({
   level: "debug",
   format: format.combine(
+    ignoreExitListenerLogs(),
     format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     format.printf((info) => {
       const level = info.level.toUpperCase().padEnd(5, " ");

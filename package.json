@@ -13,8 +13,10 @@
     "build": "npx tsc",
     "build:mini": "npx tsc && bash ./src/misc/minifyDist.sh --build-only",
     "mini": "bash ./src/misc/minifyDist.sh",
-    "docker": "sudo docker compose up",
-    "docker:build": "sudo docker build . -t \"dockstatapi:local\" && sudo docker compose up"
+    "docker": "sudo docker compose up -d",
+    "docker:full": "docker compose up -d && [ -z \"$TMUX\" ] && tmux new-session -d -s docker 'docker compose logs -f master' \\; split-window -v 'docker compose logs -f slave' \\; attach-session || echo 'Already inside a tmux session. Exiting.'; docker compose down",
+    "docker:build": "docker build . -t \"dockstatapi:local\" && docker compose up -d",
+    "docker:build:full": "npm run docker:build && [ -z \"$TMUX\" ] && tmux new-session -d -s docker 'docker compose up -d && docker compose logs -f master' \\; split-window -v 'docker compose logs -f slave' \\; attach-session || echo 'Already inside a tmux session. Exiting.'; docker compose down"
   },
   "keywords": [],
   "author": "Its4Nik",

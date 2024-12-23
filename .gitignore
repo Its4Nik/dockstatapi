@@ -6,6 +6,7 @@ src/data/states.json
 src/data/user.conf
 src/data/password.json
 src/data/ha.lock
+src/data/frontendConfiguration.json
 
 docker
 .test*
