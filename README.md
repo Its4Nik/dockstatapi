@@ -1,6 +1,10 @@
 # DockStatAPI v2
 ![Dockstat Logo](.github/DockStat.png)
 
+*Pipelines:*
+Main: [![GitHubCI pipeline status badge](https://github.com/its4nik/dokstatapi/workflows/build-main/badge.svg?branch=main)](https://github.com/its4nik/dokstatapi/commits/main)
+Dev : [![GitHubCI pipeline status badge](https://github.com/its4nik/dokstatapi/workflows/build-dev/badge.svg?branch=dev)](https://github.com/its4nik/dokstatapi/commits/dev)
+
 This specific branch contains the currently WIP **DockStatAPI-v2**, this update will bring major breaking changes so please be careful.
 With this new release a couple of extra features (compared to v1) are going to be available.
 
