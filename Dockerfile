@@ -38,7 +38,7 @@ WORKDIR /build
 RUN mkdir -p /build/src/data
 
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
-RUN npm install --omit=dev --verbose
+RUN npm install --omit=dev
 
 COPY --from=builder /build/dist/* /build/src
 COPY --from=builder /build/src/misc/entrypoint.sh /build/entrypoint.sh

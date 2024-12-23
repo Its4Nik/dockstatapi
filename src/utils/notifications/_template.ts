@@ -1,13 +1,14 @@
 import fs from "fs";
 import logger from "../logger";
+
 const templatePath: string = "./src/data/template.json";
 const containersPath: string = "./src/data/states.json";
 
 interface Template {
-  "text": string
+  text: string;
 }
 
-function getTemplate() {
+function getTemplate(): Template | null {
   try {
     const data = fs.readFileSync(templatePath, "utf8");
     return JSON.parse(data);
@@ -17,11 +18,11 @@ function getTemplate() {
   }
 }
 
-function setTemplate(newTemplate: string) {
+function setTemplate(newTemplate: string): void {
   try {
     fs.writeFileSync(
       templatePath,
-      JSON.stringify(newTemplate, null, 2),
+      JSON.stringify({ text: newTemplate }, null, 2),
       "utf8",
     );
     logger.debug("Template updated successfully");
@@ -30,8 +31,8 @@ function setTemplate(newTemplate: string) {
   }
 }
 
-function renderTemplate(containerId: string) {
-  const template: Template = getTemplate();
+function renderTemplate(containerId: string): string | null {
+  const template = getTemplate();
   if (!template) {
     logger.error("Template is missing or not a string");
     return null;
@@ -41,11 +42,12 @@ function renderTemplate(containerId: string) {
     const data = fs.readFileSync(containersPath, "utf8");
     const containers = JSON.parse(data);
 
-    let containerData = null;
+    let containerData: Record<string, any> | null = null;
     for (const host in containers) {
       containerData = containers[host].find((c: any) => c.id === containerId);
       if (containerData) {
-        break();
+        break;
+      }
     }
 
     if (!containerData) {
@@ -64,6 +66,5 @@ function renderTemplate(containerId: string) {
     return null;
   }
 }
-
 
 export { getTemplate, setTemplate, renderTemplate };
