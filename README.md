@@ -1,9 +1,9 @@
 # DockStatAPI v2
 ![Dockstat Logo](.github/DockStat.png)
 
-*Pipelines:*
-[![Docker Image CI](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml/badge.svg?branch=main)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml)
-[![Build dockstatapi:nightly](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml/badge.svg?branch=dev)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml)
+*Pipelines:* <br>
+[![Docker Image CI](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml/badge.svg?branch=main)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml)<br>
+[![Build dockstatapi:nightly](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml/badge.svg?branch=dev)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml)<br>
 
 This specific branch contains the currently WIP **DockStatAPI-v2**, this update will bring major breaking changes so please be careful.
 With this new release a couple of extra features (compared to v1) are going to be available.
