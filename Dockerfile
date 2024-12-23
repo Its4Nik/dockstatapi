@@ -49,6 +49,10 @@ RUN node src/config/db.js
 # Stage 3: Production stage
 FROM alpine AS production
 
+RUN apk add --update bash curl
+HEALTHCHECK --interval=5m --timeout=3s \
+            curl -f http://localhost:9876/api/status || exit 1
+
 WORKDIR /api
 
 COPY --from=main /build /api
