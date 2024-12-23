@@ -1,0 +1,23 @@
+services:
+  master:
+    container_name: master
+    environment:
+      - NODE_ENV=development
+      - HA_MASTER=true
+      - HA_MASTER_IP=localhost:9876
+      - HA_NODE=localhost:6789
+      - HA_UNSAFE=true
+    volumes:
+      - ./docker/master:/api/src/data
+    ports:
+      - 9876:9876
+    image: dockstatapi:local
+  slave:
+    container_name: slave
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./docker/slave:/api/src/data
+    ports:
+      - 6789:6789
+    image: dockstatapi:local
