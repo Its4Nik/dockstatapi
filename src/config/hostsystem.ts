@@ -53,9 +53,8 @@ function writeUserConf() {
     backendVersion: version,
   };
 
-  logger.info("Starting the server...");
   logger.info(
-    `At: ${startDetails.startedAt} - Version: ${startDetails.backendVersion} - Docker: ${installationDetails.inDocker} - Installed as: ${installationDetails.installedBy} - Platform: ${installationDetails.platform} - Arch: ${installationDetails.arch}`,
+    `Starting at: ${startDetails.startedAt} - Version: ${startDetails.backendVersion} - Docker: ${installationDetails.inDocker} - Installed as: ${installationDetails.installedBy} - Platform: ${installationDetails.platform} - Arch: ${installationDetails.arch}`,
   );
 }
 

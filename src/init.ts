@@ -15,10 +15,12 @@ import { scheduleFetch } from "./controllers/scheduler";
 import cors from "cors";
 import { blockWhileLocked } from "./middleware/checkLock";
 import logger from "./utils/logger";
+import initFiles from "./config/initFiles";
 
 const LAB = [limiter, authMiddleware, blockWhileLocked];
 
 const initializeApp = (app: express.Application): void => {
+  initFiles();
   app.use(cors());
   app.use(express.json());
   app.use("/api-docs", (req: Request, res: Response, next: NextFunction) =>

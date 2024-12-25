@@ -1,17 +1,26 @@
+networks:
+  shared-network:
+    driver: bridge
+
 services:
   master:
     container_name: master
     environment:
       - NODE_ENV=development
       - HA_MASTER=true
-      - HA_MASTER_IP=127.0.0.1:9876
-      - HA_NODE=127.0.0.1:6789
+      - HA_MASTER_IP=master:9876
+      - HA_NODE=slave:9876
       - HA_UNSAFE=true
     volumes:
       - ./docker/master:/api/src/data
     ports:
       - 9876:9876
     image: dockstatapi:local
+    networks:
+      - shared-network
+    depends_on:
+      - slave
+      - test-socket-proxy
   slave:
     container_name: slave
     environment:
@@ -19,12 +28,14 @@ services:
     volumes:
       - ./docker/slave:/api/src/data
     ports:
-      - 6789:6789
+      - 6789:9876
     image: dockstatapi:local
+    networks:
+      - shared-network
 
   test-socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
-    container_name: socket-proxy
+    container_name: test-socket-proxy
     environment:
       - ALLOW_START=1 #optional
       - ALLOW_STOP=1 #optional
@@ -59,3 +70,5 @@ services:
     read_only: true
     tmpfs:
       - /run
+    networks:
+      - shared-network

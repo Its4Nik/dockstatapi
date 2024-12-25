@@ -15,12 +15,10 @@ const db: sqlite3.Database = new sqlite3.Database(
             info TEXT NOT NULL,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )`,
-        (tableErr: Error | null) => {
-          if (tableErr) {
-            logger.error("Error creating table:", tableErr.message);
-          } else {
-            logger.info("Database created / opened successfully");
-          }
+        () => {
+          logger.info(
+            "Database created / opened successfully, table is ready.",
+          );
         },
       );
     }

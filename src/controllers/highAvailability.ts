@@ -34,7 +34,7 @@ interface NodeCache {
 const haMasterPath: string = "./src/data/highAvailability.json";
 const haNodePath: string = "./src/data/haNode.json";
 const nodeCachePath: string = "./src/data/nodeCache.json";
-const useUnsafeConnection: boolean = HA_UNSAFE == "false";
+const useUnsafeConnection: boolean = JSON.parse(HA_UNSAFE || "false");
 const lockFilePath: string = "./src/data/ha.lock";
 
 const configFiles: string[] = [
@@ -45,7 +45,6 @@ const configFiles: string[] = [
   "./src/data/nodeCache.json",
   "./src/data/usePassword.txt",
   "./src/data/password.json",
-  "./src/data/variables.json",
 ];
 
 async function acquireLock(): Promise<void> {
@@ -130,6 +129,8 @@ async function checkApiReachable(node: string): Promise<boolean> {
       ? `http://${node}/api/status`
       : `https://${node}/api/status`;
 
+  logger.info(`Checking node (${nodeUrl}) reachability`);
+
   try {
     const response = await fetch(nodeUrl);
     if (!response.ok) {
@@ -138,7 +139,7 @@ async function checkApiReachable(node: string): Promise<boolean> {
     }
 
     const data = await response.json();
-    if (data.ApiReachable) {
+    if (data.ApiReachable as boolean) {
       logger.info(`Node ${node} is reachable.`);
       return true;
     } else {
@@ -208,15 +209,14 @@ function monitorConfigFiles(): void {
 }
 
 async function startMasterNode() {
-  let isMaster: boolean = HA_MASTER == "false";
-  if (isMaster) {
+  if (HA_MASTER == "true") {
     if (!HA_MASTER_IP) {
       logger.error(
         "Master's IP is not set, please set the HA_MASTER_IP variable (example: 10.0.0.4:9876)",
       );
     } else {
       const haNodeConfig: HaNodeConfig = {
-        master: "HA_MASTER_IP",
+        master: HA_MASTER_IP,
       };
       const haConfig: HighAvailabilityConfig = {
         active: true,
@@ -226,9 +226,9 @@ async function startMasterNode() {
 
       const nodeCache: NodeCache = HA_NODE
         ? HA_NODE.split(",").reduce((cache, node, index) => {
-            const [ip, id] = node.trim().split(":");
-            if (ip && id) {
-              cache[`node${index + 1}`] = { ip, id: parseInt(id, 10) };
+            const [ip, port] = node.trim().split(":");
+            if (ip && port) {
+              cache[`node-${index + 1}`] = { ip, id: parseInt(port, 10) };
             }
             return cache;
           }, {} as NodeCache)
