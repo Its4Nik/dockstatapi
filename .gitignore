@@ -1,13 +1,5 @@
 # custom paths:
-src/data/database.db
-src/data/dockerConfig.json
-src/data/highAvailability.json
-src/data/states.json
-src/data/user.conf
-src/data/password.json
-src/data/ha.lock
-src/data/frontendConfiguration.json
-src/data/variables.json
+src/data/*
 
 docker
 .test*
