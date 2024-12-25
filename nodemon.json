@@ -1,6 +1,13 @@
 {
-  "ignore": ["src/logs", "**/fixtures/**", ".gitignore", "**/*.json"],
+  "ignore": [
+    "**/data/**",
+    "src/logs",
+    "**/fixtures/**",
+    ".gitignore",
+    "**/*.json"
+  ],
   "execMap": {
     "ts": "tsx"
-  }
+  },
+  "delay": 2500
 }

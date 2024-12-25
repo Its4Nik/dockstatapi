@@ -22,21 +22,17 @@ const fetchData = async (): Promise<void> => {
     const allContainerData: AllContainerData =
       (await fetchAllContainers()) || {};
 
-    if (process.env.OFFLINE === "true") {
-      logger.info("No new data inserted --- OFFLINE MODE");
-    } else {
-      db.run(
-        `INSERT INTO data (info) VALUES (?)`,
-        [JSON.stringify(allContainerData)],
-        function (error) {
-          if (error) {
-            logger.error("Error inserting data:", error);
-            return;
-          }
-          logger.info(`Data inserted with ID: ${this.lastID}`);
-        },
-      );
-    }
+    db.run(
+      `INSERT INTO data (info) VALUES (?)`,
+      [JSON.stringify(allContainerData)],
+      function (error) {
+        if (error) {
+          logger.error("Error inserting data:", error);
+          return;
+        }
+        logger.info(`Data inserted with ID: ${this.lastID}`);
+      },
+    );
 
     const containerStatus: AllContainerData = {};
 

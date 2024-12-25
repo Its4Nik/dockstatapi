@@ -1,9 +1,10 @@
-import * as https from 'https';
+import * as https from "https";
 import logger from "../logger";
 import { renderTemplate } from "./_template";
+import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from "../../config/variables";
 
-const telegram_bot_token: string | undefined = process.env.TELEGRAM_BOT_TOKEN;
-const telegram_chat_id: string | undefined = process.env.TELEGRAM_CHAT_ID;
+const telegram_bot_token: string = TELEGRAM_BOT_TOKEN;
+const telegram_chat_id: string = TELEGRAM_CHAT_ID;
 
 export async function telegramNotification(containerId: string): Promise<void> {
   const telegram_message: string | null = renderTemplate(containerId);
@@ -23,30 +24,30 @@ export async function telegramNotification(containerId: string): Promise<void> {
   });
 
   const options = {
-    hostname: 'api.telegram.org',
+    hostname: "api.telegram.org",
     path: `/bot${telegram_bot_token}/sendMessage`,
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(postData),
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(postData),
     },
   };
 
   const req = https.request(options, (res) => {
-    let data = '';
+    let data = "";
 
-    res.on('data', (chunk) => {
+    res.on("data", (chunk) => {
       data += chunk;
     });
 
-    res.on('end', () => {
+    res.on("end", () => {
       if (res.statusCode !== 200) {
         logger.error(`Telegram API error: ${data}`);
       }
     });
   });
 
-  req.on('error', (error) => {
+  req.on("error", (error) => {
     logger.error("Error sending message:", error);
   });
 

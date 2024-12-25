@@ -16,6 +16,8 @@ import cors from "cors";
 import { blockWhileLocked } from "./middleware/checkLock";
 import logger from "./utils/logger";
 
+const LAB = [limiter, authMiddleware, blockWhileLocked];
+
 const initializeApp = (app: express.Application): void => {
   app.use(cors());
   app.use(express.json());
@@ -24,21 +26,15 @@ const initializeApp = (app: express.Application): void => {
   );
 
   swaggerDocs(app as any);
-  trustedProxies(app); // Configures proxies using CSV string
+  trustedProxies(app);
   scheduleFetch();
 
-  app.use("/api", limiter, authMiddleware, blockWhileLocked, api);
-  app.use("/conf", limiter, authMiddleware, blockWhileLocked, conf);
-  app.use("/auth", limiter, authMiddleware, blockWhileLocked, auth);
-  app.use("/data", limiter, authMiddleware, blockWhileLocked, data);
-  app.use("/frontend", limiter, authMiddleware, blockWhileLocked, frontend);
-  app.use(
-    "/notification-service",
-    limiter,
-    authMiddleware,
-    blockWhileLocked,
-    notificationService,
-  );
+  app.use("/api", LAB, api);
+  app.use("/conf", LAB, conf);
+  app.use("/auth", LAB, auth);
+  app.use("/data", LAB, data);
+  app.use("/frontend", LAB, frontend);
+  app.use("/notification-service", LAB, notificationService);
   app.use("/ha", limiter, authMiddleware, ha);
 
   app.get("/", (req: Request, res: Response) => {

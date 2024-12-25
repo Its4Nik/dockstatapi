@@ -1,11 +1,17 @@
 import { SendMailOptions, createTransport } from "nodemailer";
 import logger from "../logger";
 import { renderTemplate } from "./_template";
+import {
+  EMAIL_SENDER,
+  EMAIL_SERVICE,
+  EMAIL_PASSWORD,
+  EMAIL_RECIPIENT,
+} from "../../config/variables";
 
-const email_sender: string | undefined = process.env.EMAIL_SENDER;
-const email_recipient: string | undefined = process.env.EMAIL_RECIPIENT;
-const email_password: string | undefined = process.env.EMAIL_PASSWORD;
-const email_service: string | undefined = process.env.EMAIL_SERVICE;
+const email_sender: string = EMAIL_SENDER;
+const email_recipient: string = EMAIL_RECIPIENT;
+const email_password: string = EMAIL_PASSWORD;
+const email_service: string = EMAIL_SERVICE;
 
 export async function emailNotification(containerId: string) {
   // Validate email configuration parameters

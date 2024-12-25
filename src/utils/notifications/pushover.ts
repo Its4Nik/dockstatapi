@@ -1,9 +1,10 @@
-import * as https from 'https';
+import * as https from "https";
 import logger from "../logger";
 import { renderTemplate } from "./_template";
+import { PUSHOVER_USER_KEY, PUSHOVER_API_TOKEN } from "../../config/variables";
 
-const pushover_user_key: string | undefined = process.env.PUSHOVER_USER_KEY;
-const pushover_api_token: string | undefined = process.env.PUSHOVER_API_TOKEN;
+const pushover_user_key: string = PUSHOVER_USER_KEY;
+const pushover_api_token: string = PUSHOVER_API_TOKEN;
 
 export async function pushoverNotification(containerId: string): Promise<void> {
   const pushover_message: string | null = renderTemplate(containerId);
@@ -24,30 +25,30 @@ export async function pushoverNotification(containerId: string): Promise<void> {
   }).toString();
 
   const options = {
-    hostname: 'api.pushover.net',
-    path: '/1/messages.json',
-    method: 'POST',
+    hostname: "api.pushover.net",
+    path: "/1/messages.json",
+    method: "POST",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(postData),
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Length": Buffer.byteLength(postData),
     },
   };
 
   const req = https.request(options, (res) => {
-    let data = '';
+    let data = "";
 
-    res.on('data', (chunk) => {
+    res.on("data", (chunk) => {
       data += chunk;
     });
 
-    res.on('end', () => {
+    res.on("end", () => {
       if (res.statusCode !== 200) {
         logger.error(`Pushover API error: ${data}`);
       }
     });
   });
 
-  req.on('error', (error) => {
+  req.on("error", (error) => {
     logger.error("Error sending Pushover message:", error);
   });
 

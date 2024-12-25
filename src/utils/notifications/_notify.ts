@@ -6,44 +6,11 @@ import { emailNotification } from "./email";
 import { whatsappNotification } from "./whatsapp";
 import { pushbulletNotification } from "./pushbullet";
 import { pushoverNotification } from "./pushover";
-import path from "path";
-
-async function loadCustomNotification(scriptPath: string, containerId: string) {
-  try {
-    const absolutePath = path.resolve(__dirname, "./custom", scriptPath);
-    const customModule = await import(absolutePath);
-
-    if (typeof customModule.default !== "function") {
-      const errorMsg = `The custom notification script at ${scriptPath} does not export a default function.`;
-      logger.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-
-    logger.debug(`Executing custom notification script: ${scriptPath}`);
-    await customModule.default(containerId);
-  } catch (error: any) {
-    logger.error(
-      `Failed to execute custom notification script (${scriptPath}): ${error.message}`,
-    );
-    throw error;
-  }
-}
 
 async function notify(type: string, containerId: string) {
   if (!containerId) {
     logger.error("Container ID is required.");
     throw new Error("Container ID is required.");
-  }
-
-  if (type.startsWith("custom/")) {
-    const scriptName = type.split("/")[1];
-    if (!scriptName) {
-      const errorMsg = "Custom notification script name is invalid.";
-      logger.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-    await loadCustomNotification(`${scriptName}.js`, containerId);
-    return;
   }
 
   switch (type) {

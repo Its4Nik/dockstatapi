@@ -3,6 +3,12 @@ import fs from "fs";
 import chokidar from "chokidar";
 import path from "path";
 import { promisify } from "util";
+import {
+  HA_UNSAFE,
+  HA_MASTER,
+  HA_MASTER_IP,
+  HA_NODE,
+} from "../config/variables";
 
 const sleep = promisify(setTimeout);
 
@@ -28,7 +34,7 @@ interface NodeCache {
 const haMasterPath: string = "./src/data/highAvailability.json";
 const haNodePath: string = "./src/data/haNode.json";
 const nodeCachePath: string = "./src/data/nodeCache.json";
-const useUnsafeConnection = process.env.HA_UNSAFE || "false";
+const useUnsafeConnection: boolean = HA_UNSAFE == "false";
 const lockFilePath: string = "./src/data/ha.lock";
 
 const configFiles: string[] = [
@@ -39,6 +45,7 @@ const configFiles: string[] = [
   "./src/data/nodeCache.json",
   "./src/data/usePassword.txt",
   "./src/data/password.json",
+  "./src/data/variables.json",
 ];
 
 async function acquireLock(): Promise<void> {
@@ -119,7 +126,7 @@ async function prepareFilesForSync(): Promise<Record<string, string>> {
 
 async function checkApiReachable(node: string): Promise<boolean> {
   let nodeUrl =
-    useUnsafeConnection === "true"
+    useUnsafeConnection === true
       ? `http://${node}/api/status`
       : `https://${node}/api/status`;
 
@@ -163,7 +170,7 @@ async function synchronizeFilesWithNodes(): Promise<void> {
     }
 
     let nodeUrl =
-      useUnsafeConnection == "true"
+      useUnsafeConnection == true
         ? `http://${node}/ha/sync`
         : `https://${node}/ha/sync`;
 
@@ -201,8 +208,9 @@ function monitorConfigFiles(): void {
 }
 
 async function startMasterNode() {
-  if (process.env.HA_MASTER == "true") {
-    if (!process.env.HA_MASTER_IP) {
+  let isMaster: boolean = HA_MASTER == "false";
+  if (isMaster) {
+    if (!HA_MASTER_IP) {
       logger.error(
         "Master's IP is not set, please set the HA_MASTER_IP variable (example: 10.0.0.4:9876)",
       );
@@ -213,13 +221,11 @@ async function startMasterNode() {
       const haConfig: HighAvailabilityConfig = {
         active: true,
         master: true,
-        nodes: process.env.HA_NODE
-          ? process.env.HA_NODE.split(",").map((node) => node.trim())
-          : [],
+        nodes: HA_NODE ? HA_NODE.split(",").map((node) => node.trim()) : [],
       };
 
-      const nodeCache: NodeCache = process.env.HA_NODE
-        ? process.env.HA_NODE.split(",").reduce((cache, node, index) => {
+      const nodeCache: NodeCache = HA_NODE
+        ? HA_NODE.split(",").reduce((cache, node, index) => {
             const [ip, id] = node.trim().split(":");
             if (ip && id) {
               cache[`node${index + 1}`] = { ip, id: parseInt(id, 10) };

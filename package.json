@@ -1,13 +1,14 @@
 {
   "name": "dockstatapi",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "API for docker hosts using dockerode",
   "main": "src/server.ts",
   "scripts": {
-    "start": "tsx src/server.ts",
+    "local-env-file": "bash ./src/misc/createEnvDev.sh",
+    "start": "npm run local-env-file && tsx src/server.ts",
     "start:build": "npx tsc && node dist/server.js",
-    "dev": "nodemon",
-    "dev:trace": "nodemon --trace-uncaught --trace-warnings",
+    "dev": "npm run local-env-file && nodemon",
+    "dev:trace": "npm run local-env-file && nodemon --trace-uncaught --trace-warnings",
     "dep": "bash ./src/utils/createDependencyGraph.sh",
     "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && bash ./src/utils/createDependencyGraph.sh",
     "build": "npx tsc",
@@ -56,14 +57,6 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "uglify-js": "^3.19.3"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "**/data/**",
-      "**/*.json",
-      ".gitignore"
-    ],
-    "delay": 2500
   },
   "engines": {
     "npm": ">=10.8.2"

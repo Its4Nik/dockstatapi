@@ -1,8 +1,9 @@
-import * as https from 'https';
+import * as https from "https";
 import logger from "../logger";
 import { renderTemplate } from "./_template";
+import { SLACK_WEBHOOK_URL } from "../../config/variables";
 
-const slack_webhook_url: string | undefined = process.env.SLACK_WEBHOOK_URL;
+const slack_webhook_url: string = SLACK_WEBHOOK_URL;
 
 export async function slackNotification(containerId: string): Promise<void> {
   const slack_message: string | null = renderTemplate(containerId);
@@ -25,28 +26,28 @@ export async function slackNotification(containerId: string): Promise<void> {
   const options = {
     hostname: url.hostname,
     path: url.pathname,
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(postData),
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(postData),
     },
   };
 
   const req = https.request(options, (res) => {
-    let data = '';
+    let data = "";
 
-    res.on('data', (chunk) => {
+    res.on("data", (chunk) => {
       data += chunk;
     });
 
-    res.on('end', () => {
+    res.on("end", () => {
       if (res.statusCode !== 200) {
         logger.error(`Slack API error: ${data}`);
       }
     });
   });
 
-  req.on('error', (error) => {
+  req.on("error", (error) => {
     logger.error("Error sending Slack message:", error);
   });
 

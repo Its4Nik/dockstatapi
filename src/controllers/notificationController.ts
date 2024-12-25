@@ -1,20 +1,29 @@
 import notify from "../utils/notifications/_notify";
 import logger from "../utils/logger";
+import {
+  DISCORD_WEBHOOK_URL,
+  EMAIL_SENDER,
+  EMAIL_RECIPIENT,
+  EMAIL_PASSWORD,
+  EMAIL_SERVICE,
+  PUSHBULLET_ACCESS_TOKEN,
+  PUSHOVER_USER_KEY,
+  PUSHOVER_API_TOKEN,
+  SLACK_WEBHOOK_URL,
+  TELEGRAM_BOT_TOKEN,
+  TELEGRAM_CHAT_ID,
+  WHATSAPP_API_URL,
+  WHATSAPP_RECIPIENT,
+} from "../config/variables";
 
 const notificationTypes = {
-  discord: !!process.env.DISCORD_WEBHOOK_URL,
-  email: !!(
-    process.env.EMAIL_SENDER &&
-    process.env.EMAIL_RECIPIENT &&
-    process.env.EMAIL_PASSWORD
-  ),
-  pushbullet: !!process.env.PUSHBULLET_ACCESS_TOKEN,
-  pushover: !!(process.env.PUSHOVER_API_TOKEN && process.env.PUSHOVER_USER_KEY),
-  slack: !!process.env.SLACK_WEBHOOK_UR,
-  telegram: !!(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID),
-  whatsapp: !!(process.env.WHATSAPP_API_URL && process.env.WHATSAPP_RECIPIENT),
-  custom: !!process.env.CUSTOM_NOTIFICATION,
-  customList: process.env.CUSTOM_NOTIFICATION,
+  discord: !!DISCORD_WEBHOOK_URL,
+  email: !!(EMAIL_SENDER && EMAIL_RECIPIENT && EMAIL_PASSWORD && EMAIL_SERVICE),
+  pushbullet: !!PUSHBULLET_ACCESS_TOKEN,
+  pushover: !!(PUSHOVER_API_TOKEN && PUSHOVER_USER_KEY),
+  slack: !!SLACK_WEBHOOK_URL,
+  telegram: !!(TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID),
+  whatsapp: !!(WHATSAPP_API_URL && WHATSAPP_RECIPIENT),
 };
 
 async function sendNotification(containerId: string) {
@@ -45,18 +54,5 @@ async function sendNotification(containerId: string) {
   if (notificationTypes.whatsapp) {
     logger.debug(`Sending notification via Pushbullet (${containerId})`);
     notify("whatsapp", containerId);
-  }
-  if (notificationTypes.custom) {
-    const elements: undefined | string[] = notificationTypes.customList
-      ? notificationTypes.customList.split(",")
-      : undefined;
-    if (elements) {
-      elements.forEach((element) => {
-        logger.debug(`Sending custom notification ${element} (${containerId})`);
-        notify(`custom/${element}`, containerId);
-      });
-    } else {
-      logger.error("Error getting custom notifications");
-    }
   }
 }

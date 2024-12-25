@@ -134,28 +134,23 @@ router.get("/system", (req: Request, res: Response) => {
  *                   description: Error message detailing the issue encountered.
  */
 router.get("/host/:hostName/stats", async (req: Request, res: Response) => {
-  const {hostName} = req.params;
+  const { hostName } = req.params;
   logger.info(`Fetching stats for host: ${hostName}`);
-  if (process.env.OFFLINE === "true") {
-    logger.info("Fetching offline Host Stats");
-    res.status(200).json(readOfflineLog);
-  } else {
-    try {
-      const docker = getDockerClient(hostName);
-      const info = await docker.info();
-      const version = await docker.version();
-      const relevantData = extractRelevantData({ hostName, info, version });
+  try {
+    const docker = getDockerClient(hostName);
+    const info = await docker.info();
+    const version = await docker.version();
+    const relevantData = extractRelevantData({ hostName, info, version });
 
-      writeOfflineLog(JSON.stringify(relevantData));
-      res.status(200).json(relevantData);
-    } catch (error: any) {
-      logger.error(
-        `Error fetching stats for host: ${hostName} - ${error.message || "Unknown error"}`,
-      );
-      res.status(500).json({
-        error: `Error fetching host stats: ${error.message || "Unknown error"}`,
-      });
-    }
+    writeOfflineLog(JSON.stringify(relevantData));
+    res.status(200).json(relevantData);
+  } catch (error: any) {
+    logger.error(
+      `Error fetching stats for host: ${hostName} - ${error.message || "Unknown error"}`,
+    );
+    res.status(500).json({
+      error: `Error fetching host stats: ${error.message || "Unknown error"}`,
+    });
   }
 });
 

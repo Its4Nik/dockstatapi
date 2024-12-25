@@ -1,9 +1,9 @@
 import * as https from "https";
 import logger from "../logger";
 import { renderTemplate } from "./_template";
+import { PUSHBULLET_ACCESS_TOKEN } from "../../config/variables";
 
-const pushbullet_access_token: string | undefined =
-  process.env.PUSHBULLET_ACCESS_TOKEN;
+const pushbullet_access_token: string = PUSHBULLET_ACCESS_TOKEN;
 
 export async function pushbulletNotification(
   containerId: string,

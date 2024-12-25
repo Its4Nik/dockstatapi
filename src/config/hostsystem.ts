@@ -1,10 +1,11 @@
+import { RUNNING_IN_DOCKER, VERSION } from "./variables";
 import fs from "fs";
 import logger from "../utils/logger";
 import os from "os";
 
 const userConf = "./src/data/user.conf";
-const inDocker: boolean = !!process.env.RUNNING_IN_DOCKER;
-const version: string = process.env.VERSION || "unknown";
+const inDocker: boolean = RUNNING_IN_DOCKER == "true";
+const version: string = VERSION || "unknown";
 
 function writeUserConf() {
   let previousConfig = null;

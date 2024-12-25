@@ -1,14 +1,11 @@
-#!/bin/bash
-
-# Version
 VERSION="$(cat ./package.json | grep version | cut -d '"' -f 4)"
 
-# Docker
 if grep -q '/docker' /proc/1/cgroup 2>/dev/null || [ -f /.dockerenv ]; then
     RUNNING_IN_DOCKER="true"
 else
     RUNNING_IN_DOCKER="false"
 fi
+
 echo -n "\
 {
     \"VERSION\": \"${VERSION}\",
@@ -32,4 +29,4 @@ echo -n "\
     \"WHATSAPP_API_URL\": \"${WHATSAPP_API_URL}\",
     \"WHATSAPP_RECIPIENT\": \"${WHATSAPP_RECIPIENT}\"
 } \
-" > /api/src/data/variables.json
+" > ./src/data/variables.json

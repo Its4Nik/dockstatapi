@@ -2,7 +2,7 @@
 FROM node:alpine AS builder
 
 LABEL maintainer="https://github.com/its4nik"
-LABEL version="2.0.0"
+LABEL version="2.0.1"
 LABEL description="API for DockStat"
 LABEL license="BSD-3-Clause license"
 LABEL repository="https://github.com/its4nik/dockstatapi"

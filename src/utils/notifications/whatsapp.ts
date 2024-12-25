@@ -1,9 +1,10 @@
-import * as https from 'https';
+import * as https from "https";
 import logger from "../logger";
 import { renderTemplate } from "./_template";
+import { WHATSAPP_API_URL, WHATSAPP_RECIPIENT } from "../../config/variables";
 
-const whatsapp_api_url: string | undefined = process.env.WHATSAPP_API_URL;
-const whatsapp_recipient: string | undefined = process.env.WHATSAPP_RECIPIENT;
+const whatsapp_api_url: string = WHATSAPP_API_URL;
+const whatsapp_recipient: string = WHATSAPP_RECIPIENT;
 
 export async function whatsappNotification(containerId: string): Promise<void> {
   const whatsapp_message: string | null = renderTemplate(containerId);
@@ -27,28 +28,28 @@ export async function whatsappNotification(containerId: string): Promise<void> {
   const options = {
     hostname: url.hostname,
     path: url.pathname,
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(postData),
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(postData),
     },
   };
 
   const req = https.request(options, (res) => {
-    let data = '';
+    let data = "";
 
-    res.on('data', (chunk) => {
+    res.on("data", (chunk) => {
       data += chunk;
     });
 
-    res.on('end', () => {
+    res.on("end", () => {
       if (res.statusCode !== 200) {
         logger.error(`WhatsApp API error: ${data}`);
       }
     });
   });
 
-  req.on('error', (error) => {
+  req.on("error", (error) => {
     logger.error("Error sending WhatsApp message:", error);
   });
 
