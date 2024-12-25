@@ -7,6 +7,7 @@ src/data/user.conf
 src/data/password.json
 src/data/ha.lock
 src/data/frontendConfiguration.json
+src/data/variables.json
 
 docker
 .test*
