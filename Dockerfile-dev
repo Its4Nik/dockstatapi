@@ -23,6 +23,7 @@ COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
 RUN npm install
 
 COPY ./src ./src
+RUN mv ./src/sample-variable.json ./src/data/variables.json
 RUN npm run build
 
 # Stage 2: main stage
