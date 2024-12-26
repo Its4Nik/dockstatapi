@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
-import fs from "fs";
 import { Request, Response, NextFunction } from "express";
 import logger from "../utils/logger";
-import { rateLimitedReadFile } from "../utils/rateLimitReadFile";
+import { rateLimitedReadFile } from "../utils/rateLimitFS";
 
 const passwordFile = "./src/data/password.json";
 const passwordBool = "./src/data/usePassword.txt";
@@ -13,7 +12,7 @@ async function authMiddleware(
   next: NextFunction,
 ): Promise<void> {
   try {
-    const authStatusData = await fs.promises.readFile(passwordBool, "utf8");
+    const authStatusData = await rateLimitedReadFile(passwordBool);
     const isAuthEnabled = authStatusData.trim() === "true";
 
     if (!isAuthEnabled) {
