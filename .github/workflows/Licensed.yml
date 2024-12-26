@@ -1,8 +1,9 @@
 name: Licensed
 
-on:
-  workflow_call:
-
+on: 
+  push:
+    branches: '**'
+    
 jobs:
   validate-cached-dependency-records:
     runs-on: ubuntu-latest
