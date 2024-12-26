@@ -49,14 +49,20 @@ function extractRelevantData(jsonData: JsonData) {
             return {};
           }
 
-          return jsonData.version.Components.reduce<ComponentMap>((acc, component) => {
-            if (typeof component?.Name === 'string' && typeof component?.Version === 'string') {
-              acc[component.Name] = component.Version;
-            }
-            return acc;
-          }, {});
+          return jsonData.version.Components.reduce<ComponentMap>(
+            (acc, component) => {
+              if (
+                typeof component?.Name === "string" &&
+                typeof component?.Version === "string"
+              ) {
+                acc[component.Name] = component.Version;
+              }
+              return acc;
+            },
+            {},
+          );
         } catch (error) {
-          console.error('Error processing Components data:', error);
+          console.error("Error processing Components data:", error);
           return {};
         }
       })(),

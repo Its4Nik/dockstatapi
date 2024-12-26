@@ -1,0 +1,12 @@
+name: Licensed
+
+on:
+  workflow_call:
+
+jobs:
+  validate-cached-dependency-records:
+    runs-on: ubuntu-latest
+    name: Check licenses
+    steps:
+      - name: Licensed CI
+        uses: github/licensed-ci@v1.11.1

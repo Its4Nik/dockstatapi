@@ -31,8 +31,14 @@ interface AllContainerData {
 function loadConfig() {
   try {
     if (!fs.existsSync(configPath)) {
-      logger.warn(`Config file not found. Creating an empty file at ${configPath}`);
-      fs.writeFileSync(configPath, JSON.stringify({ "hosts": [] }, null, 2), "utf-8");
+      logger.warn(
+        `Config file not found. Creating an empty file at ${configPath}`,
+      );
+      fs.writeFileSync(
+        configPath,
+        JSON.stringify({ hosts: [] }, null, 2),
+        "utf-8",
+      );
     }
 
     const configData = fs.readFileSync(configPath, "utf-8");
@@ -80,7 +86,7 @@ async function fetchAllContainers(): Promise<AllContainerData> {
             const cpuUsage =
               systemCpuDelta > 0
                 ? (cpuDelta / systemCpuDelta) *
-                containerStats.cpu_stats.online_cpus
+                  containerStats.cpu_stats.online_cpus
                 : 0;
 
             return {

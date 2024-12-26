@@ -9,7 +9,7 @@ const regex = new RegExp(expression);
 // Hide Containers:
 async function hideContainer(containerName: string) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex = data.findIndex(
       (container: any) => container.name === containerName,
     );
@@ -29,7 +29,7 @@ async function hideContainer(containerName: string) {
 
 async function unhideContainer(containerName: string) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex = data.findIndex(
       (container: any) => container.name === containerName,
     );
@@ -49,7 +49,7 @@ async function unhideContainer(containerName: string) {
 // Tag containers
 async function addTagToContainer(containerName: string, tag: string) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex = data.findIndex(
       (container: any) => container.name === containerName,
     );
@@ -72,7 +72,7 @@ async function addTagToContainer(containerName: string, tag: string) {
 
 async function removeTagFromContainer(containerName: string, tag: string) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex = data.findIndex(
       (container: any) => container.name === containerName,
     );
@@ -94,7 +94,7 @@ async function removeTagFromContainer(containerName: string, tag: string) {
 // Pin containers
 async function pinContainer(containerName: string) {
   try {
-    let data: any = await readData();
+    const data: any = await readData();
     const containerIndex: number = data.findIndex(
       (container: any) => container.name === containerName,
     );
@@ -114,7 +114,7 @@ async function pinContainer(containerName: string) {
 
 async function unpinContainer(containerName: string) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex = data.findIndex(
       (container: any) => container.name === containerName,
     );
@@ -135,7 +135,7 @@ async function unpinContainer(containerName: string) {
 async function setLink(containerName: string, link: string) {
   if (link.match(regex)) {
     try {
-      let data: any = await readData();
+      const data: any = await readData();
       const containerIndex: any = data.findIndex(
         (container: any) => container.name === containerName,
       );
@@ -159,7 +159,7 @@ async function setLink(containerName: string, link: string) {
 
 async function removeLink(containerName: string) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex = data.findIndex(
       (container: any) => container.name === containerName,
     );
@@ -179,28 +179,26 @@ async function removeLink(containerName: string) {
 // Add/remove icon from containers
 async function setIcon(containerName: string, icon: string, custom: boolean) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex: number = data.findIndex(
       (container: any) => container.name === containerName,
     );
 
     if (custom === true) {
-          if (containerIndex !== -1) {
-            data[containerIndex].icon = `custom/${icon}`;
-            await saveData(data);
-          } else {
-            data.push({ name: containerName, icon: `custom/${icon}` });
-            await saveData(data);
-          }
-        }
-    else if (containerIndex !== -1) {
-            data[containerIndex].icon = `${icon}`;
-            await saveData(data);
-          }
-    else {
-            data.push({ name: containerName, icon: `${icon}` });
-            await saveData(data);
-          }
+      if (containerIndex !== -1) {
+        data[containerIndex].icon = `custom/${icon}`;
+        await saveData(data);
+      } else {
+        data.push({ name: containerName, icon: `custom/${icon}` });
+        await saveData(data);
+      }
+    } else if (containerIndex !== -1) {
+      data[containerIndex].icon = `${icon}`;
+      await saveData(data);
+    } else {
+      data.push({ name: containerName, icon: `${icon}` });
+      await saveData(data);
+    }
   } catch (error: any) {
     logger.error(error);
     throw new Error(error);
@@ -209,7 +207,7 @@ async function setIcon(containerName: string, icon: string, custom: boolean) {
 
 async function removeIcon(containerName: string) {
   try {
-    let data = await readData();
+    const data = await readData();
     const containerIndex = data.findIndex(
       (container: any) => container.name === containerName,
     );

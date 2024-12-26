@@ -332,7 +332,7 @@ router.get("/current-schedule", (req: Request, res: Response) => {
 router.get("/status", async (req: Request, res: Response) => {
   logger.debug("Fetching /api/status");
   try {
-    let jsonData = await checkReachability();
+    const jsonData = await checkReachability();
     res.status(200).json(jsonData);
   } catch (error: any) {
     logger.error(`Error while fetching data: ${error}`);

@@ -124,7 +124,7 @@ async function prepareFilesForSync(): Promise<Record<string, string>> {
 }
 
 async function checkApiReachable(node: string): Promise<boolean> {
-  let nodeUrl =
+  const nodeUrl =
     useUnsafeConnection === true
       ? `http://${node}/api/status`
       : `https://${node}/api/status`;
@@ -170,7 +170,7 @@ async function synchronizeFilesWithNodes(): Promise<void> {
       continue; // Skip synchronization if the node is unreachable
     }
 
-    let nodeUrl =
+    const nodeUrl =
       useUnsafeConnection == true
         ? `http://${node}/ha/sync`
         : `https://${node}/ha/sync`;
