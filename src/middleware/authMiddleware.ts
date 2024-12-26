@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import fs from "fs";
 import { Request, Response, NextFunction } from "express";
 import logger from "../utils/logger";
+import { rateLimitedReadFile } from "../utils/rateLimitReadFile";
 
 const passwordFile = "./src/data/password.json";
 const passwordBool = "./src/data/usePassword.txt";
@@ -28,7 +29,7 @@ async function authMiddleware(
       return;
     }
 
-    const passwordData = await fs.promises.readFile(passwordFile, "utf8");
+    const passwordData = await rateLimitedReadFile(passwordFile);
     const storedData = JSON.parse(passwordData);
 
     const passwordMatch = await bcrypt.compare(
