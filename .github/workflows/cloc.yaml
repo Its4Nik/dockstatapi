@@ -6,23 +6,23 @@ permissions:
 
 on:
   push:
-    branches: [ main ]
+    branches: [main, dev]
   pull_request:
-    branches: [ main, dev ]
+    branches: [main, dev]
 
 jobs:
   cloc:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Count Lines of Code (cloc)
-      uses: djdefi/cloc-action@6
-      with:
-        options: --md --report-file=cloc.md --exclude-dir=node_modules --exclude-lang=YAML,JSON --exclude-list-file=package-lock.json
-    
-    - name: Create comment from markdown file
-      uses: GrantBirki/comment@v2.1.0
-      with:
-        file: cloc.md
+      - name: Count Lines of Code (cloc)
+        uses: djdefi/cloc-action@6
+        with:
+          options: --md --report-file=cloc.md --exclude-dir=node_modules --exclude-lang=YAML,JSON --exclude-list-file=package-lock.json
+
+      - name: Create comment from markdown file
+        uses: GrantBirki/comment@v2.1.0
+        with:
+          file: cloc.md

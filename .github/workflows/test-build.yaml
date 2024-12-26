@@ -1,9 +1,6 @@
 name: Test building
 
-on:
-  pull_request:
-    branches:
-      - "dev"
+on: [push]
 
 permissions:
   packages: write
