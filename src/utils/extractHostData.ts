@@ -43,13 +43,23 @@ function extractRelevantData(jsonData: JsonData) {
       NCPU: jsonData.info.NCPU,
     },
     version: {
-      Components: jsonData.version.Components.reduce<ComponentMap>(
-        (acc, component) => {
-          acc[component.Name] = component.Version;
-          return acc;
-        },
-        {},
-      ),
+      Components: (() => {
+        try {
+          if (!Array.isArray(jsonData?.version?.Components)) {
+            return {};
+          }
+
+          return jsonData.version.Components.reduce<ComponentMap>((acc, component) => {
+            if (typeof component?.Name === 'string' && typeof component?.Version === 'string') {
+              acc[component.Name] = component.Version;
+            }
+            return acc;
+          }, {});
+        } catch (error) {
+          console.error('Error processing Components data:', error);
+          return {};
+        }
+      })(),
     },
   };
 }
