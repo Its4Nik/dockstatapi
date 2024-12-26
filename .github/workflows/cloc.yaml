@@ -26,3 +26,4 @@ jobs:
         uses: GrantBirki/comment@v2
         with:
           file: cloc.md
+          issue-number: ${{ github.event.number }}
