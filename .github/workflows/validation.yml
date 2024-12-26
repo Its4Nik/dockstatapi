@@ -19,7 +19,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Run prettier
-        run: npm run pettier
+        run: npm run prettier
 
       - name: Run linter
         run: npm run lint
