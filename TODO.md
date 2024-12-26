@@ -1,13 +1,13 @@
-- [X] ~Better Offline mode using "faker" library or self written (probably self written)~ Not needed since there is a docker-compsoe file for local testing integrated inside the repo
-- [X] HA compatibility
-- [X] !!! Needs testing !!! Add automatic notifications when container state changes, according to selected level for notification service
+- [x] ~Better Offline mode using "faker" library or self written (probably self written)~ Not needed since there is a docker-compsoe file for local testing integrated inside the repo
+- [x] HA compatibility
+- [x] !!! Needs testing !!! Add automatic notifications when container state changes, according to selected level for notification service
 - [ ] Image update and update notifications
 - [ ] trigger container restart / stop / start via backend routes
-- [X] Add more logging
-- [X] Structure code differently
-- [X] Write new README and make the docs better
-- [X] Update more files to correct TS syntax => remove "any"
+- [x] Add more logging
+- [x] Structure code differently
+- [x] Write new README and make the docs better
+- [x] Update more files to correct TS syntax => remove "any"
 - [ ] Websockets
-- [X] Better /api/status endpoint with connection status of each host
-- [X] Update notification service
-- [X] Adjust process.env variables since they don't really work as expected (See [commit](https://github.com/Its4Nik/dockstatapi/pull/21/commits/a03b58c7a17e269f46216df5492e18d008774961))
+- [x] Better /api/status endpoint with connection status of each host
+- [x] Update notification service
+- [x] Adjust process.env variables since they don't really work as expected (See [commit](https://github.com/Its4Nik/dockstatapi/pull/21/commits/a03b58c7a17e269f46216df5492e18d008774961))

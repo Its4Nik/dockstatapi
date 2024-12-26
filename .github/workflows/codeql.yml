@@ -9,7 +9,7 @@ on:
     - cron: "32 1 * * 5"
 
 jobs:
-  analyze:
+  codeql:
     name: Analyze TypeScript
     runs-on: "ubuntu-latest"
     permissions:

@@ -1,6 +1,7 @@
 name: Anchore Grype vulnerability scan
 
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,9 +13,7 @@ jobs:
         id: scan
         with:
           image: "localbuild/testimage:latest"
-          fail-build: false
-          output-file: ./result.sarif
       - name: upload Anchore scan SARIF report
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ./result.sarif
+          sarif_file: ${{ steps.scan.outputs.sarif }}

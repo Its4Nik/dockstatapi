@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  build-main:
+  build-dev:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU

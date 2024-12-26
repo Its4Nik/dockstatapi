@@ -1,7 +1,8 @@
 # DockStatAPI v2
+
 ![Dockstat Logo](.github/DockStat.png)
 
-*Pipelines:* <br>
+_Pipelines:_ <br>
 [![Docker Image CI](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml/badge.svg?branch=main)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml)<br>
 [![Build dockstatapi:nightly](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml/badge.svg?branch=dev)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml)<br>
 
