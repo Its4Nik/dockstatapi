@@ -15,14 +15,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@4
 
       - name: Count Lines of Code (cloc)
-        uses: djdefi/cloc-action@6
+        uses: djdefi/cloc-action
         with:
           options: --md --report-file=cloc.md --exclude-dir=node_modules --exclude-lang=YAML,JSON --exclude-list-file=package-lock.json
 
       - name: Create comment from markdown file
-        uses: GrantBirki/comment@v2.1.0
+        uses: GrantBirki/comment
         with:
           file: cloc.md
