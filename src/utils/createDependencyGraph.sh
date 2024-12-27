@@ -1,6 +1,7 @@
 #!/bin/bash
 cd src || exit 1
 TMP=$(mktemp)
+IGNORE="../node_modules|logger|.dependency-cruiser|path|fs|os|https|net|process"
 
 cat ./server.ts | grep "./routes" | awk '{print $2,$4}' > $TMP
 
@@ -14,7 +15,7 @@ spawn_worker(){
     npx depcruise \
         -p cli-feedback \
         -T mermaid \
-        -x "../node_modules|logger|.dependency-cruiser|path|fs|net" \
+        -x "$IGNORE" \
         -f ./misc/dependencyGraphs/mermaid-${route}.txt \
         ${target_route} || exit 1
 }
@@ -26,7 +27,7 @@ done < <(cat $TMP)
 npx depcruise \
     -p cli-feedback \
     -T mermaid \
-    -x "../node_modules|logger|.dependency-cruiser|path|fs" \
+    -x "$IGNORE" \
     -f ./misc/dependencyGraphs/mermaid-all.txt \
     ./server.ts || exit 1
 
