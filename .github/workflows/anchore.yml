@@ -2,6 +2,10 @@ name: Anchore Grype vulnerability scan
 
 on: [push]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
