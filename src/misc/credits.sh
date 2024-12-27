@@ -13,7 +13,7 @@ LICENSE_JSON=$(npx license-checker \
 
 {
     echo -e "# CREDITS\n"
-    echo "This file shows all npm packages used in DockStatAPI (also Dev packages)"
+    echo -e "This file shows all npm packages used in DockStatAPI (also Dev packages)\n"
 } > CREDITS.md
 
 jq -r '
