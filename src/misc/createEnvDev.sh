@@ -1,5 +1,9 @@
+#!/bin/bash
+
+# Version
 VERSION="$(cat ./package.json | grep version | cut -d '"' -f 4)"
 
+# Docker
 if grep -q '/docker' /proc/1/cgroup 2>/dev/null || [ -f /.dockerenv ]; then
     RUNNING_IN_DOCKER="true"
 else

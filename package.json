@@ -10,7 +10,7 @@
     "dev": "npm run local-env-file && nodemon",
     "dev:trace": "npm run local-env-file && nodemon --trace-uncaught --trace-warnings",
     "dep": "bash ./src/utils/createDependencyGraph.sh",
-    "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && bash ./src/utils/createDependencyGraph.sh",
+    "dep:remove": "bash ./src/utils/removeUnusedDeps.sh && npm run dep",
     "build": "npx tsc",
     "build:mini": "npx tsc && bash ./src/misc/minifyDist.sh --build-only",
     "mini": "bash ./src/misc/minifyDist.sh",
@@ -21,7 +21,8 @@
     "prettier": "npx prettier -c ./src/**/*.ts --parser typescript --write && npx prettier -c ./.github/workflows/*.{yaml,yml} --parser yaml --write && npx prettier -c ./**/*.md --parser markdown --write && npx prettier -c ./**/*.json --parser json --write",
     "lint": "npx eslint",
     "lint:fix": "npx eslint --fix",
-    "license": "bash ./src/misc/credits.sh"
+    "license": "bash ./src/misc/credits.sh",
+    "finish": "npm run local-env-file && npm run license && npm run prettier && npm run lint"
   },
   "keywords": [],
   "author": "Its4Nik",

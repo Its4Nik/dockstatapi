@@ -1,6 +1,5 @@
 import { writeFileSync, existsSync } from "fs";
 import logger from "../utils/logger";
-import path from "path";
 
 const files = [
   {

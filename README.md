@@ -42,6 +42,21 @@ _⚠️ = Deprecation warning_
     - [⚠️ Integrations](https://outline.itsnik.de/s/dockstat/doc/integrations-Agq1oL6HxF)
     - [⚠️ Backend API reference](https://outline.itsnik.de/s/dockstat/doc/backend-api-reference-YzcBbDvY33)
 
+# Dependencies
+
+Please see [CREDITS.md](./CREDITS.md).
+
+To create the credits file use: `npm run license`
+
+Or if you want it as a pre-commit hook create this file:
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+
+npm run license
+```
+
 # DockStat(APIs) goals
 
 DockStack tries to be a lightweigh and more "dashboard" like then [portainer](https://github.com/portainer/portainer), [cAdvisor](https://github.com/google/cadvisor), [dockge](https://github.com/louislam/dockge), ...

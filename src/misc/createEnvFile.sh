@@ -9,6 +9,7 @@ if grep -q '/docker' /proc/1/cgroup 2>/dev/null || [ -f /.dockerenv ]; then
 else
     RUNNING_IN_DOCKER="false"
 fi
+
 echo -n "\
 {
     \"VERSION\": \"${VERSION}\",
