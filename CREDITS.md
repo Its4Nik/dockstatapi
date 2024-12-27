@@ -1,6 +1,7 @@
 # CREDITS
 
 This file shows all npm packages used in DockStatAPI (also Dev packages)
+
 ### License: (MIT AND CC-BY-3.0)
 
 | Name | Repository | Publisher |
