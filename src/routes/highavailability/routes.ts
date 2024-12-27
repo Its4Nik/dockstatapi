@@ -3,9 +3,7 @@ import { Router, Request, Response } from "express";
 import logger from "../../utils/logger";
 import {
   readConfig,
-  synchronizeFilesWithNodes,
   prepareFilesForSync,
-  HighAvailabilityConfig,
   ensureFileExists,
 } from "../../controllers/highAvailability";
 
@@ -44,7 +42,7 @@ router.get("/config", async (req: Request, res: Response) => {
 router.post(
   "/sync",
   async (
-    req: Request<{}, {}, SyncRequestBody>,
+    req: Request<{}, {}, SyncRequestBody>, // eslint-disable-line
     res: Response,
   ): Promise<void> => {
     try {
