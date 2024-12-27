@@ -68,7 +68,7 @@ router.post("/show/:containerName", async (req, res) => {
   try {
     await unhideContainer(containerName);
     res.status(200).json({ message: "Container unhidden successfully." });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
