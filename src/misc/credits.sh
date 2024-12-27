@@ -10,10 +10,11 @@ fi
 LICENSE_JSON=$(npx license-checker \
   --exclude 'MIT, MIT-0, MIT OR X11, BSD, ISC, Unlicense, CC0-1.0, Python-2.0: 1' \
   --json)
+
 {
     echo -e "# CREDITS\n"
     echo "This file shows all npm packages used in DockStatAPI (also Dev packages)"
-}
+} > CREDITS.md
 
 jq -r '
   to_entries |
