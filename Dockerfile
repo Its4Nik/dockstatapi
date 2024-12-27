@@ -19,7 +19,7 @@ RUN apk update && \
     apk add bash
 
 
-COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
+COPY tsconfig.json environment.d.ts package*.json tsconfig.json ./
 RUN npm install
 
 COPY ./src ./src
@@ -38,7 +38,7 @@ WORKDIR /build
 
 RUN mkdir -p /build/src/data
 
-COPY tsconfig.json environment.d.ts package*.json tsconfig.json yarn.lock ./
+COPY tsconfig.json environment.d.ts package*.json tsconfig.json ./
 RUN npm install --omit=dev
 
 COPY --from=builder /build/dist/* /build/src
