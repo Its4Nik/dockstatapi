@@ -7,7 +7,7 @@ permissions:
   security-events: write
 
 jobs:
-  build:
+  anchore:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Grype installation path
