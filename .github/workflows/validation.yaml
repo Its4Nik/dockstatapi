@@ -36,26 +36,117 @@ jobs:
   CodeQL:
     needs: validation
     runs-on: ubuntu-latest
+    name: Analyze TypeScript
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: javascript-typescript
+            build-mode: none
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: CodeQL
-        uses: ./.github/workflows/codeql.yaml
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          queries: security-extended
+
+      - if: matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          echo 'If you are using a "manual" build mode for one or more of the' \
+            'languages you are analyzing, replace this with the commands to build' \
+            'your code, for example:'
+          echo '  make bootstrap'
+          echo '  make release'
+          exit 1
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+
+      - name: Set Marker for Workflow Completion
+        run: echo "codeql_complete=true" >> $GITHUB_ENV
 
   Anchore:
     needs: validation
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Set up Grype installation path
+        run: echo "$HOME/bin" >> $GITHUB_PATH
 
-      - name: Anchore
-        uses: ./.github/workflows/anchore.yaml
+      - name: Download Grype
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b $HOME/bin
+
+      - uses: actions/checkout@v4
+
+      - name: Build the Container image
+        run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+
+      - name: Run Grype test
+        run: grype -o sarif localbuild/testimage:latest > results.sarif
+
+      - name: Upload Anchore scan SARIF report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ./results.sarif
 
   test-building:
     needs: [CodeQL, Anchore]
     runs-on: ubuntu-latest
     steps:
-      - name: Test build
-        uses: ./.github/workflows/build-test.yaml
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js version from .nvmrc
+        run: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm install
+          nvm use
+          node -v
+          npm -v
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Docker tags
+        uses: docker/metadata-action@v5
+        id: metadata
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ github.sha }}
+
+      - name: Build and Push Docker Images
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: false
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
