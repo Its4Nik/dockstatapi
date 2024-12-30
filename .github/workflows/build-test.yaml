@@ -1,6 +1,7 @@
 name: "Build test docker image"
 
-on: [push]
+on:
+  workflow_call:
 
 permissions:
   packages: write

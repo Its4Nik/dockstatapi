@@ -1,6 +1,7 @@
 name: "Anchore Grype vulnerability scan"
 
-on: [push]
+on:
+  workflow_call:
 
 permissions:
   contents: read
