@@ -1,11 +1,7 @@
 name: "CodeQL Advanced"
 
 on:
-  workflow_run:
-    workflows:
-      - "Anchore Grype Vulnerability Scan"
-    types:
-      - completed
+  workflow_call:
 
 jobs:
   codeql:

@@ -1,11 +1,7 @@
 name: "Anchore Grype Vulnerability Scan"
 
 on:
-  workflow_run:
-    workflows:
-      - "Run all tests" # Replace with the actual name of the preceding workflow
-    types:
-      - completed
+  workflow_call:
 
 permissions:
   contents: read

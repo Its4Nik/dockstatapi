@@ -1,12 +1,7 @@
 name: "Build test docker image"
 
 on:
-  workflow_run:
-    workflows:
-      - "Anchore Grype Vulnerability Scan"
-      - "CodeQL Advanced"
-    types:
-      - completed
+  workflow_call:
 
 permissions:
   packages: write
@@ -16,19 +11,6 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check workflow dependencies
-        run: |
-          for i in {1..10}; do
-            if [[ "${{ env.anchore_complete }}" == "true" && "${{ env.codeql_complete }}" == "true" ]]; then
-              echo "All workflows complete!"
-              exit 0
-            fi
-            echo "Dependencies not yet complete. Retrying in 60 seconds..."
-            sleep 60
-          done
-          echo "Dependencies not met within the timeout period. Exiting."
-          exit 1
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
