@@ -1,12 +1,16 @@
 name: "CodeQL Advanced"
 
 on:
-  workflow_call:
+  workflow_run:
+    workflows:
+      - "Anchore Grype Vulnerability Scan"
+    types:
+      - completed
 
 jobs:
   codeql:
     name: Analyze TypeScript
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     permissions:
       security-events: write
       packages: read
@@ -44,4 +48,4 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{matrix.language}}"
+          category: "/language:${{ matrix.language }}"

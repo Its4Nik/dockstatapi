@@ -1,7 +1,11 @@
-name: "Anchore Grype vulnerability scan"
+name: "Anchore Grype Vulnerability Scan"
 
 on:
-  workflow_call:
+  workflow_run:
+    workflows:
+      - "Run all tests" # Replace with the actual name of the preceding workflow
+    types:
+      - completed
 
 permissions:
   contents: read
@@ -16,7 +20,7 @@ jobs:
       - name: Download Grype
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b $HOME/bin
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@v4
       - name: Build the Container image
         run: docker build . --file Dockerfile --tag localbuild/testimage:latest
       - name: Run Grype test
