@@ -5,6 +5,11 @@ on: [push]
 jobs:
   validation:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -76,12 +81,14 @@ jobs:
         with:
           category: "/language:${{ matrix.language }}"
 
-      - name: Set Marker for Workflow Completion
-        run: echo "codeql_complete=true" >> $GITHUB_ENV
-
   Anchore:
     needs: validation
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
     steps:
       - name: Set up Grype installation path
         run: echo "$HOME/bin" >> $GITHUB_PATH
@@ -106,6 +113,11 @@ jobs:
   test-building:
     needs: [CodeQL, Anchore]
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
