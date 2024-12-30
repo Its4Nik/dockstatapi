@@ -5,6 +5,7 @@
 _Pipelines:_ <br>
 [![Docker Image CI](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml/badge.svg?branch=main)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml)<br>
 [![Build dockstatapi:nightly](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml/badge.svg?branch=dev)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml)<br>
+[![Tests](https://github.com/Its4Nik/dockstatapi/actions/workflows/validation.yml/badge.svg?branch=dev)](https://github.com/Its4Nik/dockstatapi/actions/workflows/validation.yml)
 
 This specific branch contains the currently WIP **DockStatAPI-v2**, this update will bring major breaking changes so please be careful.
 With this new release a couple of extra features (compared to v1) are going to be available.
