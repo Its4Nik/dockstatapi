@@ -7,7 +7,6 @@ const red = "\x1b[31m";
 const green = "\x1b[32m";
 const yellow = "\x1b[33m";
 const blue = "\x1b[34m";
-const pink = "\x1b[38;5;213m"; // Pink color for sync logs
 
 const ignoreExitListenerLogs = format((info) => {
   if (

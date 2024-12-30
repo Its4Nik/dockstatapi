@@ -43,7 +43,7 @@ async function authMiddleware(
 
     logger.debug("Authentication succesfull");
     next();
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error("Error in authMiddleware:", error);
     res.status(500).json({ message: "Internal server error" });
   }

@@ -12,7 +12,7 @@ interface TemplateData {
   text: string;
 }
 
-function isTemplateData(data: any): data is TemplateData {
+function isTemplateData(data: TemplateData): data is TemplateData {
   return (
     data !== null && typeof data === "object" && typeof data.text === "string"
   );
@@ -169,8 +169,8 @@ router.post("/test/:type/:containerId", async (req: Request, res: Response) => {
   try {
     await notify(type, containerId);
     res.json({ success: true, message: `Sent test notification to ${type}` });
-  } catch (error: any) {
-    res.json({ success: false, message: `Errored: ${error}` });
+  } catch (error: unknown) {
+    res.json({ success: false, message: `Errored: ${error as Error}` });
   }
 });
 

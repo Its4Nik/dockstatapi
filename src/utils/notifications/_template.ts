@@ -1,5 +1,6 @@
 import fs from "fs";
 import logger from "../logger";
+import { ContainerStates, Container } from "../../typings/states";
 
 const templatePath: string = "./src/data/template.json";
 const containersPath: string = "./src/data/states.json";
@@ -12,8 +13,8 @@ function getTemplate(): Template | null {
   try {
     const data = fs.readFileSync(templatePath, "utf8");
     return JSON.parse(data);
-  } catch (error: any) {
-    logger.error("Failed to load template:", error);
+  } catch (error: unknown) {
+    logger.error("Failed to load template:", error as Error);
     return null;
   }
 }
@@ -26,8 +27,8 @@ function setTemplate(newTemplate: string): void {
       "utf8",
     );
     logger.debug("Template updated successfully");
-  } catch (error: any) {
-    logger.error("Failed to update template:", error);
+  } catch (error: unknown) {
+    logger.error("Failed to update template:", error as Error);
   }
 }
 
@@ -42,9 +43,11 @@ function renderTemplate(containerId: string): string | null {
     const data = fs.readFileSync(containersPath, "utf8");
     const containers = JSON.parse(data);
 
-    let containerData: Record<string, any> | null = null;
+    let containerData: ContainerStates | null = null;
     for (const host in containers) {
-      containerData = containers[host].find((c: any) => c.id === containerId);
+      containerData = containers[host].find(
+        (c: Container) => c.id === containerId,
+      );
       if (containerData) {
         break;
       }
@@ -56,13 +59,13 @@ function renderTemplate(containerId: string): string | null {
     }
 
     // Substitute placeholders in the template with container data
-    return Object.keys(containerData).reduce(
-      (text, key) =>
-        text.replace(new RegExp(`{{${key}}}`, "g"), containerData[key]),
-      template.text,
-    );
-  } catch (error: any) {
-    logger.error("Failed to load containers:", error);
+    return Object.keys(containerData).reduce((text, key) => {
+      const value = containerData[key as keyof ContainerStates];
+      // Convert value to a string to avoid errors
+      return text.replace(new RegExp(`{{${key}}}`, "g"), String(value));
+    }, template.text);
+  } catch (error: unknown) {
+    logger.error("Failed to load containers:", error as Error);
     return null;
   }
 }

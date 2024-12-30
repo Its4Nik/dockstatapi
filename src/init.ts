@@ -27,7 +27,7 @@ const initializeApp = (app: express.Application): void => {
     next(),
   );
 
-  swaggerDocs(app as any);
+  swaggerDocs(app);
   trustedProxies(app);
   scheduleFetch();
 

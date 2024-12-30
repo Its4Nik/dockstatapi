@@ -18,7 +18,7 @@ const options: {
       };
     };
     security: Array<{
-      passwordAuth: any[];
+      passwordAuth: unknown[];
     }>;
   };
   apis: string[];

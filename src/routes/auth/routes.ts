@@ -7,11 +7,6 @@ const passwordBool: string = "./src/data/usePassword.txt";
 const saltRounds: number = 10;
 const router: Router = Router();
 
-let passwordData: {
-  hash: string;
-  salt: string;
-};
-
 async function authEnabled(): Promise<boolean> {
   let isAuthEnabled: boolean = false;
   let data: string = "";
@@ -19,8 +14,8 @@ async function authEnabled(): Promise<boolean> {
     data = await fs.readFile(passwordBool, "utf8");
     isAuthEnabled = data.trim() === "true";
     return isAuthEnabled;
-  } catch (error: any) {
-    logger.error("Error reading file: ", error);
+  } catch (error: unknown) {
+    logger.error("Error reading file: ", error as Error);
     return isAuthEnabled;
   }
 }
@@ -30,8 +25,8 @@ async function readPasswordFile() {
   try {
     data = await fs.readFile(passwordFile, "utf8");
     return data;
-  } catch (error: any) {
-    logger.error("Could not read saved password: ", error);
+  } catch (error: unknown) {
+    logger.error("Could not read saved password: ", error as Error);
     return data;
   }
 }
@@ -42,8 +37,8 @@ async function writePasswordFile(passwordData: string) {
     setTrue();
     logger.debug("Authentication enabled");
     return "Authentication enabled";
-  } catch (error: any) {
-    logger.error("Error writing password file:", error);
+  } catch (error: unknown) {
+    logger.error("Error writing password file:", error as Error);
     return error;
   }
 }
@@ -53,8 +48,8 @@ async function setTrue() {
     await fs.writeFile(passwordBool, "true", "utf8");
     logger.info(`Enabled authentication`);
     return;
-  } catch (error: any) {
-    logger.error("Error writing to the file:", error);
+  } catch (error: unknown) {
+    logger.error("Error writing to the file:", error as Error);
     return;
   }
 }
@@ -64,8 +59,8 @@ async function setFalse() {
     await fs.writeFile(passwordBool, "false", "utf8");
     logger.info(`Disabled authentication`);
     return;
-  } catch (error: any) {
-    logger.error("Error writing to the file:", error);
+  } catch (error: unknown) {
+    logger.error("Error writing to the file:", error as Error);
     return;
   }
 }
@@ -118,8 +113,8 @@ router.post("/enable", async (req: Request, res: Response): Promise<void> => {
     res
       .status(200)
       .json({ message: "Password Authentication enabled successfully" });
-  } catch (error) {
-    logger.error(`Error enabling password authentication: ${error}`);
+  } catch (error: unknown) {
+    logger.error(`Error enabling password authentication: ${error as Error}`);
     res.status(500).json({ message: "An error occurred" });
   }
 });
@@ -165,8 +160,8 @@ router.post("/disable", async (req: Request, res: Response): Promise<void> => {
 
     await setFalse(); // Assuming this is an async function
     res.status(200).json({ message: "Authentication disabled" });
-  } catch (error) {
-    logger.error(`Error disabling authentication: ${error}`);
+  } catch (error: unknown) {
+    logger.error(`Error disabling authentication: ${error as Error}`);
     res.status(500).json({ message: "An error occurred" });
   }
 });

@@ -3,9 +3,9 @@ import logger from "../utils/logger";
 
 const dbPath: string = "./src/data/database.db";
 
-const db: sqlite3.Database = new sqlite3.Database(dbPath, (error: any) => {
-  if (error) {
-    logger.error("Error opening database:", error.message);
+const db: sqlite3.Database = new sqlite3.Database(dbPath, (error: unknown) => {
+  if (error as Error) {
+    logger.error("Error opening database:", (error as Error).message);
   } else {
     db.run(
       `CREATE TABLE IF NOT EXISTS data (

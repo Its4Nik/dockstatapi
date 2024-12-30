@@ -10,12 +10,12 @@ const getContainers = async (req: Request, res: Response): Promise<void> => {
     const containers = await docker.listContainers();
 
     res.status(200).json(containers);
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(
-      `Error fetching containers from host: ${host} - ${error.message || "Unknown error"} - Full error: ${JSON.stringify(error, null, 2)}`,
+      `Error fetching containers from host: ${host} - ${(error as Error).message || "Unknown error"} - Full error: ${JSON.stringify(error, null, 2)}`,
     );
     res.status(500).json({
-      error: `Error fetching containers: ${error.message || "Unknown error"}`,
+      error: `Error fetching containers: ${(error as Error).message || "Unknown error"}`,
     });
   }
 };
@@ -36,13 +36,15 @@ const getContainerStats = async (
       `Successfully fetched stats for container: ${containerID} from host: ${containerHost}`,
     );
     res.status(200).json(stats);
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(
-      `Error fetching stats for container: ${containerID} from host: ${containerHost} - ${error.message}`,
+      `Error fetching stats for container: ${containerID} from host: ${containerHost} - ${(error as Error).message}`,
     );
     res
       .status(500)
-      .json({ error: `Error fetching container stats: ${error.message}` });
+      .json({
+        error: `Error fetching container stats: ${(error as Error).message}`,
+      });
   }
 };
 

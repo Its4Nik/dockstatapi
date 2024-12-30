@@ -2,7 +2,15 @@
   {
     "name": "test",
     "tags": [
-      "123"
-    ]
+      "123",
+      "123",
+      "321"
+    ],
+    "link": "https://google.com",
+    "icon": "custom/test.png"
+  },
+  {
+    "name": "test2",
+    "pinned": true
   }
 ]

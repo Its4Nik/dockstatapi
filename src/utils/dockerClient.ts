@@ -19,7 +19,7 @@ function loadDockerConfig(): DockerConfig {
     const rawData = fs.readFileSync(configPath, "utf-8");
     logger.debug("Refreshed DockerConfig.json");
     return JSON.parse(rawData) as DockerConfig;
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(
       "Error loading dockerConfig.json: " + (error as Error).message,
     );

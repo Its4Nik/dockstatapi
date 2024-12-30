@@ -4,6 +4,7 @@ const dataPath: string = "./src/data/frontendConfiguration.json";
 const expression: string =
   "https?://(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_+.~#?&//=]*)";
 const regex = new RegExp(expression);
+import { FrontendConfig } from "../typings/frontendConfig";
 
 ///////////////////////////////////////////////////////////////
 // Hide Containers:
@@ -11,7 +12,7 @@ async function hideContainer(containerName: string) {
   try {
     const data = await readData();
     const containerIndex = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -21,9 +22,9 @@ async function hideContainer(containerName: string) {
       data.push({ name: containerName, hidden: true });
       await saveData(data);
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -31,7 +32,7 @@ async function unhideContainer(containerName: string) {
   try {
     const data = await readData();
     const containerIndex = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -39,9 +40,9 @@ async function unhideContainer(containerName: string) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -51,7 +52,7 @@ async function addTagToContainer(containerName: string, tag: string) {
   try {
     const data = await readData();
     const containerIndex = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -64,9 +65,9 @@ async function addTagToContainer(containerName: string, tag: string) {
       data.push({ name: containerName, tags: [tag] });
       await saveData(data);
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -74,19 +75,19 @@ async function removeTagFromContainer(containerName: string, tag: string) {
   try {
     const data = await readData();
     const containerIndex = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1 && data[containerIndex].tags) {
       data[containerIndex].tags = data[containerIndex].tags.filter(
-        (t: any) => t !== tag,
+        (t) => t !== tag,
       );
       await saveData(data);
       cleanupData();
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(error);
-    throw new Error(error);
+    throw new Error(error as string);
   }
 }
 
@@ -94,9 +95,9 @@ async function removeTagFromContainer(containerName: string, tag: string) {
 // Pin containers
 async function pinContainer(containerName: string) {
   try {
-    const data: any = await readData();
-    const containerIndex: number = data.findIndex(
-      (container: any) => container.name === containerName,
+    const data = await readData();
+    const containerIndex = data.findIndex(
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -106,9 +107,9 @@ async function pinContainer(containerName: string) {
       data.push({ name: containerName, pinned: true });
       await saveData(data);
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -116,7 +117,7 @@ async function unpinContainer(containerName: string) {
   try {
     const data = await readData();
     const containerIndex = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -124,9 +125,9 @@ async function unpinContainer(containerName: string) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -135,9 +136,9 @@ async function unpinContainer(containerName: string) {
 async function setLink(containerName: string, link: string) {
   if (link.match(regex)) {
     try {
-      const data: any = await readData();
-      const containerIndex: any = data.findIndex(
-        (container: any) => container.name === containerName,
+      const data = await readData();
+      const containerIndex = data.findIndex(
+        (container) => container.name === containerName,
       );
 
       if (containerIndex !== -1) {
@@ -147,9 +148,9 @@ async function setLink(containerName: string, link: string) {
         data.push({ name: containerName, link: `${link}` });
         await saveData(data);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error(error);
-      throw new Error(error);
+      throw new Error(error as string);
     }
   } else {
     logger.error(`Provided link is not valid: ${link}`);
@@ -161,7 +162,7 @@ async function removeLink(containerName: string) {
   try {
     const data = await readData();
     const containerIndex = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -169,9 +170,9 @@ async function removeLink(containerName: string) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -181,7 +182,7 @@ async function setIcon(containerName: string, icon: string, custom: boolean) {
   try {
     const data = await readData();
     const containerIndex: number = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (custom === true) {
@@ -199,9 +200,9 @@ async function setIcon(containerName: string, icon: string, custom: boolean) {
       data.push({ name: containerName, icon: `${icon}` });
       await saveData(data);
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -209,7 +210,7 @@ async function removeIcon(containerName: string) {
   try {
     const data = await readData();
     const containerIndex = data.findIndex(
-      (container: any) => container.name === containerName,
+      (container) => container.name === containerName,
     );
 
     if (containerIndex !== -1) {
@@ -217,9 +218,9 @@ async function removeIcon(containerName: string) {
       await saveData(data);
       cleanupData();
     }
-  } catch (error: any) {
-    logger.error(error);
-    throw new Error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
+    throw new Error(error as string);
   }
 }
 
@@ -227,11 +228,13 @@ async function removeIcon(containerName: string) {
 // Data specific functionss
 async function readData() {
   try {
-    const data = await fs.promises.readFile(dataPath, "utf-8");
-    return JSON.parse(data);
-  } catch (error: any) {
-    console.error("readData");
-    if (error.code === "ENOENT") {
+    const data: FrontendConfig = JSON.parse(
+      await fs.promises.readFile(dataPath, "utf-8"),
+    );
+    return data;
+  } catch (error: unknown) {
+    console.error(`Error while reading ${dataPath}: ${error as Error}`);
+    if (error as Error) {
       await saveData([]);
       return [];
     } else {
@@ -240,7 +243,7 @@ async function readData() {
   }
 }
 
-async function saveData(data: any) {
+async function saveData(data: FrontendConfig) {
   try {
     await fs.promises.writeFile(
       dataPath,
@@ -248,15 +251,15 @@ async function saveData(data: any) {
       "utf-8",
     );
     logger.info("Succesfully wrote to file");
-  } catch (error: any) {
-    logger.error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
   }
 }
 
 async function cleanupData() {
   try {
     const data = await readData();
-    let cleanedData = [];
+    let cleanedData: FrontendConfig = [];
 
     if (data && Array.isArray(data)) {
       cleanedData = data.filter((container) => {
@@ -273,8 +276,8 @@ async function cleanupData() {
     }
 
     await saveData(cleanedData);
-  } catch (error: any) {
-    logger.error(error);
+  } catch (error: unknown) {
+    logger.error(error as Error);
   }
 }
 

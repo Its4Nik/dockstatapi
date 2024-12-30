@@ -66,9 +66,9 @@ const fetchData = async (): Promise<void> => {
     } else {
       logger.info("No state change detected, notifications not triggered.");
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(
-      `Error fetching data: ${JSON.stringify(error)} \nStack trace: ${error.stack}`,
+      `Error fetching data: ${JSON.stringify(error)} \nStack trace: ${(error as Error).stack}`,
     );
   }
 };

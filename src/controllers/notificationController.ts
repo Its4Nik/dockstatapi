@@ -56,3 +56,5 @@ async function sendNotification(containerId: string) {
     notify("whatsapp", containerId);
   }
 }
+
+export default sendNotification;

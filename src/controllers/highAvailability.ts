@@ -102,7 +102,7 @@ async function readConfig(): Promise<HighAvailabilityConfig | null> {
       fs.readFileSync(haMasterPath, "utf-8"),
     );
     return data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(`Error reading HA-Config: ${(error as Error).message}`);
     return null;
   } finally {

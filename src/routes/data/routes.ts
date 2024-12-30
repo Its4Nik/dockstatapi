@@ -2,14 +2,19 @@ import express from "express";
 const router = express.Router();
 import db from "../../config/db";
 import logger from "../../utils/logger";
+import Table from "../../typings/table";
 
 interface DataRow {
   info: string;
 }
 
-function formatRows(rows: DataRow[]): Record<number, any> {
+function formatRows(rows: DataRow[]): Record<number, string> {
   return rows.reduce(
-    (acc: Record<number, any>, row, index: number): Record<number, any> => {
+    (
+      acc: Record<number, string>,
+      row,
+      index: number,
+    ): Record<number, string> => {
       acc[index] = JSON.parse(row.info);
       return acc;
     },
@@ -88,26 +93,31 @@ function formatRows(rows: DataRow[]): Record<number, any> {
 router.get("/latest", (req, res) => {
   db.get(
     "SELECT info FROM data ORDER BY timestamp DESC LIMIT 1",
-    (error, row: any) => {
+    (error: unknown, row: Partial<Pick<Table, "info">> | undefined) => {
       if (error) {
-        logger.error("Error fetching latest data:", error.message);
+        logger.error("Error fetching latest data:", (error as Error).message);
         return res.status(500).json({ error: "Internal server error" });
       }
 
-      if (!row) {
+      if (!row || !row.info) {
         logger.warn("No data available for /data/latest");
         return res.status(404).json({ error: "No data available" });
       }
 
       logger.debug("Fetching /data/latest");
-      res.json(JSON.parse(row.info));
+      try {
+        res.json(JSON.parse(row.info));
+      } catch (error: unknown) {
+        logger.error("Error parsing data:", (error as Error).message);
+        res.status(500).json({ error: "Data format error" });
+      }
     },
   );
 });
 
 /**
  * @swagger
- * /data/time/24h:
+ * /data/all:
  *   get:
  *     summary: Retrieve container statistics entries from the last 24 hours
  *     tags: [Database queries]
@@ -152,17 +162,27 @@ router.get("/latest", (req, res) => {
  *                       type: number
  *                       example: 3072
  */
-router.get("/time/24h", (req, res) => {
+router.get("/all", (req, res) => {
   const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
   db.all(
     "SELECT info FROM data WHERE timestamp >= ?",
     [oneDayAgo],
-    (error, rows: DataRow[]) => {
+    (error: unknown, rows: Pick<Table, "info">[] | undefined) => {
       if (error) {
-        logger.error("Error fetching data from last 24 hours:", error.message);
+        logger.error(
+          "Error fetching data from last 24 hours:",
+          (error as Error).message,
+        );
         return res.status(500).json({ error: "Internal server error" });
       }
+
       logger.debug("Fetching /data/time/24h");
+      if (!rows || rows.length === 0) {
+        logger.warn("No data available for /data/time/24h");
+        return res.status(404).json({ error: "No data available" });
+      }
+
       res.json(formatRows(rows));
     },
   );
@@ -188,9 +208,9 @@ router.get("/time/24h", (req, res) => {
  *                   example: "Database cleared successfully."
  */
 router.delete("/clear", (req, res) => {
-  db.run("DELETE FROM data", (err) => {
-    if (err) {
-      logger.error("Error clearing the database:", err.message);
+  db.run("DELETE FROM data", (error: unknown) => {
+    if (error) {
+      logger.error("Error clearing the database:", (error as Error).message);
       return res.status(500).json({ error: "Internal server error" });
     }
     logger.debug("Database cleared successfully");

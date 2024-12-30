@@ -6,7 +6,7 @@ const configPath = "./src/data/dockerConfig.json";
 
 interface HostConfig {
   name: string;
-  [key: string]: any;
+  [key: string]: string | number;
 }
 
 interface ContainerData {
@@ -44,8 +44,8 @@ function loadConfig() {
     const configData = fs.readFileSync(configPath, "utf-8");
     logger.debug("Loaded " + configPath);
     return JSON.parse(configData);
-  } catch (error: any) {
-    logger.error(`Failed to load config: ${error.message}`);
+  } catch (error: unknown) {
+    logger.error(`Failed to load config: ${(error as Error).message}`);
     return null;
   }
 }
@@ -62,7 +62,7 @@ async function fetchAllContainers(): Promise<AllContainerData> {
   for (const hostConfig of config.hosts as HostConfig[]) {
     const hostName = hostConfig.name;
     try {
-      const docker: any = getDockerClient(hostName);
+      const docker = getDockerClient(hostName);
       logger.debug(`Now processing: ${hostName}`);
       const containers: ContainerInfo[] = await docker.listContainers({
         all: true,
@@ -103,9 +103,9 @@ async function fetchAllContainers(): Promise<AllContainerData> {
               current_net_tx: containerStats.networks?.eth0?.tx_bytes || 0,
               networkMode: containerInfo.HostConfig.NetworkMode || "unknown",
             };
-          } catch (containerError: any) {
+          } catch (containerError: unknown) {
             logger.error(
-              `Error fetching details for container ID: ${container.Id} on host: ${hostName} - ${containerError.message}`,
+              `Error fetching details for container ID: ${container.Id} on host: ${hostName} - ${(containerError as Error).message}`,
             );
             return {
               name: container.Names[0].replace("/", ""),
@@ -124,12 +124,12 @@ async function fetchAllContainers(): Promise<AllContainerData> {
           }
         }),
       );
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error(
-        `Error fetching containers for host: ${hostName} - ${error.message}. Stack: ${error.stack}`,
+        `Error fetching containers for host: ${hostName} - ${(error as Error).message}. Stack: ${(error as Error).stack}`,
       );
       allContainerData[hostName] = {
-        error: `Error fetching containers: ${error.message}`,
+        error: `Error fetching containers: ${(error as Error).message}`,
       };
     }
   }

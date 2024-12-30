@@ -1,9 +1,9 @@
 import { setFetchInterval, parseInterval } from "../../controllers/scheduler";
 import logger from "../../utils/logger";
-import { Router, Request, Response } from "express";
+import express, { Router, Request, Response } from "express";
 import fs from "fs";
 
-const router = Router();
+const router: Router = express.Router();
 const configPath: string = "./src/data/dockerConfig.json";
 
 interface Host {
@@ -101,20 +101,20 @@ router.put(
  *       400:
  *         description: Invalid interval format or out of range.
  */
-router.put("/scheduler", (req: any, res: any) => {
+router.put("/scheduler", (req: Request, res: Response) => {
   const interval = req.query.interval as string;
 
   try {
     const newInterval = parseInterval(interval);
 
     if (newInterval < 5 * 60 * 1000 || newInterval > 6 * 60 * 60 * 1000) {
-      return res
+      res
         .status(400)
         .json({ error: "Interval must be between 5 minutes and 6 hours." });
     }
 
     setFetchInterval(newInterval);
-    res.json({ message: `Fetch interval set to ${interval}.` });
+    res.status(200).json({ message: `Fetch interval set to ${interval}.` });
   } catch (error: unknown) {
     const err = error as Error;
     logger.error("Error setting fetch interval: " + err.message);

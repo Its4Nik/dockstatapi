@@ -1,6 +1,5 @@
 import extractRelevantData from "../../utils/extractHostData";
 import { Router, Request, Response } from "express";
-import { writeOfflineLog, readOfflineLog } from "../../utils/writeOfflineLog";
 import getDockerClient from "../../utils/dockerClient";
 import fetchAllContainers from "../../utils/containerService";
 import { getCurrentSchedule } from "../../controllers/scheduler";
@@ -10,6 +9,7 @@ import checkReachability from "../../utils/connectionChecker";
 const configPath = "./src/data/dockerConfig.json";
 const router = Router();
 const userConf = "./src/data/user.conf";
+import { dockerConfig } from "../../typings/dockerConfig";
 
 /**
  * @swagger
@@ -35,17 +35,17 @@ router.get("/hosts", (req: Request, res: Response) => {
   logger.info(`Fetching config: ${configPath}`);
   try {
     const rawData = fs.readFileSync(configPath, "utf-8");
-    const config = JSON.parse(rawData);
+    const config: dockerConfig = JSON.parse(rawData);
 
     if (!config.hosts) {
       throw new Error("No hosts defined in configuration.");
     }
 
-    const hosts = config.hosts.map((host: any) => host.name);
+    const hosts = config.hosts.map((host) => host.name);
     logger.debug("Fetching all available Docker hosts");
     res.status(200).json({ hosts });
-  } catch (error: any) {
-    logger.error("Error fetching hosts: " + error.message);
+  } catch (error: unknown) {
+    logger.error("Error fetching hosts: " + (error as Error).message);
     res.status(500).json({ error: "Failed to fetch Docker hosts" });
   }
 });
@@ -86,8 +86,8 @@ router.get("/system", (req: Request, res: Response) => {
       res.status(500).json({ error: `Error received empty ${userConf}` });
     }
     res.status(200).json(config);
-  } catch (error: any) {
-    logger.error(`Could not fetch ${userConf}: ${error}`);
+  } catch (error: unknown) {
+    logger.error(`Could not fetch ${userConf}: ${error as Error}`);
     res.status(500).json({ error: `Failed to fetch ${userConf}` });
   }
 });
@@ -142,14 +142,13 @@ router.get("/host/:hostName/stats", async (req: Request, res: Response) => {
     const version = await docker.version();
     const relevantData = extractRelevantData({ hostName, info, version });
 
-    writeOfflineLog(JSON.stringify(relevantData));
     res.status(200).json(relevantData);
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(
-      `Error fetching stats for host: ${hostName} - ${error.message || "Unknown error"}`,
+      `Error fetching stats for host: ${hostName} - ${(error as Error).message || "Unknown error"}`,
     );
     res.status(500).json({
-      error: `Error fetching host stats: ${error.message || "Unknown error"}`,
+      error: `Error fetching host stats: ${(error as Error).message || "Unknown error"}`,
     });
   }
 });
@@ -233,8 +232,8 @@ router.get("/containers", async (req: Request, res: Response) => {
     const allContainerData = await fetchAllContainers();
     logger.debug("Fetched /api/containers");
     res.status(200).json(allContainerData);
-  } catch (error: any) {
-    logger.error(`Error fetching containers: ${error.message}`);
+  } catch (error: unknown) {
+    logger.error(`Error fetching containers: ${(error as Error).message}`);
     res.status(500).json({ error: "Failed to fetch containers" });
   }
 });
@@ -270,8 +269,10 @@ router.get("/config", async (req: Request, res: Response) => {
     const jsonData = JSON.parse(rawData.toString());
     logger.debug("Fetching /api/config");
     res.status(200).json(jsonData);
-  } catch (error: any) {
-    logger.error("Error loading dockerConfig.json: " + error.message);
+  } catch (error: unknown) {
+    logger.error(
+      "Error loading dockerConfig.json: " + (error as Error).message,
+    );
     res.status(500).json({ error: "Failed to load Docker configuration" });
   }
 });
@@ -334,8 +335,8 @@ router.get("/status", async (req: Request, res: Response) => {
   try {
     const jsonData = await checkReachability();
     res.status(200).json(jsonData);
-  } catch (error: any) {
-    logger.error(`Error while fetching data: ${error}`);
+  } catch (error: unknown) {
+    logger.error(`Error while fetching data: ${error as Error}`);
   }
 });
 
@@ -398,8 +399,10 @@ router.get("/frontend-config", (req: Request, res: Response) => {
     const jsonData = JSON.parse(rawData.toString());
 
     res.status(200).json(jsonData);
-  } catch (error: any) {
-    logger.error("Error loading frontendConfiguration.json: " + error.message);
+  } catch (error: unknown) {
+    logger.error(
+      "Error loading frontendConfiguration.json: " + (error as Error).message,
+    );
     res.status(500).json({ error: "Failed to load Frontend configuration" });
   }
 });

@@ -46,7 +46,7 @@ export async function emailNotification(containerId: string) {
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch (error: any) {
-    logger.error("Error sending email:", error);
+  } catch (error: unknown) {
+    logger.error("Error sending email:", error as Error);
   }
 }

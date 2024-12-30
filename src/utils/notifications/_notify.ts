@@ -43,9 +43,8 @@ async function notify(type: string, containerId: string) {
       await pushoverNotification(containerId);
       break;
     default:
-      const errorMsg = "Unknown notification type.";
-      logger.error(errorMsg);
-      throw new Error(errorMsg);
+      logger.error("Unknown notification type.");
+      throw new Error("Unknown notification type.");
   }
 }
 
