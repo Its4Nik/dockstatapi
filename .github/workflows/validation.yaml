@@ -34,10 +34,10 @@ jobs:
         run: npm audit --audit-level=high
 
       - name: Run Anchore
-        uses: ./.github/workflows/anchore.yml
+        uses: ./.github/workflows/anchore.yaml
 
       - name: Run CodeQL
-        uses: ./.github/workflows/codeql.yml
+        uses: ./.github/workflows/codeql.yaml
 
       - name: Test build
         uses: ./.github/workflows/build-test.yaml
