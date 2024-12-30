@@ -33,18 +33,28 @@ jobs:
       - name: Audit packages
         run: npm audit --audit-level=high
 
-  code-testing:
+  CodeQL:
     needs: validation
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: CodeQL
         uses: ./.github/workflows/codeql.yaml
+
+  Anchore:
+    needs: validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Anchore
         uses: ./.github/workflows/anchore.yaml
 
   test-building:
-    needs: code-testing
+    needs: [CodeQL, Anchore]
     runs-on: ubuntu-latest
     steps:
       - name: Test build
