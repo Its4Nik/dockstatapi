@@ -5,6 +5,7 @@ on: [push]
 jobs:
   validation:
     runs-on: ubuntu-latest
+    name: Validation
     permissions:
       security-events: write
       packages: read
@@ -66,7 +67,8 @@ jobs:
           build-mode: ${{ matrix.build-mode }}
           queries: security-extended
 
-      - if: matrix.build-mode == 'manual'
+      - name: Check build mode
+        if: matrix.build-mode == 'manual'
         shell: bash
         run: |
           echo 'If you are using a "manual" build mode for one or more of the' \
@@ -84,6 +86,7 @@ jobs:
   Anchore:
     needs: validation
     runs-on: ubuntu-latest
+    name: Anchore
     permissions:
       security-events: write
       packages: read
@@ -113,6 +116,7 @@ jobs:
   test-building:
     needs: [CodeQL, Anchore]
     runs-on: ubuntu-latest
+    name: Test building
     permissions:
       security-events: write
       packages: read
