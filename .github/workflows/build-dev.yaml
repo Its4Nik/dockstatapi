@@ -1,4 +1,4 @@
-name: Build dockstatapi:nightly
+name: "Build dockstatapi:nightly"
 
 on:
   push:

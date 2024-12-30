@@ -1,4 +1,4 @@
-name: Build dockstatapi:latest
+name: "Build dockstatapi:latest"
 
 on:
   release:

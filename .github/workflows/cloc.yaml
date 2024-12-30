@@ -1,4 +1,4 @@
-name: Count Lines of Code
+name: "Count Lines of Code"
 
 permissions:
   issues: write
