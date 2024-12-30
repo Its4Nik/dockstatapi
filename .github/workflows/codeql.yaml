@@ -49,3 +49,6 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{ matrix.language }}"
+
+      - name: Set Marker for Workflow Completion
+        run: echo "codeql_complete=true" >> $GITHUB_ENV

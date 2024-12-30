@@ -18,7 +18,7 @@
     "docker:full": "docker compose up -d && [ -z \"$TMUX\" ] && tmux new-session -d -s docker 'docker compose logs -f master' \\; split-window -v 'docker compose logs -f slave' \\; attach-session || echo 'Already inside a tmux session. Exiting.'; docker compose down",
     "docker:build": "docker build . -t \"dockstatapi:local\" -f ./Dockerfile-dev && docker compose up -d",
     "docker:build:full": "npm run docker:build && [ -z \"$TMUX\" ] && tmux new-session -d -s docker 'docker compose up -d && docker compose logs -f master' \\; split-window -v 'docker compose logs -f slave' \\; attach-session || echo 'Already inside a tmux session. Exiting.'; docker compose down",
-    "prettier": "npx prettier -c ./src/**/*.ts --parser typescript --write && npx prettier -c ./.github/workflows/*.{yaml,yml} --parser yaml --write && npx prettier -c ./**/*.md --parser markdown --write && npx prettier -c ./**/*.json --parser json --write",
+    "prettier": "npx prettier -c ./src/**/*.ts --parser typescript --write && npx prettier -c ./.github/workflows/*.yaml --parser yaml --write && npx prettier -c ./**/*.md --parser markdown --write && npx prettier -c ./**/*.json --parser json --write",
     "lint": "npx eslint",
     "lint:fix": "npx eslint --fix",
     "license": "bash ./src/misc/credits.sh",

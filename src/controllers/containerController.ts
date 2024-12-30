@@ -40,11 +40,9 @@ const getContainerStats = async (
     logger.error(
       `Error fetching stats for container: ${containerID} from host: ${containerHost} - ${(error as Error).message}`,
     );
-    res
-      .status(500)
-      .json({
-        error: `Error fetching container stats: ${(error as Error).message}`,
-      });
+    res.status(500).json({
+      error: `Error fetching container stats: ${(error as Error).message}`,
+    });
   }
 };
 
