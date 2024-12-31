@@ -5,7 +5,7 @@ on: [push]
 jobs:
   validation:
     runs-on: ubuntu-latest
-    name: Validation
+    name: "Validation"
     permissions:
       security-events: write
       packages: read
@@ -42,7 +42,7 @@ jobs:
   CodeQL:
     needs: validation
     runs-on: ubuntu-latest
-    name: Analyze TypeScript
+    name: "Analyze TypeScript"
     permissions:
       security-events: write
       packages: read
@@ -86,7 +86,7 @@ jobs:
   Anchore:
     needs: validation
     runs-on: ubuntu-latest
-    name: Anchore
+    name: "Anchore"
     permissions:
       security-events: write
       packages: read
@@ -114,9 +114,9 @@ jobs:
           sarif_file: ./results.sarif
 
   test-building:
-    needs: validation
+    needs: [validation, Anchore, CodeQL]
     runs-on: ubuntu-latest
-    name: Test building
+    name: "Test building"
     permissions:
       security-events: write
       packages: read
@@ -162,6 +162,45 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: false
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-dev:
+    name: "Dev-build"
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'dev'
+    needs: [validation, test-building, Anchore, CodeQL]
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ github.token }}
+
+      - name: Generate Docker tags
+        uses: docker/metadata-action@v5
+        id: metadata
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,enable=true,priority=200,prefix=,suffix=,value=nightly
+          flavor: |
+            latest=false
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64,
+          push: true
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           cache-from: type=gha
