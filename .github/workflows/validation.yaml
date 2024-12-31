@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   validation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: "Validation"
     permissions:
       security-events: write
@@ -41,7 +41,7 @@ jobs:
 
   CodeQL:
     needs: validation
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: "Analyze TypeScript"
     permissions:
       security-events: write
@@ -85,7 +85,7 @@ jobs:
 
   Anchore:
     needs: validation
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: "Anchore"
     permissions:
       security-events: write
@@ -115,7 +115,7 @@ jobs:
 
   test-building:
     needs: [validation, Anchore, CodeQL]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: "Test building"
     permissions:
       security-events: write
@@ -174,7 +174,7 @@ jobs:
       packages: write
       actions: read
       contents: read
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.ref_name == 'dev'
     needs: [validation, test-building, Anchore, CodeQL]
     steps:
