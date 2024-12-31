@@ -169,6 +169,11 @@ jobs:
 
   build-dev:
     name: "Dev-build"
+    permissions:
+      security-events: read
+      packages: write
+      actions: read
+      contents: read
     runs-on: ubuntu-latest
     if: github.ref_name == 'dev'
     needs: [validation, test-building, Anchore, CodeQL]
