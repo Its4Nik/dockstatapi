@@ -1,18 +1,70 @@
-import winston, { transport } from "winston";
+import { createLogger, format, transports } from "winston";
+import DailyRotateFile from "winston-daily-rotate-file";
 import loggerConfig from "../config/loggerConfig";
 
-const transports: transport[] = [new winston.transports.Console()];
+// ANSI color codes for log level customization
+const colors = {
+  gray: "\x1b[90m",
+  reset: "\x1b[0m",
+  white: "\x1b[97m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+};
 
-transports.push(
-  new winston.transports.File({
-    filename: "./logs/app.log",
-  }),
-);
+// Custom formatter to colorize log levels
+function colorizeLogLevel(level: string, levelName: string) {
+  switch (level) {
+    case "info":
+      return `${colors.green}${levelName}${colors.reset}`;
+    case "debug":
+      return `${colors.blue}${levelName}${colors.reset}`;
+    case "error":
+      return `${colors.red}${levelName}${colors.reset}`;
+    case "warn":
+      return `${colors.yellow}${levelName}${colors.reset}`;
+    default:
+      return `${colors.gray}UNKNOWN${colors.reset}`;
+  }
+}
 
-const logger = winston.createLogger({
-  level: loggerConfig.level,
-  format: loggerConfig.format,
-  transports,
+// Filter out unwanted logs (example: Exit listeners logs)
+const filterLogs = format((info) => {
+  if (
+    typeof info.message === "string" &&
+    info.message.includes("Exit listeners detected")
+  ) {
+    return false;
+  }
+  return info;
+});
+
+// Logger instance
+const logger = createLogger({
+  level: loggerConfig.level || "debug",
+  format: format.combine(
+    filterLogs(),
+    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+    format.printf((info) => {
+      const level = info.level.toUpperCase().padEnd(5, " ");
+      const timestamp = `${colors.gray}${info.timestamp}${colors.reset}`;
+      const levelColorized = colorizeLogLevel(info.level.toLowerCase(), level);
+      const message = `${colors.white}${info.message}${colors.reset}`;
+
+      return `${timestamp} ${levelColorized} : ${message}`;
+    }),
+  ),
+  transports: [
+    new transports.Console(),
+    new DailyRotateFile({
+      filename: "logs/app-%DATE%.log",
+      datePattern: "YYYY-MM-DD",
+      maxSize: "20m",
+      maxFiles: "14d",
+      zippedArchive: true,
+    }),
+  ],
 });
 
 export default logger;

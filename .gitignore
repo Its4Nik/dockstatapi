@@ -5,6 +5,7 @@ docker
 .test*
 # Created by https://www.toptal.com/developers/gitignore/api/node
 ### Node ###
+*-audit.json
 # Logs
 logs
 *.log
