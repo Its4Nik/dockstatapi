@@ -45,23 +45,35 @@ const logger = createLogger({
   format: format.combine(
     filterLogs(),
     format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-    format.printf((info) => {
-      const level = info.level.toUpperCase().padEnd(5, " ");
-      const timestamp = `${colors.gray}${info.timestamp}${colors.reset}`;
-      const levelColorized = colorizeLogLevel(info.level.toLowerCase(), level);
-      const message = `${colors.white}${info.message}${colors.reset}`;
-
-      return `${timestamp} ${levelColorized} : ${message}`;
-    }),
   ),
   transports: [
-    new transports.Console(),
+    new transports.Console({
+      format: format.combine(
+        format.printf((info) => {
+          const level = info.level.toUpperCase().padEnd(5, " ");
+          const timestamp = `${colors.gray}${info.timestamp}${colors.reset}`;
+          const levelColorized = colorizeLogLevel(
+            info.level.toLowerCase(),
+            level,
+          );
+          const message = `${colors.white}${info.message}${colors.reset}`;
+
+          return `${timestamp} ${levelColorized} : ${message}`;
+        }),
+      ),
+    }),
     new DailyRotateFile({
       filename: "logs/app-%DATE%.log",
       datePattern: "YYYY-MM-DD",
       maxSize: "20m",
       maxFiles: "14d",
       zippedArchive: true,
+      format: format.combine(
+        format.printf((info) => {
+          const level = info.level.toUpperCase().padEnd(5, " ");
+          return `${info.timestamp} ${level} : ${info.message}`;
+        }),
+      ),
     }),
   ],
 });
