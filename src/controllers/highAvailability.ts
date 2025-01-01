@@ -47,10 +47,25 @@ const configFiles: string[] = [
   "./src/data/password.json",
 ];
 
+const MAX_RETRIES = 10;
+const BASE_DELAY_MS = 100;
+
 async function acquireLock(): Promise<void> {
+  let retryCount = 0;
+
   while (fs.existsSync(lockFilePath)) {
-    logger.warn("Lock file exists, waiting...");
-    await sleep(100);
+    if (retryCount >= MAX_RETRIES) {
+      throw new Error("Failed to acquire lock: maximum retry attempts exceeded");
+    }
+
+    const backoffMs = BASE_DELAY_MS * Math.pow(2, retryCount);
+    // Add jitter to prevent thundering herd
+    const jitter = Math.random() * 0.3 * backoffMs;
+    const delayMs = backoffMs + jitter;
+
+    logger.warn(`Lock file exists, waiting ${Math.round(delayMs)}ms before retry ${retryCount + 1}/${MAX_RETRIES}...`);
+    await sleep(delayMs);
+    retryCount++;
   }
 
   try {
