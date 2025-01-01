@@ -1,5 +1,6 @@
-import { writeFileSync, existsSync } from "fs";
+import { existsSync } from "fs";
 import logger from "../utils/logger";
+import { atomicWrite } from "../utils/atomicWrite";
 
 const files = [
   {
@@ -29,7 +30,7 @@ const files = [
 function initFiles(): void {
   files.forEach(({ path: filePath, content }) => {
     if (!existsSync(filePath)) {
-      writeFileSync(filePath, content);
+      atomicWrite(filePath, content);
       logger.info(`Created: ${filePath}`);
     } else {
       logger.debug(`Skipped (already exists): ${filePath}`);

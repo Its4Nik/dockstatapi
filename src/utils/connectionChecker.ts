@@ -1,26 +1,17 @@
 import * as fs from "fs";
 import * as net from "net";
-import logger from "../config/loggerConfig";
+import logger from "./logger";
+import { target } from "../typings/dockerConfig";
+import { StatusResponse } from "../typings/response";
 
 const filePath: string = "./src/data/dockerConfig.json";
 
-interface Host {
-  name: string;
-  url: string;
-  port: string;
-}
-
-interface StatusResponse {
-  ApiReachable: boolean;
-  online: { [key: string]: boolean };
-}
-
-async function checkHostStatus(hosts: Host[]): Promise<StatusResponse> {
+async function checkHostStatus(hosts: target[]): Promise<StatusResponse> {
   const results: { [key: string]: boolean } = {};
   for (const host of hosts) {
     const { name, url, port } = host;
 
-    const isOnline = await checkPort(url, parseInt(port, 10));
+    const isOnline = await checkPort(url, port);
 
     results[name] = !!isOnline;
 
@@ -65,7 +56,7 @@ async function checkReachability(): Promise<StatusResponse | undefined> {
   try {
     const data = fs.readFileSync(filePath, "utf-8");
     const parsedData = JSON.parse(data);
-    const hosts: Host[] = parsedData.hosts;
+    const hosts: target[] = parsedData.hosts;
     return await checkHostStatus(hosts);
   } catch (error: unknown) {
     logger.error(`Error reading file: ${error as Error}`);

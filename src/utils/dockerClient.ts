@@ -1,24 +1,15 @@
-// src/utils/dockerClient.ts
 import Docker from "dockerode";
 import fs from "fs";
 import logger from "./logger";
 
-interface DockerHostConfig {
-  name: string;
-  url: string;
-  port?: number;
-}
+import { dockerConfig, target } from "../typings/dockerConfig";
 
-interface DockerConfig {
-  hosts: DockerHostConfig[];
-}
-
-function loadDockerConfig(): DockerConfig {
+function loadDockerConfig(): dockerConfig {
   const configPath = "./src/data/dockerConfig.json";
   try {
     const rawData = fs.readFileSync(configPath, "utf-8");
     logger.debug("Refreshed DockerConfig.json");
-    return JSON.parse(rawData) as DockerConfig;
+    return JSON.parse(rawData) as dockerConfig;
   } catch (error: unknown) {
     logger.error(
       "Error loading dockerConfig.json: " + (error as Error).message,
@@ -27,7 +18,7 @@ function loadDockerConfig(): DockerConfig {
   }
 }
 
-function createDockerClient(hostConfig: DockerHostConfig): Docker {
+function createDockerClient(hostConfig: target): Docker {
   logger.info(
     `Creating Docker client for host: ${hostConfig.url} on port: ${hostConfig.port || 2375}`,
   );

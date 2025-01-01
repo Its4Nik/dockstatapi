@@ -3,125 +3,160 @@ flowchart LR
 0["server.ts"]
 subgraph 1["controllers"]
 2["highAvailability.ts"]
-A["proxy.ts"]
-B["scheduler.ts"]
-D["fetchData.ts"]
-T["frontendConfiguration.ts"]
+E["proxy.ts"]
+F["scheduler.ts"]
+H["fetchData.ts"]
+V["auth.ts"]
+12["frontendConfiguration.ts"]
 end
 3["util"]
 subgraph 4["config"]
 5["variables.ts"]
-9["initFiles.ts"]
-C["db.ts"]
-1F["swaggerConfig.ts"]
+D["initFiles.ts"]
+G["db.ts"]
+1R["swaggerConfig.ts"]
 end
 subgraph 6["data"]
 7["variables.json"]
 end
-8["init.ts"]
-subgraph E["utils"]
-F["containerService.ts"]
-G["dockerClient.ts"]
-J["rateLimitFS.ts"]
-W["connectionChecker.ts"]
-X["writeOfflineLog.ts"]
-subgraph 12["notifications"]
-13["_notify.ts"]
-14["discord.ts"]
-15["_template.ts"]
-16["email.ts"]
-17["pushbullet.ts"]
-18["pushover.ts"]
-19["slack.ts"]
-1A["telegram.ts"]
-1B["whatsapp.ts"]
+subgraph 8["typings"]
+9["ha.ts"]
 end
-1E["swaggerDocs.ts"]
+subgraph A["utils"]
+B["atomicWrite.ts"]
+I["containerService.ts"]
+J["dockerClient.ts"]
+O["rateLimitFS.ts"]
+16["connectionChecker.ts"]
+subgraph 1D["notifications"]
+1E["_notify.ts"]
+1F["discord.ts"]
+1G["_template.ts"]
+1H["email.ts"]
+1I["pushbullet.ts"]
+1J["pushover.ts"]
+1K["slack.ts"]
+1L["telegram.ts"]
+1M["whatsapp.ts"]
 end
-subgraph H["middleware"]
-I["authMiddleware.ts"]
-K["checkLock.ts"]
-L["rateLimiter.ts"]
+1Q["swaggerDocs.ts"]
 end
-subgraph M["routes"]
-subgraph N["auth"]
-O["routes.ts"]
+C["init.ts"]
+subgraph K["middleware"]
+L["authMiddleware.ts"]
+P["checkLock.ts"]
+Q["rateLimiter.ts"]
 end
-subgraph P["data"]
-Q["routes.ts"]
+subgraph M["handlers"]
+N["response.ts"]
+U["auth.ts"]
+Y["data.ts"]
+11["frontend.ts"]
+15["api.ts"]
+19["ha.ts"]
+1C["notification.ts"]
+1P["conf.ts"]
 end
-subgraph R["frontendController"]
-S["routes.ts"]
+subgraph R["routes"]
+subgraph S["auth"]
+T["routes.ts"]
 end
-subgraph U["getter"]
-V["routes.ts"]
+subgraph W["data"]
+X["routes.ts"]
 end
-subgraph Y["highavailability"]
-Z["routes.ts"]
+subgraph Z["frontendController"]
+10["routes.ts"]
 end
-subgraph 10["notifications"]
-11["routes.ts"]
+subgraph 13["getter"]
+14["routes.ts"]
 end
-subgraph 1C["setter"]
-1D["routes.ts"]
+subgraph 17["highavailability"]
+18["routes.ts"]
+end
+subgraph 1A["notifications"]
+1B["routes.ts"]
+end
+subgraph 1N["setter"]
+1O["routes.ts"]
 end
 end
 0-->2
-0-->8
+0-->C
 2-->5
+2-->9
+2-->B
 2-->3
 5-->7
-8-->9
-8-->A
-8-->B
-8-->I
-8-->K
-8-->L
-8-->O
-8-->Q
-8-->S
-8-->V
-8-->Z
-8-->11
-8-->1D
-8-->1E
-A-->5
-B-->C
-B-->D
-D-->C
-D-->F
+C-->D
+C-->E
+C-->F
+C-->L
+C-->P
+C-->Q
+C-->T
+C-->X
+C-->10
+C-->14
+C-->18
+C-->1B
+C-->1O
+C-->1Q
+D-->B
+E-->5
 F-->G
+F-->H
+H-->G
+H-->B
+H-->I
+I-->B
 I-->J
-K-->J
-Q-->C
-S-->T
-V-->B
-V-->W
-V-->F
-V-->G
-V-->X
-Z-->2
-11-->13
-13-->14
-13-->16
-13-->17
-13-->18
-13-->19
-13-->1A
-13-->1B
-14-->5
+L-->N
+L-->O
+P-->N
+P-->O
+T-->U
+U-->V
+U-->N
+X-->Y
+Y-->G
+Y-->N
+10-->11
+11-->12
+11-->N
 14-->15
-16-->5
-16-->15
-17-->5
-17-->15
-18-->5
-18-->15
-19-->5
-19-->15
-1A-->5
-1A-->15
-1B-->5
-1B-->15
-1D-->B
+15-->F
+15-->16
+15-->I
+15-->J
+15-->N
+18-->19
+19-->2
+19-->N
+1B-->1C
+1C-->1E
+1C-->N
 1E-->1F
+1E-->1H
+1E-->1I
+1E-->1J
+1E-->1K
+1E-->1L
+1E-->1M
+1F-->5
+1F-->1G
+1H-->5
+1H-->1G
+1I-->5
+1I-->1G
+1J-->5
+1J-->1G
+1K-->5
+1K-->1G
+1L-->5
+1L-->1G
+1M-->5
+1M-->1G
+1O-->1P
+1P-->F
+1P-->N
+1Q-->1R

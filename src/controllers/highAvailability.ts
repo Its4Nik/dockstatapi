@@ -9,27 +9,10 @@ import {
   HA_MASTER_IP,
   HA_NODE,
 } from "../config/variables";
+import { atomicWrite } from "../utils/atomicWrite";
+import { HighAvailabilityConfig, HaNodeConfig, NodeCache } from "../typings/ha";
 
 const sleep = promisify(setTimeout);
-
-interface HighAvailabilityConfig {
-  active: boolean;
-  master: boolean;
-  nodes: string[];
-}
-
-interface Node {
-  ip: string;
-  id: number;
-}
-
-interface HaNodeConfig {
-  master: string;
-}
-
-interface NodeCache {
-  [nodes: string]: Node;
-}
 
 const haMasterPath: string = "./src/data/highAvailability.json";
 const haNodePath: string = "./src/data/haNode.json";
@@ -61,7 +44,6 @@ async function acquireLock(): Promise<void> {
     }
 
     const backoffMs = BASE_DELAY_MS * Math.pow(2, retryCount);
-    // Add jitter to prevent thundering herd
     const jitter = Math.random() * 0.3 * backoffMs;
     const delayMs = backoffMs + jitter;
 
@@ -73,7 +55,7 @@ async function acquireLock(): Promise<void> {
   }
 
   try {
-    await fs.promises.writeFile(lockFilePath, "locked", { flag: "wx" });
+    atomicWrite(lockFilePath, "locked", { exclusive: true });
     logger.debug("Lock acquired.");
   } catch (error) {
     logger.error(`Error acquiring lock: ${(error as Error).message}`);

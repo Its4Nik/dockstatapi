@@ -2,6 +2,7 @@ import { RUNNING_IN_DOCKER, VERSION } from "./variables";
 import fs from "fs";
 import logger from "../utils/logger";
 import os from "os";
+import { atomicWrite } from "../utils/atomicWrite";
 
 const userConf = "./src/data/user.conf";
 const inDocker: boolean = RUNNING_IN_DOCKER == "true";
@@ -44,7 +45,7 @@ function writeUserConf() {
   }
 
   if (shouldRewriteConfig) {
-    fs.writeFileSync(userConf, JSON.stringify(installationDetails, null, 2));
+    atomicWrite(userConf, JSON.stringify(installationDetails, null, 2));
     logger.debug("Configuration file created/updated:", userConf);
   }
 

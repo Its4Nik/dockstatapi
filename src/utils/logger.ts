@@ -1,6 +1,5 @@
 import { createLogger, format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-import loggerConfig from "../config/loggerConfig";
 
 // ANSI color codes for log level customization
 const colors = {
@@ -42,7 +41,7 @@ const filterLogs = format((info) => {
 
 // Logger instance
 const logger = createLogger({
-  level: loggerConfig.level || "debug",
+  level: "debug",
   format: format.combine(
     filterLogs(),
     format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),

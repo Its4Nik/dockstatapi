@@ -2,6 +2,7 @@ import db from "../config/db";
 import fetchAllContainers from "../utils/containerService";
 import logger from "../utils/logger";
 import fs from "fs";
+import { atomicWrite } from "../utils/atomicWrite";
 const filePath = "./src/data/states.json";
 
 let previousState: { [key: string]: string } = {};
@@ -60,7 +61,7 @@ const fetchData = async (): Promise<void> => {
 
     // Compare previous and current state
     if (JSON.stringify(previousState) !== JSON.stringify(containerStatus)) {
-      fs.writeFileSync(filePath, JSON.stringify(containerStatus, null, 2));
+      atomicWrite(filePath, JSON.stringify(containerStatus, null, 2));
       logger.info(`Container states saved to ${filePath}`);
       // TODO: Add logic + notification levels per service
     } else {

@@ -2,31 +2,9 @@ import logger from "./logger";
 import { ContainerInfo, ContainerStats, ContainerInspectInfo } from "dockerode";
 import getDockerClient from "./dockerClient";
 import fs from "fs";
+import { atomicWrite } from "./atomicWrite";
 const configPath = "./src/data/dockerConfig.json";
-
-interface HostConfig {
-  name: string;
-  [key: string]: string | number;
-}
-
-interface ContainerData {
-  name: string;
-  id: string;
-  hostName: string;
-  state: string;
-  cpu_usage: number;
-  mem_usage: number;
-  mem_limit: number;
-  net_rx: number;
-  net_tx: number;
-  current_net_rx: number;
-  current_net_tx: number;
-  networkMode: string;
-}
-
-interface AllContainerData {
-  [hostName: string]: ContainerData[] | { error: string };
-}
+import { AllContainerData, HostConfig } from "../typings/dockerConfig";
 
 function loadConfig() {
   try {
@@ -34,11 +12,7 @@ function loadConfig() {
       logger.warn(
         `Config file not found. Creating an empty file at ${configPath}`,
       );
-      fs.writeFileSync(
-        configPath,
-        JSON.stringify({ hosts: [] }, null, 2),
-        "utf-8",
-      );
+      atomicWrite(configPath, JSON.stringify({ hosts: [] }, null, 2));
     }
 
     const configData = fs.readFileSync(configPath, "utf-8");
