@@ -7,7 +7,7 @@ services:
     container_name: master
     environment:
       - NODE_ENV=development
-      - HA_MASTER=true
+      - HA_MASTER=false
       - HA_MASTER_IP=master:9876
       - HA_NODE=slave:9876
       - HA_UNSAFE=true
@@ -21,6 +21,7 @@ services:
     depends_on:
       - slave
       - test-socket-proxy
+
   slave:
     container_name: slave
     environment:
@@ -30,6 +31,8 @@ services:
     ports:
       - 6789:9876
     image: dockstatapi:local
+    depends_on:
+      - test-socket-proxy
     networks:
       - shared-network
 

@@ -14,10 +14,7 @@ LABEL org.opencontainers.image.source="https://github.com/its4nik/dockstatapi"
 WORKDIR /build
 ENV NODE_NO_WARNINGS=1
 
-RUN apk update && \
-    apk upgrade && \
-    apk add bash
-
+RUN apk add --update --no-cache bash
 
 COPY tsconfig.json environment.d.ts package*.json tsconfig.json ./
 RUN npm install
@@ -29,16 +26,13 @@ RUN npm run build
 # Stage 2: main stage
 FROM alpine AS main
 
-# Needed packages
-RUN apk update && \
-    apk upgrade && \
-    apk add --update npm
+RUN apk add --update npm
 
 WORKDIR /build
 
 RUN mkdir -p /build/src/data
 
-COPY tsconfig.json environment.d.ts package*.json tsconfig.json ./
+COPY package*.json ./
 RUN npm install --omit=dev
 
 COPY --from=builder /build/dist/* /build/src
@@ -50,13 +44,18 @@ RUN node src/config/db.js
 # Stage 3: Production stage
 FROM alpine AS production
 
-RUN apk add --update bash curl nodejs
+WORKDIR /api
+
+RUN apk add --update --no-cache bash curl nodejs && \
+    adduser -h /api -s /bin/bash -D dockstatapi dockstatapi && \
+    chown -hR dockstatapi:dockstatapi /api
+
+USER dockstatapi
+
 HEALTHCHECK --interval=5m --timeout=3s \
     CMD curl -f http://localhost:9876/api/status || exit 1
 
-WORKDIR /api
-
-COPY --from=main /build /api
+COPY --chown=dockstatapi:dockstatapi --from=main /build /api
 
 EXPOSE 9876
 ENTRYPOINT [ "bash", "./entrypoint.sh" ]

@@ -1,3 +1,4 @@
+# entrypoint.sh:
 #!/bin/bash
 
 VERSION="$(cat ./package.json | grep version | cut -d '"' -f 4)"
@@ -24,6 +25,6 @@ DockStat and DockStatAPI are 2 fully OpenSource projects, DockStatAPI is a simpl
 
 "
 
-bash "./createEnvFile.sh"
+bash ./createEnvFile.sh
 
 exec node src/server.js
