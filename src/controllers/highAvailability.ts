@@ -55,7 +55,9 @@ async function acquireLock(): Promise<void> {
 
   while (fs.existsSync(lockFilePath)) {
     if (retryCount >= MAX_RETRIES) {
-      throw new Error("Failed to acquire lock: maximum retry attempts exceeded");
+      throw new Error(
+        "Failed to acquire lock: maximum retry attempts exceeded",
+      );
     }
 
     const backoffMs = BASE_DELAY_MS * Math.pow(2, retryCount);
@@ -63,7 +65,9 @@ async function acquireLock(): Promise<void> {
     const jitter = Math.random() * 0.3 * backoffMs;
     const delayMs = backoffMs + jitter;
 
-    logger.warn(`Lock file exists, waiting ${Math.round(delayMs)}ms before retry ${retryCount + 1}/${MAX_RETRIES}...`);
+    logger.warn(
+      `Lock file exists, waiting ${Math.round(delayMs)}ms before retry ${retryCount + 1}/${MAX_RETRIES}...`,
+    );
     await sleep(delayMs);
     retryCount++;
   }
