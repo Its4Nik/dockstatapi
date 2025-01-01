@@ -1,32 +1,26 @@
-flowchart LR
+flowchart TB
 
-subgraph 0["routes"]
-subgraph 1["getter"]
-2["routes.ts"]
+subgraph 0["src"]
+subgraph 1["routes"]
+subgraph 2["getter"]
+3["routes.ts"]
 end
 end
-subgraph 3["controllers"]
-4["scheduler.ts"]
-7["fetchData.ts"]
+subgraph 4["handlers"]
+5["api.ts"]
+B["response.ts"]
 end
-subgraph 5["config"]
-6["db.ts"]
+subgraph 6["controllers"]
+7["scheduler.ts"]
+A["fetchData.ts"]
 end
-subgraph 8["utils"]
-9["containerService.ts"]
-A["dockerClient.ts"]
-B["connectionChecker.ts"]
-C["extractHostData.ts"]
-D["writeOfflineLog.ts"]
+subgraph 8["config"]
+9["db.ts"]
 end
-2-->4
-2-->B
-2-->9
-2-->A
-2-->C
-2-->D
-4-->6
-4-->7
-7-->6
+end
+3-->5
+5-->7
+5-->B
 7-->9
-9-->A
+7-->A
+A-->9

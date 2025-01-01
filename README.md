@@ -2,10 +2,15 @@
 
 ![Dockstat Logo](.github/DockStat.png)
 
-_Pipelines:_ <br>
-[![Docker Image CI](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml/badge.svg?branch=main)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml)<br>
-[![Build dockstatapi:nightly](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml/badge.svg?branch=dev)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml)<br>
-[![Tests](https://github.com/Its4Nik/dockstatapi/actions/workflows/validation.yml/badge.svg?branch=dev)](https://github.com/Its4Nik/dockstatapi/actions/workflows/validation.yml)
+<div align="center">
+
+# Pipelines
+
+[![Docker Image CI](https://img.shields.io/github/actions/workflow/status/Its4Nik/dockstatapi/build-image.yml?branch=main&label=Docker%20Image%20CI&style=for-the-badge&logo=docker)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-image.yml)
+[![Build dockstatapi:nightly](https://img.shields.io/github/actions/workflow/status/Its4Nik/dockstatapi/build-dev.yaml?branch=dev&label=Nightly%20Build&style=for-the-badge&logo=github)](https://github.com/Its4Nik/dockstatapi/actions/workflows/build-dev.yaml)
+[![Validate](https://img.shields.io/github/actions/workflow/status/Its4Nik/dockstatapi/validation.yml?branch=dev&label=Validation&style=for-the-badge&logo=checkmarx)](https://github.com/Its4Nik/dockstatapi/actions/workflows/validation.yml)
+
+</div>
 
 This specific branch contains the currently WIP **DockStatAPI-v2**, this update will bring major breaking changes so please be careful.
 With this new release a couple of extra features (compared to v1) are going to be available.

@@ -1,35 +1,15 @@
-flowchart LR
+flowchart TB
 
-subgraph 0["routes"]
-subgraph 1["notifications"]
-2["routes.ts"]
+subgraph 0["src"]
+subgraph 1["routes"]
+subgraph 2["notifications"]
+3["routes.ts"]
 end
 end
-subgraph 3["utils"]
-subgraph 4["notifications"]
-5["_notify.ts"]
-6["discord.ts"]
-7["_template.ts"]
-8["email.ts"]
-9["pushbullet.ts"]
-A["pushover.ts"]
-B["slack.ts"]
-C["telegram.ts"]
-D["whatsapp.ts"]
+subgraph 4["handlers"]
+5["notification.ts"]
+6["response.ts"]
 end
 end
-2-->5
+3-->5
 5-->6
-5-->8
-5-->9
-5-->A
-5-->B
-5-->C
-5-->D
-6-->7
-8-->7
-9-->7
-A-->7
-B-->7
-C-->7
-D-->7
