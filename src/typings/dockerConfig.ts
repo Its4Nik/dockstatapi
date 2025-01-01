@@ -7,4 +7,5 @@ interface target {
 interface dockerConfig {
   hosts: target[];
 }
+
 export { dockerConfig, target };

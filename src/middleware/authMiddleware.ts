@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response, NextFunction } from "express";
 import logger from "../utils/logger";
 import { rateLimitedReadFile } from "../utils/rateLimitFS";
-
+import { createResponseHandler } from "../handlers/response";
 const passwordFile = "./src/data/password.json";
 const passwordBool = "./src/data/usePassword.txt";
 
@@ -11,6 +11,7 @@ async function authMiddleware(
   res: Response,
   next: NextFunction,
 ): Promise<void> {
+  const ResponseHandler = createResponseHandler(res);
   try {
     const authStatusData = await rateLimitedReadFile(passwordBool);
     const isAuthEnabled = authStatusData.trim() === "true";
@@ -23,8 +24,7 @@ async function authMiddleware(
 
     const providedPassword = req.headers["x-password"];
     if (!providedPassword) {
-      logger.error("Password required - Denied");
-      res.status(401).json({ message: "Password required" });
+      ResponseHandler.denied("Password required");
       return;
     }
 
@@ -36,16 +36,15 @@ async function authMiddleware(
       storedData.hash,
     );
     if (!passwordMatch) {
-      logger.error("Invalid Password - Denied access");
-      res.status(401).json({ message: "Invalid password" });
+      ResponseHandler.denied("Invalid Password");
       return;
     }
 
     logger.debug("Authentication succesfull");
     next();
   } catch (error: unknown) {
-    logger.error("Error in authMiddleware:", error);
-    res.status(500).json({ message: "Internal server error" });
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    return ResponseHandler.critical(errorMsg);
   }
 }
 

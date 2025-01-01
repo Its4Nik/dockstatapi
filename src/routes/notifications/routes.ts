@@ -1,25 +1,6 @@
 import { Request, Response, Router } from "express";
-import logger from "../../utils/logger";
-import fs from "fs";
-import notify from "../../utils/notifications/_notify";
-const dataTemplate = "./src/data/template.json";
+import { createNotificationHandler } from "../../handlers/notification";
 const router = Router();
-
-///////////
-// Will be moved!
-
-interface TemplateData {
-  text: string;
-}
-
-function isTemplateData(data: TemplateData): data is TemplateData {
-  return (
-    data !== null && typeof data === "object" && typeof data.text === "string"
-  );
-}
-
-// Will be moved
-///////////
 
 /**
  * @swagger
@@ -53,13 +34,8 @@ function isTemplateData(data: TemplateData): data is TemplateData {
  *                   description: Error message
  */
 router.get("/get-template", (req: Request, res: Response) => {
-  fs.readFile(dataTemplate, "utf-8", (error, data) => {
-    if (error) {
-      logger.error("Errored opening:", error);
-      return res.status(500).json({ message: `Error opening: ${error}` });
-    }
-    res.json(JSON.parse(data));
-  });
+  const NotificationHandler = createNotificationHandler(req, res);
+  return NotificationHandler.getTemplate();
 });
 
 /**
@@ -98,27 +74,8 @@ router.get("/get-template", (req: Request, res: Response) => {
  *                   description: Error message
  */
 router.post("/set-template", (req: Request, res: Response): void => {
-  const newData: TemplateData = req.body;
-
-  if (!isTemplateData(newData)) {
-    res.status(400).json({
-      message: "Invalid input format. Expected JSON with a 'text' field.",
-    });
-    return;
-  }
-
-  fs.promises
-    .writeFile(dataTemplate, JSON.stringify(newData, null, 2), "utf-8")
-    .then(() => {
-      logger.info("Template updated successfully.");
-      res.json({ message: "Template updated successfully." });
-    })
-    .catch((error) => {
-      logger.error("Error writing to file: " + error.message);
-      res
-        .status(500)
-        .json({ message: `Error writing to file: ${error.message}` });
-    });
+  const NotificationHandler = createNotificationHandler(req, res);
+  return NotificationHandler.setTemplate(req);
 });
 
 /**
@@ -165,13 +122,8 @@ router.post("/set-template", (req: Request, res: Response): void => {
  *                   type: string
  */
 router.post("/test/:type/:containerId", async (req: Request, res: Response) => {
-  const { type, containerId } = req.params;
-  try {
-    await notify(type, containerId);
-    res.json({ success: true, message: `Sent test notification to ${type}` });
-  } catch (error: unknown) {
-    res.json({ success: false, message: `Errored: ${error as Error}` });
-  }
+  const NotificationHandler = createNotificationHandler(req, res);
+  NotificationHandler.test(req);
 });
 
 export default router;

@@ -11,3 +11,6 @@
 - [x] Better /api/status endpoint with connection status of each host
 - [x] Update notification service
 - [x] Adjust process.env variables since they don't really work as expected (See [commit](https://github.com/Its4Nik/dockstatapi/pull/21/commits/a03b58c7a17e269f46216df5492e18d008774961))
+- [ ] Better project structure
+- [ ] Update logging => Better errors
+- [ ] Update json responses and swagger

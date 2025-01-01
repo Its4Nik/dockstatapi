@@ -1,25 +1,6 @@
 import express from "express";
 const router = express.Router();
-import {
-  hideContainer,
-  unhideContainer,
-  addTagToContainer,
-  removeTagFromContainer,
-  pinContainer,
-  unpinContainer,
-  setLink,
-  removeLink,
-  setIcon,
-  removeIcon,
-} from "../../controllers/frontendConfiguration";
-
-/*
-____   ___  ____ _____
-|  _ \ / _ \/ ___|_   _|
-| |_) | | | \___ \ | |
-|  __/| |_| |___) || |
-|_|    \___/|____/ |_|
-*/
+import { createFrontendHandler } from "../../handlers/frontend";
 
 /**
  * @swagger
@@ -62,15 +43,10 @@ ____   ___  ____ _____
  *                   type: string
  *                   description: Error message
  */
-// Unhide a container
 router.post("/show/:containerName", async (req, res) => {
-  const { containerName } = req.params;
-  try {
-    await unhideContainer(containerName);
-    res.status(200).json({ message: "Container unhidden successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  const containerName = req.params.containerName;
+  return FrontendHandler.show(containerName);
 });
 
 /**
@@ -120,15 +96,10 @@ router.post("/show/:containerName", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Add a tag to a container
 router.post("/tag/:containerName/:tag", async (req, res) => {
   const { containerName, tag } = req.params;
-  try {
-    await addTagToContainer(containerName, tag);
-    res.json({ success: true, message: "Tag added successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.addTag(containerName, tag);
 });
 
 /**
@@ -172,15 +143,10 @@ router.post("/tag/:containerName/:tag", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Pin a container
 router.post("/pin/:containerName", async (req, res) => {
   const { containerName } = req.params;
-  try {
-    await pinContainer(containerName);
-    res.json({ success: true, message: "Container pinned successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.pin(containerName);
 });
 
 /**
@@ -230,15 +196,10 @@ router.post("/pin/:containerName", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Add link to container
 router.post("/add-link/:containerName/:link", async (req, res) => {
   const { containerName, link } = req.params;
-  try {
-    await setLink(containerName, link);
-    res.json({ success: true, message: "Link added successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.addLink(containerName, link);
 });
 
 /**
@@ -294,19 +255,12 @@ router.post("/add-link/:containerName/:link", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Add Icon to container
 router.post(
   "/add-icon/:containerName/:icon/:useCustomIcon",
   async (req, res) => {
     const { containerName, icon, useCustomIcon } = req.params;
-    try {
-      const custom = useCustomIcon === "true";
-
-      await setIcon(containerName, icon, custom);
-      res.json({ success: true, message: "Icon added successfully." });
-    } catch (error: unknown) {
-      res.status(500).json({ success: false, error: (error as Error).message });
-    }
+    const FrontendHandler = createFrontendHandler(req, res);
+    return FrontendHandler.addIcon(containerName, icon, useCustomIcon);
   },
 );
 
@@ -362,13 +316,8 @@ router.post(
 // Hide a container
 router.delete("/hide/:containerName", async (req, res) => {
   const { containerName } = req.params;
-  const target = containerName;
-  try {
-    await hideContainer(target);
-    res.json({ success: true, message: `Container, ${target}, hidden.` });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.hide(containerName);
 });
 
 /**
@@ -418,15 +367,10 @@ router.delete("/hide/:containerName", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Remove a tag from a container
 router.delete("/remove-tag/:containerName/:tag", async (req, res) => {
   const { containerName, tag } = req.params;
-  try {
-    await removeTagFromContainer(containerName, tag);
-    res.json({ success: true, message: "Tag removed successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.removeTag(containerName, tag);
 });
 
 /**
@@ -470,15 +414,10 @@ router.delete("/remove-tag/:containerName/:tag", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Unpin a container
 router.delete("/unpin/:containerName", async (req, res) => {
   const { containerName } = req.params;
-  try {
-    await unpinContainer(containerName);
-    res.json({ success: true, message: "Container unpinned successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.unPin(containerName);
 });
 
 /**
@@ -522,15 +461,10 @@ router.delete("/unpin/:containerName", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Remove link from container
 router.delete("/remove-link/:containerName", async (req, res) => {
   const { containerName } = req.params;
-  try {
-    await removeLink(containerName);
-    res.json({ success: true, message: "Link removed successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.removeLink(containerName);
 });
 
 /**
@@ -574,15 +508,10 @@ router.delete("/remove-link/:containerName", async (req, res) => {
  *                   type: string
  *                   description: Error message
  */
-// Remove icon from container
 router.delete("/remove-icon/:containerName", async (req, res) => {
   const { containerName } = req.params;
-  try {
-    await removeIcon(containerName);
-    res.json({ success: true, message: "Icon removed successfully." });
-  } catch (error: unknown) {
-    res.status(500).json({ success: false, error: (error as Error).message });
-  }
+  const FrontendHandler = createFrontendHandler(req, res);
+  return FrontendHandler.removeIcon(containerName);
 });
 
 export default router;

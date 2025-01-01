@@ -4,4 +4,8 @@ type Table = {
   timestamp: string; // ISO 8601 formatted datetime string
 };
 
-export default Table;
+interface DataRow {
+  info: string;
+}
+
+export { Table, DataRow };

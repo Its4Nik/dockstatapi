@@ -1,15 +1,6 @@
-import extractRelevantData from "../../utils/extractHostData";
 import { Router, Request, Response } from "express";
-import getDockerClient from "../../utils/dockerClient";
-import fetchAllContainers from "../../utils/containerService";
-import { getCurrentSchedule } from "../../controllers/scheduler";
-import logger from "../../utils/logger";
-import fs from "fs";
-import checkReachability from "../../utils/connectionChecker";
-const configPath = "./src/data/dockerConfig.json";
+import { createApiHandler } from "../../handlers/api";
 const router = Router();
-const userConf = "./src/data/user.conf";
-import { dockerConfig } from "../../typings/dockerConfig";
 
 /**
  * @swagger
@@ -32,22 +23,8 @@ import { dockerConfig } from "../../typings/dockerConfig";
  *                   example: ["local", "remote1"]
  */
 router.get("/hosts", (req: Request, res: Response) => {
-  logger.info(`Fetching config: ${configPath}`);
-  try {
-    const rawData = fs.readFileSync(configPath, "utf-8");
-    const config: dockerConfig = JSON.parse(rawData);
-
-    if (!config.hosts) {
-      throw new Error("No hosts defined in configuration.");
-    }
-
-    const hosts = config.hosts.map((host) => host.name);
-    logger.debug("Fetching all available Docker hosts");
-    res.status(200).json({ hosts });
-  } catch (error: unknown) {
-    logger.error("Error fetching hosts: " + (error as Error).message);
-    res.status(500).json({ error: "Failed to fetch Docker hosts" });
-  }
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.hosts();
 });
 
 /**
@@ -76,20 +53,8 @@ router.get("/hosts", (req: Request, res: Response) => {
  *                   description: Error message detailing the issue encountered.
  */
 router.get("/system", (req: Request, res: Response) => {
-  logger.info(`Fetching ${userConf}`);
-
-  try {
-    const rawData = fs.readFileSync(userConf, "utf8");
-    const config = JSON.parse(rawData);
-
-    if (!config) {
-      res.status(500).json({ error: `Error received empty ${userConf}` });
-    }
-    res.status(200).json(config);
-  } catch (error: unknown) {
-    logger.error(`Could not fetch ${userConf}: ${error as Error}`);
-    res.status(500).json({ error: `Failed to fetch ${userConf}` });
-  }
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.system();
 });
 
 /**
@@ -135,22 +100,8 @@ router.get("/system", (req: Request, res: Response) => {
  */
 router.get("/host/:hostName/stats", async (req: Request, res: Response) => {
   const { hostName } = req.params;
-  logger.info(`Fetching stats for host: ${hostName}`);
-  try {
-    const docker = getDockerClient(hostName);
-    const info = await docker.info();
-    const version = await docker.version();
-    const relevantData = extractRelevantData({ hostName, info, version });
-
-    res.status(200).json(relevantData);
-  } catch (error: unknown) {
-    logger.error(
-      `Error fetching stats for host: ${hostName} - ${(error as Error).message || "Unknown error"}`,
-    );
-    res.status(500).json({
-      error: `Error fetching host stats: ${(error as Error).message || "Unknown error"}`,
-    });
-  }
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.hostStats(hostName);
 });
 
 /**
@@ -227,15 +178,8 @@ router.get("/host/:hostName/stats", async (req: Request, res: Response) => {
  *                   description: Error message detailing the issue encountered.
  */
 router.get("/containers", async (req: Request, res: Response) => {
-  logger.info("Fetching all containers across all hosts");
-  try {
-    const allContainerData = await fetchAllContainers();
-    logger.debug("Fetched /api/containers");
-    res.status(200).json(allContainerData);
-  } catch (error: unknown) {
-    logger.error(`Error fetching containers: ${(error as Error).message}`);
-    res.status(500).json({ error: "Failed to fetch containers" });
-  }
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.containers();
 });
 
 /**
@@ -264,17 +208,8 @@ router.get("/containers", async (req: Request, res: Response) => {
  *                   description: Error message detailing the issue encountered.
  */
 router.get("/config", async (req: Request, res: Response) => {
-  try {
-    const rawData = fs.readFileSync(configPath);
-    const jsonData = JSON.parse(rawData.toString());
-    logger.debug("Fetching /api/config");
-    res.status(200).json(jsonData);
-  } catch (error: unknown) {
-    logger.error(
-      "Error loading dockerConfig.json: " + (error as Error).message,
-    );
-    res.status(500).json({ error: "Failed to load Docker configuration" });
-  }
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.config();
 });
 
 /**
@@ -296,9 +231,8 @@ router.get("/config", async (req: Request, res: Response) => {
  *                   description: Current fetch interval in seconds.
  */
 router.get("/current-schedule", (req: Request, res: Response) => {
-  const currentSchedule = getCurrentSchedule();
-  logger.debug("Fetching current shedule");
-  res.json(currentSchedule);
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.currentSchedule();
 });
 
 /**
@@ -331,13 +265,8 @@ router.get("/current-schedule", (req: Request, res: Response) => {
  */
 
 router.get("/status", async (req: Request, res: Response) => {
-  logger.debug("Fetching /api/status");
-  try {
-    const jsonData = await checkReachability();
-    res.status(200).json(jsonData);
-  } catch (error: unknown) {
-    logger.error(`Error while fetching data: ${error as Error}`);
-  }
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.status();
 });
 
 /**
@@ -383,28 +312,8 @@ router.get("/status", async (req: Request, res: Response) => {
  *                   description: Error message
  */
 router.get("/frontend-config", (req: Request, res: Response) => {
-  const configPath: string = "./src/data/frontendConfiguration.json";
-
-  fs.stat(configPath, (exists) => {
-    if (exists == null) {
-      logger.debug(`${configPath} exists, trying to read it`);
-    } else if (exists.code === "ENOENT") {
-      logger.warn(`${configPath} doesn't exist, trying to create it`);
-      fs.promises.writeFile(configPath, JSON.stringify([], null, 2), "utf-8");
-    }
-  });
-
-  try {
-    const rawData = fs.readFileSync(configPath);
-    const jsonData = JSON.parse(rawData.toString());
-
-    res.status(200).json(jsonData);
-  } catch (error: unknown) {
-    logger.error(
-      "Error loading frontendConfiguration.json: " + (error as Error).message,
-    );
-    res.status(500).json({ error: "Failed to load Frontend configuration" });
-  }
+  const ApiHandler = createApiHandler(req, res);
+  return ApiHandler.frontendConfig();
 });
 
 export default router;
