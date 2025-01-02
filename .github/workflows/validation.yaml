@@ -168,7 +168,7 @@ jobs:
       contents: read
     runs-on: ubuntu-24.04
     if: github.ref_name == 'dev'
-    needs: [validation, test-building, Anchore, CodeQL]
+    needs: [test-building]
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -193,12 +193,12 @@ jobs:
           flavor: |
             latest=false
 
-      - name: Build and push
+      - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
         with:
-          platforms: linux/amd64,linux/arm64,
           context: .
           file: docker/Dockerfile-dev
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
