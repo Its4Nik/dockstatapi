@@ -1,0 +1,59 @@
+# Stage 1: Build stage
+FROM node:alpine AS builder
+
+LABEL maintainer="https://github.com/its4nik"
+LABEL version="2.0.1"
+LABEL description="API for DockStat"
+LABEL license="BSD-3-Clause license"
+LABEL repository="https://github.com/its4nik/dockstatapi"
+LABEL documentation="https://github.com/its4nik/dockstatapi"
+LABEL org.opencontainers.image.description="The DockSatAPI is a free and OpenSource backend for gathering container statistics across hosts"
+LABEL org.opencontainers.image.licenses="BSD-3-Clause license"
+LABEL org.opencontainers.image.source="https://github.com/its4nik/dockstatapi"
+
+WORKDIR /app
+
+ENV NODE_NO_WARNINGS=1
+
+RUN apk add --no-cache bash
+
+COPY tsconfig.json environment.d.ts package*.json ./
+
+RUN export npm_config_cache=$(mktemp -d) && \
+    npm install --production=false && \
+    rm -rf $npm_config_cache /tmp/*.log
+
+COPY ./src ./src
+RUN mv ./src/sample-variable.json ./src/data/variables.json
+RUN npm run build:mini
+
+# Stage 2: Production stage
+FROM node:alpine AS production
+
+WORKDIR /api
+
+RUN apk add --no-cache bash curl && \
+    adduser -h /api -s /bin/bash -D dockstatapi
+
+HEALTHCHECK --interval=5m --timeout=3s \
+    CMD curl -f http://localhost:9876/api/status || exit 1
+
+COPY --chown=dockstatapi:dockstatapi --from=builder /app/dist/src /api/src
+COPY --chown=dockstatapi:dockstatapi --from=builder /app/package*.json /api/
+
+RUN export npm_config_cache=$(mktemp -d) && \
+    npm install --omit=dev && \
+    rm -rf $npm_config_cache /tmp/*.log
+
+COPY --chown=dockstatapi:dockstatapi --from=builder /app/src/misc/entrypoint.sh /api/entrypoint.sh
+COPY --chown=dockstatapi:dockstatapi --from=builder /app/src/misc/createEnvFile.sh /api/createEnvFile.sh
+RUN chmod +x /api/*.sh
+
+EXPOSE 9876
+
+RUN chmod -R 777 /api/src/data /api && \
+    chown -R dockstatapi:dockstatapi /api
+
+STOPSIGNAL 130
+USER dockstatapi
+ENTRYPOINT [ "bash", "./entrypoint.sh" ]

@@ -172,7 +172,7 @@ async function synchronizeFilesWithNodes(): Promise<void> {
     }
 
     const nodeUrl =
-      useUnsafeConnection == true
+      useUnsafeConnection === true
         ? `http://${node}/ha/sync`
         : `https://${node}/ha/sync`;
 
@@ -259,7 +259,7 @@ async function ensureFileExists(
     const dirPath = path.dirname(filePath);
     await fs.promises.mkdir(dirPath, { recursive: true });
     await fs.promises.writeFile(filePath, content, { flag: "w" });
-    logger.info(`File created/updated: ${filePath}`);
+    logger.info(`File updated: ${filePath}`);
   } catch (error) {
     logger.error(
       `Error creating/updating file ${filePath}: ${(error as Error).message}`,

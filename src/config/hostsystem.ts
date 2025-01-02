@@ -1,4 +1,10 @@
-import { RUNNING_IN_DOCKER, VERSION } from "./variables";
+import {
+  RUNNING_IN_DOCKER,
+  VERSION,
+  HA_MASTER,
+  HA_UNSAFE,
+  TRUSTED_PROXYS,
+} from "./variables";
 import fs from "fs";
 import logger from "../utils/logger";
 import os from "os";
@@ -7,6 +13,8 @@ import { atomicWrite } from "../utils/atomicWrite";
 const userConf = "./src/data/user.conf";
 const inDocker: boolean = RUNNING_IN_DOCKER == "true";
 const version: string = VERSION || "unknown";
+const masterNode: string = HA_MASTER === "true" ? "✓" : "✗";
+const unsafeSync: string = HA_UNSAFE === "true" ? "✓" : "✗";
 
 function writeUserConf() {
   let previousConfig = null;
@@ -54,9 +62,17 @@ function writeUserConf() {
     backendVersion: version,
   };
 
-  logger.info(
-    `Starting at: ${startDetails.startedAt} - Version: ${startDetails.backendVersion} - Docker: ${installationDetails.inDocker} - Installed as: ${installationDetails.installedBy} - Platform: ${installationDetails.platform} - Arch: ${installationDetails.arch}`,
-  );
+  logger.info("-----------------------------------------");
+  logger.info(`Starting at : ${startDetails.startedAt}`);
+  logger.info(`Version     : ${startDetails.backendVersion}`);
+  logger.info(`Docker      : ${installationDetails.inDocker}`);
+  logger.info(`Running as  : ${installationDetails.installedBy}`);
+  logger.info(`Platform    : ${installationDetails.platform}`);
+  logger.info(`Arch        : ${installationDetails.arch}`);
+  logger.info(`Master node : ${masterNode}`);
+  logger.info(`Unsafe sync : ${unsafeSync}`);
+  logger.info(`Proxies     : ${TRUSTED_PROXYS}`);
+  logger.info("-----------------------------------------");
 }
 
 export default writeUserConf;

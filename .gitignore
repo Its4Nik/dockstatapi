@@ -1,7 +1,8 @@
 # custom paths:
 src/data/*
 
-docker
+docker/master
+docker/slave
 .test*
 # Created by https://www.toptal.com/developers/gitignore/api/node
 ### Node ###

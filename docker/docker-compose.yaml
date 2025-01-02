@@ -5,14 +5,16 @@ networks:
 services:
   master:
     container_name: master
+    user: "${UID:-1000}:${GID:-1000}"
     environment:
       - NODE_ENV=development
-      - HA_MASTER=false
+      - HA_MASTER=true
       - HA_MASTER_IP=master:9876
       - HA_NODE=slave:9876
       - HA_UNSAFE=true
     volumes:
-      - ./docker/master:/api/src/data
+      - ./master/data:/api/src/data
+      - ./master/logs:/api/logs
     ports:
       - 9876:9876
     image: dockstatapi:local
@@ -24,10 +26,12 @@ services:
 
   slave:
     container_name: slave
+    user: "${UID:-1000}:${GID:-1000}"
     environment:
       - NODE_ENV=development
     volumes:
-      - ./docker/slave:/api/src/data
+      - ./slave/data:/api/src/data
+      - ./slave/logs:/api/logs
     ports:
       - 6789:9876
     image: dockstatapi:local
