@@ -121,7 +121,7 @@ jobs:
       security-events: write
       packages: read
       actions: read
-      contents: read
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
