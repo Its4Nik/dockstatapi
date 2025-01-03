@@ -126,7 +126,7 @@ class ApiHandler {
     try {
       const rawData = fs.readFileSync(configPath);
       const data = JSON.parse(rawData.toString());
-      ResponseHandler.rawData(data, "Fetched frontend configuration");
+      return ResponseHandler.rawData(data, "Fetched frontend configuration");
     } catch (error: unknown) {
       const errorMsg = error instanceof Error ? error.message : String(error);
       return ResponseHandler.critical(errorMsg);
