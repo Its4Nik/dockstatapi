@@ -114,7 +114,7 @@ jobs:
           sarif_file: ./results.sarif
 
   test-building:
-    needs: [validation, Anchore, CodeQL]
+    needs: [validation]
     runs-on: ubuntu-24.04
     name: "Test building"
     permissions:
@@ -185,7 +185,7 @@ jobs:
       contents: read
     runs-on: ubuntu-24.04
     if: github.ref_name == 'dev'
-    needs: [test-building]
+    needs: [test-building, Anchore, CodeQL]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
