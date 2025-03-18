@@ -29,3 +29,11 @@ Docker monitoring API with real-time statistics, stack management, and plugin su
 ## Documentation and Wiki
 
 Please see [DockStatAPI](https://dockstatapi.itsnik.de)
+
+## Project Graph
+
+### SVG:
+
+![Dependency Graph](./dependency-graph.svg)
+
+Click [here](./dependency-graph.mmd) for the mermaid version
