@@ -14,10 +14,11 @@ import {
   devDependencies,
   license,
 } from "~/core/utils/package-json";
+import { hashApiKey } from "~/middleware/auth";
 
 export const apiConfigRoutes = new Elysia({ prefix: "/config" })
   .get(
-    "/get",
+    "/",
     async ({ set }) => {
       try {
         const data = dbFunctions.getConfig() as config[];
@@ -30,27 +31,31 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           "Error getting the DockStatAPI config",
-          error as string
+          error as string,
         );
       }
     },
     {
       tags: ["Management"],
-    }
+    },
   )
   .post(
     "/update",
     async ({ set, body }) => {
       try {
-        const { fetching_interval, keep_data_for } = body;
+        const { fetching_interval, keep_data_for, api_key } = body;
         set.headers["Content-Type"] = "application/json";
-        dbFunctions.updateConfig(fetching_interval, keep_data_for);
+        dbFunctions.updateConfig(
+          fetching_interval,
+          keep_data_for,
+          await hashApiKey(api_key),
+        );
         return responseHandler.ok(set, "Updated DockStatAPI config");
       } catch (error) {
         return responseHandler.error(
           set,
           "Error updating the DockStatAPI config",
-          error as string
+          error as string,
         );
       }
     },
@@ -58,9 +63,10 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
       body: t.Object({
         fetching_interval: t.Number(),
         keep_data_for: t.Number(),
+        api_key: t.String(),
       }),
       tags: ["Management"],
-    }
+    },
   )
   .get(
     "/package",
@@ -82,11 +88,11 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           error as string,
-          "Error while reading package.json"
+          "Error while reading package.json",
         );
       }
     },
     {
       tags: ["Management"],
-    }
+    },
   );

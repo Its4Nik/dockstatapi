@@ -13,12 +13,15 @@ import { setSchedules } from "~/core/docker/scheduler";
 import { serverTiming } from "@elysiajs/server-timing";
 import staticPlugin from "@elysiajs/static";
 import trpcRouter from "~/core/trpc";
+import { config } from "./typings/database";
+import { validateApiKey } from "./middleware/auth";
 
 console.log("");
 dbFunctions.init();
 
 const DockStatAPI = new Elysia()
   .use(staticPlugin())
+  .use(serverTiming())
   .use(
     swagger({
       documentation: {
@@ -27,6 +30,21 @@ const DockStatAPI = new Elysia()
           version: "2.1.0",
           description: "Docker monitoring API with plugin support",
         },
+        components: {
+          securitySchemes: {
+            apiKeyAuth: {
+              type: "apiKey",
+              name: "x-api-key",
+              in: "header",
+              description: "API key for authentication",
+            },
+          },
+        },
+        security: [
+          {
+            apiKeyAuth: [],
+          },
+        ],
         tags: [
           {
             name: "Statistics",
@@ -47,9 +65,24 @@ const DockStatAPI = new Elysia()
           },
         ],
       },
-    })
+    }),
   )
-  .use(serverTiming())
+  .onBeforeHandle(async (context) => {
+    const { path, request, set } = context;
+
+    if (path === "/health" || path.startsWith("/swagger")) {
+      logger.info(`Requested unguarded route: ${path}`);
+      return;
+    }
+
+    const validation = await validateApiKey(request, set);
+
+    if (validation.error) {
+      set.status = 400;
+      set.headers["Content-Type"] = "application/json";
+      return { error: validation.error };
+    }
+  })
   .use(trpcRouter)
   .use(dockerRoutes)
   .use(dockerStatsRoutes)
@@ -58,9 +91,9 @@ const DockStatAPI = new Elysia()
   .use(apiConfigRoutes)
   .use(stackRoutes)
   .get("/health", () => ({ status: "healthy" }), { tags: ["Utils"] })
-  .onError(({ code, set }) => {
+  .onError(({ code, set, path }) => {
     if (code === "NOT_FOUND") {
-      logger.warn("Unknown route, showing error page!");
+      logger.warn(`Unknown route (${path}), showing error page!`);
       set.status = 404;
       set.headers["Content-Type"] = "text/html";
       return Bun.file("public/404.html");
@@ -70,14 +103,23 @@ const DockStatAPI = new Elysia()
 async function startServer() {
   try {
     await loadPlugins("./src/plugins");
+    const configData = dbFunctions.getConfig() as config[];
+    const apiKey = configData[0].api_key;
+
+    if (apiKey === "changeme") {
+      logger.warn(
+        "Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!",
+      );
+    }
+
     DockStatAPI.listen(3000, ({ hostname, port }) => {
       console.log("----- [ ############## ]");
       logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
       logger.info(
-        `Swagger API Documentation available at http://${hostname}:${port}/swagger`
+        `Swagger API Documentation available at http://${hostname}:${port}/swagger`,
       );
       logger.info(
-        `tRPC Endpoint available at: http://${hostname}:${port}/trpc`
+        `tRPC Endpoint available at: http://${hostname}:${port}/trpc`,
       );
     });
   } catch (error) {

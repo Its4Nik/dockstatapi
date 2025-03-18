@@ -1,14 +1,5 @@
 import { logger } from "~/core/utils/logger";
-import type { HTTPHeaders } from "elysia/dist/types";
-import type { ElysiaCookie } from "elysia/dist/cookies";
-import type { StatusMap } from "elysia";
-
-interface set {
-  headers: HTTPHeaders;
-  status?: number | keyof StatusMap;
-  redirect?: string;
-  cookie?: Record<string, ElysiaCookie>;
-}
+import type { set } from "~/typings/elysiajs";
 
 export const responseHandler = {
   error(

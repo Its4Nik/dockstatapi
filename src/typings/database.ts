@@ -9,6 +9,7 @@ interface backend_log_entries {
 interface config {
   keep_data_for: number;
   fetching_interval: number;
+  api_key: string;
 }
 
 interface stacks_config {

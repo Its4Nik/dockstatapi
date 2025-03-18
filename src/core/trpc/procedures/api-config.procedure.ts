@@ -19,6 +19,7 @@ import { config } from "~/typings/database";
 const configInputSchema = z.object({
   fetching_interval: z.number(),
   keep_data_for: z.number(),
+  api_key: z.string(),
 });
 
 export const configProcedure = router({
@@ -40,8 +41,8 @@ export const configProcedure = router({
 
   update: publicProcedure.input(configInputSchema).mutation(({ input }) => {
     try {
-      const { fetching_interval, keep_data_for } = input;
-      dbFunctions.updateConfig(fetching_interval, keep_data_for);
+      const { fetching_interval, keep_data_for, api_key } = input;
+      dbFunctions.updateConfig(fetching_interval, keep_data_for, api_key);
       return { success: true, message: "Updated DockStatAPI config" };
     } catch (error) {
       logger.error("tRPC config update error", error);
