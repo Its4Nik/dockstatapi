@@ -9,6 +9,8 @@ interface Plugin {
   onContainerStop?: (containerInfo: ContainerInfo) => void;
   onContainerExit?: (containerInfo: ContainerInfo) => void;
   onContainerCreate?: (containerInfo: ContainerInfo) => void;
+  onContainerKill?: (ContainerInfo: ContainerInfo) => void;
+  handleContainerDie?: (ContainerInfo: ContainerInfo) => void;
   onContainerDestroy?: (containerInfo: ContainerInfo) => void;
   onContainerPause?: (containerInfo: ContainerInfo) => void;
   onContainerUnpause?: (containerInfo: ContainerInfo) => void;
@@ -18,8 +20,8 @@ interface Plugin {
   onContainerHealthStatus?: (containerInfo: ContainerInfo) => void;
 
   // Host lifecycle hooks
-  onHostUnreachable?: (HostStats: HostStats) => void;
-  onHostReachableAgain?: (HostStats: HostStats) => void;
+  onHostUnreachable?: (host: string, err: string) => void;
+  onHostReachableAgain?: (host: string) => void;
 }
 
 export type { Plugin };

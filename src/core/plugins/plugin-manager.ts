@@ -2,6 +2,7 @@ import { EventEmitter } from "events";
 import { logger } from "../utils/logger";
 import type { Plugin } from "~/typings/plugin";
 import type { ContainerInfo, HostStats } from "~/typings/docker";
+import { plugin } from "bun";
 
 export class PluginManager extends EventEmitter {
   private plugins: Map<string, Plugin> = new Map();
@@ -12,7 +13,7 @@ export class PluginManager extends EventEmitter {
       logger.debug(`Registered plugin: ${plugin.name}`);
     } catch (error) {
       logger.error(
-        `Registering plugin ${plugin.name} failed: ${error as string}`
+        `Registering plugin ${plugin.name} failed: ${error as string}`,
       );
     }
   }
@@ -88,15 +89,27 @@ export class PluginManager extends EventEmitter {
     });
   }
 
-  handleHostUnreachable(HostStats: HostStats) {
+  handleHostUnreachable(host: string, err: string) {
     this.plugins.forEach((plugin) => {
-      plugin.onHostUnreachable?.(HostStats);
+      plugin.onHostUnreachable?.(host, err);
     });
   }
 
-  handleHostReachableAgain(HostStats: HostStats) {
+  handleHostReachableAgain(host: string) {
     this.plugins.forEach((plugin) => {
-      plugin.onHostReachableAgain?.(HostStats);
+      plugin.onHostReachableAgain?.(host);
+    });
+  }
+
+  handleContainerKill(containerInfo: ContainerInfo) {
+    this.plugins.forEach((plugin) => {
+      plugin.onContainerKill?.(containerInfo);
+    });
+  }
+  
+  handleContainerDie(containerInfo: ContainerInfo) {
+    this.plugins.forEach((plugin) => {
+      plugin.handleContainerDie?.(containerInfo);
     });
   }
 }

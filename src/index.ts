@@ -15,6 +15,7 @@ import staticPlugin from "@elysiajs/static";
 import trpcRouter from "~/core/trpc";
 import { config } from "./typings/database";
 import { validateApiKey } from "./middleware/auth";
+import { monitorDockerEvents } from "./core/docker/monitor";
 
 console.log("");
 dbFunctions.init();
@@ -103,6 +104,12 @@ const DockStatAPI = new Elysia()
 async function startServer() {
   try {
     await loadPlugins("./src/plugins");
+    await setSchedules();
+
+    monitorDockerEvents().catch((error) => {
+      logger.error(`Monitoring Error: ${error}`);
+    });
+
     const configData = dbFunctions.getConfig() as config[];
     const apiKey = configData[0].api_key;
 
@@ -128,7 +135,6 @@ async function startServer() {
   }
 }
 
-await setSchedules();
 await startServer();
 
 logger.info("Started server");

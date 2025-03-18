@@ -1,6 +1,10 @@
 import type Docker from "dockerode";
 
 const calculateCpuPercent = (stats: Docker.ContainerStats): number => {
+  if (stats == null) {
+    return 0.0;
+  }
+
   const cpuDelta =
     stats.cpu_stats.cpu_usage.total_usage -
     stats.precpu_stats.cpu_usage.total_usage;
@@ -10,6 +14,9 @@ const calculateCpuPercent = (stats: Docker.ContainerStats): number => {
 };
 
 const calculateMemoryUsage = (stats: Docker.ContainerStats): number => {
+  if (stats == null) {
+    return 0.0;
+  }
   return (stats.memory_stats.usage / stats.memory_stats.limit) * 100;
 };
 

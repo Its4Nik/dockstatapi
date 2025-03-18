@@ -14,7 +14,10 @@ const fileLineFormat = format((info) => {
       for (let i = 2; i < stack.length; i++) {
         const line = stack[i].trim();
         // Exclude lines from node_modules or the current file
-        if (!line.includes("node_modules") && !line.includes(path.basename(__filename))) {
+        if (
+          !line.includes("node_modules") &&
+          !line.includes(path.basename(__filename))
+        ) {
           const matches = line.match(/\(?(.+):(\d+):(\d+)\)?$/);
           if (matches) {
             info.file = path.basename(matches[1]);
@@ -49,12 +52,11 @@ const formatTerminalMessage = (message: string, prefixLength: number) => {
 };
 
 export const logger = createLogger({
-  level: process.env.LOG_LEVEL || 'debug',
+  level: process.env.LOG_LEVEL || "debug",
   format: format.combine(
     format.timestamp({ format: "DD/MM HH:mm:ss" }),
     fileLineFormat(),
     format.printf(({ timestamp, level, message, file, line }) => {
-
       const levelColors: Record<string, ChalkInstance> = {
         error: chalk.red.bold,
         warn: chalk.yellow.bold,
@@ -62,16 +64,20 @@ export const logger = createLogger({
         debug: chalk.blue.bold,
         verbose: chalk.cyan.bold,
         silly: chalk.magenta.bold,
-        task: chalk.cyan.bold
+        task: chalk.cyan.bold,
       };
 
       if ((message as string).startsWith("__task__")) {
         message = (message as string).replaceAll("__task__", "").trimStart();
-        level = "task"
+        level = "task";
         if ((message as string).startsWith("__db__")) {
           message = (message as string).replaceAll("__db__", "").trimStart();
-          message = `${chalk.magenta("DB")} ${message}`
+          message = `${chalk.magenta("DB")} ${message}`;
         }
+      }
+
+      if ((file as string).includes("plugin.ts")) {
+        message = `[ ${chalk.greenBright("Plugin")} ] ${message}`;
       }
 
       const paddedLevel = level.toUpperCase().padEnd(5);
@@ -81,7 +87,7 @@ export const logger = createLogger({
 
       if (process.env.NODE_ENV !== "dev") {
         return `${coloredLevel} [ ${coloredTimestamp} ] - ${chalk.gray(
-          message
+          message,
         )} - [ ${coloredContext} ]`;
       }
 
@@ -89,25 +95,25 @@ export const logger = createLogger({
       const prefixLength = prefix.length;
       const formattedMessage = formatTerminalMessage(
         message as string,
-        prefixLength
+        prefixLength,
       );
       const ansiRegex = /\x1B\[[0-?9;]*[mG]/g;
 
       try {
         dbFunctions.addLogEntry(
-          (level as string).replace(ansiRegex, ''),
-          (message as string).replace(ansiRegex, ''),
-          (file as string).replace(ansiRegex, ''),
-          line as number
+          (level as string).replace(ansiRegex, ""),
+          (message as string).replace(ansiRegex, ""),
+          (file as string).replace(ansiRegex, ""),
+          line as number,
         );
       } catch (error) {
         // Use console.error to avoid recursive logging
         console.error(`Error inserting log into DB: ${String(error)}`);
-        process.abort()
+        process.abort();
       }
 
       return `${coloredLevel} [ ${coloredTimestamp} ] - ${formattedMessage} - [ ${coloredContext} ]`;
-    })
+    }),
   ),
   transports: [new transports.Console()],
 });
