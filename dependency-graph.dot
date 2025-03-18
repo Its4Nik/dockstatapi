@@ -3,6 +3,7 @@ strict digraph "dependency-cruiser output"{
     node [shape="box" style="rounded, filled" height="0.2" color="black" fillcolor="#ffffcc" fontcolor="black" fontname="Helvetica" fontsize="9"]
     edge [arrowhead="normal" arrowsize="0.6" penwidth="2.0" color="#00000033" fontname="Helvetica" fontsize="9"]
 
+    "bun" [label=<bun> tooltip="bun" ]
     "bun:sqlite" [label=<bun:sqlite> tooltip="bun:sqlite" ]
     "events" [label=<events> tooltip="events" URL="https://nodejs.org/api/events.html" color="grey" fontcolor="grey"]
     "fs" [label=<fs> tooltip="fs" URL="https://nodejs.org/api/fs.html" color="grey" fontcolor="grey"]
@@ -20,6 +21,14 @@ strict digraph "dependency-cruiser output"{
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/client.ts" [label=<client.ts> tooltip="client.ts" URL="src/core/docker/client.ts" fillcolor="#ddfeff"] } } }
     "src/core/docker/client.ts" -> "src/core/utils/logger.ts"
     "src/core/docker/client.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/monitor.ts" [label=<monitor.ts> tooltip="monitor.ts" URL="src/core/docker/monitor.ts" fillcolor="#ddfeff"] } } }
+    "src/core/docker/monitor.ts" -> "src/core/plugins/plugin-manager.ts"
+    "src/core/docker/monitor.ts" -> "src/core/database/repository.ts"
+    "src/core/docker/monitor.ts" -> "src/core/docker/client.ts"
+    "src/core/docker/monitor.ts" -> "src/core/utils/logger.ts"
+    "src/core/docker/monitor.ts" -> "src/typings/docker.ts"
+    "src/core/docker/monitor.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/core/docker/monitor.ts" -> "bun"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/scheduler.ts" [label=<scheduler.ts> tooltip="scheduler.ts" URL="src/core/docker/scheduler.ts" fillcolor="#ddfeff"] } } }
     "src/core/docker/scheduler.ts" -> "src/core/database/repository.ts"
     "src/core/docker/scheduler.ts" -> "src/core/docker/store-host-stats.ts"
@@ -46,6 +55,7 @@ strict digraph "dependency-cruiser output"{
     "src/core/plugins/plugin-manager.ts" -> "src/core/utils/logger.ts"
     "src/core/plugins/plugin-manager.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/core/plugins/plugin-manager.ts" -> "src/typings/plugin.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/core/plugins/plugin-manager.ts" -> "bun"
     "src/core/plugins/plugin-manager.ts" -> "events" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/stacks" {label="stacks" "src/core/stacks/controller.ts" [label=<controller.ts> tooltip="controller.ts" URL="src/core/stacks/controller.ts" fillcolor="#ddfeff"] } } }
     "src/core/stacks/controller.ts" -> "src/core/database/repository.ts"
@@ -102,6 +112,7 @@ strict digraph "dependency-cruiser output"{
     "src/core/utils/respone-handler.ts" -> "src/core/utils/logger.ts"
     "src/core/utils/respone-handler.ts" -> "src/typings/elysiajs.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" "src/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/index.ts" fillcolor="#ddfeff"] }
+    "src/index.ts" -> "src/core/docker/monitor.ts"
     "src/index.ts" -> "src/middleware/auth.ts"
     "src/index.ts" -> "src/routes/stacks.ts"
     "src/index.ts" -> "src/typings/database.ts"
