@@ -55,7 +55,6 @@ strict digraph "dependency-cruiser output"{
     "src/core/plugins/plugin-manager.ts" -> "src/core/utils/logger.ts"
     "src/core/plugins/plugin-manager.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/core/plugins/plugin-manager.ts" -> "src/typings/plugin.ts" [arrowhead="onormal" penwidth="1.0"]
-    "src/core/plugins/plugin-manager.ts" -> "bun"
     "src/core/plugins/plugin-manager.ts" -> "events" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/stacks" {label="stacks" "src/core/stacks/controller.ts" [label=<controller.ts> tooltip="controller.ts" URL="src/core/stacks/controller.ts" fillcolor="#ddfeff"] } } }
     "src/core/stacks/controller.ts" -> "src/core/database/repository.ts"
@@ -133,6 +132,7 @@ strict digraph "dependency-cruiser output"{
     "src/middleware/auth.ts" -> "src/typings/elysiajs.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/api-config.ts" [label=<api-config.ts> tooltip="api-config.ts" URL="src/routes/api-config.ts" fillcolor="#ddfeff"] } }
     "src/routes/api-config.ts" -> "src/core/database/repository.ts"
+    "src/routes/api-config.ts" -> "src/core/plugins/plugin-manager.ts"
     "src/routes/api-config.ts" -> "src/core/utils/logger.ts"
     "src/routes/api-config.ts" -> "src/core/utils/package-json.ts"
     "src/routes/api-config.ts" -> "src/core/utils/respone-handler.ts"
