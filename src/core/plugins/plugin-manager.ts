@@ -1,8 +1,7 @@
 import { EventEmitter } from "events";
 import { logger } from "../utils/logger";
 import type { Plugin } from "~/typings/plugin";
-import type { ContainerInfo, HostStats } from "~/typings/docker";
-import { plugin } from "bun";
+import type { ContainerInfo } from "~/typings/docker";
 
 export class PluginManager extends EventEmitter {
   private plugins: Map<string, Plugin> = new Map();
@@ -20,6 +19,10 @@ export class PluginManager extends EventEmitter {
 
   unregister(name: string) {
     this.plugins.delete(name);
+  }
+
+  getLoadedPlugins(): string[] {
+    return Array.from(this.plugins.keys());
   }
 
   // Trigger plugin flows:
@@ -106,7 +109,7 @@ export class PluginManager extends EventEmitter {
       plugin.onContainerKill?.(containerInfo);
     });
   }
-  
+
   handleContainerDie(containerInfo: ContainerInfo) {
     this.plugins.forEach((plugin) => {
       plugin.handleContainerDie?.(containerInfo);

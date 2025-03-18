@@ -15,6 +15,7 @@ import {
   license,
 } from "~/core/utils/package-json";
 import { hashApiKey } from "~/middleware/auth";
+import { pluginManager } from "~/core/plugins/plugin-manager";
 
 export const apiConfigRoutes = new Elysia({ prefix: "/config" })
   .get(
@@ -30,14 +31,29 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
       } catch (error) {
         return responseHandler.error(
           set,
-          "Error getting the DockStatAPI config",
           error as string,
+          "Error getting the DockStatAPI config",
         );
       }
     },
     {
       tags: ["Management"],
     },
+  )
+  .get(
+    "/plugins",
+    ({ set }) => {
+      try {
+        return pluginManager.getLoadedPlugins();
+      } catch (error) {
+        return responseHandler.error(
+          set,
+          error as string,
+          "Error getting all registered plugins",
+        );
+      }
+    },
+    { tags: ["Management"] },
   )
   .post(
     "/update",
