@@ -11,7 +11,6 @@
   "version": "2.1.0",
   "scripts": {
     "start": "cross-env NODE_ENV=production LOG_LEVEL=info bun run src/index.ts",
-    "start:linux": "NODE_ENV=production LOG_LEVEL=info bun run src/index.ts",
     "dev": "docker compose -f docker/docker-compose.dev.yaml up -d && cross-env NODE_ENV=dev bun run --watch src/index.ts",
     "dev:clean": "bun dev ; echo '\nExiting...' ; bun clean",
     "build": "bun build --target bun src/index.ts --outdir ./dist",

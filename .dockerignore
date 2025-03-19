@@ -2,3 +2,7 @@
 /stacks
 /node_modules
 *.md
+/docker
+*.dot
+*.mmd
+*.lock
