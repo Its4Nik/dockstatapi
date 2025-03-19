@@ -4,7 +4,7 @@ ARG VCS_REF
 FROM oven/bun:alpine AS base
 WORKDIR /base
 
-COPY package.json bun.lock ./
+COPY package.json ./
 RUN bun install -p
 
 COPY . .
