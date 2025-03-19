@@ -6,6 +6,10 @@ on:
   release:
     types: [published, prereleased]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   test:
     name: Test Build on Push
