@@ -14,10 +14,10 @@ WORKDIR /DockStatAPI
 
 LABEL org.opencontainers.image.title="DockStatAPI" \
     org.opencontainers.image.description="A Dockerized DockStatAPI built with Bun on Alpine Linux." \
-    org.opencontainers.image.version="1.0.0" \
-    org.opencontainers.image.authors="Your Name <your.email@example.com>" \
-    org.opencontainers.image.vendor="Your Company" \
-    org.opencontainers.image.licenses="MIT" \
+    org.opencontainers.image.version="3.0.0" \
+    org.opencontainers.image.authors="info@itsnik.de" \
+    org.opencontainers.image.vendor="Its4Nik" \
+    org.opencontainers.image.licenses="CC BY-NC 4.0" \
     org.opencontainers.image.created=$BUILD_DATE \
     org.opencontainers.image.revision=$VCS_REF
 
