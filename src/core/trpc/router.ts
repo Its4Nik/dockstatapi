@@ -17,5 +17,3 @@ export const appRouter = router({
     check: t.procedure.query(() => ({ status: "healthy" })),
   }),
 });
-
-export type AppRouter = typeof appRouter;

@@ -23,6 +23,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     {
       detail: {
         tags: ["Management"],
+        description: "Add a new Host as Monitoring target",
       },
       body: t.Object({
         name: t.String(),
@@ -49,6 +50,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     {
       detail: {
         tags: ["Management"],
+        description: "Update an already existing target's config",
       },
       body: t.Object({
         name: t.String(),
@@ -77,6 +79,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     {
       detail: {
         tags: ["Management"],
+        description: "Returns an Array of Host-config-objects",
       },
     },
   );

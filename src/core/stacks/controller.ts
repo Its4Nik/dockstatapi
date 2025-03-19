@@ -5,130 +5,195 @@ import DockerCompose from "docker-compose";
 import type { Stack, ComposeSpec } from "~/typings/docker-compose";
 import type { stacks_config } from "~/typings/database";
 
+async function runStackCommand<T>(
+  stack_name: string,
+  command: (cwd: string) => Promise<T>,
+  action: string,
+): Promise<T> {
+  try {
+    const stack = { name: stack_name };
+    const stackPath = await getStackPath(stack as Stack);
+    return await command(stackPath);
+  } catch (error: any) {
+    throw new Error(
+      `Error while ${action} stack "${stack_name}": ${error.message || error}`,
+    );
+  }
+}
+
 async function getStackPath(stack: Stack): Promise<string> {
-    const stackName = stack.name.trim().replace(/\s+/g, "_");
-    return `stacks/${stackName}`;
+  const stackName = stack.name.trim().replace(/\s+/g, "_");
+  return `stacks/${stackName}`;
 }
 
 async function createStackYAML(compose_spec: Stack): Promise<void> {
-    const yaml = YAML.stringify(compose_spec.compose_spec);
-    const stackPath = await getStackPath(compose_spec);
-    await Bun.write(`${stackPath}/docker-compose.yaml`, yaml, { createPath: true });
+  const yaml = YAML.stringify(compose_spec.compose_spec);
+  const stackPath = await getStackPath(compose_spec);
+  await Bun.write(`${stackPath}/docker-compose.yaml`, yaml, {
+    createPath: true,
+  });
 }
 
 export async function deployStack(
-    stack: ComposeSpec,
-    name: string,
-    version: number,
-    source: string,
-    automatic_reboot_on_error: boolean,
-    isCustom: boolean,
-    image_updates: boolean,
-    stack_prefix?: string
+  stack: ComposeSpec,
+  name: string,
+  version: number,
+  source: string,
+  automatic_reboot_on_error: boolean,
+  isCustom: boolean,
+  image_updates: boolean,
+  stack_prefix?: string,
 ): Promise<void> {
-    try {
-        logger.debug(`Deploying Stack: ${JSON.stringify(stack)}`)
+  try {
+    logger.debug(`Deploying Stack: ${JSON.stringify(stack)}`);
 
-        const serviceCount = stack.services
-            ? Object.keys(stack.services).length
-            : 0;
+    const serviceCount = stack.services
+      ? Object.keys(stack.services).length
+      : 0;
 
-        const resolvedPrefix = stack_prefix ?? "";
+    const resolvedPrefix = stack_prefix ?? "";
 
-        const stack_config: stacks_config = {
-            name: name,
-            version: version,
-            source,
-            stack_prefix: resolvedPrefix,
-            automatic_reboot_on_error,
-            container_count: serviceCount,
-            custom: isCustom,
-            image_updates,
-        };
+    const stack_config: stacks_config = {
+      name: name,
+      version: version,
+      source,
+      stack_prefix: resolvedPrefix,
+      automatic_reboot_on_error,
+      container_count: serviceCount,
+      custom: isCustom,
+      image_updates,
+    };
 
-        if (!stack.name) {
-            logger.debug(`${JSON.stringify(stack)}`)
-            throw new Error("Stack name needed")
-        }
-
-        dbFunctions.addStack(stack_config);
-
-        const stackYaml: Stack = {
-            name: name,
-            source: source,
-            version: version,
-            compose_spec: stack,
-        }
-        await createStackYAML(stackYaml);
-        const stackPath = await getStackPath(stackYaml);
-        await DockerCompose.upAll({ cwd: stackPath });
-    } catch (error: any) {
-        throw new Error(`Error while deploying Stack: ${error.message || error}`);
+    if (!stack.name) {
+      logger.debug(`${JSON.stringify(stack)}`);
+      throw new Error("Stack name needed");
     }
+
+    dbFunctions.addStack(stack_config);
+
+    const stackYaml: Stack = {
+      name: name,
+      source: source,
+      version: version,
+      compose_spec: stack,
+    };
+    await createStackYAML(stackYaml);
+    const stackPath = await getStackPath(stackYaml);
+    await DockerCompose.upAll({ cwd: stackPath });
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 }
 
 export async function stopStack(stack_name: string): Promise<void> {
-    try {
-        const stack = {
-            name: stack_name
-        }
-        const stackPath = await getStackPath(stack as Stack);
-        await DockerCompose.downAll({ cwd: stackPath });
-    } catch (error: any) {
-        throw new Error(`Error while stopping stack "${stack_name}": ${error.message || error}`);
-    }
+  try {
+    await runStackCommand(
+      stack_name,
+      (cwd) => DockerCompose.downAll({ cwd }),
+      "stopping",
+    );
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 }
 
 export async function startStack(stack_name: string): Promise<void> {
-    try {
-        const stack = {
-            name: stack_name
-        }
-        const stackPath = await getStackPath(stack as Stack);
-        await DockerCompose.upAll({ cwd: stackPath });
-    } catch (error: any) {
-        throw new Error(`Error while starting stack "${stack_name}": ${error.message || error}`);
-    }
+  try {
+    await runStackCommand(
+      stack_name,
+      (cwd) => DockerCompose.upAll({ cwd }),
+      "starting",
+    );
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 }
 
 export async function pullStackImages(stack_name: string): Promise<void> {
-    try {
-        const stack = {
-            name: stack_name
-        }
-        const stackPath = await getStackPath(stack as Stack);
-        await DockerCompose.pullAll({ cwd: stackPath });
-    } catch (error: any) {
-        throw new Error(`Error while pulling images for stack "${stack_name}": ${error.message || error}`);
-    }
+  try {
+    await runStackCommand(
+      stack_name,
+      (cwd) => DockerCompose.pullAll({ cwd }),
+      "pulling images for",
+    );
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 }
 
 export async function restartStack(stack_name: string): Promise<void> {
-    try {
-        const stack = {
-            name: stack_name
-        }
-        const stackPath = await getStackPath(stack as Stack);
-        await DockerCompose.restartAll({ cwd: stackPath });
-    } catch (error: any) {
-        throw new Error(`Error while restarting stack "${stack_name}": ${error.message || error}`);
-    }
+  try {
+    await runStackCommand(
+      stack_name,
+      (cwd) => DockerCompose.restartAll({ cwd }),
+      "restarting",
+    );
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 }
 
-export async function getStackStatus(stack_name: string): Promise<any> {
-    try {
-        logger.debug("Retrieving status for Stack:", stack_name);
-        const stackYaml = { name: stack_name };
-        const stackPath = await getStackPath(stackYaml as Stack);
-        const rawStatus = await DockerCompose.ps({ cwd: stackPath });
-
+export async function getStackStatus(stack_name: string): Promise<void> {
+  try {
+    return await runStackCommand(
+      stack_name,
+      async (cwd) => {
+        const rawStatus = await DockerCompose.ps({ cwd });
         return rawStatus.data.services.reduce((acc: any, service: any) => {
-                    acc[(service.name)] = service.state;
-                    return acc;
-                }, {});
-
-    } catch (error: any) {
-        throw new Error(`Error while retrieving status for stack "${stack_name}": ${error.message || error}`);
-    }
+          acc[service.name] = service.state;
+          return acc;
+        }, {});
+      },
+      "retrieving status for",
+    );
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 }
 
+export async function getAllStacksStatus(): Promise<Record<string, any>> {
+  try {
+    const stacks = dbFunctions.getStacks() as stacks_config[];
+
+    const statusResults = await Promise.all(
+      stacks.map(async (stack) => {
+        const status = await runStackCommand(
+          stack.name,
+          async (cwd) => {
+            const rawStatus = await DockerCompose.ps({ cwd });
+            return rawStatus.data.services.reduce((acc: any, service: any) => {
+              acc[service.name] = service.state;
+              return acc;
+            }, {});
+          },
+          "retrieving status for",
+        );
+        return { stackName: stack.name, status };
+      }),
+    );
+
+    return statusResults.reduce(
+      (acc, { stackName, status }) => {
+        acc[stackName] = status;
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
+}

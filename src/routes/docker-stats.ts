@@ -101,6 +101,8 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
     {
       detail: {
         tags: ["Statistics"],
+        description:
+          "Fetches all Containers and their statistics across all Hosts",
       },
     },
   )
@@ -152,6 +154,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
     {
       detail: {
         tags: ["Statistics"],
+        description: "Fetches the Host Stats for a specified Host",
       },
     },
   );

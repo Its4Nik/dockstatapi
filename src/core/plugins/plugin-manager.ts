@@ -3,7 +3,7 @@ import { logger } from "../utils/logger";
 import type { Plugin } from "~/typings/plugin";
 import type { ContainerInfo } from "~/typings/docker";
 
-export class PluginManager extends EventEmitter {
+class PluginManager extends EventEmitter {
   private plugins: Map<string, Plugin> = new Map();
 
   register(plugin: Plugin) {

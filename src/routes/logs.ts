@@ -20,6 +20,7 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
     {
       detail: {
         tags: ["Management"],
+        description: "Retrieves all Logs which have been saved in the Database",
       },
     },
   )
@@ -41,6 +42,7 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
     {
       detail: {
         tags: ["Management"],
+        description: "Retrieves all Logs with the specified level",
       },
     },
   )
@@ -62,6 +64,7 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
     {
       detail: {
         tags: ["Management"],
+        description: "Deletes all Logs which are saved in the Database",
       },
     },
   )
@@ -83,6 +86,8 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
     {
       detail: {
         tags: ["Management"],
+        description:
+          "Deletes all Logs with the specified Level inside the Database",
       },
     },
   );

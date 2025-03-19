@@ -1,11 +1,3 @@
-interface backend_log_entries {
-  timestamp: string;
-  level: string;
-  message: string;
-  file: string;
-  line: number;
-}
-
 interface config {
   keep_data_for: number;
   fetching_interval: number;
@@ -23,4 +15,4 @@ interface stacks_config {
   image_updates: boolean;
 }
 
-export type { backend_log_entries, config, stacks_config };
+export type { config, stacks_config };

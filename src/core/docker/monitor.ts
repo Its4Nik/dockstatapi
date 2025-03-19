@@ -49,7 +49,9 @@ async function startFor(host: DockerHost) {
       buffer = lines.pop() || "";
 
       for (const line of lines) {
-        if (line.trim() === "") continue;
+        if (line.trim() === "") {
+          continue;
+        }
 
         let event: any;
         try {

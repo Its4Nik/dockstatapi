@@ -37,11 +37,18 @@ export const stacksProcedure = router({
     .mutation(async ({ input }) => {
       try {
         const missingParams = [];
-        if (!input.compose_spec) missingParams.push("compose_spec");
-        if (!input.automatic_reboot_on_error)
+        if (!input.compose_spec) {
+          missingParams.push("compose_spec");
+        }
+        if (!input.automatic_reboot_on_error) {
           missingParams.push("automatic_reboot_on_error");
-        if (!input.source) missingParams.push("source");
-        if (!input.name) missingParams.push("name");
+        }
+        if (!input.source) {
+          missingParams.push("source");
+        }
+        if (!input.name) {
+          missingParams.push("name");
+        }
 
         if (missingParams.length > 0) {
           throw new TRPCError({
@@ -58,7 +65,7 @@ export const stacksProcedure = router({
           input.automatic_reboot_on_error,
           input.isCustom || false,
           input.image_updates || false,
-          input.stack_prefix
+          input.stack_prefix,
         );
 
         logger.info(`Deployed Stack (${input.name}) via tRPC`);

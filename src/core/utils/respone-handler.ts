@@ -19,10 +19,10 @@ export const responseHandler = {
     return { success: true };
   },
 
-  simple_error(set: set, response_massage: string, status_code?: number) {
+  simple_error(set: set, response_message: string, status_code?: number) {
     set.status = status_code || 502;
-    logger.warn(response_massage);
-    return { error: response_massage };
+    logger.warn(response_message);
+    return { error: response_message };
   },
 
   reject(set: set, reject: any, response_message: string, error?: string) {

@@ -7,6 +7,7 @@ import {
   restartStack,
   getStackStatus,
   startStack,
+  getAllStacksStatus,
 } from "~/core/stacks/controller";
 import { dbFunctions } from "~/core/database/repository";
 import { logger } from "~/core/utils/logger";
@@ -47,23 +48,27 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
           body.automatic_reboot_on_error,
           isCustom,
           image_updates,
-          body.stack_prefix
+          body.stack_prefix,
         );
         logger.info(`Deployed Stack (${body.name})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.name} deployed successfully`
+          `Stack ${body.name} deployed successfully`,
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error deploying stack"
+          "Error deploying stack",
         );
       }
     },
     {
-      detail: { tags: ["Stacks"] },
+      detail: {
+        tags: ["Stacks"],
+        description:
+          "Deploy a Stack, either with a prebuilt one or provide your own structure",
+      },
       body: t.Object({
         compose_spec: t.Any(),
         name: t.String(),
@@ -74,7 +79,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         source: t.String(),
         stack_prefix: t.Optional(t.String()),
       }),
-    }
+    },
   )
   .post(
     "/start",
@@ -87,22 +92,22 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Started Stack (${body.stack})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.stack} started successfully`
+          `Stack ${body.stack} started successfully`,
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error starting stack"
+          "Error starting stack",
         );
       }
     },
     {
-      detail: { tags: ["Stacks"] },
+      detail: { tags: ["Stacks"], description: "Start a specific Stack" },
       body: t.Object({
         stack: t.Any(),
       }),
-    }
+    },
   )
   .post(
     "/stop",
@@ -115,22 +120,22 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Stopped Stack (${body.stack})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.stack} stopped successfully`
+          `Stack ${body.stack} stopped successfully`,
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error stopping stack"
+          "Error stopping stack",
         );
       }
     },
     {
-      detail: { tags: ["Stacks"] },
+      detail: { tags: ["Stacks"], description: "Stop the specified Stack" },
       body: t.Object({
         stack: t.Any(),
       }),
-    }
+    },
   )
   .post(
     "/restart",
@@ -143,22 +148,22 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Restarted Stack (${body.stack})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.stack} restarted successfully`
+          `Stack ${body.stack} restarted successfully`,
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error restarting stack"
+          "Error restarting stack",
         );
       }
     },
     {
-      detail: { tags: ["Stacks"] },
+      detail: { tags: ["Stacks"], description: "Restart a whole Stack" },
       body: t.Object({
         stack: t.Any(),
       }),
-    }
+    },
   )
   .post(
     "/pull-images",
@@ -171,52 +176,63 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Pulled Stack images (${body.stack})`);
         return responseHandler.ok(
           set,
-          `Images for stack ${body.stack} pulled successfully`
+          `Images for stack ${body.stack} pulled successfully`,
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error pulling images"
+          "Error pulling images",
         );
       }
     },
     {
-      detail: { tags: ["Stacks"] },
+      detail: {
+        tags: ["Stacks"],
+        description: "Runs `docker compose pull` on the provided Stack",
+      },
       body: t.Object({
         stack: t.Any(),
       }),
-    }
+    },
   )
   .get(
     "/status",
     async ({ set, query }) => {
       try {
-        if (!query.stack_name) {
-          throw new Error("Stack needed");
+        let status;
+        let res = {};
+        if (query.stack_name) {
+          status = await getStackStatus(query.stack_name);
+          res = responseHandler.ok(
+            set,
+            `Stack ${query.stack_name} status retrieved successfully`,
+          );
+          logger.info("Fetched Stack status");
+        } else {
+          status = await getAllStacksStatus();
+          res = responseHandler.ok(set, "Fetched all Stack's status");
+          logger.info("Fetched all Stack status");
         }
-        logger.debug(query.stack_name);
-        const status = await getStackStatus(query.stack_name);
-        const res = responseHandler.ok(
-          set,
-          `Stack ${query.stack_name} status retrieved successfully`
-        );
-        logger.info("Fetched Stack status");
         return { ...res, status: status };
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error getting stack status"
+          "Error getting stack status",
         );
       }
     },
     {
-      detail: { tags: ["Stacks"] },
+      detail: {
+        tags: ["Stacks"],
+        description:
+          "Fetches the current status of all containers for a specific Stack or if no Stack name is provided, for all Stacks",
+      },
       query: t.Object({
         stack_name: t.Any(),
       }),
-    }
+    },
   )
   .get(
     "/",
@@ -229,11 +245,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         return responseHandler.error(
           set,
           error.message || error,
-          "Error getting stacks"
+          "Error getting stacks",
         );
       }
     },
     {
-      detail: { tags: ["Stacks"] },
-    }
+      detail: {
+        tags: ["Stacks"],
+        description: "Returns an Array of Stack-config-objects",
+      },
+    },
   );

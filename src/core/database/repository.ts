@@ -155,8 +155,7 @@ export const dbFunctions = {
           FROM docker_hosts
           ORDER BY name DESC
         `);
-        const data = stmt.all();
-        return data as DockerHost[];
+        return stmt.all() as DockerHost[];
       },
       () => {},
     );
@@ -194,8 +193,7 @@ export const dbFunctions = {
           FROM backend_log_entries
           ORDER BY timestamp DESC
         `);
-        const data = stmt.all();
-        return data;
+        return stmt.all();
       },
       () => {},
     );
@@ -211,8 +209,7 @@ export const dbFunctions = {
           WHERE level = ?
           ORDER BY timestamp DESC
         `);
-        const data = stmt.all(level);
-        return data;
+        return stmt.all(level);
       },
       () => {
         if (typeof level !== "string") {
@@ -232,8 +229,7 @@ export const dbFunctions = {
           SET url = ?, secure = ?
           WHERE name = ?
         `);
-        const data = stmt.run(url, secure, name);
-        return data;
+        return stmt.run(url, secure, name);
       },
       () => {
         if (
@@ -256,8 +252,7 @@ export const dbFunctions = {
           DELETE FROM docker_hosts
           WHERE name = ?
         `);
-        const data = stmt.run(name);
-        return data;
+        return stmt.run(name);
       },
       () => {
         if (typeof name !== "string") {
@@ -275,8 +270,7 @@ export const dbFunctions = {
         const stmt = db.prepare(`
           DELETE FROM backend_log_entries
         `);
-        const data = stmt.run();
-        return data;
+        return stmt.run();
       },
       () => {},
     );
@@ -290,8 +284,7 @@ export const dbFunctions = {
           DELETE FROM backend_log_entries
           WHERE level = ?
         `);
-        const data = stmt.run(level);
-        return data;
+        return stmt.run(level);
       },
       () => {
         if (typeof level !== "string") {
@@ -316,8 +309,7 @@ export const dbFunctions = {
               keep_data_for = ?,
               api_key = ?
         `);
-        const data = stmt.run(fetching_interval, keep_data_for, api_key);
-        return data;
+        return stmt.run(fetching_interval, keep_data_for, api_key);
       },
       () => {
         if (
@@ -339,8 +331,7 @@ export const dbFunctions = {
           SELECT keep_data_for, fetching_interval, api_key
           FROM config
         `);
-        const data = stmt.all();
-        return data;
+        return stmt.all();
       },
       () => {},
     );
@@ -388,7 +379,7 @@ export const dbFunctions = {
           INSERT INTO container_stats (id, hostId, name, image, status, state, cpu_usage, memory_usage)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `);
-        const data = stmt.run(
+        return stmt.run(
           id,
           hostId,
           name,
@@ -398,7 +389,6 @@ export const dbFunctions = {
           cpu_usage,
           memory_usage,
         );
-        return data;
       },
       () => {
         if (
@@ -454,7 +444,7 @@ export const dbFunctions = {
             containersPaused = excluded.containersPaused,
             images = excluded.images;
         `);
-        const data = stmt.run(
+        return stmt.run(
           stats.hostId,
           stats.dockerVersion,
           stats.apiVersion,
@@ -469,7 +459,6 @@ export const dbFunctions = {
           stats.containersPaused,
           stats.images,
         );
-        return data;
       },
       () => {},
     );
@@ -492,7 +481,7 @@ export const dbFunctions = {
           )
           VALUES(?, ?, ?, ?, ?, ?, ?, ?)
         `);
-        const data = stmt.run(
+        return stmt.run(
           stack_config.name,
           stack_config.version,
           stack_config.custom,
@@ -502,7 +491,6 @@ export const dbFunctions = {
           stack_config.automatic_reboot_on_error,
           stack_config.image_updates,
         );
-        return data;
       },
       () => {},
     );
@@ -517,8 +505,7 @@ export const dbFunctions = {
           FROM stacks_config
           ORDER BY name DESC
         `);
-        const data = stmt.all();
-        return data;
+        return stmt.all();
       },
       () => {},
     );
@@ -532,8 +519,7 @@ export const dbFunctions = {
           DELETE FROM stacks_config
           WHERE name = ?;
         `);
-        const data = stmt.run(name);
-        return data;
+        return stmt.run(name);
       },
       () => {},
     );
@@ -555,7 +541,7 @@ export const dbFunctions = {
             image_updates = ?
           WHERE name = ?;
         `);
-        const data = stmt.run(
+        return stmt.run(
           stack_config.version,
           stack_config.custom,
           stack_config.source,
@@ -565,7 +551,6 @@ export const dbFunctions = {
           stack_config.image_updates,
           stack_config.name,
         );
-        return data;
       },
       () => {},
     );
