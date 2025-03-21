@@ -25,6 +25,8 @@ jobs:
 
       - name: Start proxy
         run: |
+          pwd
+          ls -lah
           docker compose -f docker/docker-compose.dev.yaml up -d
 
       - name: Run Unit-tests

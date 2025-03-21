@@ -1,7 +1,7 @@
 name: "DockStatAPI - Dev"
 services:
   socket-proxy:
-    container_name: Socket-Proxy
+    container_name: socket-proxy
     image: lscr.io/linuxserver/socket-proxy:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -42,7 +42,7 @@ services:
       - VOLUMES=1 #optional
 
   sqlite-web:
-    container_name: SQLite-web
+    container_name: qlite-web
     image: ghcr.io/coleifer/sqlite-web:latest
     ports:
       - 8080:8080
