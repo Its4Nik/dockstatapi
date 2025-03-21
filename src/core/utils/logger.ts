@@ -9,7 +9,7 @@ import { logStreamData } from "~/typings/websocket";
 const ansiRegex = /\x1B\[[0-?9;]*[mG]/g;
 
 // Change to false here if dont want the spacing on a wrapped line
-const padNewlines: boolean = true;
+const padNewlines: boolean = process.env.PAD_NEW_LINES === "true" || true;
 
 const fileLineFormat = format((info) => {
   try {
@@ -69,6 +69,7 @@ export const logger = createLogger({
         verbose: chalk.cyan.bold,
         silly: chalk.magenta.bold,
         task: chalk.cyan.bold,
+        ut: chalk.hex("#9D00FF"),
       };
 
       if ((message as string).startsWith("__task__")) {
@@ -78,6 +79,11 @@ export const logger = createLogger({
           message = (message as string).replaceAll("__db__", "").trimStart();
           message = `${chalk.magenta("DB")} ${message}`;
         }
+      }
+
+      if ((message as string).startsWith("__UT__")) {
+        message = (message as string).replaceAll("__UT__", "").trimStart();
+        level = "ut";
       }
 
       if ((file as string).includes("plugin.ts")) {
@@ -101,7 +107,7 @@ export const logger = createLogger({
 
       if (process.env.NODE_ENV !== "dev") {
         return `${coloredLevel} [ ${coloredTimestamp} ] - ${chalk.gray(
-          message
+          message,
         )} - [ ${coloredContext} ]`;
       }
 
@@ -117,7 +123,7 @@ export const logger = createLogger({
           (level as string).replace(ansiRegex, ""),
           (message as string).replace(ansiRegex, ""),
           (file as string).replace(ansiRegex, ""),
-          line as number
+          line as number,
         );
       } catch (error) {
         // Use console.error to avoid recursive logging
@@ -126,7 +132,11 @@ export const logger = createLogger({
       }
 
       return `${coloredLevel} [ ${coloredTimestamp} ] - ${formattedMessage} - [ ${coloredContext} ]`;
-    })
+
+      const fullMessage = `${coloredLevel} [ ${coloredTimestamp} ] - ${message} - [ ${coloredContext} ]`;
+
+      return formatTerminalMessage(fullMessage, prefixLength);
+    }),
   ),
   transports: [new transports.Console()],
 });

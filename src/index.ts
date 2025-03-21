@@ -22,7 +22,7 @@ import { utilRoutes } from "./routes/utils";
 console.log("");
 dbFunctions.init();
 
-const DockStatAPI = new Elysia()
+export const DockStatAPI = new Elysia()
   .use(staticPlugin())
   .use(serverTiming())
   .use(
@@ -92,6 +92,7 @@ const DockStatAPI = new Elysia()
   .use(backendLogs)
   .use(dockerWebsocketRoutes)
   .use(apiConfigRoutes)
+  .use(utilRoutes)
   .use(stackRoutes)
   .use(utilRoutes)
   .use(liveLogs)
