@@ -111,9 +111,9 @@ strict digraph "dependency-cruiser output"{
     "src/core/utils/logger.ts" -> "path" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/package-json.ts" [label=<package-json.ts> tooltip="package-json.ts" URL="src/core/utils/package-json.ts" fillcolor="#ddfeff"] } } }
     "src/core/utils/package-json.ts" -> "package.json"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/respone-handler.ts" [label=<respone-handler.ts> tooltip="respone-handler.ts" URL="src/core/utils/respone-handler.ts" fillcolor="#ddfeff"] } } }
-    "src/core/utils/respone-handler.ts" -> "src/core/utils/logger.ts"
-    "src/core/utils/respone-handler.ts" -> "src/typings/elysiajs.ts" [arrowhead="onormal" penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/response-handler.ts" [label=<response-handler.ts> tooltip="response-handler.ts" URL="src/core/utils/response-handler.ts" fillcolor="#ddfeff"] } } }
+    "src/core/utils/response-handler.ts" -> "src/core/utils/logger.ts"
+    "src/core/utils/response-handler.ts" -> "src/typings/elysiajs.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" "src/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/index.ts" fillcolor="#ddfeff"] }
     "src/index.ts" -> "src/core/docker/monitor.ts"
     "src/index.ts" -> "src/middleware/auth.ts"
@@ -141,19 +141,19 @@ strict digraph "dependency-cruiser output"{
     "src/routes/api-config.ts" -> "src/core/plugins/plugin-manager.ts"
     "src/routes/api-config.ts" -> "src/core/utils/logger.ts"
     "src/routes/api-config.ts" -> "src/core/utils/package-json.ts"
-    "src/routes/api-config.ts" -> "src/core/utils/respone-handler.ts"
+    "src/routes/api-config.ts" -> "src/core/utils/response-handler.ts"
     "src/routes/api-config.ts" -> "src/middleware/auth.ts"
     "src/routes/api-config.ts" -> "src/typings/database.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/docker-manager.ts" [label=<docker-manager.ts> tooltip="docker-manager.ts" URL="src/routes/docker-manager.ts" fillcolor="#ddfeff"] } }
     "src/routes/docker-manager.ts" -> "src/core/database/repository.ts"
     "src/routes/docker-manager.ts" -> "src/core/utils/logger.ts"
-    "src/routes/docker-manager.ts" -> "src/core/utils/respone-handler.ts"
+    "src/routes/docker-manager.ts" -> "src/core/utils/response-handler.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/docker-stats.ts" [label=<docker-stats.ts> tooltip="docker-stats.ts" URL="src/routes/docker-stats.ts" fillcolor="#ddfeff"] } }
     "src/routes/docker-stats.ts" -> "src/core/database/repository.ts"
     "src/routes/docker-stats.ts" -> "src/core/docker/client.ts"
     "src/routes/docker-stats.ts" -> "src/core/utils/calculations.ts"
     "src/routes/docker-stats.ts" -> "src/core/utils/logger.ts"
-    "src/routes/docker-stats.ts" -> "src/core/utils/respone-handler.ts"
+    "src/routes/docker-stats.ts" -> "src/core/utils/response-handler.ts"
     "src/routes/docker-stats.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/routes/docker-stats.ts" -> "src/typings/dockerode.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/docker-websocket.ts" [label=<docker-websocket.ts> tooltip="docker-websocket.ts" URL="src/routes/docker-websocket.ts" fillcolor="#ddfeff"] } }
@@ -161,7 +161,7 @@ strict digraph "dependency-cruiser output"{
     "src/routes/docker-websocket.ts" -> "src/core/docker/client.ts"
     "src/routes/docker-websocket.ts" -> "src/core/utils/calculations.ts"
     "src/routes/docker-websocket.ts" -> "src/core/utils/logger.ts"
-    "src/routes/docker-websocket.ts" -> "src/core/utils/respone-handler.ts"
+    "src/routes/docker-websocket.ts" -> "src/core/utils/response-handler.ts"
     "src/routes/docker-websocket.ts" -> "stream" [style="dashed" penwidth="1.0" arrowhead="onormal"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/live-logs.ts" [label=<live-logs.ts> tooltip="live-logs.ts" URL="src/routes/live-logs.ts" fillcolor="#ddfeff"] } }
     "src/routes/live-logs.ts" -> "src/core/utils/logger.ts" [arrowhead="normalnoneodot"]
@@ -173,10 +173,10 @@ strict digraph "dependency-cruiser output"{
     "src/routes/stacks.ts" -> "src/core/database/repository.ts"
     "src/routes/stacks.ts" -> "src/core/stacks/controller.ts"
     "src/routes/stacks.ts" -> "src/core/utils/logger.ts"
-    "src/routes/stacks.ts" -> "src/core/utils/respone-handler.ts"
+    "src/routes/stacks.ts" -> "src/core/utils/response-handler.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/utils.ts" [label=<utils.ts> tooltip="utils.ts" URL="src/routes/utils.ts" fillcolor="#ddfeff"] } }
     "src/routes/utils.ts" -> "src/core/utils/package-json.ts"
-    "src/routes/utils.ts" -> "src/core/utils/respone-handler.ts"
+    "src/routes/utils.ts" -> "src/core/utils/response-handler.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/database.ts" [label=<database.ts> tooltip="database.ts" URL="src/typings/database.ts" fillcolor="#ddfeff"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/docker-compose.ts" [label=<docker-compose.ts> tooltip="docker-compose.ts" URL="src/typings/docker-compose.ts" fillcolor="#ddfeff"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/docker.ts" [label=<docker.ts> tooltip="docker.ts" URL="src/typings/docker.ts" fillcolor="#ddfeff"] } }
