@@ -1,4 +1,4 @@
-name: "DockStatAPI - Dev"
+name: "dockstatapi-dev"
 services:
   socket-proxy:
     container_name: socket-proxy

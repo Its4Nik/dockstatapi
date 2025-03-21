@@ -4,6 +4,7 @@
 *.md
 /docker
 *.dot
+*.svg
 *.mmd
 *.lock
 src/tests
