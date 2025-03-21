@@ -36,6 +36,7 @@ strict digraph "dependency-cruiser output"{
     "src/core/docker/scheduler.ts" -> "src/core/utils/logger.ts"
     "src/core/docker/scheduler.ts" -> "src/typings/database.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/store-container-stats.ts" [label=<store-container-stats.ts> tooltip="store-container-stats.ts" URL="src/core/docker/store-container-stats.ts" fillcolor="#ddfeff"] } } }
+    "src/core/docker/store-container-stats.ts" -> "src/core/utils/logger.ts"
     "src/core/docker/store-container-stats.ts" -> "src/core/database/repository.ts"
     "src/core/docker/store-container-stats.ts" -> "src/core/docker/client.ts"
     "src/core/docker/store-container-stats.ts" -> "src/core/utils/calculations.ts"
@@ -73,6 +74,7 @@ strict digraph "dependency-cruiser output"{
     "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/trpc/trpc.ts"
     "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/database/repository.ts"
     "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/utils/logger.ts"
+    "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/typings/docker.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/docker-stats.procedure.ts" [label=<docker-stats.procedure.ts> tooltip="docker-stats.procedure.ts" URL="src/core/trpc/procedures/docker-stats.procedure.ts" fillcolor="#ddfeff"] } } } }
     "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/trpc/trpc.ts"
     "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/database/repository.ts"
