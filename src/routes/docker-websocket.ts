@@ -7,7 +7,7 @@ import {
   calculateMemoryUsage,
 } from "~/core/utils/calculations";
 import { logger } from "~/core/utils/logger";
-import { responseHandler } from "~/core/utils/respone-handler";
+import { responseHandler } from "~/core/utils/response-handler";
 import split2 from "split2";
 import type { Readable } from "stream";
 
@@ -60,13 +60,15 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
               .on("close", () => splitStream.destroy())
               .pipe(splitStream)
               .on("data", (line: string) => {
-                if (ws.readyState !== 1 || !line) return;
+                if (ws.readyState !== 1 || !line) {
+                  return;
+                }
                 try {
                   const stats = JSON.parse(line);
                   ws.send(
                     JSON.stringify({
                       id: containerInfo.Id,
-                      hostId: host.id as string,
+                      hostId: host.id,
                       name: containerInfo.Names[0].replace(/^\//, ""),
                       image: containerInfo.Image,
                       status: containerInfo.Status,

@@ -7,7 +7,7 @@ import {
   calculateMemoryUsage,
 } from "~/core/utils/calculations";
 import { logger } from "~/core/utils/logger";
-import { responseHandler } from "~/core/utils/respone-handler";
+import { responseHandler } from "~/core/utils/response-handler";
 import type { ContainerInfo, DockerHost, HostStats } from "~/typings/docker";
 import type { DockerInfo } from "~/typings/dockerode";
 

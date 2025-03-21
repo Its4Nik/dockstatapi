@@ -1,6 +1,6 @@
 interface DockerHost {
   name: string;
-  hostadress: string;
+  hostAddress: string;
   secure: boolean | number;
   id?: number;
 }

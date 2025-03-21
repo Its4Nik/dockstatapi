@@ -7,14 +7,15 @@ import { DockerHost } from "~/typings/docker";
 
 const addHostInput = z.object({
   name: z.string(),
-  hostadress: z.string(),
+  hostAddress: z.string(),
   secure: z.boolean(),
 });
 
 const updateHostInput = z.object({
   name: z.string(),
-  hostadress: z.string(),
+  hostAddress: z.string(),
   secure: z.boolean(),
+  id: z.number(),
 });
 
 export const dockerManagerProcedure = router({
@@ -35,8 +36,7 @@ export const dockerManagerProcedure = router({
 
   updateHost: publicProcedure.input(updateHostInput).mutation(({ input }) => {
     try {
-      (input as unknown as DockerHost).id = "0";
-      dbFunctions.updateDockerHost(input as DockerHost);
+      dbFunctions.updateDockerHost(input);
       return { success: true, message: `Updated docker host (${name})` };
     } catch (error) {
       logger.error("Error updating docker host", error);

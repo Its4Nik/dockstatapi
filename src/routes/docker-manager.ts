@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 import { dbFunctions } from "~/core/database/repository";
 import { logger } from "~/core/utils/logger";
-import { responseHandler } from "~/core/utils/respone-handler";
+import { responseHandler } from "~/core/utils/response-handler";
 
 export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
   .post(
@@ -26,7 +26,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
       },
       body: t.Object({
         name: t.String(),
-        hostadress: t.String(),
+        hostAddress: t.String(),
         secure: t.Boolean(),
       }),
     }
@@ -54,7 +54,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
       body: t.Object({
         id: t.Number(),
         name: t.String(),
-        hostadress: t.String(),
+        hostAddress: t.String(),
         secure: t.Boolean(),
       }),
     }

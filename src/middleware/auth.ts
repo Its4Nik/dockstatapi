@@ -72,8 +72,7 @@ export async function validateApiKey(request: Request, set: set) {
       return { error: "Invalid API key" };
     }
 
-    logger.info(`Valid API key used: ${apiKey}`);
-    return { apiKey };
+    return logger.info(`Valid API key used`);
   } catch (error) {
     logger.error("Error during API key validation", error);
     set.status = 500;

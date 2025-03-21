@@ -6,7 +6,7 @@ describe("DockStatAPI (POST)", () => {
   it("Check Host adding", async () => {
     const body = {
       name: "test",
-      hostadress: "localhost:2375",
+      hostAddress: "localhost:2375",
       secure: false,
     };
 
@@ -18,18 +18,18 @@ describe("DockStatAPI (POST)", () => {
     const codeBody: DockerHost = {
       id: 2,
       name: "test",
-      hostadress: "127.0.0.1:2375",
+      hostAddress: "127.0.0.1:2375",
       secure: false,
     };
 
     await runTestCode("/docker-config/update-host", 200, "POST", codeBody);
 
     const responseBody: DockerHost[] = [
-      { id: 2, name: "test", hostadress: "127.0.0.1:2375", secure: 0 },
+      { id: 2, name: "test", hostAddress: "127.0.0.1:2375", secure: 0 },
       {
         id: 1,
         name: "Localhost",
-        hostadress: "localhost:2375",
+        hostAddress: "localhost:2375",
         secure: 0,
       },
     ];

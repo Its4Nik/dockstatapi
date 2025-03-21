@@ -10,7 +10,7 @@ import {
   devDependencies,
   license,
 } from "~/core/utils/package-json";
-import { responseHandler } from "~/core/utils/respone-handler";
+import { responseHandler } from "~/core/utils/response-handler";
 
 export const utilRoutes = new Elysia({ prefix: "/utils" }).get(
   "/info",

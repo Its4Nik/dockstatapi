@@ -33,7 +33,7 @@ export const dbFunctions = {
       CREATE TABLE IF NOT EXISTS docker_hosts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        hostadress TEXT NOT NULL,
+        hostAddress TEXT NOT NULL,
         secure BOOLEAN NOT NULL
       );
 
@@ -100,7 +100,7 @@ export const dbFunctions = {
       logger.debug("Initializing default docker host (Localhost)");
       const stmt = db.prepare(
         `
-        INSERT INTO docker_hosts (name, hostadress, secure) VALUES (?, ?, ?)
+        INSERT INTO docker_hosts (name, hostAddress, secure) VALUES (?, ?, ?)
         `
       );
       stmt.run("Localhost", "localhost:2375", false);
@@ -115,10 +115,10 @@ export const dbFunctions = {
       "Add Docker Host",
       () => {
         const stmt = db.prepare(`
-          INSERT INTO docker_hosts (name, hostadress, secure)
+          INSERT INTO docker_hosts (name, hostAddress, secure)
           VALUES (?, ?, ?)
         `);
-        return stmt.run(host.name, host.hostadress, host.secure);
+        return stmt.run(host.name, host.hostAddress, host.secure);
       },
       () => {
         if (host.name.length < 1) {
@@ -126,15 +126,15 @@ export const dbFunctions = {
           throw new Error("Invalid data provided - Hostname needed");
         }
 
-        if (host.hostadress.length < 1) {
-          logger.error("Hostadress needed");
-          throw new Error("Invalid data provided - Hostadress needed");
+        if (host.hostAddress.length < 1) {
+          logger.error("hostAddress needed");
+          throw new Error("Invalid data provided - hostAddress needed");
         }
 
         if (
           typeof host.name !== "string" ||
           typeof host.secure !== "boolean" ||
-          typeof host.hostadress !== "string"
+          typeof host.hostAddress !== "string"
         ) {
           logger.error("Invalid parameter types for addDockerHost");
           throw new TypeError("Invalid parameter types for addDockerHost");
@@ -148,7 +148,7 @@ export const dbFunctions = {
       "Get Docker Hosts",
       () => {
         const stmt = db.prepare(`
-          SELECT id, name, hostadress, secure
+          SELECT id, name, hostAddress, secure
           FROM docker_hosts
           ORDER BY id DESC
         `);
@@ -223,11 +223,11 @@ export const dbFunctions = {
       () => {
         const stmt = db.prepare(`
           UPDATE docker_hosts
-          SET hostadress = ?, secure = ?, name = ?
+          SET hostAddress = ?, secure = ?, name = ?
           WHERE id = ?
         `);
         return stmt.run(
-          host.hostadress,
+          host.hostAddress,
           host.secure,
           host.name,
           String(host.id)
@@ -236,7 +236,7 @@ export const dbFunctions = {
       () => {
         if (
           typeof host.name !== "string" ||
-          typeof host.hostadress !== "string" ||
+          typeof host.hostAddress !== "string" ||
           typeof host.secure !== "boolean" ||
           typeof host.id !== "number"
         ) {

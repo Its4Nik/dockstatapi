@@ -10,6 +10,15 @@ const calculateCpuPercent = (stats: Docker.ContainerStats): number => {
     stats.precpu_stats.cpu_usage.total_usage;
   const systemDelta =
     stats.cpu_stats.system_cpu_usage - stats.precpu_stats.system_cpu_usage;
+
+  if (cpuDelta <= 0) {
+    return 0;
+  }
+
+  if (systemDelta <= 0) {
+    return 0;
+  }
+
   return (cpuDelta / systemDelta) * 100;
 };
 
