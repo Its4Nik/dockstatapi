@@ -1,57 +1,62 @@
 import { expect } from "bun:test";
 import { DockStatAPI } from "..";
 import { logger } from "~/core/utils/logger";
+
 export const API_KEY = "TestKey";
+const server = "http://localhost:3001";
 
 export async function runTestResponse(
   path: string,
-  expected_response: string,
+  expected_response: any,
   method?: "GET" | "POST" | "DELETE",
+  requestBody?: any
 ) {
-  if (!method) {
-    method = "GET";
-  }
-
-  const server = "http://localhost:3000";
+  method = method || "GET";
   const route = `${server}${path}`;
 
-  logger.info(`__UT__ [START] Running test, method: ${method} on ${route}`);
+  logger.info(`__UT__ [ START ] Running test, method: ${method} on ${route}`);
   const startTime = Date.now();
 
   try {
+    const processedBody =
+      requestBody !== undefined
+        ? typeof requestBody === "string"
+          ? requestBody
+          : JSON.stringify(requestBody)
+        : undefined;
+
     const request = new Request(route, {
       method,
-      verbose: true,
+      body: processedBody,
       headers: {
         "Content-Type": "application/json",
         "x-api-key": API_KEY,
       },
     });
+
     logger.debug(
-      `__UT__ Request details: ${JSON.stringify({
+      `Request details: ${JSON.stringify({
         url: route,
         method,
         headers: [...request.headers],
-      })}`,
+        body: processedBody,
+      })}`
     );
 
-    // Get the response
     const response = await DockStatAPI.handle(request);
-    const headers: any = {};
-    response.headers.forEach((value, key: any) => {
-      headers[key] = value;
-    });
-    logger.debug(`__UT__ Received HTTP status: ${response.status}`);
-    logger.debug(`__UT__ Response headers: ${JSON.stringify(headers)}`);
+    const headers: { [key: string]: string } = {};
+    response.headers.forEach((value, key) => (headers[key] = value));
 
-    // Log the response body as text
     const responseText = await response.text();
     const duration = Date.now() - startTime;
-    logger.debug(`__UT__ Response body: ${responseText}`);
-    logger.debug(`__UT__ Total Duration: ${duration}ms`);
-    logger.info(`__UT__ [END] Completed test on ${route}`);
 
-    return expect(responseText).toBe(expected_response);
+    logger.debug(`Received HTTP status: ${response.status}`);
+    logger.debug(`Response headers: ${JSON.stringify(headers)}`);
+    logger.debug(`Response body: ${responseText}`);
+    logger.debug(`Total Duration: ${duration}ms`);
+
+    expect(responseText).toBe(expected_response);
+    logger.info(`__UT__ [ END ] Completed test on ${route}`);
   } catch (error) {
     logger.error(`__UT__ Error during test on ${route}: ${error}`);
     throw error;
@@ -62,56 +67,51 @@ export async function runTestCode(
   path: string,
   expected_code: number,
   method?: "GET" | "POST" | "DELETE",
-  requestBody?: string,
+  requestBody?: any
 ) {
-  if (!method) {
-    method = "GET";
-  }
-
-  if (!requestBody) {
-    requestBody = "";
-  }
-
-  const server = "http://localhost:3000";
+  method = method || "GET";
   const route = `${server}${path}`;
 
-  logger.info(`__UT__ [START] Running test, method: ${method} on ${route}`);
+  logger.info(`__UT__ [ START ] Running test, method: ${method} on ${route}`);
   const startTime = Date.now();
 
   try {
+    const processedBody =
+      requestBody !== undefined
+        ? typeof requestBody === "string"
+          ? requestBody
+          : JSON.stringify(requestBody)
+        : undefined;
+
     const request = new Request(route, {
       method,
-      verbose: true,
-      body: requestBody,
+      body: processedBody,
       headers: {
         "Content-Type": "application/json",
         "x-api-key": API_KEY,
       },
     });
+
     logger.debug(
-      `__UT__ Request details: ${JSON.stringify({
+      `Request details: ${JSON.stringify({
         url: route,
         method,
         headers: [...request.headers],
-        body: requestBody,
-      })}`,
+        body: processedBody,
+      })}`
     );
 
     const response = await DockStatAPI.handle(request);
-    logger.debug(`__UT__ Received HTTP status: ${response.status}`);
-
-    const headers: any = {};
-    response.headers.forEach((value, key) => {
-      headers[key] = value;
-    });
-
-    logger.debug(`__UT__ Response headers: ${JSON.stringify(headers)}`);
-    logger.debug(`__UT__ Response: ${JSON.stringify(response.body)}`);
-
+    const headers: { [key: string]: string } = {};
+    response.headers.forEach((value, key) => (headers[key] = value));
     const duration = Date.now() - startTime;
-    logger.debug(`__UT__ Completed test on ${route} (Duration: ${duration}ms)`);
+
+    logger.debug(`Received HTTP status: ${response.status}`);
+    logger.debug(`Response headers: ${JSON.stringify(headers)}`);
+    logger.debug(`Response body: ${JSON.stringify(response.body)}`);
 
     expect(response.status).toBe(expected_code);
+    logger.debug(`__UT__ Completed test on ${route} (Duration: ${duration}ms)`);
   } catch (error) {
     logger.error(`__UT__ Error during test on ${route}: ${error}`);
     throw error;

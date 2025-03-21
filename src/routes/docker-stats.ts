@@ -29,7 +29,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
                 return responseHandler.error(
                   set,
                   pingError as string,
-                  "Docker host connection failed",
+                  "Docker host connection failed"
                 );
               }
 
@@ -47,24 +47,24 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
                               set,
                               reject,
                               "An error occurred",
-                              error,
+                              error
                             );
                           }
                           if (!stats) {
                             return responseHandler.reject(
                               set,
                               reject,
-                              "No stats available",
+                              "No stats available"
                             );
                           }
                           resolve(stats);
                         });
-                      },
+                      }
                     );
 
                     containers.push({
                       id: containerInfo.Id,
-                      hostId: host.name,
+                      hostId: host.id as string,
                       name: containerInfo.Names[0].replace(/^\//, ""),
                       image: containerInfo.Image,
                       status: containerInfo.Status,
@@ -75,16 +75,16 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
                   } catch (containerError) {
                     logger.error(
                       "Error fetching container stats,",
-                      containerError,
+                      containerError
                     );
                   }
-                }),
+                })
               );
               logger.debug(`Fetched stats for ${host.name}`);
             } catch (hostError) {
               logger.error("Error fetching containers for host,", hostError);
             }
-          }),
+          })
         );
 
         set.headers["Content-Type"] = "application/json";
@@ -94,7 +94,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
         return responseHandler.error(
           set,
           error as string,
-          "Failed to retrieve containers",
+          "Failed to retrieve containers"
         );
       }
     },
@@ -104,7 +104,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
         description:
           "Fetches all Containers and their statistics across all Hosts",
       },
-    },
+    }
   )
 
   .get(
@@ -117,7 +117,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
         if (!host) {
           return responseHandler.simple_error(
             set,
-            `Host (${params.id}) not found`,
+            `Host (${params.id}) not found`
           );
         }
 
@@ -147,7 +147,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
         return responseHandler.error(
           set,
           error as string,
-          "Failed to retrieve host config",
+          "Failed to retrieve host config"
         );
       }
     },
@@ -156,5 +156,5 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
         tags: ["Statistics"],
         description: "Fetches the Host Stats for a specified Host",
       },
-    },
+    }
   );

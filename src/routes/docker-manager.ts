@@ -8,15 +8,14 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     "/add-host",
     async ({ set, body }) => {
       try {
-        const { name, url, secure } = body;
         set.headers["Content-Type"] = "application/json";
-        dbFunctions.addDockerHost(name, url, secure);
-        return responseHandler.ok(set, `Added docker host (${name})`);
+        dbFunctions.addDockerHost(body);
+        return responseHandler.ok(set, `Added docker host (${body.name})`);
       } catch (error: unknown) {
         return responseHandler.error(
           set,
           "Error adding docker Host",
-          error as string,
+          error as string
         );
       }
     },
@@ -27,23 +26,23 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
       },
       body: t.Object({
         name: t.String(),
-        url: t.String(),
+        hostadress: t.String(),
         secure: t.Boolean(),
       }),
-    },
+    }
   )
 
   .post(
     "/update-host",
     async ({ set, body }) => {
       try {
-        const { name, url, secure } = body;
-        dbFunctions.updateDockerHost(name, url, secure);
+        set.status = 200;
+        return dbFunctions.updateDockerHost(body);
       } catch (error) {
         return responseHandler.error(
           set,
           error as string,
-          "Failed to update host",
+          "Failed to update host"
         );
       }
     },
@@ -53,11 +52,12 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         description: "Update an already existing target's config",
       },
       body: t.Object({
+        id: t.Number(),
         name: t.String(),
-        url: t.String(),
+        hostadress: t.String(),
         secure: t.Boolean(),
       }),
-    },
+    }
   )
 
   .get(
@@ -72,7 +72,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         return responseHandler.error(
           set,
           error as string,
-          "Failed to retrieve hosts",
+          "Failed to retrieve hosts"
         );
       }
     },
@@ -81,5 +81,5 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         tags: ["Management"],
         description: "Returns an Array of Host-config-objects",
       },
-    },
+    }
   );

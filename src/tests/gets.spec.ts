@@ -42,7 +42,7 @@ describe("DockStatAPI (GET)", () => {
   });
 
   it("Check /config/package", async () => {
-    const expected = {
+    const expected = JSON.stringify({
       version,
       description,
       license,
@@ -52,8 +52,8 @@ describe("DockStatAPI (GET)", () => {
       contributors,
       dependencies,
       devDependencies,
-    };
+    });
 
-    await runTestResponse("/config/package", JSON.stringify(expected), "GET");
+    await runTestResponse("/config/package", expected, "GET");
   });
 });

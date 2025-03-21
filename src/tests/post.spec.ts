@@ -1,40 +1,50 @@
 import { describe, it } from "bun:test";
 import { runTestResponse, runTestCode } from "./helper";
-import { dbFunctions } from "~/core/database/repository";
-import { API_KEY } from "./helper";
+import { DockerHost } from "~/typings/docker";
 
 describe("DockStatAPI (POST)", () => {
   it("Check Host adding", async () => {
-    const body: string =
-      '{"name":"test","url":"localhost:2375","secure":false}';
+    const body = {
+      name: "test",
+      hostadress: "localhost:2375",
+      secure: false,
+    };
 
     await runTestCode("/docker-config/add-host", 200, "POST", body);
-    await runTestResponse(
-      "/docker-config/hosts",
-      '[{"name":"test","url":"localhost:2375","secure":0},{"name":"Localhost","url":"localhost:2375","secure":0}]',
-      "GET",
-    );
+    await runTestCode("/docker-config/hosts", 200, "GET");
   });
 
   it("Check Host Updating", async () => {
-    const body: string =
-      '{"name":"test","url":"127.0.0.1:2375","secure":false}';
+    const codeBody: DockerHost = {
+      id: 2,
+      name: "test",
+      hostadress: "127.0.0.1:2375",
+      secure: false,
+    };
 
-    await runTestCode("/docker-config/update-host", 200, "POST", body);
+    await runTestCode("/docker-config/update-host", 200, "POST", codeBody);
+
+    const responseBody: DockerHost[] = [
+      { id: 2, name: "test", hostadress: "127.0.0.1:2375", secure: 0 },
+      {
+        id: 1,
+        name: "Localhost",
+        hostadress: "localhost:2375",
+        secure: 0,
+      },
+    ];
     await runTestResponse(
       "/docker-config/hosts",
-      '[{"name":"test","url":"127.0.0.1:2375","secure":0},{"name":"Localhost","url":"localhost:2375","secure":0}]',
-      "GET",
+      JSON.stringify(responseBody),
+      "GET"
     );
   });
 
   it("Check Config update", async () => {
-    const body = `{"fetching_interval":"1","keep_data_for":"1","api_key":${API_KEY}}`;
-    await runTestCode(
-      "/config/update",
-      200,
-      "POST",
-      '{"fetching_interval":"1","keep_data_for":"1","api_key":"123"}',
-    );
+    await runTestCode("/config/update", 200, "POST", {
+      fetching_interval: 1,
+      keep_data_for: 1,
+      api_key: "TestKey",
+    });
   });
 });

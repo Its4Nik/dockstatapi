@@ -3,26 +3,26 @@ import { logger } from "~/core/utils/logger";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
+import { DockerHost } from "~/typings/docker";
 
 const addHostInput = z.object({
   name: z.string(),
-  url: z.string(),
+  hostadress: z.string(),
   secure: z.boolean(),
 });
 
 const updateHostInput = z.object({
   name: z.string(),
-  url: z.string(),
+  hostadress: z.string(),
   secure: z.boolean(),
 });
 
 export const dockerManagerProcedure = router({
   addHost: publicProcedure.input(addHostInput).mutation(({ input }) => {
     try {
-      const { name, url, secure } = input;
-      dbFunctions.addDockerHost(name, url, secure);
-      logger.debug(`Added docker host (${name})`);
-      return { success: true, message: `Added docker host (${name})` };
+      dbFunctions.addDockerHost(input as DockerHost);
+      logger.debug(`Added docker host (${input.name})`);
+      return { success: true, message: `Added docker host (${input.name})` };
     } catch (error) {
       logger.error("Error adding docker host", error);
       throw new TRPCError({
@@ -35,8 +35,8 @@ export const dockerManagerProcedure = router({
 
   updateHost: publicProcedure.input(updateHostInput).mutation(({ input }) => {
     try {
-      const { name, url, secure } = input;
-      dbFunctions.updateDockerHost(name, url, secure);
+      (input as unknown as DockerHost).id = "0";
+      dbFunctions.updateDockerHost(input as DockerHost);
       return { success: true, message: `Updated docker host (${name})` };
     } catch (error) {
       logger.error("Error updating docker host", error);

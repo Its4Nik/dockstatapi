@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="bun test" tests="11" assertions="13" failures="0" skipped="0" time="4.848594">
+  <testsuite name="src\tests\gets.spec.ts" tests="8" assertions="8" failures="0" skipped="0" time="1.875" hostname="">
+    <testcase name="Check Server connection" classname="DockStatAPI (GET)" time="0.016" file="src\tests\gets.spec.ts" assertions="1" />
+    <testcase name="Check /docker/containers" classname="DockStatAPI (GET)" time="1.828" file="src\tests\gets.spec.ts" assertions="1" />
+    <testcase name="Check /docker/hosts/Localhost" classname="DockStatAPI (GET)" time="0.016" file="src\tests\gets.spec.ts" assertions="1" />
+    <testcase name="Check /docker-config/hosts" classname="DockStatAPI (GET)" time="0" file="src\tests\gets.spec.ts" assertions="1" />
+    <testcase name="Check /logs/" classname="DockStatAPI (GET)" time="0.015" file="src\tests\gets.spec.ts" assertions="1" />
+    <testcase name="Check /logs/debug" classname="DockStatAPI (GET)" time="0" file="src\tests\gets.spec.ts" assertions="1" />
+    <testcase name="Check /config" classname="DockStatAPI (GET)" time="0" file="src\tests\gets.spec.ts" assertions="1" />
+    <testcase name="Check /config/package" classname="DockStatAPI (GET)" time="0" file="src\tests\gets.spec.ts" assertions="1" />
+  </testsuite>
+  <testsuite name="src\tests\post.spec.ts" tests="3" assertions="5" failures="0" skipped="0" time="0.172" hostname="">
+    <testcase name="Check Host adding" classname="DockStatAPI (POST)" time="0.047" file="src\tests\post.spec.ts" assertions="2" />
+    <testcase name="Check Host Updating" classname="DockStatAPI (POST)" time="0.016" file="src\tests\post.spec.ts" assertions="2" />
+    <testcase name="Check Config update" classname="DockStatAPI (POST)" time="0.109" file="src\tests\post.spec.ts" assertions="1" />
+  </testsuite>
+</testsuites>

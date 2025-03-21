@@ -15,24 +15,29 @@ jobs:
     name: Test Build on Push
     runs-on: ubuntu-latest
     steps:
+      - uses: oven-sh/setup-bun@v2
+        name: Setup Bun
+        with:
+          bun-version: latest
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Run Unit-tests
+        run: |
+          bun install
+          bun clean
+          bun test
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Run Docker Build
+        run: |
+          bun build:docker
 
-      - name: Build image for testing
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/Dockerfile
-          load: true
-          # build only for current architecture (usually linux/amd64) to enable local loading
-          platforms: linux/amd64
-          tags: dockstatapi:test
+      - name: Start docker container
+        run: |
+          docker run --name dockstatapi --rm -d dockstatapi:local
+          sleep 10
+          if [[ $(docker container ls | grep "Up" | wc -l) -gt 0 ]]; then docker kill dockstatapi && exit 0; else; exit 1; fi
 
   release:
     name: Build and Push Docker Image on Release

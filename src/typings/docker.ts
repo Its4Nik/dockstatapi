@@ -1,7 +1,8 @@
 interface DockerHost {
   name: string;
-  url: string;
-  secure: boolean;
+  hostadress: string;
+  secure: boolean | number;
+  id?: number;
 }
 
 interface ContainerInfo {

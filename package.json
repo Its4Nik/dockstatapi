@@ -10,11 +10,12 @@
   "description": "DockStatAPI is an API backend featuring plugins and more for DockStat",
   "version": "3.0.0",
   "scripts": {
-    "test": "bun clean && bun test && bun run ./src/tests/cleanup.ts",
     "start": "cross-env NODE_ENV=production LOG_LEVEL=info bun run src/index.ts",
+    "start:docker": "bun run build:docker && docker run -p 3001:3000 --rm -d --name dockstatapi -v 'plugins:/DockStatAPI/src/plugins' dockstatapi:local",
     "dev": "docker compose -f docker/docker-compose.dev.yaml up -d && cross-env NODE_ENV=dev bun run --watch src/index.ts",
     "dev:clean": "bun dev ; echo '\nExiting...' ; bun clean",
     "build": "bun build --target bun src/index.ts --outdir ./dist",
+    "build:docker": "docker build -f docker/Dockerfile . -t 'dockstatapi:local'",
     "clean": "bun run clean:win || bun run clean:lin",
     "clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q dockstatapi.db* && echo 'success'",
     "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f dockstatapi.db* && echo 'success'",

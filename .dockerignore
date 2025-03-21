@@ -6,3 +6,6 @@
 *.dot
 *.mmd
 *.lock
+src/tests
+.github
+.local-tests

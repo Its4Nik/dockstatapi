@@ -31,8 +31,9 @@ export const dbFunctions = {
       );
 
       CREATE TABLE IF NOT EXISTS docker_hosts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        url TEXT NOT NULL,
+        hostadress TEXT NOT NULL,
         secure BOOLEAN NOT NULL
       );
 
@@ -87,20 +88,20 @@ export const dbFunctions = {
       const stmt = db.prepare(
         `
         INSERT INTO config (keep_data_for, fetching_interval, api_key) VALUES (7, 5, "changeme")
-        `,
+        `
       );
       stmt.run();
     }
 
     const hostRow = db
-      .prepare(`SELECT COUNT(*) AS count FROM docker_hosts WHERE name = ?`)
+      .prepare(`SELECT COUNT(*) AS count FROM docker_hosts`)
       .get("Localhost") as { count: number };
     if (hostRow.count === 0) {
       logger.debug("Initializing default docker host (Localhost)");
       const stmt = db.prepare(
         `
-        INSERT INTO docker_hosts (name, url, secure) VALUES (?, ?, ?)
-        `,
+        INSERT INTO docker_hosts (name, hostadress, secure) VALUES (?, ?, ?)
+        `
       );
       stmt.run("Localhost", "localhost:2375", false);
     }
@@ -109,40 +110,36 @@ export const dbFunctions = {
     logger.debug(`__task__ __db__ Initializing Database ✔️  (${duration}ms)`);
   },
 
-  addDockerHost(hostId: string, url: string, secure: boolean) {
+  addDockerHost(host: DockerHost) {
     return executeDbOperation(
       "Add Docker Host",
       () => {
         const stmt = db.prepare(`
-          INSERT INTO docker_hosts (name, url, secure)
+          INSERT INTO docker_hosts (name, hostadress, secure)
           VALUES (?, ?, ?)
         `);
-        return stmt.run(hostId, url, secure);
+        return stmt.run(host.name, host.hostadress, host.secure);
       },
       () => {
-        if (hostId.length < 1) {
+        if (host.name.length < 1) {
           logger.error("Hostname needed");
-          throw new Error(
-            "Invalid data provided, please see server's log for more info",
-          );
+          throw new Error("Invalid data provided - Hostname needed");
         }
 
-        if (url.length < 1) {
-          logger.error("URL needed");
-          throw new Error(
-            "Invalid data provided, please see server's log for more info",
-          );
+        if (host.hostadress.length < 1) {
+          logger.error("Hostadress needed");
+          throw new Error("Invalid data provided - Hostadress needed");
         }
 
         if (
-          typeof hostId !== "string" ||
-          typeof url !== "string" ||
-          typeof secure !== "boolean"
+          typeof host.name !== "string" ||
+          typeof host.secure !== "boolean" ||
+          typeof host.hostadress !== "string"
         ) {
           logger.error("Invalid parameter types for addDockerHost");
           throw new TypeError("Invalid parameter types for addDockerHost");
         }
-      },
+      }
     );
   },
 
@@ -151,13 +148,13 @@ export const dbFunctions = {
       "Get Docker Hosts",
       () => {
         const stmt = db.prepare(`
-          SELECT name, url, secure
+          SELECT id, name, hostadress, secure
           FROM docker_hosts
-          ORDER BY name DESC
+          ORDER BY id DESC
         `);
         return stmt.all() as DockerHost[];
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -165,7 +162,7 @@ export const dbFunctions = {
     level: string,
     message: string,
     file_name: string,
-    line: number,
+    line: number
   ) => {
     if (
       typeof level !== "string" ||
@@ -195,7 +192,7 @@ export const dbFunctions = {
         `);
         return stmt.all();
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -216,50 +213,56 @@ export const dbFunctions = {
           logger.error("Level parameter must be a string");
           throw new TypeError("Level parameter must be a string");
         }
-      },
+      }
     );
   },
 
-  updateDockerHost(name: string, url: string, secure: boolean) {
+  updateDockerHost(host: DockerHost) {
     return executeDbOperation(
       "Update Docker Host",
       () => {
         const stmt = db.prepare(`
           UPDATE docker_hosts
-          SET url = ?, secure = ?
-          WHERE name = ?
+          SET hostadress = ?, secure = ?, name = ?
+          WHERE id = ?
         `);
-        return stmt.run(url, secure, name);
+        return stmt.run(
+          host.hostadress,
+          host.secure,
+          host.name,
+          String(host.id)
+        );
       },
       () => {
         if (
-          typeof name !== "string" ||
-          typeof url !== "string" ||
-          typeof secure !== "boolean"
+          typeof host.name !== "string" ||
+          typeof host.hostadress !== "string" ||
+          typeof host.secure !== "boolean" ||
+          typeof host.id !== "number"
         ) {
           logger.error("Invalid parameter types for updateDockerHost");
           throw new TypeError("Invalid parameter types for updateDockerHost");
         }
-      },
+      }
     );
   },
 
-  deleteDockerHost(name: string) {
+  deleteDockerHost(id: number) {
     return executeDbOperation(
       "Delete Docker Host",
       () => {
         const stmt = db.prepare(`
           DELETE FROM docker_hosts
-          WHERE name = ?
+          WHERE id = ?
         `);
-        return stmt.run(name);
+        return stmt.run(id);
       },
       () => {
-        if (typeof name !== "string") {
+        if (typeof id !== "number") {
           logger.error("Invalid parameter type for deleteDockerHost");
           throw new TypeError("Name parameter must be a string");
         }
-      },
+      }
     );
   },
 
@@ -272,7 +275,7 @@ export const dbFunctions = {
         `);
         return stmt.run();
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -291,14 +294,14 @@ export const dbFunctions = {
           logger.error("Invalid parameter type for clearLogsByLevel");
           throw new TypeError("Level parameter must be a string");
         }
-      },
+      }
     );
   },
 
   updateConfig(
     fetching_interval: number,
     keep_data_for: number,
-    api_key: string,
+    api_key: string
   ) {
     return executeDbOperation(
       "Update Config",
@@ -319,7 +322,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter types for updateConfig");
           throw new TypeError("Invalid parameter types for updateConfig");
         }
-      },
+      }
     );
   },
 
@@ -333,7 +336,7 @@ export const dbFunctions = {
         `);
         return stmt.all();
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -358,7 +361,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter type for deleteOldData");
           throw new TypeError("Days parameter must be a number");
         }
-      },
+      }
     );
   },
 
@@ -370,7 +373,7 @@ export const dbFunctions = {
     status: string,
     state: string,
     cpu_usage: number,
-    memory_usage: number,
+    memory_usage: number
   ) {
     return executeDbOperation(
       "Add Container Stats",
@@ -387,7 +390,7 @@ export const dbFunctions = {
           status,
           state,
           cpu_usage,
-          memory_usage,
+          memory_usage
         );
       },
       () => {
@@ -404,7 +407,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter types for addContainerStats");
           throw new TypeError("Invalid parameter types for addContainerStats");
         }
-      },
+      }
     );
   },
 
@@ -457,10 +460,10 @@ export const dbFunctions = {
           stats.containersRunning,
           stats.containersStopped,
           stats.containersPaused,
-          stats.images,
+          stats.images
         );
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -489,10 +492,10 @@ export const dbFunctions = {
           stack_config.container_count,
           stack_config.stack_prefix,
           stack_config.automatic_reboot_on_error,
-          stack_config.image_updates,
+          stack_config.image_updates
         );
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -507,7 +510,7 @@ export const dbFunctions = {
         `);
         return stmt.all();
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -521,7 +524,7 @@ export const dbFunctions = {
         `);
         return stmt.run(name);
       },
-      () => {},
+      () => {}
     );
   },
 
@@ -549,10 +552,10 @@ export const dbFunctions = {
           stack_config.stack_prefix,
           stack_config.automatic_reboot_on_error,
           stack_config.image_updates,
-          stack_config.name,
+          stack_config.name
         );
       },
-      () => {},
+      () => {}
     );
   },
 };

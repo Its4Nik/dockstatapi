@@ -5,10 +5,12 @@ import {
   calculateCpuPercent,
   calculateMemoryUsage,
 } from "~/core/utils/calculations";
+import { logger } from "../utils/logger";
 
 async function storeContainerData() {
   try {
     const hosts = dbFunctions.getDockerHosts();
+    logger.debug("Retrieved docker hosts for storring container data");
 
     // Process each host concurrently and wait for them all to finish
     await Promise.all(
@@ -21,7 +23,7 @@ async function storeContainerData() {
         } catch (error) {
           const errMsg = error instanceof Error ? error.message : String(error);
           throw new Error(
-            `Failed to ping docker host "${host.name}": ${errMsg}`,
+            `Failed to ping docker host "${host.name}": ${errMsg}`
           );
         }
 
@@ -31,7 +33,7 @@ async function storeContainerData() {
         } catch (error) {
           const errMsg = error instanceof Error ? error.message : String(error);
           throw new Error(
-            `Failed to list containers on host "${host.name}": ${errMsg}`,
+            `Failed to list containers on host "${host.name}": ${errMsg}`
           );
         }
 
@@ -50,20 +52,20 @@ async function storeContainerData() {
                         error instanceof Error ? error.message : String(error);
                       return reject(
                         new Error(
-                          `Failed to get stats for container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}": ${errMsg}`,
-                        ),
+                          `Failed to get stats for container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}": ${errMsg}`
+                        )
                       );
                     }
                     if (!stats) {
                       return reject(
                         new Error(
-                          `No stats returned for container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}".`,
-                        ),
+                          `No stats returned for container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}".`
+                        )
                       );
                     }
                     resolve(stats);
                   });
-                },
+                }
               );
 
               dbFunctions.addContainerStats(
@@ -74,18 +76,18 @@ async function storeContainerData() {
                 containerInfo.Status,
                 containerInfo.State,
                 calculateCpuPercent(stats),
-                calculateMemoryUsage(stats),
+                calculateMemoryUsage(stats)
               );
             } catch (error) {
               const errMsg =
                 error instanceof Error ? error.message : String(error);
               throw new Error(
-                `Error processing container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}": ${errMsg}`,
+                `Error processing container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}": ${errMsg}`
               );
             }
-          }),
+          })
         );
-      }),
+      })
     );
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);

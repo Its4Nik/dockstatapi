@@ -4,9 +4,9 @@ import { logger } from "~/core/utils/logger";
 
 export const getDockerClient = (host: DockerHost): Docker => {
   try {
-    const inputUrl = host.url.includes("://")
-      ? host.url
-      : `${host.secure ? "https" : "http"}://${host.url}`;
+    const inputUrl = host.hostadress.includes("://")
+      ? host.hostadress
+      : `${host.secure ? "https" : "http"}://${host.hostadress}`;
     const parsedUrl = new URL(inputUrl);
     const hostAddress = parsedUrl.hostname;
     let port = parsedUrl.port

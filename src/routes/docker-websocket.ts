@@ -39,7 +39,9 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
           const docker = getDockerClient(host);
           await docker.ping();
           const containers = await docker.listContainers();
-          logger.debug(`Found ${containers.length} containers on ${host.name}`);
+          logger.debug(
+            `Found ${containers.length} containers on ${host.name} (id: ${host.id})`
+          );
 
           for (const containerInfo of containers) {
             if (ws.readyState !== 1) {
@@ -64,7 +66,7 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
                   ws.send(
                     JSON.stringify({
                       id: containerInfo.Id,
-                      hostId: host.name,
+                      hostId: host.id as string,
                       name: containerInfo.Names[0].replace(/^\//, ""),
                       image: containerInfo.Image,
                       status: containerInfo.Status,
