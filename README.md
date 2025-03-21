@@ -19,7 +19,7 @@ Docker monitoring API with real-time statistics, stack management, and plugin su
 
 ## Tech Stack
 
-- **Runtime**: [Bun.sh](http://Bun.sh)
+- **Runtime**: [Bun.sh](https://bun.sh)
 - **Framework**: [Elysia.js](https://elysiajs.com/)
 - **Database**: SQLite (WAL mode)
 - **Docker**: dockerode + compose
