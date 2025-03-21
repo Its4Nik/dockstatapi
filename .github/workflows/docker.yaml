@@ -23,6 +23,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Start proxy
+        run: |
+          docker compose -f docker/docker-compose.dev.yaml up -d
+
       - name: Run Unit-tests
         run: |
           bun install
