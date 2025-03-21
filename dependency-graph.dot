@@ -104,6 +104,8 @@ strict digraph "dependency-cruiser output"{
     "src/core/utils/change-me-checker.ts" -> "fs/promises" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/logger.ts" [label=<logger.ts> tooltip="logger.ts" URL="src/core/utils/logger.ts" fillcolor="#ddfeff"] } } }
     "src/core/utils/logger.ts" -> "src/core/database/repository.ts" [arrowhead="normalnoneodot"]
+    "src/core/utils/logger.ts" -> "src/routes/live-logs.ts" [arrowhead="normalnoneodot"]
+    "src/core/utils/logger.ts" -> "src/typings/websocket.ts"
     "src/core/utils/logger.ts" -> "path" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/package-json.ts" [label=<package-json.ts> tooltip="package-json.ts" URL="src/core/utils/package-json.ts" fillcolor="#ddfeff"] } } }
     "src/core/utils/package-json.ts" -> "package.json"
@@ -113,7 +115,9 @@ strict digraph "dependency-cruiser output"{
     subgraph "cluster_src" {label="src" "src/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/index.ts" fillcolor="#ddfeff"] }
     "src/index.ts" -> "src/core/docker/monitor.ts"
     "src/index.ts" -> "src/middleware/auth.ts"
+    "src/index.ts" -> "src/routes/live-logs.ts"
     "src/index.ts" -> "src/routes/stacks.ts"
+    "src/index.ts" -> "src/routes/utils.ts"
     "src/index.ts" -> "src/typings/database.ts"
     "src/index.ts" -> "src/core/database/repository.ts"
     "src/index.ts" -> "src/core/docker/scheduler.ts"
@@ -156,9 +160,10 @@ strict digraph "dependency-cruiser output"{
     "src/routes/docker-websocket.ts" -> "src/core/utils/calculations.ts"
     "src/routes/docker-websocket.ts" -> "src/core/utils/logger.ts"
     "src/routes/docker-websocket.ts" -> "src/core/utils/respone-handler.ts"
-    "src/routes/docker-websocket.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
-    "src/routes/docker-websocket.ts" -> "src/typings/websocket.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/routes/docker-websocket.ts" -> "stream" [style="dashed" penwidth="1.0" arrowhead="onormal"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/live-logs.ts" [label=<live-logs.ts> tooltip="live-logs.ts" URL="src/routes/live-logs.ts" fillcolor="#ddfeff"] } }
+    "src/routes/live-logs.ts" -> "src/core/utils/logger.ts" [arrowhead="normalnoneodot"]
+    "src/routes/live-logs.ts" -> "src/typings/websocket.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/logs.ts" [label=<logs.ts> tooltip="logs.ts" URL="src/routes/logs.ts" fillcolor="#ddfeff"] } }
     "src/routes/logs.ts" -> "src/core/database/repository.ts"
     "src/routes/logs.ts" -> "src/core/utils/logger.ts"
@@ -167,6 +172,9 @@ strict digraph "dependency-cruiser output"{
     "src/routes/stacks.ts" -> "src/core/stacks/controller.ts"
     "src/routes/stacks.ts" -> "src/core/utils/logger.ts"
     "src/routes/stacks.ts" -> "src/core/utils/respone-handler.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/utils.ts" [label=<utils.ts> tooltip="utils.ts" URL="src/routes/utils.ts" fillcolor="#ddfeff"] } }
+    "src/routes/utils.ts" -> "src/core/utils/package-json.ts"
+    "src/routes/utils.ts" -> "src/core/utils/respone-handler.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/database.ts" [label=<database.ts> tooltip="database.ts" URL="src/typings/database.ts" fillcolor="#ddfeff"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/docker-compose.ts" [label=<docker-compose.ts> tooltip="docker-compose.ts" URL="src/typings/docker-compose.ts" fillcolor="#ddfeff"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/docker.ts" [label=<docker.ts> tooltip="docker.ts" URL="src/typings/docker.ts" fillcolor="#ddfeff"] } }
