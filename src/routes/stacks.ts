@@ -25,7 +25,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         if (!body.compose_spec) {
           missingParams.push("compose_spec");
         }
-        if (!body.automatic_reboot_on_error) {
+        if (body.automatic_reboot_on_error === undefined) {
           missingParams.push("automatic_reboot_on_error");
         }
         if (!body.source) {

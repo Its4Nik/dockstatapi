@@ -260,7 +260,7 @@ export const dbFunctions = {
       () => {
         if (typeof id !== "number") {
           logger.error("Invalid parameter type for deleteDockerHost");
-          throw new TypeError("Name parameter must be a string");
+          throw new TypeError("id parameter must be a number");
         }
       }
     );
