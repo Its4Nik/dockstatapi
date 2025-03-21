@@ -132,10 +132,6 @@ export const logger = createLogger({
       }
 
       return `${coloredLevel} [ ${coloredTimestamp} ] - ${formattedMessage} - [ ${coloredContext} ]`;
-
-      const fullMessage = `${coloredLevel} [ ${coloredTimestamp} ] - ${message} - [ ${coloredContext} ]`;
-
-      return formatTerminalMessage(fullMessage, prefixLength);
     }),
   ),
   transports: [new transports.Console()],
