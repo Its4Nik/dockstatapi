@@ -24,7 +24,7 @@ Docker monitoring API with real-time statistics, stack management, and plugin su
 - **Database**: SQLite (WAL mode)
 - **Docker**: dockerode + compose
 - **Monitoring**: Custom metrics collection
-- **Auth**: (TODO - Currently open)
+- **Auth**: [Authentication](https://outline.itsnik.de/s/dockstat/doc/authentication-VSGhxqjtXf)
 
 ## Documentation and Wiki
 
@@ -36,4 +36,4 @@ Please see [DockStatAPI](https://dockstatapi.itsnik.de)
 
 ![Dependency Graph](./dependency-graph.svg)
 
-Click [here](./dependency-graph.mmd) for the mermaid version
+Click [here](./dependency-graph.mmd) for the mermaid version.
