@@ -215,8 +215,8 @@
 <!-- src/core/utils/logger.ts&#45;&gt;src/typings/websocket.ts -->
 <g id="edge76" class="edge">
 <title>src/core/utils/logger.ts&#45;&gt;src/typings/websocket.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M574.51,-910C589.94,-910 606,-910 606,-910 606,-910 606,-192 606,-192 606,-192 590.52,-192 590.52,-192"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="590.52,-189.9 584.52,-192 590.52,-194.1 590.52,-189.9"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M574.58,-910C589.17,-910 604,-910 604,-910 604,-910 604,-192 604,-192 604,-192 590.53,-192 590.53,-192"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="590.53,-189.9 584.53,-192 590.53,-194.1 590.53,-189.9"/>
 </g>
 <!-- src/core/database/repository.ts&#45;&gt;bun:sqlite -->
 <g id="edge6" class="edge">
@@ -558,8 +558,8 @@
 <!-- src/core/utils/change&#45;me&#45;checker.ts&#45;&gt;fs/promises -->
 <g id="edge73" class="edge">
 <title>src/core/utils/change&#45;me&#45;checker.ts&#45;&gt;fs/promises</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M476,-946.05C476,-1019.33 476,-1513 476,-1513 476,-1513 511.82,-1513 511.82,-1513"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="511.82,-1515.1 517.82,-1513 511.82,-1510.9 511.82,-1515.1"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M480.25,-937C481.38,-937 482,-937 482,-937 482,-937 482,-1513 482,-1513 482,-1513 511.65,-1513 511.65,-1513"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="511.65,-1515.1 517.65,-1513 511.65,-1510.9 511.65,-1515.1"/>
 </g>
 <!-- src/core/utils/change&#45;me&#45;checker.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge72" class="edge">
@@ -911,20 +911,20 @@
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M584.66,-186C610.14,-186 639,-186 639,-186 639,-186 639,-24.02 639,-24.02"/>
 <polygon fill="none" stroke="#000000" stroke-opacity="0.200000" points="641.1,-24.02 639,-18.02 636.9,-24.02 641.1,-24.02"/>
 </g>
-<!-- src/core/utils/respone&#45;handler.ts -->
+<!-- src/core/utils/response&#45;handler.ts -->
 <g id="node37" class="node">
-<title>src/core/utils/respone&#45;handler.ts</title>
-<g id="a_node37"><a xlink:href="src/core/utils/respone-handler.ts" xlink:title="respone&#45;handler.ts">
-<path fill="#ddfeff" stroke="black" d="M466,-1006C466,-1006 377,-1006 377,-1006 374,-1006 371,-1003 371,-1000 371,-1000 371,-994 371,-994 371,-991 374,-988 377,-988 377,-988 466,-988 466,-988 469,-988 472,-991 472,-994 472,-994 472,-1000 472,-1000 472,-1003 469,-1006 466,-1006"/>
-<text text-anchor="start" x="379" y="-994.8" font-family="Helvetica,sans-Serif" font-size="9.00">respone&#45;handler.ts</text>
+<title>src/core/utils/response&#45;handler.ts</title>
+<g id="a_node37"><a xlink:href="src/core/utils/response-handler.ts" xlink:title="response&#45;handler.ts">
+<path fill="#ddfeff" stroke="black" d="M468,-1006C468,-1006 375,-1006 375,-1006 372,-1006 369,-1003 369,-1000 369,-1000 369,-994 369,-994 369,-991 372,-988 375,-988 375,-988 468,-988 468,-988 471,-988 474,-991 474,-994 474,-994 474,-1000 474,-1000 474,-1003 471,-1006 468,-1006"/>
+<text text-anchor="start" x="377" y="-994.8" font-family="Helvetica,sans-Serif" font-size="9.00">response&#45;handler.ts</text>
 </a>
 </g>
 </g>
-<!-- src/core/utils/respone&#45;handler.ts&#45;&gt;src/core/utils/logger.ts -->
+<!-- src/core/utils/response&#45;handler.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge79" class="edge">
-<title>src/core/utils/respone&#45;handler.ts&#45;&gt;src/core/utils/logger.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M472.04,-1000C498.31,-1000 525,-1000 525,-1000 525,-1000 525,-922.26 525,-922.26"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="527.1,-922.26 525,-916.26 522.9,-922.26 527.1,-922.26"/>
+<title>src/core/utils/response&#45;handler.ts&#45;&gt;src/core/utils/logger.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M474.16,-994C499.73,-994 525,-994 525,-994 525,-994 525,-922.31 525,-922.31"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="527.1,-922.31 525,-916.31 522.9,-922.31 527.1,-922.31"/>
 </g>
 <!-- src/typings/elysiajs.ts -->
 <g id="node38" class="node">
@@ -935,11 +935,11 @@
 </a>
 </g>
 </g>
-<!-- src/core/utils/respone&#45;handler.ts&#45;&gt;src/typings/elysiajs.ts -->
+<!-- src/core/utils/response&#45;handler.ts&#45;&gt;src/typings/elysiajs.ts -->
 <g id="edge80" class="edge">
-<title>src/core/utils/respone&#45;handler.ts&#45;&gt;src/typings/elysiajs.ts</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M472.01,-994C477.98,-994 482,-994 482,-994 482,-994 482,-162 482,-162 482,-162 510.89,-162 510.89,-162"/>
-<polygon fill="none" stroke="#000000" stroke-opacity="0.200000" points="510.89,-164.1 516.89,-162 510.89,-159.9 510.89,-164.1"/>
+<title>src/core/utils/response&#45;handler.ts&#45;&gt;src/typings/elysiajs.ts</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M474.16,-1000C529,-1000 607,-1000 607,-1000 607,-1000 607,-159 607,-159 607,-159 582.04,-159 582.04,-159"/>
+<polygon fill="none" stroke="#000000" stroke-opacity="0.200000" points="582.04,-156.9 576.04,-159 582.04,-161.1 582.04,-156.9"/>
 </g>
 <!-- src/index.ts -->
 <g id="node39" class="node">
@@ -1121,8 +1121,8 @@
 <!-- src/middleware/auth.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge98" class="edge">
 <title>src/middleware/auth.ts&#45;&gt;src/core/utils/logger.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M448.52,-206C498.88,-206 602,-206 602,-206 602,-206 602,-907 602,-907 602,-907 580.58,-907 580.58,-907"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="580.58,-904.9 574.58,-907 580.58,-909.1 580.58,-904.9"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M448.76,-206C498.98,-206 601,-206 601,-206 601,-206 601,-907 601,-907 601,-907 580.71,-907 580.71,-907"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="580.71,-904.9 574.71,-907 580.71,-909.1 580.71,-904.9"/>
 </g>
 <!-- src/middleware/auth.ts&#45;&gt;src/core/database/repository.ts -->
 <g id="edge97" class="edge">
@@ -1139,8 +1139,8 @@
 <!-- src/middleware/auth.ts&#45;&gt;src/typings/elysiajs.ts -->
 <g id="edge100" class="edge">
 <title>src/middleware/auth.ts&#45;&gt;src/typings/elysiajs.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M431,-201.92C431,-186.3 431,-156 431,-156 431,-156 510.76,-156 510.76,-156"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="510.76,-158.1 516.76,-156 510.76,-153.9 510.76,-158.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M431,-201.94C431,-187.04 431,-159 431,-159 431,-159 510.76,-159 510.76,-159"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="510.76,-161.1 516.76,-159 510.76,-156.9 510.76,-161.1"/>
 </g>
 <!-- src/routes/stacks.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge130" class="edge">
@@ -1160,11 +1160,11 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M292.25,-1131.6C320.25,-1131.6 359,-1131.6 359,-1131.6 359,-1131.6 359,-541 359,-541 359,-541 380.23,-541 380.23,-541"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="380.23,-543.1 386.23,-541 380.23,-538.9 380.23,-543.1"/>
 </g>
-<!-- src/routes/stacks.ts&#45;&gt;src/core/utils/respone&#45;handler.ts -->
+<!-- src/routes/stacks.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
 <g id="edge131" class="edge">
-<title>src/routes/stacks.ts&#45;&gt;src/core/utils/respone&#45;handler.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M292.13,-1135.2C326.18,-1135.2 379,-1135.2 379,-1135.2 379,-1135.2 379,-1012.07 379,-1012.07"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="381.1,-1012.07 379,-1006.07 376.9,-1012.07 381.1,-1012.07"/>
+<title>src/routes/stacks.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M292.18,-1135.2C325.94,-1135.2 378,-1135.2 378,-1135.2 378,-1135.2 378,-1012.07 378,-1012.07"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="380.1,-1012.07 378,-1006.07 375.9,-1012.07 380.1,-1012.07"/>
 </g>
 <!-- src/routes/utils.ts&#45;&gt;src/core/utils/package&#45;json.ts -->
 <g id="edge132" class="edge">
@@ -1172,11 +1172,11 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M291.25,-1254C311.27,-1254 335,-1254 335,-1254 335,-1254 335,-971.5 335,-971.5 335,-971.5 372,-971.5 372,-971.5"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="372,-973.6 378,-971.5 372,-969.4 372,-973.6"/>
 </g>
-<!-- src/routes/utils.ts&#45;&gt;src/core/utils/respone&#45;handler.ts -->
+<!-- src/routes/utils.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
 <g id="edge133" class="edge">
-<title>src/routes/utils.ts&#45;&gt;src/core/utils/respone&#45;handler.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M291.3,-1260C327.53,-1260 387,-1260 387,-1260 387,-1260 387,-1012.05 387,-1012.05"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="389.1,-1012.05 387,-1006.05 384.9,-1012.05 389.1,-1012.05"/>
+<title>src/routes/utils.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M291.08,-1260C327.02,-1260 386,-1260 386,-1260 386,-1260 386,-1012.05 386,-1012.05"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="388.1,-1012.05 386,-1006.05 383.9,-1012.05 388.1,-1012.05"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge103" class="edge">
@@ -1208,11 +1208,11 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M278,-1097.81C278,-1066.67 278,-967 278,-967 278,-967 371.67,-967 371.67,-967"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="371.67,-969.1 377.67,-967 371.67,-964.9 371.67,-969.1"/>
 </g>
-<!-- src/routes/api&#45;config.ts&#45;&gt;src/core/utils/respone&#45;handler.ts -->
+<!-- src/routes/api&#45;config.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
 <g id="edge105" class="edge">
-<title>src/routes/api&#45;config.ts&#45;&gt;src/core/utils/respone&#45;handler.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M300.65,-1110.86C332.99,-1110.86 375,-1110.86 375,-1110.86 375,-1110.86 375,-1012.32 375,-1012.32"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="377.1,-1012.32 375,-1006.32 372.9,-1012.32 377.1,-1012.32"/>
+<title>src/routes/api&#45;config.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M300.63,-1110.86C332.63,-1110.86 374,-1110.86 374,-1110.86 374,-1110.86 374,-1012.32 374,-1012.32"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="376.1,-1012.32 374,-1006.32 371.9,-1012.32 376.1,-1012.32"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/middleware/auth.ts -->
 <g id="edge106" class="edge">
@@ -1232,9 +1232,9 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M314.72,-1287C381.35,-1287 490,-1287 490,-1287 490,-1287 490,-601.82 490,-601.82 490,-601.82 463.35,-601.82 463.35,-601.82"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="463.35,-599.72 457.35,-601.82 463.35,-603.92 463.35,-599.72"/>
 </g>
-<!-- src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/respone&#45;handler.ts -->
+<!-- src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
 <g id="edge110" class="edge">
-<title>src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/respone&#45;handler.ts</title>
+<title>src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M314.56,-1282.5C349.97,-1282.5 391,-1282.5 391,-1282.5 391,-1282.5 391,-1012.18 391,-1012.18"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="393.1,-1012.18 391,-1006.18 388.9,-1012.18 393.1,-1012.18"/>
 </g>
@@ -1274,11 +1274,11 @@
 <path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M305.5,-1192.5C327.08,-1192.5 349,-1192.5 349,-1192.5 349,-1192.5 349,-99 349,-99 349,-99 502.89,-99 502.89,-99"/>
 <polygon fill="none" stroke="#000000" stroke-opacity="0.200000" points="502.89,-101.1 508.89,-99 502.89,-96.9 502.89,-101.1"/>
 </g>
-<!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/respone&#45;handler.ts -->
+<!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
 <g id="edge115" class="edge">
-<title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/respone&#45;handler.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M305.62,-1197C339.94,-1197 383,-1197 383,-1197 383,-1197 383,-1012.11 383,-1012.11"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="385.1,-1012.11 383,-1006.11 380.9,-1012.11 385.1,-1012.11"/>
+<title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M305.6,-1197C339.58,-1197 382,-1197 382,-1197 382,-1197 382,-1012.11 382,-1012.11"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="384.1,-1012.11 382,-1006.11 379.9,-1012.11 384.1,-1012.11"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge121" class="edge">
@@ -1304,11 +1304,11 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M309,-1157.81C309,-1111.81 309,-908.8 309,-908.8 309,-908.8 374.88,-908.8 374.88,-908.8"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="374.88,-910.9 380.88,-908.8 374.88,-906.7 374.88,-910.9"/>
 </g>
-<!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/respone&#45;handler.ts -->
+<!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
 <g id="edge122" class="edge">
-<title>src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/respone&#45;handler.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M311,-1157.86C311,-1122.55 311,-997 311,-997 311,-997 364.78,-997 364.78,-997"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="364.78,-999.1 370.78,-997 364.78,-994.9 364.78,-999.1"/>
+<title>src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M311,-1157.86C311,-1122.55 311,-997 311,-997 311,-997 362.84,-997 362.84,-997"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="362.84,-999.1 368.84,-997 362.84,-994.9 362.84,-999.1"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;stream -->
 <g id="edge123" class="edge">
