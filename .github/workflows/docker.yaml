@@ -39,11 +39,16 @@ jobs:
         run: |
           bun build:docker
 
-      - name: Start docker container
+      - name: Start Docker container and check uptime
         run: |
           docker run --name dockstatapi --rm -d dockstatapi:local
-          sleep 10
-          if [[ $(docker container ls | grep "Up" | wc -l) -gt 0 ]]; then docker kill dockstatapi && exit 0; else; exit 1; fi
+          sleep 30
+          if docker ps --filter "name=dockstatapi" --filter "status=running" | grep dockstatapi; then
+            docker kill dockstatapi
+            exit 0
+          else
+            exit 1
+          fi
 
   release:
     name: Build and Push Docker Image on Release
