@@ -16,6 +16,8 @@ import trpcRouter from "~/core/trpc";
 import { config } from "./typings/database";
 import { validateApiKey } from "./middleware/auth";
 import { monitorDockerEvents } from "./core/docker/monitor";
+import { liveLogs } from "./routes/live-logs";
+import { utilRoutes } from "./routes/utils";
 
 console.log("");
 dbFunctions.init();
@@ -66,7 +68,7 @@ const DockStatAPI = new Elysia()
           },
         ],
       },
-    }),
+    })
   )
   .onBeforeHandle(async (context) => {
     const { path, request, set } = context;
@@ -91,6 +93,8 @@ const DockStatAPI = new Elysia()
   .use(dockerWebsocketRoutes)
   .use(apiConfigRoutes)
   .use(stackRoutes)
+  .use(utilRoutes)
+  .use(liveLogs)
   .get("/health", () => ({ status: "healthy" }), { tags: ["Utils"] })
   .onError(({ code, set, path }) => {
     if (code === "NOT_FOUND") {
@@ -115,7 +119,7 @@ async function startServer() {
 
     if (apiKey === "changeme") {
       logger.warn(
-        "Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!",
+        "Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!"
       );
     }
 
@@ -123,10 +127,10 @@ async function startServer() {
       console.log("----- [ ############## ]");
       logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
       logger.info(
-        `Swagger API Documentation available at http://${hostname}:${port}/swagger`,
+        `Swagger API Documentation available at http://${hostname}:${port}/swagger`
       );
       logger.info(
-        `tRPC Endpoint available at: http://${hostname}:${port}/trpc`,
+        `tRPC Endpoint available at: http://${hostname}:${port}/trpc`
       );
     });
   } catch (error) {

@@ -16,7 +16,7 @@ export async function hashApiKey(apiKey: string): Promise<string> {
 
 async function validateApiKeyHash(
   providedKey: string,
-  storedHash: string,
+  storedHash: string
 ): Promise<boolean> {
   logger.debug("Validating API key hash");
   try {
@@ -30,7 +30,7 @@ async function validateApiKeyHash(
 }
 
 async function getApiKeyFromDb(
-  apiKey: string,
+  apiKey: string
 ): Promise<{ hash: string } | null> {
   const dbApiKey = (dbFunctions.getConfig() as config[])[0].api_key;
   logger.debug(`Querying database for API key: ${apiKey}`);
@@ -41,15 +41,19 @@ async function getApiKeyFromDb(
 
 export async function validateApiKey(request: Request, set: set) {
   const apiKey = request.headers.get("x-api-key");
-  logger.debug(`API key validation initiated`);
 
   if (process.env.NODE_ENV != "production") {
+    logger.warn(
+      "API Key validation deactivated, since running in development mode"
+    );
     return { apiKey };
   } else if (!apiKey) {
     logger.error(`API key missing from request ${request.url}`);
     set.status = 401;
     return { error: "API key required" };
   }
+
+  logger.debug(`API key validation initiated`);
 
   try {
     const dbRecord = await getApiKeyFromDb(apiKey);

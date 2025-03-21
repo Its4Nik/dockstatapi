@@ -3,6 +3,10 @@ import path from "path";
 import chalk, { ChalkInstance } from "chalk";
 import { dbFunctions } from "../database/repository";
 import wrapAnsi from "wrap-ansi";
+import { logToClients } from "~/routes/live-logs";
+import { logStreamData } from "~/typings/websocket";
+
+const ansiRegex = /\x1B\[[0-?9;]*[mG]/g;
 
 // Change to false here if dont want the spacing on a wrapped line
 const padNewlines: boolean = true;
@@ -80,6 +84,16 @@ export const logger = createLogger({
         message = `[ ${chalk.greenBright("Plugin")} ] ${message}`;
       }
 
+      const logStreamData: logStreamData = {
+        timestamp: timestamp as string,
+        level: level as string,
+        message: (message as string).replace(ansiRegex, ""),
+        file: file as string,
+        line: line as number,
+      };
+
+      logToClients(logStreamData);
+
       const paddedLevel = level.toUpperCase().padEnd(5);
       const coloredLevel = (levelColors[level] || chalk.white)(paddedLevel);
       const coloredContext = chalk.cyan(`${file as string}:${line as number}`);
@@ -87,7 +101,7 @@ export const logger = createLogger({
 
       if (process.env.NODE_ENV !== "dev") {
         return `${coloredLevel} [ ${coloredTimestamp} ] - ${chalk.gray(
-          message,
+          message
         )} - [ ${coloredContext} ]`;
       }
 
@@ -95,16 +109,15 @@ export const logger = createLogger({
       const prefixLength = prefix.length;
       const formattedMessage = formatTerminalMessage(
         message as string,
-        prefixLength,
+        prefixLength
       );
-      const ansiRegex = /\x1B\[[0-?9;]*[mG]/g;
 
       try {
         dbFunctions.addLogEntry(
           (level as string).replace(ansiRegex, ""),
           (message as string).replace(ansiRegex, ""),
           (file as string).replace(ansiRegex, ""),
-          line as number,
+          line as number
         );
       } catch (error) {
         // Use console.error to avoid recursive logging
@@ -113,7 +126,7 @@ export const logger = createLogger({
       }
 
       return `${coloredLevel} [ ${coloredTimestamp} ] - ${formattedMessage} - [ ${coloredContext} ]`;
-    }),
+    })
   ),
   transports: [new transports.Console()],
 });

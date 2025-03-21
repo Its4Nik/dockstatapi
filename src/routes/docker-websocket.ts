@@ -1,6 +1,5 @@
-import type { StatusMap } from "elysia";
 import { Elysia } from "elysia";
-import type { HTTPHeaders } from "elysia/dist/types";
+import type { ElysiaWS } from "elysia/dist/ws";
 import { dbFunctions } from "~/core/database/repository";
 import { getDockerClient } from "~/core/docker/client";
 import {
@@ -9,236 +8,122 @@ import {
 } from "~/core/utils/calculations";
 import { logger } from "~/core/utils/logger";
 import { responseHandler } from "~/core/utils/respone-handler";
-import type { DockerHost } from "~/typings/docker";
 import split2 from "split2";
 import type { Readable } from "stream";
-import type { streams } from "~/typings/websocket";
 
-interface ExtendedWebSocket extends WebSocket {
-  isOpen: boolean;
-  streams: any[];
-  heartbeat: NodeJS.Timeout | null;
-}
-
-const set: { headers: HTTPHeaders; status?: number | keyof StatusMap } = {
-  headers: {},
-};
+const activeDockerConnections = new Set<ElysiaWS<any>>();
+const connectionStreams = new Map<
+  ElysiaWS<any>,
+  Array<{ statsStream: Readable; splitStream: ReturnType<typeof split2> }>
+>();
 
 export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
   "/stats",
   {
-    async open(socket) {
-      socket.send(JSON.stringify({ message: "Connection established" }));
-      let hosts: DockerHost[];
+    async open(ws) {
+      activeDockerConnections.add(ws);
+      connectionStreams.set(ws, []);
 
-      (socket as unknown as ExtendedWebSocket).isOpen = true;
-      (socket as unknown as ExtendedWebSocket).streams = [];
-      (socket as unknown as ExtendedWebSocket).heartbeat = null; // Add heartbeat reference
-
-      logger.info(`Opened WebSocket (${socket.id})`);
+      ws.send(JSON.stringify({ message: "Connection established" }));
+      logger.info(`New Docker WebSocket established (${ws.id})`);
 
       try {
-        hosts = dbFunctions.getDockerHosts();
-        logger.debug(
-          `Retrieved ${hosts.length} docker host(s) from the database`,
-        );
-      } catch (error: unknown) {
-        const errResponse = responseHandler.error(
-          set,
-          (error as Error).message,
-          "Failed to retrieve Docker hosts",
-          500,
-        );
-        logger.error(
-          `Error retrieving Docker hosts: ${(error as Error).message}`,
-        );
-        socket.send(JSON.stringify(errResponse));
-        return;
-      }
+        const hosts = dbFunctions.getDockerHosts();
+        logger.debug(`Retrieved ${hosts.length} docker host(s)`);
 
-      // Add heartbeat using WebSocket protocol-level ping
-      (socket as any).heartbeat = setInterval(() => {
-        if (!(socket as unknown as ExtendedWebSocket).isOpen) {
-          clearInterval((socket as any).heartbeat);
-          return;
-        }
-        socket.ping(); // Use WebSocket protocol ping
-      }, 30000);
+        for (const host of hosts) {
+          if (ws.readyState !== 1) {
+            break;
+          }
 
-      for (const host of hosts) {
-        if (!(socket as unknown as ExtendedWebSocket).isOpen) {
-          break;
-        }
-
-        logger.debug(`Processing host: ${host.name}`);
-
-        try {
           const docker = getDockerClient(host);
           await docker.ping();
-          logger.debug(`Ping successful for host: ${host.name}`);
-          logger.debug(`Listing containers for host: ${host.name}`);
           const containers = await docker.listContainers();
-          logger.debug(
-            `Found ${containers.length} container(s) on host ${host.name}`,
-          );
+          logger.debug(`Found ${containers.length} containers on ${host.name}`);
 
           for (const containerInfo of containers) {
-            if (!(socket as unknown as ExtendedWebSocket).isOpen) {
+            if (ws.readyState !== 1) {
               break;
             }
 
-            logger.debug(
-              `Processing container ${containerInfo.Id} on host ${host.name}`,
-            );
             const container = docker.getContainer(containerInfo.Id);
-            try {
-              logger.debug(
-                `Starting stats stream for container ${containerInfo.Id} on host ${host.name}`,
-              );
-              const statsStream = (await container.stats({
-                stream: true,
-              })) as Readable;
-              const splitStream = split2();
+            const statsStream = (await container.stats({
+              stream: true,
+            })) as Readable;
+            const splitStream = split2();
 
-              // Store both streams for cleanup
-              (socket as unknown as ExtendedWebSocket).streams.push({
-                statsStream,
-                splitStream,
-              });
+            connectionStreams.get(ws)?.push({ statsStream, splitStream });
 
-              // Handle stream lifecycle
-              statsStream
-                .on("close", () => {
-                  logger.debug(`Stats stream closed for ${containerInfo.Id}`);
-                  splitStream.destroy();
-                })
-                .on("end", () => {
-                  logger.debug(`Stats stream ended for ${containerInfo.Id}`);
-                  splitStream.destroy();
-                });
-
-              statsStream
-                .pipe(splitStream)
-                .on("data", (line: string) => {
-                  // 1 = OPEN state
-                  if (socket.readyState !== 1) {
-                    return;
-                  }
-                  if (!line) {
-                    return;
-                  }
-                  try {
-                    const stats = JSON.parse(line);
-                    const cpuUsage = calculateCpuPercent(stats);
-                    const memoryUsage = calculateMemoryUsage(stats);
-
-                    const data = {
+            statsStream
+              .on("close", () => splitStream.destroy())
+              .pipe(splitStream)
+              .on("data", (line: string) => {
+                if (ws.readyState !== 1 || !line) return;
+                try {
+                  const stats = JSON.parse(line);
+                  ws.send(
+                    JSON.stringify({
                       id: containerInfo.Id,
                       hostId: host.name,
                       name: containerInfo.Names[0].replace(/^\//, ""),
                       image: containerInfo.Image,
                       status: containerInfo.Status,
                       state: containerInfo.State,
-                      cpuUsage,
-                      memoryUsage,
-                    };
-                    socket.send(JSON.stringify(data));
-                  } catch (parseErr: any) {
-                    logger.error(
-                      `Failed to parse stats for container ${containerInfo.Id} on host ${host.name}: ${parseErr.message}`,
-                    );
-                  }
-                })
-                .on("error", (err: Error) => {
-                  logger.error(
-                    `Stats stream error for container ${containerInfo.Id} on host ${host.name}: ${err.message}`,
+                      cpuUsage: calculateCpuPercent(stats),
+                      memoryUsage: calculateMemoryUsage(stats),
+                    })
                   );
-                  if (socket.readyState === 1) {
-                    socket.send(
-                      JSON.stringify({
-                        hostId: host.name,
-                        containerId: containerInfo.Id,
-                        error: `Stats stream error for container ${containerInfo.Id} on host ${host.name}`,
-                      }),
-                    );
-                  }
-                  statsStream.destroy();
-                });
-            } catch (streamErr: any) {
-              const errMsg = `Failed to start stats stream for container ${containerInfo.Id}`;
-              logger.error(
-                `Failed to start stats stream for container ${containerInfo.Id} on host ${host.name}: ${streamErr.message}`,
-              );
-              if (socket.readyState === 1) {
-                socket.send(
+                } catch (error) {
+                  logger.error(`Parse error: ${error}`);
+                }
+              })
+              .on("error", (error: Error) => {
+                logger.error(`Stream error: ${error}`);
+                statsStream.destroy();
+                ws.send(
                   JSON.stringify({
                     hostId: host.name,
                     containerId: containerInfo.Id,
-                    error: errMsg,
-                  }),
+                    error: `Stats stream error: ${error}`,
+                  })
                 );
-              }
-            }
-          }
-        } catch (err: any) {
-          logger.error(
-            `Failed to list containers for host ${host.name}: ${err.message}`,
-          );
-          const errResponse = responseHandler.error(
-            set,
-            err.message,
-            `Failed to list containers for host ${host.name}`,
-            500,
-          );
-          if (socket.readyState === 1) {
-            socket.send(
-              JSON.stringify({
-                hostId: host.name,
-                error: errResponse.error,
-              }),
-            );
+              });
           }
         }
-      }
-    },
-
-    message(_, message) {
-      if (message === "pong") {
-        return;
-      }
-    },
-
-    close(socket, code, reason) {
-      logger.info(`Closing SplitStream and WebSocket (${socket.id})`);
-      const wasOpen = (socket as unknown as ExtendedWebSocket).isOpen;
-      (socket as unknown as ExtendedWebSocket).isOpen = false;
-
-      // Immediate heartbeat cleanup
-      clearInterval((socket as any).heartbeat);
-
-      // Force-close streams using destructor pattern
-      const streams: streams[] =
-        (socket as unknown as ExtendedWebSocket).streams || [];
-      streams.forEach(({ statsStream, splitStream }) => {
-        try {
-          // Immediate pipeline breakdown
-          statsStream.unpipe(splitStream);
-          statsStream.destroy(new Error("WebSocket closed"));
-          splitStream.destroy(new Error("WebSocket closed"));
-
-          // Remove all potential listeners
-          statsStream.removeAllListeners();
-          splitStream.removeAllListeners();
-        } catch (err) {
-          logger.error(`Stream cleanup error: ${err}`);
-        }
-      });
-
-      if (wasOpen) {
-        logger.info(
-          `Closed WebSocket (${socket.id}) - Code: ${code} - Reason: ${reason}`,
+      } catch (error) {
+        logger.error(`Connection error: ${error}`);
+        ws.send(
+          JSON.stringify(
+            responseHandler.error(
+              { headers: {} },
+              error as string,
+              "Docker connection failed",
+              500
+            )
+          )
         );
       }
     },
-  },
+
+    message(ws, message) {
+      if (message === "pong") ws.pong();
+    },
+
+    close(ws) {
+      logger.info(`Closing connection ${ws.id}`);
+      activeDockerConnections.delete(ws);
+
+      const streams = connectionStreams.get(ws) || [];
+      streams.forEach(({ statsStream, splitStream }) => {
+        try {
+          statsStream.unpipe(splitStream);
+          statsStream.destroy();
+          splitStream.destroy();
+        } catch (error) {
+          logger.error(`Cleanup error: ${error}`);
+        }
+      });
+      connectionStreams.delete(ws);
+    },
+  }
 );
