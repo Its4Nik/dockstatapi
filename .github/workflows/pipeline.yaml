@@ -25,15 +25,13 @@ jobs:
 
       - name: Start proxy
         run: |
-          pwd
-          ls -lah
           docker compose -f docker/docker-compose.dev.yaml up -d
 
       - name: Run Unit-tests
         run: |
           bun install
           bun clean
-          bun test
+          bun test --reporter=junit --reporter-outfile=./bun.xml
 
       - name: Run Docker Build
         run: |

@@ -1,10 +1,10 @@
-import type { Readable, Transform } from "stream";
-import type internal from "stream";
+//import type { Readable, Transform } from "stream";
+//import type internal from "stream";
 
-interface streams {
-  statsStream: Readable;
-  splitStream: internal.Transform;
-}
+//interface streams {
+//  statsStream: Readable;
+//  splitStream: internal.Transform;
+//}
 
 interface logStreamData {
   timestamp: string;
@@ -14,4 +14,4 @@ interface logStreamData {
   line: number;
 }
 
-export { streams, logStreamData };
+export { logStreamData };

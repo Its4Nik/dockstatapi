@@ -23,7 +23,7 @@ LABEL org.opencontainers.image.title="DockStatAPI" \
 
 RUN apk add --no-cache curl
 
-HEALTHCHECK --timeout=30s --start-period=5s --retries=3 \
+HEALTHCHECK --timeout=10s --start-period=2s --retries=3 \
     CMD curl --fail http://localhost:3000/health || exit 1
 
 VOLUME [ "/DockStatAPI/src/plugins" ]
