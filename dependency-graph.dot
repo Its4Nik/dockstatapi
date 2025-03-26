@@ -185,6 +185,5 @@ strict digraph "dependency-cruiser output"{
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/plugin.ts" [label=<plugin.ts> tooltip="plugin.ts" URL="src/typings/plugin.ts" fillcolor="#ddfeff"] } }
     "src/typings/plugin.ts" -> "src/typings/docker.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/typings" {label="typings" "src/typings/websocket.ts" [label=<websocket.ts> tooltip="websocket.ts" URL="src/typings/websocket.ts" fillcolor="#ddfeff"] } }
-    "src/typings/websocket.ts" -> "stream" [style="dashed" penwidth="1.0" arrowhead="onormal"]
     "stream" [label=<stream> tooltip="stream" URL="https://nodejs.org/api/stream.html" color="grey" fontcolor="grey"]
 }
