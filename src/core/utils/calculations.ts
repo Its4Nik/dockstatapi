@@ -19,14 +19,27 @@ const calculateCpuPercent = (stats: Docker.ContainerStats): number => {
     return 0;
   }
 
-  return (cpuDelta / systemDelta) * 100;
+  const data = (cpuDelta / systemDelta) * 100;
+
+  if (data === null) {
+    return 0;
+  }
+
+  return data;
 };
 
 const calculateMemoryUsage = (stats: Docker.ContainerStats): number => {
   if (stats == null) {
     return 0.0;
   }
-  return (stats.memory_stats.usage / stats.memory_stats.limit) * 100;
+
+  const data = (stats.memory_stats.usage / stats.memory_stats.limit) * 100;
+
+  if (data === null) {
+    return 0;
+  }
+
+  return data;
 };
 
 export { calculateCpuPercent, calculateMemoryUsage };
