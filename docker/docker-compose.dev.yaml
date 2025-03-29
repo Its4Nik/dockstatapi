@@ -42,7 +42,7 @@ services:
       - VOLUMES=1 #optional
 
   sqlite-web:
-    container_name: qlite-web
+    container_name: sqlite-web
     image: ghcr.io/coleifer/sqlite-web:latest
     ports:
       - 8080:8080

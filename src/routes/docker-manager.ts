@@ -2,6 +2,7 @@ import { Elysia, t } from "elysia";
 import { dbFunctions } from "~/core/database/repository";
 import { logger } from "~/core/utils/logger";
 import { responseHandler } from "~/core/utils/response-handler";
+import { DockerHost } from "~/typings/docker";
 
 export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
   .post(
@@ -9,13 +10,13 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     async ({ set, body }) => {
       try {
         set.headers["Content-Type"] = "application/json";
-        dbFunctions.addDockerHost(body);
+        dbFunctions.addDockerHost(body as DockerHost);
         return responseHandler.ok(set, `Added docker host (${body.name})`);
       } catch (error: unknown) {
         return responseHandler.error(
           set,
           "Error adding docker Host",
-          error as string
+          error as string,
         );
       }
     },
@@ -29,7 +30,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         hostAddress: t.String(),
         secure: t.Boolean(),
       }),
-    }
+    },
   )
 
   .post(
@@ -37,12 +38,13 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     async ({ set, body }) => {
       try {
         set.status = 200;
-        return dbFunctions.updateDockerHost(body);
+        dbFunctions.updateDockerHost(body);
+        return responseHandler.ok(set, `Updated docker host (${body.id})`);
       } catch (error) {
         return responseHandler.error(
           set,
           error as string,
-          "Failed to update host"
+          "Failed to update host",
         );
       }
     },
@@ -57,7 +59,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         hostAddress: t.String(),
         secure: t.Boolean(),
       }),
-    }
+    },
   )
 
   .get(
@@ -72,7 +74,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         return responseHandler.error(
           set,
           error as string,
-          "Failed to retrieve hosts"
+          "Failed to retrieve hosts",
         );
       }
     },
@@ -81,5 +83,31 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         tags: ["Management"],
         description: "Returns an Array of Host-config-objects",
       },
-    }
+    },
+  )
+
+  .delete(
+    "/hosts/:id",
+    async ({ set, params }) => {
+      try {
+        set.status = 200;
+        dbFunctions.deleteDockerHost(params.id);
+        return responseHandler.ok(set, `Deleted docker host (${params.id})`);
+      } catch (error) {
+        return responseHandler.error(
+          set,
+          error as string,
+          "Failed to delete host",
+        );
+      }
+    },
+    {
+      detail: {
+        tags: ["Management"],
+        description: "Delete an existing host",
+      },
+      params: t.Object({
+        id: t.Number(),
+      }),
+    },
   );

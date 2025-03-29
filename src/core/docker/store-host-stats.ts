@@ -4,6 +4,15 @@ import { DockerHost, HostStats } from "~/typings/docker";
 import { getDockerClient } from "~/core/docker/client";
 import { DockerInfo } from "~/typings/dockerode";
 
+function getHostByName(hostName: string): DockerHost {
+  const hosts = dbFunctions.getDockerHosts() as DockerHost[];
+  const foundHost = hosts.find((host) => host.name === hostName);
+  if (!foundHost) {
+    throw new Error(`Host ${hostName} not found`);
+  }
+  return foundHost;
+}
+
 async function storeHostData() {
   try {
     const hosts = dbFunctions.getDockerHosts() as DockerHost[];
@@ -22,7 +31,6 @@ async function storeHostData() {
         }
 
         let hostStats: DockerInfo;
-        let stats: HostStats;
         try {
           hostStats = await docker.info();
         } catch (error) {
@@ -32,9 +40,16 @@ async function storeHostData() {
           );
         }
 
+        const hostId = getHostByName(host.name).id;
+
+        if (!hostId) {
+          throw new Error(`Host "${host.name}" not found`);
+        }
+
         try {
           const stats: HostStats = {
-            hostId: host.name,
+            hostId: hostId,
+            hostName: host.name,
             dockerVersion: hostStats.ServerVersion,
             apiVersion: hostStats.Driver,
             os: hostStats.OperatingSystem,

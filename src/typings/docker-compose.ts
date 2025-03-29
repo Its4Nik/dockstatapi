@@ -3,6 +3,7 @@ export interface Stack {
   name: string;
   version: number;
   source: string;
+  id?: number;
 }
 
 export interface ComposeSpec {

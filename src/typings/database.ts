@@ -5,6 +5,7 @@ interface config {
 }
 
 interface stacks_config {
+  id: number;
   name: string;
   version: number;
   custom: boolean;

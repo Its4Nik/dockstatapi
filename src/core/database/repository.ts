@@ -20,7 +20,8 @@ export const dbFunctions = {
       );
 
       CREATE TABLE IF NOT EXISTS stacks_config (
-        name TEXT PRIMARY KEY NOT NULL,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
         version INTEGER NOT NULL,
         custom BOOLEAN NOT NULL,
         source TEXT NOT NULL,
@@ -38,20 +39,21 @@ export const dbFunctions = {
       );
 
       CREATE TABLE IF NOT EXISTS host_stats (
-          hostId TEXT PRIMARY KEY NOT NULL,
-          dockerVersion TEXT NOT NULL,
-          apiVersion TEXT NOT NULL,
-          os TEXT NOT NULL,
-          architecture TEXT NOT NULL,
-          totalMemory INTEGER NOT NULL,
-          totalCPU INTEGER NOT NULL,
-          labels TEXT NOT NULL,
-          containers INTEGER NOT NULL,
-          containersRunning INTEGER NOT NULL,
-          containersStopped INTEGER NOT NULL,
-          containersPaused INTEGER NOT NULL,
-          images INTEGER NOT NULL
-        );
+        hostId INTEGER PRIMARY KEY NOT NULL,
+        hostName TEXT NOT NULL,
+        dockerVersion TEXT NOT NULL,
+        apiVersion TEXT NOT NULL,
+        os TEXT NOT NULL,
+        architecture TEXT NOT NULL,
+        totalMemory INTEGER NOT NULL,
+        totalCPU INTEGER NOT NULL,
+        labels TEXT NOT NULL,
+        containers INTEGER NOT NULL,
+        containersRunning INTEGER NOT NULL,
+        containersStopped INTEGER NOT NULL,
+        containersPaused INTEGER NOT NULL,
+        images INTEGER NOT NULL
+      );
 
       CREATE TABLE IF NOT EXISTS container_stats (
         id TEXT NOT NULL,
@@ -88,7 +90,7 @@ export const dbFunctions = {
       const stmt = db.prepare(
         `
         INSERT INTO config (keep_data_for, fetching_interval, api_key) VALUES (7, 5, "changeme")
-        `
+        `,
       );
       stmt.run();
     }
@@ -101,7 +103,7 @@ export const dbFunctions = {
       const stmt = db.prepare(
         `
         INSERT INTO docker_hosts (name, hostAddress, secure) VALUES (?, ?, ?)
-        `
+        `,
       );
       stmt.run("Localhost", "localhost:2375", false);
     }
@@ -139,7 +141,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter types for addDockerHost");
           throw new TypeError("Invalid parameter types for addDockerHost");
         }
-      }
+      },
     );
   },
 
@@ -154,7 +156,7 @@ export const dbFunctions = {
         `);
         return stmt.all() as DockerHost[];
       },
-      () => {}
+      () => {},
     );
   },
 
@@ -162,7 +164,7 @@ export const dbFunctions = {
     level: string,
     message: string,
     file_name: string,
-    line: number
+    line: number,
   ) => {
     if (
       typeof level !== "string" ||
@@ -192,7 +194,7 @@ export const dbFunctions = {
         `);
         return stmt.all();
       },
-      () => {}
+      () => {},
     );
   },
 
@@ -213,7 +215,7 @@ export const dbFunctions = {
           logger.error("Level parameter must be a string");
           throw new TypeError("Level parameter must be a string");
         }
-      }
+      },
     );
   },
 
@@ -230,7 +232,7 @@ export const dbFunctions = {
           host.hostAddress,
           host.secure,
           host.name,
-          String(host.id)
+          String(host.id),
         );
       },
       () => {
@@ -243,7 +245,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter types for updateDockerHost");
           throw new TypeError("Invalid parameter types for updateDockerHost");
         }
-      }
+      },
     );
   },
 
@@ -262,7 +264,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter type for deleteDockerHost");
           throw new TypeError("id parameter must be a number");
         }
-      }
+      },
     );
   },
 
@@ -275,7 +277,7 @@ export const dbFunctions = {
         `);
         return stmt.run();
       },
-      () => {}
+      () => {},
     );
   },
 
@@ -294,14 +296,14 @@ export const dbFunctions = {
           logger.error("Invalid parameter type for clearLogsByLevel");
           throw new TypeError("Level parameter must be a string");
         }
-      }
+      },
     );
   },
 
   updateConfig(
     fetching_interval: number,
     keep_data_for: number,
-    api_key: string
+    api_key: string,
   ) {
     return executeDbOperation(
       "Update Config",
@@ -322,7 +324,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter types for updateConfig");
           throw new TypeError("Invalid parameter types for updateConfig");
         }
-      }
+      },
     );
   },
 
@@ -336,7 +338,7 @@ export const dbFunctions = {
         `);
         return stmt.all();
       },
-      () => {}
+      () => {},
     );
   },
 
@@ -361,7 +363,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter type for deleteOldData");
           throw new TypeError("Days parameter must be a number");
         }
-      }
+      },
     );
   },
 
@@ -373,7 +375,7 @@ export const dbFunctions = {
     status: string,
     state: string,
     cpu_usage: number,
-    memory_usage: number
+    memory_usage: number,
   ) {
     return executeDbOperation(
       "Add Container Stats",
@@ -390,7 +392,7 @@ export const dbFunctions = {
           status,
           state,
           cpu_usage,
-          memory_usage
+          memory_usage,
         );
       },
       () => {
@@ -407,7 +409,7 @@ export const dbFunctions = {
           logger.error("Invalid parameter types for addContainerStats");
           throw new TypeError("Invalid parameter types for addContainerStats");
         }
-      }
+      },
     );
   },
 
@@ -419,6 +421,7 @@ export const dbFunctions = {
         const stmt = db.prepare(`
           INSERT INTO host_stats (
             hostId,
+            hostName,
             dockerVersion,
             apiVersion,
             os,
@@ -432,7 +435,7 @@ export const dbFunctions = {
             containersPaused,
             images
           )
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(hostId) DO UPDATE SET
             dockerVersion = excluded.dockerVersion,
             apiVersion = excluded.apiVersion,
@@ -449,6 +452,7 @@ export const dbFunctions = {
         `);
         return stmt.run(
           stats.hostId,
+          stats.hostName,
           stats.dockerVersion,
           stats.apiVersion,
           stats.os,
@@ -460,10 +464,10 @@ export const dbFunctions = {
           stats.containersRunning,
           stats.containersStopped,
           stats.containersPaused,
-          stats.images
+          stats.images,
         );
       },
-      () => {}
+      () => {},
     );
   },
 
@@ -492,10 +496,10 @@ export const dbFunctions = {
           stack_config.container_count,
           stack_config.stack_prefix,
           stack_config.automatic_reboot_on_error,
-          stack_config.image_updates
+          stack_config.image_updates,
         );
       },
-      () => {}
+      () => {},
     );
   },
 
@@ -510,21 +514,21 @@ export const dbFunctions = {
         `);
         return stmt.all();
       },
-      () => {}
+      () => {},
     );
   },
 
-  deleteStack(name: string) {
+  deleteStack(id: number) {
     return executeDbOperation(
       "Delete Stack",
       () => {
         const stmt = db.prepare(`
           DELETE FROM stacks_config
-          WHERE name = ?;
+          WHERE id = ?;
         `);
-        return stmt.run(name);
+        return stmt.run(id);
       },
-      () => {}
+      () => {},
     );
   },
 
@@ -552,10 +556,10 @@ export const dbFunctions = {
           stack_config.stack_prefix,
           stack_config.automatic_reboot_on_error,
           stack_config.image_updates,
-          stack_config.name
+          stack_config.name,
         );
       },
-      () => {}
+      () => {},
     );
   },
 };

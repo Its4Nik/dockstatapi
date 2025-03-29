@@ -6,17 +6,17 @@ import type { Stack, ComposeSpec } from "~/typings/docker-compose";
 import type { stacks_config } from "~/typings/database";
 
 async function runStackCommand<T>(
-  stack_name: string,
+  stack_id: number,
   command: (cwd: string) => Promise<T>,
   action: string,
 ): Promise<T> {
   try {
-    const stack = { name: stack_name };
+    const stack = { id: stack_id };
     const stackPath = await getStackPath(stack as Stack);
     return await command(stackPath);
   } catch (error: any) {
     throw new Error(
-      `Error while ${action} stack "${stack_name}": ${error.message || error}`,
+      `Error while ${action} stack "${stack_id}": ${error.message || error}`,
     );
   }
 }
@@ -54,6 +54,7 @@ export async function deployStack(
     const resolvedPrefix = stack_prefix ?? "";
 
     const stack_config: stacks_config = {
+      id: 0,
       name: name,
       version: version,
       source,
@@ -87,10 +88,10 @@ export async function deployStack(
   }
 }
 
-export async function stopStack(stack_name: string): Promise<void> {
+export async function stopStack(stack_id: number): Promise<void> {
   try {
     await runStackCommand(
-      stack_name,
+      stack_id,
       (cwd) => DockerCompose.downAll({ cwd }),
       "stopping",
     );
@@ -101,10 +102,10 @@ export async function stopStack(stack_name: string): Promise<void> {
   }
 }
 
-export async function startStack(stack_name: string): Promise<void> {
+export async function startStack(stack_id: number): Promise<void> {
   try {
     await runStackCommand(
-      stack_name,
+      stack_id,
       (cwd) => DockerCompose.upAll({ cwd }),
       "starting",
     );
@@ -115,10 +116,10 @@ export async function startStack(stack_name: string): Promise<void> {
   }
 }
 
-export async function pullStackImages(stack_name: string): Promise<void> {
+export async function pullStackImages(stack_id: number): Promise<void> {
   try {
     await runStackCommand(
-      stack_name,
+      stack_id,
       (cwd) => DockerCompose.pullAll({ cwd }),
       "pulling images for",
     );
@@ -129,10 +130,10 @@ export async function pullStackImages(stack_name: string): Promise<void> {
   }
 }
 
-export async function restartStack(stack_name: string): Promise<void> {
+export async function restartStack(stack_id: number): Promise<void> {
   try {
     await runStackCommand(
-      stack_name,
+      stack_id,
       (cwd) => DockerCompose.restartAll({ cwd }),
       "restarting",
     );
@@ -143,10 +144,10 @@ export async function restartStack(stack_name: string): Promise<void> {
   }
 }
 
-export async function getStackStatus(stack_name: string): Promise<void> {
+export async function getStackStatus(stack_id: number): Promise<void> {
   try {
     return await runStackCommand(
-      stack_name,
+      stack_id,
       async (cwd) => {
         const rawStatus = await DockerCompose.ps({ cwd });
         return rawStatus.data.services.reduce((acc: any, service: any) => {
@@ -163,6 +164,24 @@ export async function getStackStatus(stack_name: string): Promise<void> {
   }
 }
 
+export async function removeStack(stack_id: number): Promise<void> {
+  try {
+    await runStackCommand(
+      stack_id,
+      async (cwd) => {
+        await DockerCompose.down({ cwd });
+      },
+      "removing",
+    );
+
+    dbFunctions.deleteStack(stack_id);
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
+}
+
 export async function getAllStacksStatus(): Promise<Record<string, any>> {
   try {
     const stacks = dbFunctions.getStacks() as stacks_config[];
@@ -170,7 +189,7 @@ export async function getAllStacksStatus(): Promise<Record<string, any>> {
     const statusResults = await Promise.all(
       stacks.map(async (stack) => {
         const status = await runStackCommand(
-          stack.name,
+          stack.id,
           async (cwd) => {
             const rawStatus = await DockerCompose.ps({ cwd });
             return rawStatus.data.services.reduce((acc: any, service: any) => {

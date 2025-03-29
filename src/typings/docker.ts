@@ -2,7 +2,7 @@ interface DockerHost {
   name: string;
   hostAddress: string;
   secure: boolean | number;
-  id?: number;
+  id: number;
 }
 
 interface ContainerInfo {
@@ -17,7 +17,8 @@ interface ContainerInfo {
 }
 
 interface HostStats {
-  hostId: string;
+  hostName: string;
+  hostId: number;
   dockerVersion: string;
   apiVersion: string;
   os: string;
