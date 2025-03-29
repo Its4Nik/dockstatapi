@@ -10,38 +10,65 @@ strict digraph "dependency-cruiser output"{
     subgraph "cluster_fs" {label="fs" "fs/promises" [label=<promises> tooltip="promises" URL="https://nodejs.org/api/fs.html" color="grey" fontcolor="grey"] }
     "package.json" [label=<package.json> tooltip="package.json" URL="package.json" fillcolor="#ffee44"]
     "path" [label=<path> tooltip="path" URL="https://nodejs.org/api/path.html" color="grey" fontcolor="grey"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/config.ts" [label=<config.ts> tooltip="config.ts" URL="src/core/database/config.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/config.ts" -> "src/core/database/database.ts"
+    "src/core/database/config.ts" -> "src/core/database/helper.ts" [arrowhead="normalnoneodot"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/containerStats.ts" [label=<containerStats.ts> tooltip="containerStats.ts" URL="src/core/database/containerStats.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/containerStats.ts" -> "src/core/database/database.ts"
+    "src/core/database/containerStats.ts" -> "src/core/database/helper.ts" [arrowhead="normalnoneodot"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/database.ts" [label=<database.ts> tooltip="database.ts" URL="src/core/database/database.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/database.ts" -> "bun:sqlite"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/dockerHosts.ts" [label=<dockerHosts.ts> tooltip="dockerHosts.ts" URL="src/core/database/dockerHosts.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/dockerHosts.ts" -> "src/core/database/database.ts"
+    "src/core/database/dockerHosts.ts" -> "src/core/database/helper.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/dockerHosts.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/helper.ts" [label=<helper.ts> tooltip="helper.ts" URL="src/core/database/helper.ts" fillcolor="#ddfeff"] } } }
     "src/core/database/helper.ts" -> "src/core/utils/logger.ts" [arrowhead="normalnoneodot"]
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/repository.ts" [label=<repository.ts> tooltip="repository.ts" URL="src/core/database/repository.ts" fillcolor="#ddfeff"] } } }
-    "src/core/database/repository.ts" -> "src/core/database/helper.ts" [arrowhead="normalnoneodot"]
-    "src/core/database/repository.ts" -> "src/core/utils/logger.ts" [arrowhead="normalnoneodot"]
-    "src/core/database/repository.ts" -> "src/typings/database.ts" [arrowhead="onormal" penwidth="1.0"]
-    "src/core/database/repository.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
-    "src/core/database/repository.ts" -> "bun:sqlite"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/hostStats.ts" [label=<hostStats.ts> tooltip="hostStats.ts" URL="src/core/database/hostStats.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/hostStats.ts" -> "src/core/database/database.ts"
+    "src/core/database/hostStats.ts" -> "src/core/database/helper.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/hostStats.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/core/database/index.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/index.ts" -> "src/core/database/config.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/index.ts" -> "src/core/database/containerStats.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/index.ts" -> "src/core/database/database.ts"
+    "src/core/database/index.ts" -> "src/core/database/dockerHosts.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/index.ts" -> "src/core/database/hostStats.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/index.ts" -> "src/core/database/logs.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/index.ts" -> "src/core/database/stacks.ts" [arrowhead="normalnoneodot"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/logs.ts" [label=<logs.ts> tooltip="logs.ts" URL="src/core/database/logs.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/logs.ts" -> "src/core/database/database.ts"
+    "src/core/database/logs.ts" -> "src/core/database/helper.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/logs.ts" -> "src/typings/websocket.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/database" {label="database" "src/core/database/stacks.ts" [label=<stacks.ts> tooltip="stacks.ts" URL="src/core/database/stacks.ts" fillcolor="#ddfeff"] } } }
+    "src/core/database/stacks.ts" -> "src/core/database/database.ts"
+    "src/core/database/stacks.ts" -> "src/core/database/helper.ts" [arrowhead="normalnoneodot"]
+    "src/core/database/stacks.ts" -> "src/typings/database.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/core/database/stacks.ts" -> "src/typings/docker-compose.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/client.ts" [label=<client.ts> tooltip="client.ts" URL="src/core/docker/client.ts" fillcolor="#ddfeff"] } } }
     "src/core/docker/client.ts" -> "src/core/utils/logger.ts"
     "src/core/docker/client.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/monitor.ts" [label=<monitor.ts> tooltip="monitor.ts" URL="src/core/docker/monitor.ts" fillcolor="#ddfeff"] } } }
     "src/core/docker/monitor.ts" -> "src/core/plugins/plugin-manager.ts"
-    "src/core/docker/monitor.ts" -> "src/core/database/repository.ts"
+    "src/core/docker/monitor.ts" -> "src/core/database/index.ts"
     "src/core/docker/monitor.ts" -> "src/core/docker/client.ts"
     "src/core/docker/monitor.ts" -> "src/core/utils/logger.ts"
     "src/core/docker/monitor.ts" -> "src/typings/docker.ts"
     "src/core/docker/monitor.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/core/docker/monitor.ts" -> "bun"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/scheduler.ts" [label=<scheduler.ts> tooltip="scheduler.ts" URL="src/core/docker/scheduler.ts" fillcolor="#ddfeff"] } } }
-    "src/core/docker/scheduler.ts" -> "src/core/database/repository.ts"
+    "src/core/docker/scheduler.ts" -> "src/core/database/index.ts"
     "src/core/docker/scheduler.ts" -> "src/core/docker/store-host-stats.ts"
     "src/core/docker/scheduler.ts" -> "src/core/docker/store-container-stats.ts"
     "src/core/docker/scheduler.ts" -> "src/core/utils/logger.ts"
     "src/core/docker/scheduler.ts" -> "src/typings/database.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/store-container-stats.ts" [label=<store-container-stats.ts> tooltip="store-container-stats.ts" URL="src/core/docker/store-container-stats.ts" fillcolor="#ddfeff"] } } }
     "src/core/docker/store-container-stats.ts" -> "src/core/utils/logger.ts"
-    "src/core/docker/store-container-stats.ts" -> "src/core/database/repository.ts"
+    "src/core/docker/store-container-stats.ts" -> "src/core/database/index.ts"
     "src/core/docker/store-container-stats.ts" -> "src/core/docker/client.ts"
     "src/core/docker/store-container-stats.ts" -> "src/core/utils/calculations.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/docker" {label="docker" "src/core/docker/store-host-stats.ts" [label=<store-host-stats.ts> tooltip="store-host-stats.ts" URL="src/core/docker/store-host-stats.ts" fillcolor="#ddfeff"] } } }
-    "src/core/docker/store-host-stats.ts" -> "src/core/database/repository.ts"
+    "src/core/docker/store-host-stats.ts" -> "src/core/database/index.ts"
     "src/core/docker/store-host-stats.ts" -> "src/core/docker/client.ts"
     "src/core/docker/store-host-stats.ts" -> "src/core/utils/logger.ts"
     "src/core/docker/store-host-stats.ts" -> "src/typings/docker.ts"
@@ -58,26 +85,28 @@ strict digraph "dependency-cruiser output"{
     "src/core/plugins/plugin-manager.ts" -> "src/typings/plugin.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/core/plugins/plugin-manager.ts" -> "events" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/stacks" {label="stacks" "src/core/stacks/controller.ts" [label=<controller.ts> tooltip="controller.ts" URL="src/core/stacks/controller.ts" fillcolor="#ddfeff"] } } }
-    "src/core/stacks/controller.ts" -> "src/core/database/repository.ts"
+    "src/core/stacks/controller.ts" -> "src/core/database/index.ts"
     "src/core/stacks/controller.ts" -> "src/core/utils/logger.ts"
     "src/core/stacks/controller.ts" -> "src/typings/database.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/core/stacks/controller.ts" -> "src/typings/docker-compose.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/core/stacks/controller.ts" -> "bun"
+    "src/core/stacks/controller.ts" -> "fs/promises" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" "src/core/trpc/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/core/trpc/index.ts" fillcolor="#ddfeff"] } } }
     "src/core/trpc/index.ts" -> "src/core/trpc/router.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/api-config.procedure.ts" [label=<api-config.procedure.ts> tooltip="api-config.procedure.ts" URL="src/core/trpc/procedures/api-config.procedure.ts" fillcolor="#ddfeff"] } } } }
     "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/database/repository.ts"
+    "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/database/index.ts"
     "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/utils/logger.ts"
     "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/utils/package-json.ts"
     "src/core/trpc/procedures/api-config.procedure.ts" -> "src/typings/database.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/docker-manager.procedure.ts" [label=<docker-manager.procedure.ts> tooltip="docker-manager.procedure.ts" URL="src/core/trpc/procedures/docker-manager.procedure.ts" fillcolor="#ddfeff"] } } } }
     "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/database/repository.ts"
+    "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/database/index.ts"
     "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/utils/logger.ts"
     "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/typings/docker.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/docker-stats.procedure.ts" [label=<docker-stats.procedure.ts> tooltip="docker-stats.procedure.ts" URL="src/core/trpc/procedures/docker-stats.procedure.ts" fillcolor="#ddfeff"] } } } }
     "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/database/repository.ts"
+    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/database/index.ts"
     "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/docker/client.ts"
     "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/utils/calculations.ts"
     "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/utils/logger.ts"
@@ -85,11 +114,11 @@ strict digraph "dependency-cruiser output"{
     "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/typings/dockerode.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/logs.procedure.ts" [label=<logs.procedure.ts> tooltip="logs.procedure.ts" URL="src/core/trpc/procedures/logs.procedure.ts" fillcolor="#ddfeff"] } } } }
     "src/core/trpc/procedures/logs.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/logs.procedure.ts" -> "src/core/database/repository.ts"
+    "src/core/trpc/procedures/logs.procedure.ts" -> "src/core/database/index.ts"
     "src/core/trpc/procedures/logs.procedure.ts" -> "src/core/utils/logger.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/stacks.procedure.ts" [label=<stacks.procedure.ts> tooltip="stacks.procedure.ts" URL="src/core/trpc/procedures/stacks.procedure.ts" fillcolor="#ddfeff"] } } } }
     "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/database/repository.ts"
+    "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/database/index.ts"
     "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/stacks/controller.ts"
     "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/utils/logger.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" "src/core/trpc/router.ts" [label=<router.ts> tooltip="router.ts" URL="src/core/trpc/router.ts" fillcolor="#ddfeff"] } } }
@@ -105,23 +134,25 @@ strict digraph "dependency-cruiser output"{
     "src/core/utils/change-me-checker.ts" -> "src/core/utils/logger.ts"
     "src/core/utils/change-me-checker.ts" -> "fs/promises" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/logger.ts" [label=<logger.ts> tooltip="logger.ts" URL="src/core/utils/logger.ts" fillcolor="#ddfeff"] } } }
-    "src/core/utils/logger.ts" -> "src/core/database/repository.ts" [arrowhead="normalnoneodot"]
+    "src/core/utils/logger.ts" -> "src/core/database/index.ts" [arrowhead="normalnoneodot"]
     "src/core/utils/logger.ts" -> "src/routes/live-logs.ts" [arrowhead="normalnoneodot"]
-    "src/core/utils/logger.ts" -> "src/typings/websocket.ts"
+    "src/core/utils/logger.ts" -> "src/typings/websocket.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/core/utils/logger.ts" -> "path" [style="dashed" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/package-json.ts" [label=<package-json.ts> tooltip="package-json.ts" URL="src/core/utils/package-json.ts" fillcolor="#ddfeff"] } } }
     "src/core/utils/package-json.ts" -> "package.json"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/response-handler.ts" [label=<response-handler.ts> tooltip="response-handler.ts" URL="src/core/utils/response-handler.ts" fillcolor="#ddfeff"] } } }
     "src/core/utils/response-handler.ts" -> "src/core/utils/logger.ts"
     "src/core/utils/response-handler.ts" -> "src/typings/elysiajs.ts" [arrowhead="onormal" penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/swagger-readme.ts" [label=<swagger-readme.ts> tooltip="swagger-readme.ts" URL="src/core/utils/swagger-readme.ts" fillcolor="#ddfeff"] } } }
     subgraph "cluster_src" {label="src" "src/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/index.ts" fillcolor="#ddfeff"] }
     "src/index.ts" -> "src/core/docker/monitor.ts"
+    "src/index.ts" -> "src/core/utils/swagger-readme.ts"
     "src/index.ts" -> "src/middleware/auth.ts"
     "src/index.ts" -> "src/routes/live-logs.ts"
     "src/index.ts" -> "src/routes/stacks.ts"
     "src/index.ts" -> "src/routes/utils.ts"
     "src/index.ts" -> "src/typings/database.ts"
-    "src/index.ts" -> "src/core/database/repository.ts"
+    "src/index.ts" -> "src/core/database/index.ts"
     "src/index.ts" -> "src/core/docker/scheduler.ts"
     "src/index.ts" -> "src/core/plugins/loader.ts"
     "src/index.ts" -> "src/core/trpc/index.ts"
@@ -132,12 +163,12 @@ strict digraph "dependency-cruiser output"{
     "src/index.ts" -> "src/routes/docker-websocket.ts"
     "src/index.ts" -> "src/routes/logs.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/middleware" {label="middleware" "src/middleware/auth.ts" [label=<auth.ts> tooltip="auth.ts" URL="src/middleware/auth.ts" fillcolor="#ddfeff"] } }
-    "src/middleware/auth.ts" -> "src/core/database/repository.ts"
+    "src/middleware/auth.ts" -> "src/core/database/index.ts"
     "src/middleware/auth.ts" -> "src/core/utils/logger.ts"
     "src/middleware/auth.ts" -> "src/typings/database.ts"
     "src/middleware/auth.ts" -> "src/typings/elysiajs.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/api-config.ts" [label=<api-config.ts> tooltip="api-config.ts" URL="src/routes/api-config.ts" fillcolor="#ddfeff"] } }
-    "src/routes/api-config.ts" -> "src/core/database/repository.ts"
+    "src/routes/api-config.ts" -> "src/core/database/index.ts"
     "src/routes/api-config.ts" -> "src/core/plugins/plugin-manager.ts"
     "src/routes/api-config.ts" -> "src/core/utils/logger.ts"
     "src/routes/api-config.ts" -> "src/core/utils/package-json.ts"
@@ -145,11 +176,12 @@ strict digraph "dependency-cruiser output"{
     "src/routes/api-config.ts" -> "src/middleware/auth.ts"
     "src/routes/api-config.ts" -> "src/typings/database.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/docker-manager.ts" [label=<docker-manager.ts> tooltip="docker-manager.ts" URL="src/routes/docker-manager.ts" fillcolor="#ddfeff"] } }
-    "src/routes/docker-manager.ts" -> "src/core/database/repository.ts"
+    "src/routes/docker-manager.ts" -> "src/core/database/index.ts"
     "src/routes/docker-manager.ts" -> "src/core/utils/logger.ts"
     "src/routes/docker-manager.ts" -> "src/core/utils/response-handler.ts"
+    "src/routes/docker-manager.ts" -> "src/typings/docker.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/docker-stats.ts" [label=<docker-stats.ts> tooltip="docker-stats.ts" URL="src/routes/docker-stats.ts" fillcolor="#ddfeff"] } }
-    "src/routes/docker-stats.ts" -> "src/core/database/repository.ts"
+    "src/routes/docker-stats.ts" -> "src/core/database/index.ts"
     "src/routes/docker-stats.ts" -> "src/core/docker/client.ts"
     "src/routes/docker-stats.ts" -> "src/core/utils/calculations.ts"
     "src/routes/docker-stats.ts" -> "src/core/utils/logger.ts"
@@ -157,7 +189,7 @@ strict digraph "dependency-cruiser output"{
     "src/routes/docker-stats.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/routes/docker-stats.ts" -> "src/typings/dockerode.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/docker-websocket.ts" [label=<docker-websocket.ts> tooltip="docker-websocket.ts" URL="src/routes/docker-websocket.ts" fillcolor="#ddfeff"] } }
-    "src/routes/docker-websocket.ts" -> "src/core/database/repository.ts"
+    "src/routes/docker-websocket.ts" -> "src/core/database/index.ts"
     "src/routes/docker-websocket.ts" -> "src/core/docker/client.ts"
     "src/routes/docker-websocket.ts" -> "src/core/utils/calculations.ts"
     "src/routes/docker-websocket.ts" -> "src/core/utils/logger.ts"
@@ -167,10 +199,10 @@ strict digraph "dependency-cruiser output"{
     "src/routes/live-logs.ts" -> "src/core/utils/logger.ts" [arrowhead="normalnoneodot"]
     "src/routes/live-logs.ts" -> "src/typings/websocket.ts" [arrowhead="onormal" penwidth="1.0"]
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/logs.ts" [label=<logs.ts> tooltip="logs.ts" URL="src/routes/logs.ts" fillcolor="#ddfeff"] } }
-    "src/routes/logs.ts" -> "src/core/database/repository.ts"
+    "src/routes/logs.ts" -> "src/core/database/index.ts"
     "src/routes/logs.ts" -> "src/core/utils/logger.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/routes" {label="routes" "src/routes/stacks.ts" [label=<stacks.ts> tooltip="stacks.ts" URL="src/routes/stacks.ts" fillcolor="#ddfeff"] } }
-    "src/routes/stacks.ts" -> "src/core/database/repository.ts"
+    "src/routes/stacks.ts" -> "src/core/database/index.ts"
     "src/routes/stacks.ts" -> "src/core/stacks/controller.ts"
     "src/routes/stacks.ts" -> "src/core/utils/logger.ts"
     "src/routes/stacks.ts" -> "src/core/utils/response-handler.ts"
