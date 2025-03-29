@@ -23,7 +23,8 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     {
       detail: {
         tags: ["Management"],
-        description: "Add a new Host as Monitoring target",
+        description:
+          "Registers a new Docker host to the monitoring system with connection details",
       },
       body: t.Object({
         name: t.String(),
@@ -51,7 +52,8 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     {
       detail: {
         tags: ["Management"],
-        description: "Update an already existing target's config",
+        description:
+          "Modifies existing Docker host configuration parameters (name, address, security)",
       },
       body: t.Object({
         id: t.Number(),
@@ -81,7 +83,8 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     {
       detail: {
         tags: ["Management"],
-        description: "Returns an Array of Host-config-objects",
+        description:
+          "Lists all configured Docker hosts with their connection settings",
       },
     },
   )
@@ -104,7 +107,8 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
     {
       detail: {
         tags: ["Management"],
-        description: "Delete an existing host",
+        description:
+          "Removes Docker host from monitoring system and clears associated data",
       },
       params: t.Object({
         id: t.Number(),

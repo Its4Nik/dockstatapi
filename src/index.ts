@@ -18,6 +18,7 @@ import { validateApiKey } from "./middleware/auth";
 import { monitorDockerEvents } from "./core/docker/monitor";
 import { liveLogs } from "./routes/live-logs";
 import { utilRoutes } from "./routes/utils";
+import { swaggerReadme } from "./core/utils/swagger-readme";
 
 console.log("");
 
@@ -31,8 +32,8 @@ export const DockStatAPI = new Elysia()
       documentation: {
         info: {
           title: "DockStatAPI",
-          version: "2.1.0",
-          description: "Docker monitoring API with plugin support",
+          version: "3.0.0",
+          description: swaggerReadme,
         },
         components: {
           securitySchemes: {

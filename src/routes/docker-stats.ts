@@ -64,7 +64,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
 
                     containers.push({
                       id: containerInfo.Id,
-                      hostId: host.id as string,
+                      hostId: `${host.id}`,
                       name: containerInfo.Names[0].replace(/^\//, ""),
                       image: containerInfo.Image,
                       status: containerInfo.Status,
@@ -102,7 +102,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
       detail: {
         tags: ["Statistics"],
         description:
-          "Fetches all Containers and their statistics across all Hosts",
+          "Collects real-time statistics for all Docker containers across monitored hosts, including CPU and memory utilization",
       },
     },
   )
@@ -125,7 +125,8 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
         const info: DockerInfo = await docker.info();
 
         const config: HostStats = {
-          hostId: host.name,
+          hostId: host.id as number,
+          hostName: host.name,
           dockerVersion: info.ServerVersion,
           apiVersion: info.Driver,
           os: info.OperatingSystem,
@@ -154,7 +155,8 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
     {
       detail: {
         tags: ["Statistics"],
-        description: "Fetches the Host Stats for a specified Host",
+        description:
+          "Provides detailed system metrics and Docker runtime information for specified host",
       },
     },
   );

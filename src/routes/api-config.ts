@@ -39,7 +39,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
     {
       detail: {
         tags: ["Management"],
-        description: "Returns DockStatAPI's config",
+        description:
+          "Returns current API configuration including data retention policies and security settings",
       },
     },
   )
@@ -56,7 +57,13 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         );
       }
     },
-    { detail: { tags: ["Management"], description: "List all Plugin Names" } },
+    {
+      detail: {
+        tags: ["Management"],
+        description:
+          "Lists all active plugins with their registration details and status",
+      },
+    },
   )
   .post(
     "/update",
@@ -86,7 +93,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
       }),
       detail: {
         tags: ["Management"],
-        description: "Update the current DockStatAPI config",
+        description:
+          "Modifies core API settings including data collection intervals, retention periods, and security credentials",
       },
     },
   )
@@ -117,7 +125,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
     {
       detail: {
         tags: ["Management"],
-        description: "Returns relevant information about the package.json",
+        description:
+          "Displays package metadata including dependencies, contributors, and licensing information",
       },
     },
   );

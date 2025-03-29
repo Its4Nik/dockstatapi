@@ -68,7 +68,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       detail: {
         tags: ["Stacks"],
         description:
-          "Deploy a Stack, either with a prebuilt one or provide your own structure",
+          "Deploys a new Docker stack using a provided compose specification, allowing custom configurations and image updates",
       },
       body: t.Object({
         compose_spec: t.Any(),
@@ -104,7 +104,11 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       }
     },
     {
-      detail: { tags: ["Stacks"], description: "Start a specific Stack" },
+      detail: {
+        tags: ["Stacks"],
+        description:
+          "Initiates a Docker stack, starting all associated containers",
+      },
       body: t.Object({
         stackId: t.Number(),
       }),
@@ -132,7 +136,11 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       }
     },
     {
-      detail: { tags: ["Stacks"], description: "Stop the specified Stack" },
+      detail: {
+        tags: ["Stacks"],
+        description:
+          "Halts a running Docker stack and its containers while preserving configurations",
+      },
       body: t.Object({
         stackId: t.Number(),
       }),
@@ -160,7 +168,11 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       }
     },
     {
-      detail: { tags: ["Stacks"], description: "Restart a whole Stack" },
+      detail: {
+        tags: ["Stacks"],
+        description:
+          "Performs full stack restart - stops and restarts all stack components in sequence",
+      },
       body: t.Object({
         stackId: t.Number(),
       }),
@@ -190,7 +202,8 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
     {
       detail: {
         tags: ["Stacks"],
-        description: "Runs `docker compose pull` on the provided Stack",
+        description:
+          "Updates container images for a stack using Docker's pull mechanism (requires stack ID)",
       },
       body: t.Object({
         stackId: t.Number(),
@@ -228,7 +241,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       detail: {
         tags: ["Stacks"],
         description:
-          "Fetches the current status of all containers for a specific Stack or if no Stack name is provided, for all Stacks",
+          "Retrieves operational status for either a specific stack (by ID) or all managed stacks",
       },
       query: t.Object({
         stackId: t.Number(),
@@ -253,7 +266,8 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
     {
       detail: {
         tags: ["Stacks"],
-        description: "Returns an Array of Stack-config-objects",
+        description:
+          "Lists all registered stacks with their complete configuration details",
       },
     },
   )
@@ -277,7 +291,8 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
     {
       detail: {
         tags: ["Stacks"],
-        description: "Delete a Stack",
+        description:
+          "Permanently removes a stack configuration and cleans up associated resources",
       },
       body: t.Object({
         stackId: t.Number(),

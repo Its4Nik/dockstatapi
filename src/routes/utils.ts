@@ -32,14 +32,15 @@ export const utilRoutes = new Elysia({ prefix: "/utils" }).get(
       return responseHandler.error(
         set,
         error.message || error,
-        "Error getting DockStatAPI information"
+        "Error getting DockStatAPI information",
       );
     }
   },
   {
     detail: {
       tags: ["Utils"],
-      description: "Shows general information about DockStatAPI",
+      description:
+        "Retrieves DockStatAPI metadata including version, author information, dependencies, and licensing details",
     },
-  }
+  },
 );

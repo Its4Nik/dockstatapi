@@ -189,13 +189,13 @@ export async function removeStack(stack_id: number): Promise<void> {
     const stackName = await getStackName(stack_id);
 
     const stack = {
-      id: stack_id,
+      name: stackName,
     };
 
     const stackPath = await getStackPath(stack as Stack);
 
     try {
-      await rm("stackPath", { recursive: true });
+      await rm(stackPath, { recursive: true });
     } catch (error: any) {
       if (error.code === "ENOENT") {
         console.log("Directory doesn't exist");
