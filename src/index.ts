@@ -1,6 +1,6 @@
+import { dbFunctions } from "~/core/database";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
-import { dbFunctions } from "~/core/database/repository";
 import { loadPlugins } from "~/core/plugins/loader";
 import { logger } from "~/core/utils/logger";
 import { dockerRoutes } from "~/routes/docker-manager";
@@ -20,7 +20,8 @@ import { liveLogs } from "./routes/live-logs";
 import { utilRoutes } from "./routes/utils";
 
 console.log("");
-dbFunctions.init();
+
+logger.info("Starting DockStatAPI");
 
 export const DockStatAPI = new Elysia()
   .use(staticPlugin())
@@ -68,7 +69,7 @@ export const DockStatAPI = new Elysia()
           },
         ],
       },
-    })
+    }),
   )
   .onBeforeHandle(async (context) => {
     const { path, request, set } = context;
@@ -108,8 +109,17 @@ export const DockStatAPI = new Elysia()
 
 async function startServer() {
   try {
-    await loadPlugins("./src/plugins");
-    await setSchedules();
+    try {
+      await loadPlugins("./src/plugins");
+    } catch (error) {
+      throw new Error(`Failed to load plugins: ${error}`);
+    }
+
+    try {
+      await setSchedules();
+    } catch (error) {
+      throw new Error(`Failed to set schedules: ${error}`);
+    }
 
     monitorDockerEvents().catch((error) => {
       logger.error(`Monitoring Error: ${error}`);
@@ -120,22 +130,27 @@ async function startServer() {
 
     if (apiKey === "changeme") {
       logger.warn(
-        "Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!"
+        "Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!",
       );
     }
 
-    DockStatAPI.listen(3000, ({ hostname, port }) => {
-      console.log("----- [ ############## ]");
-      logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
-      logger.info(
-        `Swagger API Documentation available at http://${hostname}:${port}/swagger`
-      );
-      logger.info(
-        `tRPC Endpoint available at: http://${hostname}:${port}/trpc`
-      );
-    });
+    try {
+      DockStatAPI.listen(3000, ({ hostname, port }) => {
+        console.log("----- [ ############## ]");
+        logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
+        logger.info(
+          `Swagger API Documentation available at http://${hostname}:${port}/swagger`,
+        );
+        logger.info(
+          `tRPC Endpoint available at: http://${hostname}:${port}/trpc`,
+        );
+      });
+    } catch (error) {
+      logger.error("Failed to start server:", error);
+      process.exit(1);
+    }
   } catch (error) {
-    logger.error("Failed to start server:", error);
+    logger.error("Error while starting server:", error);
     process.exit(1);
   }
 }

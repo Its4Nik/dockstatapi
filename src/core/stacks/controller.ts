@@ -1,9 +1,21 @@
-import { dbFunctions } from "../database/repository";
+import { dbFunctions } from "~/core/database";
 import YAML from "yaml";
-import { logger } from "../utils/logger";
+import { logger } from "~/core/utils/logger";
 import DockerCompose from "docker-compose";
 import type { Stack, ComposeSpec } from "~/typings/docker-compose";
 import type { stacks_config } from "~/typings/database";
+import { rm } from "node:fs/promises";
+import { ErrorLike } from "bun";
+
+async function getStackName(stack_id: number): Promise<string> {
+  logger.debug(`Fetching stack name for id ${stack_id}`);
+  const stacks = dbFunctions.getStacks();
+  const stack = stacks.find((stack) => Number(stack.id) === Number(stack_id));
+  if (!stack) {
+    throw new Error(`Stack with id ${stack_id} not found`);
+  }
+  return stack.name;
+}
 
 async function runStackCommand<T>(
   stack_id: number,
@@ -11,7 +23,7 @@ async function runStackCommand<T>(
   action: string,
 ): Promise<T> {
   try {
-    const stack = { id: stack_id };
+    const stack = { id: stack_id, name: await getStackName(stack_id) };
     const stackPath = await getStackPath(stack as Stack);
     return await command(stackPath);
   } catch (error: any) {
@@ -174,7 +186,25 @@ export async function removeStack(stack_id: number): Promise<void> {
       "removing",
     );
 
+    const stackName = await getStackName(stack_id);
+
+    const stack = {
+      id: stack_id,
+    };
+
+    const stackPath = await getStackPath(stack as Stack);
+
+    try {
+      await rm("stackPath", { recursive: true });
+    } catch (error: any) {
+      if (error.code === "ENOENT") {
+        console.log("Directory doesn't exist");
+      } else {
+        throw error;
+      }
+    }
     dbFunctions.deleteStack(stack_id);
+    logger.info(`Stack ${stackName} (${stack_id}) removed successfully`);
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : String(error);
     logger.error(errorMsg);
@@ -184,12 +214,12 @@ export async function removeStack(stack_id: number): Promise<void> {
 
 export async function getAllStacksStatus(): Promise<Record<string, any>> {
   try {
-    const stacks = dbFunctions.getStacks() as stacks_config[];
+    const stacks = dbFunctions.getStacks();
 
     const statusResults = await Promise.all(
       stacks.map(async (stack) => {
         const status = await runStackCommand(
-          stack.id,
+          stack.id as number,
           async (cwd) => {
             const rawStatus = await DockerCompose.ps({ cwd });
             return rawStatus.data.services.reduce((acc: any, service: any) => {

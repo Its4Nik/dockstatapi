@@ -1,4 +1,4 @@
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { logger } from "~/core/utils/logger";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";

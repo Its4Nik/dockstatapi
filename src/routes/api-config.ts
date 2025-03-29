@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { logger } from "~/core/utils/logger";
 import { responseHandler } from "~/core/utils/response-handler";
 import { config } from "~/typings/database";
@@ -32,7 +32,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           error as string,
-          "Error getting the DockStatAPI config"
+          "Error getting the DockStatAPI config",
         );
       }
     },
@@ -41,7 +41,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         tags: ["Management"],
         description: "Returns DockStatAPI's config",
       },
-    }
+    },
   )
   .get(
     "/plugins",
@@ -52,11 +52,11 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           error as string,
-          "Error getting all registered plugins"
+          "Error getting all registered plugins",
         );
       }
     },
-    { detail: { tags: ["Management"], description: "List all Plugin Names" } }
+    { detail: { tags: ["Management"], description: "List all Plugin Names" } },
   )
   .post(
     "/update",
@@ -67,14 +67,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         dbFunctions.updateConfig(
           fetching_interval,
           keep_data_for,
-          await hashApiKey(api_key)
+          await hashApiKey(api_key),
         );
         return responseHandler.ok(set, "Updated DockStatAPI config");
       } catch (error) {
         return responseHandler.error(
           set,
           "Error updating the DockStatAPI config",
-          error as string
+          error as string,
         );
       }
     },
@@ -88,7 +88,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         tags: ["Management"],
         description: "Update the current DockStatAPI config",
       },
-    }
+    },
   )
   .get(
     "/package",
@@ -110,7 +110,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           error as string,
-          "Error while reading package.json"
+          "Error while reading package.json",
         );
       }
     },
@@ -119,5 +119,5 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         tags: ["Management"],
         description: "Returns relevant information about the package.json",
       },
-    }
+    },
   );

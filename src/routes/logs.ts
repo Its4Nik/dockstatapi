@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { logger } from "~/core/utils/logger";
 
 export const backendLogs = new Elysia({ prefix: "/logs" })

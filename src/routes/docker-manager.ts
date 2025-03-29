@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { logger } from "~/core/utils/logger";
 import { responseHandler } from "~/core/utils/response-handler";
 import { DockerHost } from "~/typings/docker";

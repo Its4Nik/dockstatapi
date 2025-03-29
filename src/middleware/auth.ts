@@ -1,4 +1,4 @@
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { logger } from "~/core/utils/logger";
 import { config } from "~/typings/database";
 import { set } from "~/typings/elysiajs";
@@ -16,7 +16,7 @@ export async function hashApiKey(apiKey: string): Promise<string> {
 
 async function validateApiKeyHash(
   providedKey: string,
-  storedHash: string
+  storedHash: string,
 ): Promise<boolean> {
   logger.debug("Validating API key hash");
   try {
@@ -30,7 +30,7 @@ async function validateApiKeyHash(
 }
 
 async function getApiKeyFromDb(
-  apiKey: string
+  apiKey: string,
 ): Promise<{ hash: string } | null> {
   const dbApiKey = (dbFunctions.getConfig() as config[])[0].api_key;
   logger.debug(`Querying database for API key: ${apiKey}`);
@@ -44,7 +44,7 @@ export async function validateApiKey(request: Request, set: set) {
 
   if (process.env.NODE_ENV != "production") {
     logger.warn(
-      "API Key validation deactivated, since running in development mode"
+      "API Key validation deactivated, since running in development mode",
     );
     return { apiKey };
   } else if (!apiKey) {

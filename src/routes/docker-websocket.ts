@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import type { ElysiaWS } from "elysia/dist/ws";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
 import {
   calculateCpuPercent,

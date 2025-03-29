@@ -1,5 +1,5 @@
 import { logger } from "~/core/utils/logger";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { DockerHost, HostStats } from "~/typings/docker";
 import { getDockerClient } from "~/core/docker/client";
 import { DockerInfo } from "~/typings/dockerode";

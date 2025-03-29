@@ -1,5 +1,5 @@
 import storeContainerData from "~/core/docker/store-container-stats";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { config } from "~/typings/database";
 import { logger } from "~/core/utils/logger";
 import storeHostData from "~/core/docker//store-host-stats";

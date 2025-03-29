@@ -1,5 +1,5 @@
 import Docker from "dockerode";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
 import {
   calculateCpuPercent,
@@ -47,7 +47,7 @@ export const dockerStatsProcedure = router({
                               code: "INTERNAL_SERVER_ERROR",
                               message: "Error fetching container stats",
                               cause: error,
-                            })
+                            }),
                           );
                         }
                         if (!stats) {
@@ -55,12 +55,12 @@ export const dockerStatsProcedure = router({
                             new TRPCError({
                               code: "NOT_FOUND",
                               message: "No stats available",
-                            })
+                            }),
                           );
                         }
                         resolve(stats as Docker.ContainerStats);
                       });
-                    }
+                    },
                   );
 
                   containers.push({
@@ -76,16 +76,16 @@ export const dockerStatsProcedure = router({
                 } catch (containerError) {
                   logger.error(
                     "Error fetching container stats",
-                    containerError
+                    containerError,
                   );
                 }
-              })
+              }),
             );
             logger.debug(`Fetched stats for ${host.name}`);
           } catch (hostError) {
             logger.error("Error fetching containers for host", hostError);
           }
-        })
+        }),
       );
 
       logger.debug("Fetched all containers across all hosts");

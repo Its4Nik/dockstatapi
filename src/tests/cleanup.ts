@@ -1,4 +1,4 @@
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import type { DockerHost } from "~/typings/docker";
 import { findObjectByKey } from "~/core/utils/helpers";
 

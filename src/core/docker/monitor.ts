@@ -1,5 +1,5 @@
 import type { DockerHost } from "~/typings/docker";
-import { dbFunctions } from "~/core/database/repository";
+import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
 import { logger } from "~/core/utils/logger";
 import { pluginManager } from "../plugins/plugin-manager";
@@ -12,7 +12,7 @@ export async function monitorDockerEvents() {
   try {
     hosts = dbFunctions.getDockerHosts();
     logger.debug(
-      `Retrieved ${hosts.length} Docker host(s) for event monitoring.`
+      `Retrieved ${hosts.length} Docker host(s) for event monitoring.`,
     );
   } catch (error: unknown) {
     logger.error(`Error retrieving Docker hosts: ${(error as Error).message}`);
@@ -58,7 +58,7 @@ async function startFor(host: DockerHost) {
           event = JSON.parse(line);
         } catch (parseErr: any) {
           logger.error(
-            `Failed to parse event from host ${host.name}: ${parseErr.message}`
+            `Failed to parse event from host ${host.name}: ${parseErr.message}`,
           );
           continue;
         }
@@ -113,7 +113,7 @@ async function startFor(host: DockerHost) {
               break;
             default:
               logger.debug(
-                `Unhandled container event "${action}" on host ${host.name}`
+                `Unhandled container event "${action}" on host ${host.name}`,
               );
           }
         }
@@ -132,7 +132,7 @@ async function startFor(host: DockerHost) {
     });
   } catch (streamErr: any) {
     logger.error(
-      `Failed to start events stream for host ${host.name}: ${streamErr.message}`
+      `Failed to start events stream for host ${host.name}: ${streamErr.message}`,
     );
   }
 }
