@@ -29,12 +29,17 @@ export function addDockerHost(host: DockerHost) {
 }
 
 export function getDockerHosts(): DockerHost[] {
-  return executeDbOperation(
-    "Get Docker Hosts",
-    () => stmt.selectAll.all() as DockerHost[],
-  );
+  return executeDbOperation("Get Docker Hosts", () => {
+    const rows = stmt.selectAll.all() as Array<
+      Omit<DockerHost, "secure"> & { secure: number }
+    >;
+    return rows.map((row) => ({
+      ...row,
+      secure: row.secure === 1,
+    }));
+  });
 }
-
+1;
 export function updateDockerHost(host: DockerHost) {
   return executeDbOperation(
     "Update Docker Host",

@@ -2,3 +2,4 @@
 /stacks
 /node_modules
 .test
+dependency-graph*

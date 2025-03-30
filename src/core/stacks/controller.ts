@@ -5,12 +5,12 @@ import DockerCompose from "docker-compose";
 import type { Stack, ComposeSpec } from "~/typings/docker-compose";
 import type { stacks_config } from "~/typings/database";
 import { rm } from "node:fs/promises";
-import { ErrorLike } from "bun";
+import { findObjectByKey } from "../utils/helpers";
 
 async function getStackName(stack_id: number): Promise<string> {
   logger.debug(`Fetching stack name for id ${stack_id}`);
   const stacks = dbFunctions.getStacks();
-  const stack = stacks.find((stack) => Number(stack.id) === Number(stack_id));
+  const stack = findObjectByKey(stacks, "id", stack_id);
   if (!stack) {
     throw new Error(`Stack with id ${stack_id} not found`);
   }

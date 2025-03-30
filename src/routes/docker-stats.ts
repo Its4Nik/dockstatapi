@@ -8,6 +8,7 @@ import {
 } from "~/core/utils/calculations";
 import { logger } from "~/core/utils/logger";
 import { responseHandler } from "~/core/utils/response-handler";
+import { findObjectByKey } from "~/core/utils/helpers";
 import type { ContainerInfo, DockerHost, HostStats } from "~/typings/docker";
 import type { DockerInfo } from "~/typings/dockerode";
 
@@ -112,8 +113,7 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
     async ({ params, set }) => {
       try {
         const hosts = dbFunctions.getDockerHosts() as DockerHost[];
-        const host = hosts.find((h) => h.name === params.id);
-
+        const host = findObjectByKey(hosts, "name", params.id);
         if (!host) {
           return responseHandler.simple_error(
             set,

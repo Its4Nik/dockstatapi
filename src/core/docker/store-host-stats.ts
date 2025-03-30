@@ -3,10 +3,11 @@ import { dbFunctions } from "~/core/database";
 import { DockerHost, HostStats } from "~/typings/docker";
 import { getDockerClient } from "~/core/docker/client";
 import { DockerInfo } from "~/typings/dockerode";
+import { findObjectByKey } from "~/core/utils/helpers";
 
 function getHostByName(hostName: string): DockerHost {
   const hosts = dbFunctions.getDockerHosts() as DockerHost[];
-  const foundHost = hosts.find((host) => host.name === hostName);
+  const foundHost = findObjectByKey(hosts, "name", hostName);
   if (!foundHost) {
     throw new Error(`Host ${hostName} not found`);
   }
