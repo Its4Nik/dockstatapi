@@ -91,44 +91,6 @@ strict digraph "dependency-cruiser output"{
     "src/core/stacks/controller.ts" -> "src/typings/docker-compose.ts" [arrowhead="onormal" penwidth="1.0"]
     "src/core/stacks/controller.ts" -> "bun"
     "src/core/stacks/controller.ts" -> "fs/promises" [style="dashed" penwidth="1.0"]
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" "src/core/trpc/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/core/trpc/index.ts" fillcolor="#ddfeff"] } } }
-    "src/core/trpc/index.ts" -> "src/core/trpc/router.ts"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/api-config.procedure.ts" [label=<api-config.procedure.ts> tooltip="api-config.procedure.ts" URL="src/core/trpc/procedures/api-config.procedure.ts" fillcolor="#ddfeff"] } } } }
-    "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/database/index.ts"
-    "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/utils/logger.ts"
-    "src/core/trpc/procedures/api-config.procedure.ts" -> "src/core/utils/package-json.ts"
-    "src/core/trpc/procedures/api-config.procedure.ts" -> "src/typings/database.ts"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/docker-manager.procedure.ts" [label=<docker-manager.procedure.ts> tooltip="docker-manager.procedure.ts" URL="src/core/trpc/procedures/docker-manager.procedure.ts" fillcolor="#ddfeff"] } } } }
-    "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/database/index.ts"
-    "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/core/utils/logger.ts"
-    "src/core/trpc/procedures/docker-manager.procedure.ts" -> "src/typings/docker.ts"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/docker-stats.procedure.ts" [label=<docker-stats.procedure.ts> tooltip="docker-stats.procedure.ts" URL="src/core/trpc/procedures/docker-stats.procedure.ts" fillcolor="#ddfeff"] } } } }
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/database/index.ts"
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/docker/client.ts"
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/utils/calculations.ts"
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/core/utils/logger.ts"
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/typings/docker.ts" [arrowhead="onormal" penwidth="1.0"]
-    "src/core/trpc/procedures/docker-stats.procedure.ts" -> "src/typings/dockerode.ts" [arrowhead="onormal" penwidth="1.0"]
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/logs.procedure.ts" [label=<logs.procedure.ts> tooltip="logs.procedure.ts" URL="src/core/trpc/procedures/logs.procedure.ts" fillcolor="#ddfeff"] } } } }
-    "src/core/trpc/procedures/logs.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/logs.procedure.ts" -> "src/core/database/index.ts"
-    "src/core/trpc/procedures/logs.procedure.ts" -> "src/core/utils/logger.ts"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" subgraph "cluster_src/core/trpc/procedures" {label="procedures" "src/core/trpc/procedures/stacks.procedure.ts" [label=<stacks.procedure.ts> tooltip="stacks.procedure.ts" URL="src/core/trpc/procedures/stacks.procedure.ts" fillcolor="#ddfeff"] } } } }
-    "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/trpc/trpc.ts"
-    "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/database/index.ts"
-    "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/stacks/controller.ts"
-    "src/core/trpc/procedures/stacks.procedure.ts" -> "src/core/utils/logger.ts"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" "src/core/trpc/router.ts" [label=<router.ts> tooltip="router.ts" URL="src/core/trpc/router.ts" fillcolor="#ddfeff"] } } }
-    "src/core/trpc/router.ts" -> "src/core/trpc/procedures/api-config.procedure.ts"
-    "src/core/trpc/router.ts" -> "src/core/trpc/procedures/docker-manager.procedure.ts"
-    "src/core/trpc/router.ts" -> "src/core/trpc/procedures/docker-stats.procedure.ts"
-    "src/core/trpc/router.ts" -> "src/core/trpc/procedures/logs.procedure.ts"
-    "src/core/trpc/router.ts" -> "src/core/trpc/procedures/stacks.procedure.ts"
-    "src/core/trpc/router.ts" -> "src/core/trpc/trpc.ts"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/trpc" {label="trpc" "src/core/trpc/trpc.ts" [label=<trpc.ts> tooltip="trpc.ts" URL="src/core/trpc/trpc.ts" fillcolor="#ddfeff"] } } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/calculations.ts" [label=<calculations.ts> tooltip="calculations.ts" URL="src/core/utils/calculations.ts" fillcolor="#ddfeff"] } } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/core" {label="core" subgraph "cluster_src/core/utils" {label="utils" "src/core/utils/change-me-checker.ts" [label=<change-me-checker.ts> tooltip="change-me-checker.ts" URL="src/core/utils/change-me-checker.ts" fillcolor="#ddfeff"] } } }
     "src/core/utils/change-me-checker.ts" -> "src/core/utils/logger.ts"
@@ -155,7 +117,6 @@ strict digraph "dependency-cruiser output"{
     "src/index.ts" -> "src/core/database/index.ts"
     "src/index.ts" -> "src/core/docker/scheduler.ts"
     "src/index.ts" -> "src/core/plugins/loader.ts"
-    "src/index.ts" -> "src/core/trpc/index.ts"
     "src/index.ts" -> "src/core/utils/logger.ts"
     "src/index.ts" -> "src/routes/api-config.ts"
     "src/index.ts" -> "src/routes/docker-manager.ts"
