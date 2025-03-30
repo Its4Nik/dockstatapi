@@ -12,7 +12,6 @@ import { apiConfigRoutes } from "~/routes/api-config";
 import { setSchedules } from "~/core/docker/scheduler";
 import { serverTiming } from "@elysiajs/server-timing";
 import staticPlugin from "@elysiajs/static";
-import trpcRouter from "~/core/trpc";
 import { config } from "./typings/database";
 import { validateApiKey } from "./middleware/auth";
 import { monitorDockerEvents } from "./core/docker/monitor";
@@ -88,7 +87,6 @@ export const DockStatAPI = new Elysia()
       return { error: validation.error };
     }
   })
-  .use(trpcRouter)
   .use(dockerRoutes)
   .use(dockerStatsRoutes)
   .use(backendLogs)

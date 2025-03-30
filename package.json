@@ -25,8 +25,6 @@
     "@elysiajs/server-timing": "^1.2.1",
     "@elysiajs/static": "^1.2.0",
     "@elysiajs/swagger": "^1.2.2",
-    "@elysiajs/trpc": "^1.1.0",
-    "@trpc/server": "^10.45.2",
     "chalk": "^5.4.1",
     "docker-compose": "^1.2.0",
     "dockerode": "^4.0.4",
@@ -44,8 +42,7 @@
     "cross-env": "^7.0.3",
     "logform": "^2.7.0",
     "typescript": "^5.8.2",
-    "wrap-ansi": "^9.0.0",
-    "zod": "^3.24.2"
+    "wrap-ansi": "^9.0.0"
   },
   "module": "src/index.js",
   "trustedDependencies": [
