@@ -1,3 +1,6 @@
+import { ContainerStats } from "dockerode";
+import Docker from "dockerode";
+
 interface DockerHost {
   name: string;
   hostAddress: string;
@@ -14,6 +17,8 @@ interface ContainerInfo {
   state: string;
   cpuUsage: number;
   memoryUsage: number;
+  stats: ContainerStats;
+  info: Docker.ContainerInfo;
 }
 
 interface HostStats {

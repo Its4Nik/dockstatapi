@@ -40,7 +40,7 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
           await docker.ping();
           const containers = await docker.listContainers({ all: true });
           logger.debug(
-            `Found ${containers.length} containers on ${host.name} (id: ${host.id})`,
+            `Found ${containers.length} containers on ${host.name} (id: ${host.id})`
           );
 
           for (const containerInfo of containers) {
@@ -75,7 +75,7 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
                       state: containerInfo.State,
                       cpuUsage: calculateCpuPercent(stats) || 0,
                       memoryUsage: calculateMemoryUsage(stats) || 0,
-                    }),
+                    })
                   );
                 } catch (error) {
                   logger.error(`Parse error: ${error}`);
@@ -89,7 +89,7 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
                     hostId: host.name,
                     containerId: containerInfo.Id,
                     error: `Stats stream error: ${error}`,
-                  }),
+                  })
                 );
               });
           }
@@ -102,9 +102,9 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
               { headers: {} },
               error as string,
               "Docker connection failed",
-              500,
-            ),
-          ),
+              500
+            )
+          )
         );
       }
     },
@@ -129,5 +129,5 @@ export const dockerWebsocketRoutes = new Elysia({ prefix: "/docker" }).ws(
       });
       connectionStreams.delete(ws);
     },
-  },
+  }
 );
