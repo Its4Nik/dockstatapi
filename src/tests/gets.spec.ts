@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { runTestResponse, runTestCode } from "./helper";
+
 import {
   version,
   authorEmail,
@@ -11,6 +11,8 @@ import {
   devDependencies,
   license,
 } from "~/core/utils/package-json";
+
+import { runTestResponse, runTestCode } from "./helper";
 
 describe("DockStatAPI (GET)", () => {
   it("Check Server connection", async () => {

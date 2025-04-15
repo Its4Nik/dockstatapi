@@ -16,4 +16,12 @@ interface stacks_config {
   image_updates: boolean;
 }
 
-export type { config, stacks_config };
+interface log_message {
+  level: string;
+  timestamp: string;
+  message: string;
+  file: string;
+  line: number;
+}
+
+export type { config, stacks_config, log_message };

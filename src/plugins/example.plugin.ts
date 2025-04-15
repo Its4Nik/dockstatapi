@@ -1,6 +1,7 @@
+import { logger } from "~/core/utils/logger";
+
 import type { Plugin } from "~/typings/plugin";
 import type { ContainerInfo } from "~/typings/docker";
-import { logger } from "~/core/utils/logger";
 
 // See https://outline.itsnik.de/s/dockstat/doc/plugin-development-3UBj9gNMKF for more info
 
@@ -9,67 +10,67 @@ const ExamplePlugin: Plugin = {
 
   async onContainerStart(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} started on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} started on ${containerInfo.hostId}`
     );
   },
 
   async onContainerStop(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} stopped on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} stopped on ${containerInfo.hostId}`
     );
   },
 
   async onContainerExit(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} exited on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} exited on ${containerInfo.hostId}`
     );
   },
 
   async onContainerCreate(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} created on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} created on ${containerInfo.hostId}`
     );
   },
 
   async onContainerDestroy(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} destroyed on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} destroyed on ${containerInfo.hostId}`
     );
   },
 
   async onContainerPause(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} pause on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} pause on ${containerInfo.hostId}`
     );
   },
 
   async onContainerUnpause(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} resumed on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} resumed on ${containerInfo.hostId}`
     );
   },
 
   async onContainerRestart(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} restarted on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} restarted on ${containerInfo.hostId}`
     );
   },
 
   async onContainerUpdate(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} updated on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} updated on ${containerInfo.hostId}`
     );
   },
 
   async onContainerRename(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} renamed on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} renamed on ${containerInfo.hostId}`
     );
   },
 
   async onContainerHealthStatus(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} changed status to ${containerInfo.status}`,
+      `Container ${containerInfo.name} changed status to ${containerInfo.status}`
     );
   },
 
@@ -83,13 +84,13 @@ const ExamplePlugin: Plugin = {
 
   async handleContainerDie(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} died on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} died on ${containerInfo.hostId}`
     );
   },
 
   async onContainerKill(containerInfo: ContainerInfo) {
     logger.info(
-      `Container ${containerInfo.name} killed on ${containerInfo.hostId}`,
+      `Container ${containerInfo.name} killed on ${containerInfo.hostId}`
     );
   },
 } satisfies Plugin;

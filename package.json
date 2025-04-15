@@ -27,7 +27,7 @@
     "@elysiajs/swagger": "^1.2.2",
     "chalk": "^5.4.1",
     "docker-compose": "^1.2.0",
-    "dockerode": "^4.0.4",
+    "dockerode": "^4.0.5",
     "elysia": "latest",
     "knip": "latest",
     "split2": "^4.2.0",
@@ -35,13 +35,13 @@
     "yaml": "^2.7.1"
   },
   "devDependencies": {
-    "@types/dockerode": "^3.3.36",
-    "@types/node": "^22.13.14",
+    "@types/dockerode": "^3.3.38",
+    "@types/node": "^22.14.1",
     "@types/split2": "^4.2.3",
     "bun-types": "latest",
     "cross-env": "^7.0.3",
     "logform": "^2.7.0",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "wrap-ansi": "^9.0.0"
   },
   "module": "src/index.js",

@@ -1,23 +1,33 @@
-import { dbFunctions } from "~/core/database";
-import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
-import { loadPlugins } from "~/core/plugins/loader";
+import staticPlugin from "@elysiajs/static";
+import { swagger } from "@elysiajs/swagger";
+import { serverTiming } from "@elysiajs/server-timing";
+
 import { logger } from "~/core/utils/logger";
+import { dbFunctions } from "~/core/database";
+import { loadPlugins } from "~/core/plugins/loader";
+import { setSchedules } from "~/core/docker/scheduler";
+import { monitorDockerEvents } from "~/core/docker/monitor";
+import { swaggerReadme } from "~/core/utils/swagger-readme";
+import {
+  authorWebsite,
+  contributors,
+  license,
+} from "~/core/utils/package-json";
+
+import { validateApiKey } from "~/middleware/auth";
+
+import { backendLogs } from "~/routes/logs";
+import { utilRoutes } from "~/routes/utils";
+import { liveLogs } from "~/routes/live-logs";
+import { stackRoutes } from "~/routes/stacks";
+import { apiConfigRoutes } from "~/routes/api-config";
 import { dockerRoutes } from "~/routes/docker-manager";
 import { dockerStatsRoutes } from "~/routes/docker-stats";
-import { backendLogs } from "~/routes/logs";
 import { dockerWebsocketRoutes } from "~/routes/docker-websocket";
-import { stackRoutes } from "./routes/stacks";
-import { apiConfigRoutes } from "~/routes/api-config";
-import { setSchedules } from "~/core/docker/scheduler";
-import { serverTiming } from "@elysiajs/server-timing";
-import staticPlugin from "@elysiajs/static";
-import { config } from "./typings/database";
-import { validateApiKey } from "./middleware/auth";
-import { monitorDockerEvents } from "./core/docker/monitor";
-import { liveLogs } from "./routes/live-logs";
-import { utilRoutes } from "./routes/utils";
-import { swaggerReadme } from "./core/utils/swagger-readme";
+import { liveStacks } from "./routes/live-stacks";
+
+import { config } from "~/typings/database";
 
 console.log("");
 
@@ -69,7 +79,7 @@ export const DockStatAPI = new Elysia()
           },
         ],
       },
-    }),
+    })
   )
   .onBeforeHandle(async (context) => {
     const { path, request, set } = context;
@@ -96,6 +106,7 @@ export const DockStatAPI = new Elysia()
   .use(stackRoutes)
   .use(utilRoutes)
   .use(liveLogs)
+  .use(liveStacks)
   .get("/health", () => ({ status: "healthy" }), { tags: ["Utils"] })
   .onError(({ code, set, path }) => {
     if (code === "NOT_FOUND") {
@@ -129,7 +140,7 @@ async function startServer() {
 
     if (apiKey === "changeme") {
       logger.warn(
-        "Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!",
+        "Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!"
       );
     }
 
@@ -138,11 +149,11 @@ async function startServer() {
         console.log("----- [ ############## ]");
         logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
         logger.info(
-          `Swagger API Documentation available at http://${hostname}:${port}/swagger`,
+          `Swagger API Documentation available at http://${hostname}:${port}/swagger`
         );
-        logger.info(
-          `tRPC Endpoint available at: http://${hostname}:${port}/trpc`,
-        );
+        logger.info(`License: ${license}`);
+        logger.info(`Author: ${authorWebsite}`);
+        logger.info(`Contributors: ${contributors}`);
       });
     } catch (error) {
       logger.error("Failed to start server:", error);

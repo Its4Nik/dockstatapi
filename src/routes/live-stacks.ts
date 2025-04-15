@@ -2,24 +2,23 @@ import { Elysia } from "elysia";
 import type { ElysiaWS } from "elysia/dist/ws";
 
 import { logger } from "~/core/utils/logger";
-
-import { log_message } from "~/typings/database";
+import { stackSocketMessage } from "~/typings/websocket";
 
 const activeConnections = new Set<ElysiaWS<any>>();
 
-export const liveLogs = new Elysia({ prefix: "/logs" }).ws("/ws", {
+export const liveStacks = new Elysia().ws("/stacks", {
   open(ws) {
     activeConnections.add(ws);
     ws.send({ message: "Connection established" });
-    logger.info(`New Logs WebSocket established (${ws.id})`);
+    logger.info(`New Stacks WebSocket established (${ws.id})`);
   },
   close(ws) {
-    logger.info(`Logs WebSocket closed (${ws.id})`);
+    logger.info(`Stacks WebSocket closed (${ws.id})`);
     activeConnections.delete(ws);
   },
 });
 
-export function logToClients(data: log_message) {
+export function postToClient(data: stackSocketMessage) {
   activeConnections.forEach((ws) => {
     try {
       ws.send(JSON.stringify(data));

@@ -1,5 +1,7 @@
 import { describe, it } from "bun:test";
+
 import { runTestResponse, runTestCode } from "./helper";
+
 import { DockerHost } from "~/typings/docker";
 
 describe("DockStatAPI (POST)", () => {
@@ -36,7 +38,7 @@ describe("DockStatAPI (POST)", () => {
     await runTestResponse(
       "/docker-config/hosts",
       JSON.stringify(responseBody),
-      "GET",
+      "GET"
     );
   });
 

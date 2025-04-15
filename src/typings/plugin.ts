@@ -1,5 +1,4 @@
 import { ContainerInfo } from "~/typings/docker";
-import { HostStats } from "~/typings/docker";
 
 interface Plugin {
   name: string;

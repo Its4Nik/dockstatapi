@@ -1,8 +1,9 @@
 import { Elysia, t } from "elysia";
-import { dbFunctions } from "~/core/database";
+
 import { logger } from "~/core/utils/logger";
+import { dbFunctions } from "~/core/database";
+import { pluginManager } from "~/core/plugins/plugin-manager";
 import { responseHandler } from "~/core/utils/response-handler";
-import { config } from "~/typings/database";
 import {
   version,
   authorEmail,
@@ -14,8 +15,10 @@ import {
   devDependencies,
   license,
 } from "~/core/utils/package-json";
+
 import { hashApiKey } from "~/middleware/auth";
-import { pluginManager } from "~/core/plugins/plugin-manager";
+
+import { config } from "~/typings/database";
 
 export const apiConfigRoutes = new Elysia({ prefix: "/config" })
   .get(
@@ -32,7 +35,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           error as string,
-          "Error getting the DockStatAPI config",
+          "Error getting the DockStatAPI config"
         );
       }
     },
@@ -42,7 +45,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         description:
           "Returns current API configuration including data retention policies and security settings",
       },
-    },
+    }
   )
   .get(
     "/plugins",
@@ -53,7 +56,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           error as string,
-          "Error getting all registered plugins",
+          "Error getting all registered plugins"
         );
       }
     },
@@ -63,7 +66,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         description:
           "Lists all active plugins with their registration details and status",
       },
-    },
+    }
   )
   .post(
     "/update",
@@ -74,14 +77,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         dbFunctions.updateConfig(
           fetching_interval,
           keep_data_for,
-          await hashApiKey(api_key),
+          await hashApiKey(api_key)
         );
         return responseHandler.ok(set, "Updated DockStatAPI config");
       } catch (error) {
         return responseHandler.error(
           set,
           "Error updating the DockStatAPI config",
-          error as string,
+          error as string
         );
       }
     },
@@ -96,7 +99,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         description:
           "Modifies core API settings including data collection intervals, retention periods, and security credentials",
       },
-    },
+    }
   )
   .get(
     "/package",
@@ -118,7 +121,7 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         return responseHandler.error(
           set,
           error as string,
-          "Error while reading package.json",
+          "Error while reading package.json"
         );
       }
     },
@@ -128,5 +131,5 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
         description:
           "Displays package metadata including dependencies, contributors, and licensing information",
       },
-    },
+    }
   );

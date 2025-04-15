@@ -1,4 +1,5 @@
 import { logger } from "~/core/utils/logger";
+
 import type { set } from "~/typings/elysiajs";
 
 export const responseHandler = {
@@ -6,7 +7,7 @@ export const responseHandler = {
     set: set,
     error: string,
     response_message: string,
-    error_code?: number,
+    error_code?: number
   ) {
     set.status = error_code || 500;
     logger.error(`${response_message} - ${error}`);

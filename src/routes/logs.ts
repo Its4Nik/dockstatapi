@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
-import { dbFunctions } from "~/core/database";
+
 import { logger } from "~/core/utils/logger";
+import { dbFunctions } from "~/core/database";
 
 export const backendLogs = new Elysia({ prefix: "/logs" })
   .get(
@@ -23,7 +24,7 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
         description:
           "Retrieves complete application log history from persistent storage",
       },
-    },
+    }
   )
 
   .get(
@@ -46,7 +47,7 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
         description:
           "Filters logs by severity level (debug, info, warn, error, fatal)",
       },
-    },
+    }
   )
 
   .delete(
@@ -68,7 +69,7 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
         tags: ["Management"],
         description: "Purges all historical log records from the database",
       },
-    },
+    }
   )
 
   .delete(
@@ -90,5 +91,5 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
         tags: ["Management"],
         description: "Clears log entries matching specified severity level",
       },
-    },
+    }
   );

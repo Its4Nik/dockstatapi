@@ -11,6 +11,8 @@ export async function checkFileForChangeMe(filePath: string) {
   }
 
   if (regex.test(content)) {
-    throw new Error(`Error: The file contains 'CHANGE_ME'. Please update it.`);
+    throw new Error(
+      `The file contains ${regex.exec(content)}. Please update it.`
+    );
   }
 }

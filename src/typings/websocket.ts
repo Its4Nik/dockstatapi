@@ -1,17 +1,15 @@
-//import type { Readable, Transform } from "stream";
-//import type internal from "stream";
-
-//interface streams {
-//  statsStream: Readable;
-//  splitStream: internal.Transform;
-//}
-
-interface logStreamData {
-  timestamp: string;
-  level: string;
-  message: string;
-  file: string;
-  line: number;
+interface stackSocketMessage {
+  message?: string;
+  type?: "stack-progress" | "stack-error" | "stack-status" | "stack-removed";
+  data?: stackSocketData;
 }
 
-export { logStreamData };
+interface stackSocketData {
+  stack_id: number;
+  message: string;
+  action?: string;
+  status?: string;
+  timestamp?: string;
+}
+
+export { stackSocketMessage };

@@ -1,4 +1,7 @@
 import { Elysia, t } from "elysia";
+
+import { logger } from "~/core/utils/logger";
+import { dbFunctions } from "~/core/database";
 import { responseHandler } from "~/core/utils/response-handler";
 import {
   deployStack,
@@ -10,8 +13,6 @@ import {
   getAllStacksStatus,
   removeStack,
 } from "~/core/stacks/controller";
-import { dbFunctions } from "~/core/database";
-import { logger } from "~/core/utils/logger";
 
 export const stackRoutes = new Elysia({ prefix: "/stacks" })
   .post(
@@ -49,18 +50,18 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
           body.automatic_reboot_on_error,
           isCustom,
           image_updates,
-          body.stack_prefix,
+          body.stack_prefix
         );
         logger.info(`Deployed Stack (${body.name})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.name} deployed successfully`,
+          `Stack ${body.name} deployed successfully`
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error deploying stack",
+          "Error deploying stack"
         );
       }
     },
@@ -80,7 +81,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         source: t.String(),
         stack_prefix: t.Optional(t.String()),
       }),
-    },
+    }
   )
   .post(
     "/start",
@@ -93,13 +94,13 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Started Stack (${body.stackId})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.stackId} started successfully`,
+          `Stack ${body.stackId} started successfully`
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error starting stack",
+          "Error starting stack"
         );
       }
     },
@@ -112,7 +113,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       body: t.Object({
         stackId: t.Number(),
       }),
-    },
+    }
   )
   .post(
     "/stop",
@@ -125,13 +126,13 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Stopped Stack (${body.stackId})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.stackId} stopped successfully`,
+          `Stack ${body.stackId} stopped successfully`
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error stopping stack",
+          "Error stopping stack"
         );
       }
     },
@@ -144,7 +145,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       body: t.Object({
         stackId: t.Number(),
       }),
-    },
+    }
   )
   .post(
     "/restart",
@@ -157,13 +158,13 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Restarted Stack (${body.stackId})`);
         return responseHandler.ok(
           set,
-          `Stack ${body.stackId} restarted successfully`,
+          `Stack ${body.stackId} restarted successfully`
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error restarting stack",
+          "Error restarting stack"
         );
       }
     },
@@ -176,7 +177,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       body: t.Object({
         stackId: t.Number(),
       }),
-    },
+    }
   )
   .post(
     "/pull-images",
@@ -189,13 +190,13 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         logger.info(`Pulled Stack images (${body.stackId})`);
         return responseHandler.ok(
           set,
-          `Images for stack ${body.stackId} pulled successfully`,
+          `Images for stack ${body.stackId} pulled successfully`
         );
       } catch (error: any) {
         return responseHandler.error(
           set,
           error.message || error,
-          "Error pulling images",
+          "Error pulling images"
         );
       }
     },
@@ -208,7 +209,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       body: t.Object({
         stackId: t.Number(),
       }),
-    },
+    }
   )
   .get(
     "/status",
@@ -220,7 +221,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
           status = await getStackStatus(query.stackId);
           res = responseHandler.ok(
             set,
-            `Stack ${query.stackId} status retrieved successfully`,
+            `Stack ${query.stackId} status retrieved successfully`
           );
           logger.info("Fetched Stack status");
         } else {
@@ -233,7 +234,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         return responseHandler.error(
           set,
           error.message || error,
-          "Error getting stack status",
+          "Error getting stack status"
         );
       }
     },
@@ -246,7 +247,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       query: t.Object({
         stackId: t.Number(),
       }),
-    },
+    }
   )
   .get(
     "/",
@@ -259,7 +260,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         return responseHandler.error(
           set,
           error.message || error,
-          "Error getting stacks",
+          "Error getting stacks"
         );
       }
     },
@@ -269,7 +270,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         description:
           "Lists all registered stacks with their complete configuration details",
       },
-    },
+    }
   )
 
   .delete(
@@ -284,7 +285,7 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
         return responseHandler.error(
           set,
           error.message || error,
-          "Error deleting stack",
+          "Error deleting stack"
         );
       }
     },
@@ -297,5 +298,5 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
       body: t.Object({
         stackId: t.Number(),
       }),
-    },
+    }
   );

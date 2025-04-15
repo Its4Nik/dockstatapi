@@ -2,6 +2,7 @@ import { Stack } from "~/typings/docker-compose";
 import { db } from "./database";
 import { executeDbOperation } from "./helper";
 import type { stacks_config } from "~/typings/database";
+import { findObjectByKey } from "../utils/helpers";
 
 const stmt = {
   insert: db.prepare(`
@@ -26,7 +27,7 @@ const stmt = {
 };
 
 export function addStack(stack: stacks_config) {
-  return executeDbOperation("Add Stack", () =>
+  executeDbOperation("Add Stack", () =>
     stmt.insert.run(
       stack.name,
       stack.version,
@@ -35,14 +36,16 @@ export function addStack(stack: stacks_config) {
       stack.container_count,
       stack.stack_prefix,
       stack.automatic_reboot_on_error,
-      stack.image_updates,
-    ),
+      stack.image_updates
+    )
   );
+
+  return findObjectByKey(getStacks(), "name", stack.name)?.id;
 }
 
 export function getStacks() {
   return executeDbOperation("Get Stacks", () =>
-    stmt.selectAll.all(),
+    stmt.selectAll.all()
   ) as Stack[];
 }
 
@@ -52,7 +55,7 @@ export function deleteStack(id: number) {
     () => stmt.delete.run(id),
     () => {
       if (typeof id !== "number") throw new TypeError("Invalid stack ID");
-    },
+    }
   );
 }
 
@@ -66,7 +69,7 @@ export function updateStack(stack: stacks_config) {
       stack.stack_prefix,
       stack.automatic_reboot_on_error,
       stack.image_updates,
-      stack.name,
-    ),
+      stack.name
+    )
   );
 }

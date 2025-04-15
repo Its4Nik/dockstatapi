@@ -1,15 +1,16 @@
+import split2 from "split2";
 import { Elysia } from "elysia";
+import type { Readable } from "stream";
 import type { ElysiaWS } from "elysia/dist/ws";
+
+import { logger } from "~/core/utils/logger";
 import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
+import { responseHandler } from "~/core/utils/response-handler";
 import {
   calculateCpuPercent,
   calculateMemoryUsage,
 } from "~/core/utils/calculations";
-import { logger } from "~/core/utils/logger";
-import { responseHandler } from "~/core/utils/response-handler";
-import split2 from "split2";
-import type { Readable } from "stream";
 
 const activeDockerConnections = new Set<ElysiaWS<any>>();
 const connectionStreams = new Map<

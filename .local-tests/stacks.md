@@ -14,6 +14,7 @@
 - stack_prefix
 
 ### JSON
+
 ```json
 {
     "compose_spec": {

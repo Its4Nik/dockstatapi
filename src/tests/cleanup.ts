@@ -1,6 +1,7 @@
 import { dbFunctions } from "~/core/database";
-import type { DockerHost } from "~/typings/docker";
 import { findObjectByKey } from "~/core/utils/helpers";
+
+import type { DockerHost } from "~/typings/docker";
 
 console.log("");
 console.log("Deleting `test` Docker host");

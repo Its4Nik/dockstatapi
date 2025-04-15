@@ -1,11 +1,14 @@
-import { createLogger, format, transports } from "winston";
-import type { TransformableInfo } from "logform";
 import path from "path";
-import chalk, { ChalkInstance } from "chalk";
-import { dbFunctions } from "~/core/database";
 import wrapAnsi from "wrap-ansi";
+import chalk, { ChalkInstance } from "chalk";
+import type { TransformableInfo } from "logform";
+import { createLogger, format, transports } from "winston";
+
+import { dbFunctions } from "~/core/database";
+
 import { logToClients } from "~/routes/live-logs";
-import type { logStreamData } from "~/typings/websocket";
+
+import { log_message } from "~/typings/database";
 
 const padNewlines = process.env.PAD_NEW_LINES !== "false";
 
@@ -18,15 +21,6 @@ type LogLevel =
   | "silly"
   | "task"
   | "ut";
-
-interface CustomTransformableInfo extends TransformableInfo {
-  file: string;
-  line: number;
-}
-
-type LogStreamData = Omit<logStreamData, "message"> & {
-  message: string;
-};
 
 const ansiRegex = /\x1B\[[0-?9;]*[mG]/g;
 
@@ -67,55 +61,30 @@ const levelColors: Record<LogLevel | string, ChalkInstance> = {
   ut: chalk.hex("#9D00FF"),
 };
 
-const handleWebSocketLog = (
-  level: string,
-  timestamp: string,
-  message: string,
-  file: string,
-  line: number,
-) => {
+const handleWebSocketLog = (log: log_message) => {
   try {
-    const data = {
-      timestamp,
-      level: level,
-      message: message,
-      file: file,
-      line: line,
-    };
-
-    logToClients(data);
+    logToClients(log);
   } catch (error) {
     console.error(
-      `WebSocket logging failed: ${error instanceof Error ? error.message : error}`,
+      `WebSocket logging failed: ${
+        error instanceof Error ? error.message : error
+      }`
     );
   }
 };
 
-const handleDatabaseLog = (
-  level: string,
-  timestamp: string,
-  message: string,
-  file: string,
-  line: number,
-): void => {
+const handleDatabaseLog = (log: log_message): void => {
   try {
-    const data = {
-      timestamp,
-      level,
-      message,
-      file: file,
-      line: line,
-    };
-
-    dbFunctions.addLogEntry(data);
+    dbFunctions.addLogEntry(log);
   } catch (error) {
     console.error(
-      `Database logging failed: ${error instanceof Error ? error.message : error}`,
+      `Database logging failed: ${
+        error instanceof Error ? error.message : error
+      }`
     );
   }
 };
 
-// Main logger
 export const logger = createLogger({
   level: process.env.LOG_LEVEL || "debug",
   format: format.combine(
@@ -145,7 +114,7 @@ export const logger = createLogger({
     })(),
     format.printf((info) => {
       const { timestamp, level, message, file, line } =
-        info as CustomTransformableInfo;
+        info as TransformableInfo & log_message;
       let processedLevel = level as LogLevel;
       let processedMessage = String(message);
 
@@ -166,38 +135,40 @@ export const logger = createLogger({
       }
 
       if (file.endsWith("plugin.ts")) {
-        processedMessage = `[ ${chalk.greenBright("Plugin")} ] ${processedMessage}`;
+        processedMessage = `[ ${chalk.grey(file)} ] ${processedMessage}`;
       }
 
       const paddedLevel = processedLevel.toUpperCase().padEnd(5);
       const coloredLevel = (levelColors[processedLevel] || chalk.white)(
-        paddedLevel,
+        paddedLevel
       );
       const coloredContext = chalk.cyan(`${file}:${line}`);
       const coloredTimestamp = chalk.yellow(timestamp);
 
       const prefix = `${paddedLevel} [ ${timestamp} ] - `;
+      const combinedContent = `${processedMessage} - ${coloredContext}`;
+
       const formattedMessage = padNewlines
-        ? formatTerminalMessage(processedMessage, prefix)
-        : processedMessage;
+        ? formatTerminalMessage(combinedContent, prefix)
+        : combinedContent;
 
-      handleDatabaseLog(
-        coloredTimestamp.replace(ansiRegex, "").trim(),
-        coloredLevel.replace(ansiRegex, "").trim(),
-        processedMessage.replace(ansiRegex, "").trim(),
-        file.trim(),
+      handleDatabaseLog({
+        level: processedLevel,
+        timestamp,
+        message: processedMessage,
+        file,
         line,
-      );
-      handleWebSocketLog(
-        coloredLevel.replace(ansiRegex, "").trim(),
-        coloredTimestamp.replace(ansiRegex, "").trim(),
-        processedMessage.replace(ansiRegex, "").trim(),
-        file.trim(),
+      });
+      handleWebSocketLog({
+        level: processedLevel,
+        timestamp,
+        message: processedMessage,
+        file,
         line,
-      );
+      });
 
-      return `${coloredLevel} [ ${coloredTimestamp} ] - ${formattedMessage} - [ ${coloredContext} ]`;
-    }),
+      return `${coloredLevel} [ ${coloredTimestamp} ] - ${formattedMessage}`;
+    })
   ),
   transports: [new transports.Console()],
 });

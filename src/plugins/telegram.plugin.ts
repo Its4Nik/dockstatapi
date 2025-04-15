@@ -1,6 +1,7 @@
+import { logger } from "~/core/utils/logger";
+
 import type { Plugin } from "~/typings/plugin";
 import type { ContainerInfo } from "~/typings/docker";
-import { logger } from "~/core/utils/logger";
 
 const TELEGRAM_BOT_TOKEN = "CHANGE_ME"; // Replace with your bot token
 const TELEGRAM_CHAT_ID = "CHANGE_ME"; // Replace with your chat ID
@@ -19,7 +20,7 @@ const TelegramNotificationPlugin: Plugin = {
             chat_id: TELEGRAM_CHAT_ID,
             text: message,
           }),
-        },
+        }
       );
       if (!response.ok) {
         logger.error(`HTTP error ${response.status}`);

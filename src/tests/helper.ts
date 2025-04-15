@@ -1,6 +1,8 @@
 import { expect } from "bun:test";
-import { DockStatAPI } from "..";
+
 import { logger } from "~/core/utils/logger";
+
+import { DockStatAPI } from "..";
 
 export const API_KEY = "TestKey";
 const server = "http://localhost:3001";

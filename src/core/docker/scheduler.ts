@@ -2,7 +2,7 @@ import storeContainerData from "~/core/docker/store-container-stats";
 import { dbFunctions } from "~/core/database";
 import { config } from "~/typings/database";
 import { logger } from "~/core/utils/logger";
-import storeHostData from "~/core/docker//store-host-stats";
+import storeHostData from "~/core/docker/store-host-stats";
 
 function convertFromMinToMs(minutes: number): number {
   return minutes * 60 * 1000;
@@ -11,7 +11,7 @@ function convertFromMinToMs(minutes: number): number {
 async function initialRun(
   scheduleName: string,
   scheduleFunction: Promise<void> | void,
-  isAsync: boolean,
+  isAsync: boolean
 ) {
   try {
     if (isAsync) {
@@ -54,15 +54,15 @@ async function setSchedules() {
     }
 
     logger.info(
-      `Scheduling: Fetching container statistics every ${fetching_interval} minutes`,
+      `Scheduling: Fetching container statistics every ${fetching_interval} minutes`
     );
 
     logger.info(
-      `Scheduling: Updating host statistics every ${fetching_interval} minutes`,
+      `Scheduling: Updating host statistics every ${fetching_interval} minutes`
     );
 
     logger.info(
-      `Scheduling: Cleaning up Database every hour and deleting data older then ${keep_data_for} days`,
+      `Scheduling: Cleaning up Database every hour and deleting data older then ${keep_data_for} days`
     );
 
     // Schedule container data fetching
@@ -93,7 +93,7 @@ async function setSchedules() {
     await initialRun(
       "dbFunctions.deleteOldData",
       dbFunctions.deleteOldData(keep_data_for),
-      false,
+      false
     );
     setInterval(() => {
       try {

@@ -1,7 +1,9 @@
 import { Elysia, t } from "elysia";
-import { dbFunctions } from "~/core/database";
+
 import { logger } from "~/core/utils/logger";
+import { dbFunctions } from "~/core/database";
 import { responseHandler } from "~/core/utils/response-handler";
+
 import { DockerHost } from "~/typings/docker";
 
 export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
@@ -16,7 +18,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         return responseHandler.error(
           set,
           "Error adding docker Host",
-          error as string,
+          error as string
         );
       }
     },
@@ -31,7 +33,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         hostAddress: t.String(),
         secure: t.Boolean(),
       }),
-    },
+    }
   )
 
   .post(
@@ -45,7 +47,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         return responseHandler.error(
           set,
           error as string,
-          "Failed to update host",
+          "Failed to update host"
         );
       }
     },
@@ -61,7 +63,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         hostAddress: t.String(),
         secure: t.Boolean(),
       }),
-    },
+    }
   )
 
   .get(
@@ -76,7 +78,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         return responseHandler.error(
           set,
           error as string,
-          "Failed to retrieve hosts",
+          "Failed to retrieve hosts"
         );
       }
     },
@@ -86,7 +88,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         description:
           "Lists all configured Docker hosts with their connection settings",
       },
-    },
+    }
   )
 
   .delete(
@@ -100,7 +102,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
         return responseHandler.error(
           set,
           error as string,
-          "Failed to delete host",
+          "Failed to delete host"
         );
       }
     },
@@ -113,5 +115,5 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
       params: t.Object({
         id: t.Number(),
       }),
-    },
+    }
   );
