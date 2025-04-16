@@ -4,16 +4,16 @@ import { existsSync, mkdirSync } from "node:fs";
 
 const dataFolder = "data";
 if (!existsSync(dataFolder)) {
-	mkdirSync(dataFolder, { recursive: true });
+  mkdirSync(dataFolder, { recursive: true });
 }
 
-export const databasePath = "data/dockstatapi.db";
+const databasePath = "data/dockstatapi.db";
 export const db = new Database(databasePath, { strict: true });
 
 db.exec("PRAGMA journal_mode = WAL;");
 
 export function init() {
-	db.exec(`
+  db.exec(`
     CREATE TABLE IF NOT EXISTS backend_log_entries (
       timestamp STRING NOT NULL,
       level TEXT NOT NULL,
@@ -77,25 +77,25 @@ export function init() {
     );
   `);
 
-	const configRow = db
-		.prepare("SELECT COUNT(*) AS count FROM config")
-		.get() as { count: number };
+  const configRow = db
+    .prepare("SELECT COUNT(*) AS count FROM config")
+    .get() as { count: number };
 
-	if (configRow.count === 0) {
-		db.prepare(
-			'INSERT INTO config (keep_data_for, fetching_interval, api_key) VALUES (7, 5, "changeme")',
-		).run();
-	}
+  if (configRow.count === 0) {
+    db.prepare(
+      'INSERT INTO config (keep_data_for, fetching_interval, api_key) VALUES (7, 5, "changeme")'
+    ).run();
+  }
 
-	const hostRow = db
-		.prepare("SELECT COUNT(*) AS count FROM docker_hosts")
-		.get() as { count: number };
+  const hostRow = db
+    .prepare("SELECT COUNT(*) AS count FROM docker_hosts")
+    .get() as { count: number };
 
-	if (hostRow.count === 0) {
-		db.prepare(
-			"INSERT INTO docker_hosts (name, hostAddress, secure) VALUES (?, ?, ?)",
-		).run("Localhost", "localhost:2375", false);
-	}
+  if (hostRow.count === 0) {
+    db.prepare(
+      "INSERT INTO docker_hosts (name, hostAddress, secure) VALUES (?, ?, ?)"
+    ).run("Localhost", "localhost:2375", false);
+  }
 }
 
 init();

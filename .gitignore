@@ -6,3 +6,4 @@ dependency-graph*
 build
 data
 *.xml
+*.report.md
