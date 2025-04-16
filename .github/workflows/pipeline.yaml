@@ -27,15 +27,7 @@ jobs:
         run: |
           bun install
           bun clean
-          bun lint -- --reporter=github
-
-      - name: Commit and Push Changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: "src"
-          message: "Linting"
-          committer_name: "GitHub Action"
-          committer_email: "action@github.com"
+          bun lint -- --reporter=junit > lint.xml
 
       - name: Start proxy
         run: |
@@ -44,6 +36,12 @@ jobs:
       - name: Run Unit-tests
         run: |
           bun test --reporter=junit --reporter-outfile=./bun.xml
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
+        with:
+          report_paths: "*.xml"
 
       - name: Run Docker Build
         run: |
