@@ -46,7 +46,6 @@ jobs:
         with:
           report_paths: "*/**/*.xml"
           include_passed: true
-          detailed_summary: true
 
       - name: Run Docker Build
         run: |
