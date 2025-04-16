@@ -25,6 +25,8 @@ jobs:
 
       - name: Lint
         run: |
+          bun install
+          bun clean
           bun biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --reporter=github --fix src
 
       - name: Commit and Push Changes
@@ -41,8 +43,6 @@ jobs:
 
       - name: Run Unit-tests
         run: |
-          bun install
-          bun clean
           bun test --reporter=junit --reporter-outfile=./bun.xml
 
       - name: Run Docker Build
