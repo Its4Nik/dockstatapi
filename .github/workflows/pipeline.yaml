@@ -15,6 +15,8 @@ permissions:
 
 jobs:
   test:
+    outputs:
+      knip: ${{ steps.getknip.outputs.test }}
     name: Test Build on Push
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +43,7 @@ jobs:
 
       - name: Read Knip report
         id: getknip
-        run: echo "::set-output name=content::$(cat knip.report.md)"
+        run: echo "{content}={$(cat knip.report.md)}" >> $GITHUB_OUTPUT
 
       - name: Start proxy
         run: |
