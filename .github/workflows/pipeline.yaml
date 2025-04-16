@@ -29,7 +29,7 @@ jobs:
         run: |
           bun install
           bun clean
-          bun biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src --reporter=junit > lint.xml
+          bun biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src --reporter=junit > lint-test.xml
 
       - name: Start proxy
         run: |
