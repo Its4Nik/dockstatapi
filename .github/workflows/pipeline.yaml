@@ -44,7 +44,7 @@ jobs:
         uses: mikepenz/action-junit-report@v5
         if: success() || failure()
         with:
-          report_paths: "*/**/*.xml"
+          report_paths: "**/*.xml"
           include_passed: true
 
       - name: Run Docker Build
