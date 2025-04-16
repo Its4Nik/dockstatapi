@@ -175,7 +175,6 @@ export async function deployStack(
 }
 
 export async function stopStack(stack_id: number): Promise<void> {
-  // Note the await to discard the result (convert to void)
   await runStackCommand(
     stack_id,
     (cwd, progressCallback) =>
@@ -230,8 +229,6 @@ export async function restartStack(stack_id: number): Promise<void> {
 export async function getStackStatus(
   stack_id: number
 ): Promise<Record<string, any>> {
-  // Wrap the returned status value to match Promise<void> if that is the expectation.
-  // In this case, if you need the status, you might adjust the type signature.
   const status = await runStackCommand(
     stack_id,
     async (cwd) => {
