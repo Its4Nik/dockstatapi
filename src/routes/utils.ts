@@ -1,47 +1,47 @@
 import { Elysia, t } from "elysia";
 
-import { responseHandler } from "~/core/utils/response-handler";
 import {
-  version,
-  authorEmail,
-  authorName,
-  authorWebsite,
-  contributors,
-  dependencies,
-  description,
-  devDependencies,
-  license,
+	authorEmail,
+	authorName,
+	authorWebsite,
+	contributors,
+	dependencies,
+	description,
+	devDependencies,
+	license,
+	version,
 } from "~/core/utils/package-json";
+import { responseHandler } from "~/core/utils/response-handler";
 
 export const utilRoutes = new Elysia({ prefix: "/utils" }).get(
-  "/info",
-  async ({ set }) => {
-    try {
-      set.status = 200;
-      return {
-        version,
-        authorEmail,
-        authorName,
-        authorWebsite,
-        contributors,
-        dependencies,
-        description,
-        devDependencies,
-        license,
-      };
-    } catch (error: any) {
-      return responseHandler.error(
-        set,
-        error.message || error,
-        "Error getting DockStatAPI information"
-      );
-    }
-  },
-  {
-    detail: {
-      tags: ["Utils"],
-      description:
-        "Retrieves DockStatAPI metadata including version, author information, dependencies, and licensing details",
-    },
-  }
+	"/info",
+	async ({ set }) => {
+		try {
+			set.status = 200;
+			return {
+				version,
+				authorEmail,
+				authorName,
+				authorWebsite,
+				contributors,
+				dependencies,
+				description,
+				devDependencies,
+				license,
+			};
+		} catch (error) {
+			return responseHandler.error(
+				set,
+				String(error),
+				"Error getting DockStatAPI information",
+			);
+		}
+	},
+	{
+		detail: {
+			tags: ["Utils"],
+			description:
+				"Retrieves DockStatAPI metadata including version, author information, dependencies, and licensing details",
+		},
+	},
 );

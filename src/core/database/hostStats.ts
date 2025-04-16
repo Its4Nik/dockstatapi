@@ -1,6 +1,6 @@
+import type { HostStats } from "~/typings/docker";
 import { db } from "./database";
 import { executeDbOperation } from "./helper";
-import type { HostStats } from "~/typings/docker";
 
 const stmt = db.prepare(`
   INSERT INTO host_stats (
@@ -24,22 +24,22 @@ const stmt = db.prepare(`
 `);
 
 export function updateHostStats(stats: HostStats) {
-  return executeDbOperation("Update Host Stats", () =>
-    stmt.run(
-      stats.hostId,
-      stats.hostName,
-      stats.dockerVersion,
-      stats.apiVersion,
-      stats.os,
-      stats.architecture,
-      stats.totalMemory,
-      stats.totalCPU,
-      JSON.stringify(stats.labels),
-      stats.containers,
-      stats.containersRunning,
-      stats.containersStopped,
-      stats.containersPaused,
-      stats.images,
-    ),
-  );
+	return executeDbOperation("Update Host Stats", () =>
+		stmt.run(
+			stats.hostId,
+			stats.hostName,
+			stats.dockerVersion,
+			stats.apiVersion,
+			stats.os,
+			stats.architecture,
+			stats.totalMemory,
+			stats.totalCPU,
+			JSON.stringify(stats.labels),
+			stats.containers,
+			stats.containersRunning,
+			stats.containersStopped,
+			stats.containersPaused,
+			stats.images,
+		),
+	);
 }

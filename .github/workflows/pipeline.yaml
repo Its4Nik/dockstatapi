@@ -23,6 +23,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Lint
+        run: |
+          bun biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --reporter=github --fix src
+
+      - name: Commit and Push Changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "src"
+          message: "Linting"
+          committer_name: "GitHub Action"
+          committer_email: "action@github.com"
+
       - name: Start proxy
         run: |
           docker compose -f docker/docker-compose.dev.yaml up -d

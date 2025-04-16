@@ -7,28 +7,28 @@ const stmt = db.prepare(`
 `);
 
 export function addContainerStats(
-  id: string,
-  hostId: string,
-  name: string,
-  image: string,
-  status: string,
-  state: string,
-  cpu_usage: number,
-  memory_usage: number,
+	id: string,
+	hostId: string,
+	name: string,
+	image: string,
+	status: string,
+	state: string,
+	cpu_usage: number,
+	memory_usage: number,
 ) {
-  return executeDbOperation(
-    "Add Container Stats",
-    () =>
-      stmt.run(id, hostId, name, image, status, state, cpu_usage, memory_usage),
-    () => {
-      if (
-        typeof id !== "string" ||
-        typeof hostId !== "string" ||
-        typeof cpu_usage !== "number" ||
-        typeof memory_usage !== "number"
-      ) {
-        throw new TypeError("Invalid container stats parameters");
-      }
-    },
-  );
+	return executeDbOperation(
+		"Add Container Stats",
+		() =>
+			stmt.run(id, hostId, name, image, status, state, cpu_usage, memory_usage),
+		() => {
+			if (
+				typeof id !== "string" ||
+				typeof hostId !== "string" ||
+				typeof cpu_usage !== "number" ||
+				typeof memory_usage !== "number"
+			) {
+				throw new TypeError("Invalid container stats parameters");
+			}
+		},
+	);
 }

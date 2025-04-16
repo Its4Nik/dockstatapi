@@ -1,120 +1,120 @@
-import { EventEmitter } from "events";
-import { logger } from "../utils/logger";
-import type { Plugin } from "~/typings/plugin";
+import { EventEmitter } from "node:events";
 import type { ContainerInfo } from "~/typings/docker";
+import type { Plugin } from "~/typings/plugin";
+import { logger } from "../utils/logger";
 
 class PluginManager extends EventEmitter {
-  private plugins: Map<string, Plugin> = new Map();
+	private plugins: Map<string, Plugin> = new Map();
 
-  register(plugin: Plugin) {
-    try {
-      this.plugins.set(plugin.name, plugin);
-      logger.debug(`Registered plugin: ${plugin.name}`);
-    } catch (error) {
-      logger.error(
-        `Registering plugin ${plugin.name} failed: ${error as string}`,
-      );
-    }
-  }
+	register(plugin: Plugin) {
+		try {
+			this.plugins.set(plugin.name, plugin);
+			logger.debug(`Registered plugin: ${plugin.name}`);
+		} catch (error) {
+			logger.error(
+				`Registering plugin ${plugin.name} failed: ${error as string}`,
+			);
+		}
+	}
 
-  unregister(name: string) {
-    this.plugins.delete(name);
-  }
+	unregister(name: string) {
+		this.plugins.delete(name);
+	}
 
-  getLoadedPlugins(): string[] {
-    return Array.from(this.plugins.keys());
-  }
+	getLoadedPlugins(): string[] {
+		return Array.from(this.plugins.keys());
+	}
 
-  // Trigger plugin flows:
-  handleContainerStop(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerStop?.(containerInfo);
-    });
-  }
+	// Trigger plugin flows:
+	handleContainerStop(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerStop?.(containerInfo);
+		}
+	}
 
-  handleContainerStart(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerStart?.(containerInfo);
-    });
-  }
+	handleContainerStart(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerStart?.(containerInfo);
+		}
+	}
 
-  handleContainerExit(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerExit?.(containerInfo);
-    });
-  }
+	handleContainerExit(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerExit?.(containerInfo);
+		}
+	}
 
-  handleContainerCreate(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerCreate?.(containerInfo);
-    });
-  }
+	handleContainerCreate(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerCreate?.(containerInfo);
+		}
+	}
 
-  handleContainerDestroy(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerDestroy?.(containerInfo);
-    });
-  }
+	handleContainerDestroy(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerDestroy?.(containerInfo);
+		}
+	}
 
-  handleContainerPause(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerPause?.(containerInfo);
-    });
-  }
+	handleContainerPause(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerPause?.(containerInfo);
+		}
+	}
 
-  handleContainerUnpause(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerUnpause?.(containerInfo);
-    });
-  }
+	handleContainerUnpause(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerUnpause?.(containerInfo);
+		}
+	}
 
-  handleContainerRestart(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerRestart?.(containerInfo);
-    });
-  }
+	handleContainerRestart(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerRestart?.(containerInfo);
+		}
+	}
 
-  handleContainerUpdate(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerUpdate?.(containerInfo);
-    });
-  }
+	handleContainerUpdate(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerUpdate?.(containerInfo);
+		}
+	}
 
-  handleContainerRename(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerRename?.(containerInfo);
-    });
-  }
+	handleContainerRename(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerRename?.(containerInfo);
+		}
+	}
 
-  handleContainerHealthStatus(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerHealthStatus?.(containerInfo);
-    });
-  }
+	handleContainerHealthStatus(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerHealthStatus?.(containerInfo);
+		}
+	}
 
-  handleHostUnreachable(host: string, err: string) {
-    this.plugins.forEach((plugin) => {
-      plugin.onHostUnreachable?.(host, err);
-    });
-  }
+	handleHostUnreachable(host: string, err: string) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onHostUnreachable?.(host, err);
+		}
+	}
 
-  handleHostReachableAgain(host: string) {
-    this.plugins.forEach((plugin) => {
-      plugin.onHostReachableAgain?.(host);
-    });
-  }
+	handleHostReachableAgain(host: string) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onHostReachableAgain?.(host);
+		}
+	}
 
-  handleContainerKill(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.onContainerKill?.(containerInfo);
-    });
-  }
+	handleContainerKill(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.onContainerKill?.(containerInfo);
+		}
+	}
 
-  handleContainerDie(containerInfo: ContainerInfo) {
-    this.plugins.forEach((plugin) => {
-      plugin.handleContainerDie?.(containerInfo);
-    });
-  }
+	handleContainerDie(containerInfo: ContainerInfo) {
+		for (const [, plugin] of this.plugins) {
+			plugin.handleContainerDie?.(containerInfo);
+		}
+	}
 }
 
 export const pluginManager = new PluginManager();
