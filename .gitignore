@@ -5,3 +5,4 @@
 dependency-graph*
 build
 data
+*.xml

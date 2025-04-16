@@ -8,7 +8,9 @@ on:
 
 permissions:
   contents: write
-  packages: write
+  checks: write
+  id-token: write
+  pull-requests: write
 
 jobs:
   test:
@@ -27,7 +29,7 @@ jobs:
         run: |
           bun install
           bun clean
-          bun lint -- --reporter=junit > lint.xml
+          bun biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src --reporter=junit > lint.xml
 
       - name: Start proxy
         run: |
@@ -35,7 +37,7 @@ jobs:
 
       - name: Run Unit-tests
         run: |
-          bun test --reporter=junit --reporter-outfile=./bun.xml
+          bun test --reporter=junit --reporter-outfile=./unit-test.xml
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
