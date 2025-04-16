@@ -27,7 +27,7 @@ jobs:
         run: |
           bun install
           bun clean
-          bun biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --reporter=github --fix src
+          bun lint -- --reporter=github
 
       - name: Commit and Push Changes
         uses: EndBug/add-and-commit@v9
