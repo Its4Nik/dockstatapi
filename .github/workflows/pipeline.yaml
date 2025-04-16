@@ -38,6 +38,7 @@ jobs:
       - name: Run Unit-tests
         run: |
           bun test --reporter=junit --reporter-outfile=./unit-test.xml
+          ls -lah
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
