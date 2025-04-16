@@ -31,12 +31,6 @@ jobs:
           bun clean
           bun biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src --reporter=junit > lint.xml
 
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v5
-        if: success() || failure()
-        with:
-          report_paths: "*.xml"
-
       - name: Start proxy
         run: |
           docker compose -f docker/docker-compose.dev.yaml up -d
@@ -50,7 +44,7 @@ jobs:
         uses: mikepenz/action-junit-report@v5
         if: success() || failure()
         with:
-          report_paths: "*.xml"
+          report_paths: "*/**/*.xml"
 
       - name: Run Docker Build
         run: |
