@@ -15,8 +15,6 @@ permissions:
 
 jobs:
   test:
-    outputs:
-      knip: ${{ steps.getknip.outputs.test }}
     name: Test Build on Push
     runs-on: ubuntu-latest
     steps:
@@ -39,11 +37,17 @@ jobs:
             --fix \
             --reporter=junit \
             src > lint-test.xml
-          bun knip -- --reporter markdown > knip.report.md
+          bun knip --reporter markdown > Knip-Report.md
 
-      - name: Read Knip report
-        id: getknip
-        run: echo "{content}={$(cat knip.report.md)}" >> $GITHUB_OUTPUT
+      - name: Create or update PR comment with Knip report
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: Knip-Report.md
+          comment-id: knip-report
+          edit-mode: replace
 
       - name: Start proxy
         run: |
@@ -59,9 +63,7 @@ jobs:
         with:
           include_passed: true
           report_paths: |
-            lint-test.xml
             unit-test.xml
-          summary: ${{ steps.getknip.outputs.content }}
 
       - name: Run Docker Build
         run: |

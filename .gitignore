@@ -2,8 +2,8 @@
 /stacks
 /node_modules
 .test
-dependency-graph*
 build
 data
 *.xml
 *.report.md
+dependency-*
