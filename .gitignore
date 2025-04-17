@@ -5,5 +5,5 @@
 build
 data
 *.xml
-*.report.md
 dependency-*
+Knip-Report.md

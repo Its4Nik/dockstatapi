@@ -39,6 +39,14 @@ jobs:
             src > lint-test.xml
           bun knip --reporter markdown > Knip-Report.md
 
+      - name: Commit and Push Changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "src/"
+          message: "Update dependency graphs"
+          committer_name: "GitHub Action"
+          committer_email: "action@github.com"
+
       - name: Create or update PR comment with Knip report
         uses: peter-evans/create-or-update-comment@v3
         with:
@@ -46,7 +54,7 @@ jobs:
           repository: ${{ github.repository }}
           issue-number: ${{ github.event.pull_request.number }}
           body-file: Knip-Report.md
-          comment-id: knip-report
+          comment-id: knip-report.md
           edit-mode: replace
 
       - name: Start proxy
