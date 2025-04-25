@@ -32,7 +32,7 @@ jobs:
           bun install
           bun clean
           bun biome ci
-          bun knip --reporter markdown > .github/Knip-Report.md
+          bun knip --reporter markdown -- > .github/Knip-Report.md
 
       - name: Commit and Push Changes
         uses: EndBug/add-and-commit@v9
