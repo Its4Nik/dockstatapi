@@ -116,11 +116,16 @@ jobs:
         with:
           image-ref: 'ghcr.io/its4nik/dockstatapi:${{ env.IMAGE_TAG }}'
           format: 'sarif'
-          output: 'trivy-results.sarif'
+          output: 'trivy-results-${{ env.IMAGE_TAG }}.sarif'
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: "MEDIUM,HIGH,CRITICAL"
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results-${{ env.IMAGE_TAG }}.sarif'
 
       - name: Scan image in a private registry
         uses: aquasecurity/trivy-action@0.28.0
@@ -139,8 +144,3 @@ jobs:
           name: trivy-sbom-report
           path: '${{ github.workspace }}/dependency-results.sbom.json'
           retention-days: 20
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: 'trivy-results.sarif'          
