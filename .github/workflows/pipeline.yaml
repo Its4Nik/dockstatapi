@@ -126,3 +126,37 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ghcr.io/its4nik/dockstatapi:${{ env.IMAGE_TAG }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: 'ghcr.io/its4nik/dockstatapi:${{ env.IMAGE_TAG }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: "MEDIUM,HIGH,CRITICAL"
+
+      - name: Scan image in a private registry
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: "ghcr.io/its4nik/dockstatapi:${{ env.IMAGE_TAG }}"
+          scan-type: image
+          format: 'github'
+          output: 'dependency-results.sbom.json'
+          github-pat: ${{ secrets.GITHUB_TOKEN }} 
+          severity: "MEDIUM,HIGH,CRITICAL"
+          scanners: "vuln"
+
+      - name: Upload trivy report as a Github artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-sbom-report
+          path: '${{ github.workspace }}/dependency-results.sbom.json'
+          retention-days: 20
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'          
