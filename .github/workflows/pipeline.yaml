@@ -30,32 +30,16 @@ jobs:
         run: |
           bun install
           bun clean
-          bun biome check \
-            --formatter-enabled=true \
-            --linter-enabled=true \
-            --organize-imports-enabled=true \
-            --fix \
-            --reporter=junit \
-            src > lint-test.xml
-          bun knip --reporter markdown > Knip-Report.md
+          bun biome ci
+          bun knip --reporter markdown > .github/Knip-Report.md
 
       - name: Commit and Push Changes
         uses: EndBug/add-and-commit@v9
         with:
-          add: "src/"
-          message: "Update dependency graphs"
+          add: '["src/",".github/*.md"]'
+          message: "Update dependency graphs and upload Knip-report.md"
           committer_name: "GitHub Action"
           committer_email: "action@github.com"
-
-      - name: Create or update PR comment with Knip report
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body-file: Knip-Report.md
-          comment-id: knip-report.md
-          edit-mode: replace
 
       - name: Start proxy
         run: |
