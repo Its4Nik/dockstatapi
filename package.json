@@ -13,7 +13,7 @@
   "dependencies": {
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
-    "dockerode": "^4.0.2",
+    "dockerode": "^4.0.6",
     "express": "^4.21.0",
     "node-fetch": "^3.3.2",
     "winston": "^3.14.2",
