@@ -34,12 +34,10 @@ jobs:
           bun biome ci
           bun knip --reporter markdown > .github/Knip-Report.md
 
-      - name: "Debug: list .github"
-        run: ls -l .github
-
       - name: Commit and Push Changes
         uses: EndBug/add-and-commit@v9
         with:
+          commit: "-f"
           add: '["src/",".github/Knip-Report.md"]'
           message: "Update dependency graphs and upload Knip-report.md"
           committer_name: "GitHub Action"
