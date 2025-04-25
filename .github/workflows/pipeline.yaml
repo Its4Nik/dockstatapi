@@ -13,7 +13,8 @@ permissions:
   pull-requests: write
   packages: write
   security-events: write
-
+  issues: write
+  
 jobs:
   test:
     name: Test Build on Push
@@ -32,7 +33,9 @@ jobs:
           bun install
           bun clean
           bun biome ci
-          bun knip --reporter markdown > Knip-Report.md
+
+      - name: Post the knip results
+        uses: codex-/knip-reporter@v2
 
       - name: Commit and Push Changes
         uses: EndBug/add-and-commit@v9
