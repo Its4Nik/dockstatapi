@@ -12,6 +12,7 @@ permissions:
   id-token: write
   pull-requests: write
   packages: write
+  security-events: write
 
 jobs:
   test:
@@ -127,7 +128,7 @@ jobs:
         with:
           sarif_file: 'trivy-results-${{ env.IMAGE_TAG }}.sarif'
 
-      - name: Scan image in a private registry
+      - name: Scan image dependencies
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: "ghcr.io/its4nik/dockstatapi:${{ env.IMAGE_TAG }}"
