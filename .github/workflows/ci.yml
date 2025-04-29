@@ -33,7 +33,10 @@ jobs:
 
       - name: Run linter
         run: |
-          bun run biome lint --fix
+          bun biome format --fix
+          bun biome lint --fix
+          bun biome check --fix
+          bun biome ci --fix
 
       - name: Add linted files
         run: git add src/
