@@ -8,7 +8,7 @@ export const API_KEY = "TestKey";
 
 const host = "http://localhost";
 const port = process.env.DOCKSTATAPI_PORT || 3000;
-const server = `${host}:${port}`
+const server = `${host}:${port}`;
 
 export async function runTestResponse(
 	path: string,

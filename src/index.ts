@@ -145,16 +145,19 @@ async function startServer() {
 		}
 
 		try {
-			DockStatAPI.listen(process.env.DOCKSTATAPI_PORT || 3000, ({ hostname, port }) => {
-				console.log("----- [ ############## ]");
-				logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
-				logger.info(
-					`Swagger API Documentation available at http://${hostname}:${port}/swagger`,
-				);
-				logger.info(`License: ${license}`);
-				logger.info(`Author: ${authorWebsite}`);
-				logger.info(`Contributors: ${contributors}`);
-			});
+			DockStatAPI.listen(
+				process.env.DOCKSTATAPI_PORT || 3000,
+				({ hostname, port }) => {
+					console.log("----- [ ############## ]");
+					logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
+					logger.info(
+						`Swagger API Documentation available at http://${hostname}:${port}/swagger`,
+					);
+					logger.info(`License: ${license}`);
+					logger.info(`Author: ${authorWebsite}`);
+					logger.info(`Contributors: ${contributors}`);
+				},
+			);
 		} catch (error) {
 			logger.error("Failed to start server:", error);
 			process.exit(1);
