@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -39,7 +39,11 @@ jobs:
           git diff --cached --quiet || echo "changes_detected=true" >> $GITHUB_OUTPUT
 
       - name: Run unit tests
-        run: bun test --reporter=junit --reporter-outfile=./unit-test.xml
+        run: |
+          export DOCKSTATAPI_PORT=5971
+          bun clean
+          bun test --reporter=junit --reporter-outfile=./unit-test.xml
+          bun clean
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5

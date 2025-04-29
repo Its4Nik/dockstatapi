@@ -145,7 +145,7 @@ async function startServer() {
 		}
 
 		try {
-			DockStatAPI.listen(3000, ({ hostname, port }) => {
+			DockStatAPI.listen(process.env.DOCKSTATAPI_PORT || 3000, ({ hostname, port }) => {
 				console.log("----- [ ############## ]");
 				logger.info(`DockStatAPI is running at http://${hostname}:${port}`);
 				logger.info(
