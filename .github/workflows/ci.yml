@@ -36,7 +36,7 @@ jobs:
           bun biome format --fix
           bun biome lint --fix
           bun biome check --fix
-          bun biome ci --fix
+          bun biome ci
 
       - name: Add linted files
         run: git add src/
