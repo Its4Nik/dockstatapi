@@ -28,7 +28,7 @@ jobs:
         run: bun install
 
       - name: Run linter
-        run: bun run biome ci
+        run: bun run biome lint --fix
 
       - name: Add linted files
         run: git add src/
