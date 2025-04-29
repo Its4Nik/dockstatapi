@@ -28,7 +28,9 @@ jobs:
         run: bun install
 
       - name: Run linter
-        run: bun run biome lint --fix
+        run: |
+          export PAD_NEW_LINES=false
+          bun run biome lint --fix
 
       - name: Add linted files
         run: git add src/
