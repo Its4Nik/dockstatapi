@@ -29,7 +29,6 @@ jobs:
 
       - name: Run linter
         run: |
-          export PAD_NEW_LINES=false
           bun run biome lint --fix
 
       - name: Add linted files
@@ -43,6 +42,7 @@ jobs:
       - name: Run unit tests
         run: |
           export DOCKSTATAPI_PORT=5971
+          export PAD_NEW_LINES=false
           bun clean
           bun test --reporter=junit --reporter-outfile=./unit-test.xml
           bun clean
