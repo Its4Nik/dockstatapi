@@ -71,11 +71,11 @@ const parseTimestamp = (timestamp: string): string => {
 	const year = new Date().getFullYear();
 	const date = new Date(
 		year,
-		parseInt(month) - 1,
-		parseInt(day),
-		parseInt(hours),
-		parseInt(minutes),
-		parseInt(seconds),
+		Number.parseInt(month) - 1,
+		Number.parseInt(day),
+		Number.parseInt(hours),
+		Number.parseInt(minutes),
+		Number.parseInt(seconds),
 	);
 	return date.toISOString();
 };
