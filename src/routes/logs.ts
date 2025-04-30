@@ -35,25 +35,25 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 										properties: {
 											id: {
 												type: "number",
-												example: 1
+												example: 1,
 											},
 											level: {
 												type: "string",
-												example: "info"
+												example: "info",
 											},
 											message: {
 												type: "string",
-												example: "Application started"
+												example: "Application started",
 											},
 											timestamp: {
 												type: "string",
-												example: "2024-03-20T12:00:00Z"
-											}
-										}
-									}
-								}
-							}
-						}
+												example: "2024-03-20T12:00:00Z",
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"500": {
 						description: "Error retrieving logs",
@@ -64,14 +64,14 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to retrieve logs"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to retrieve logs",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -107,25 +107,25 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 										properties: {
 											id: {
 												type: "number",
-												example: 1
+												example: 1,
 											},
 											level: {
 												type: "string",
-												example: "info"
+												example: "info",
 											},
 											message: {
 												type: "string",
-												example: "Application started"
+												example: "Application started",
 											},
 											timestamp: {
 												type: "string",
-												example: "2024-03-20T12:00:00Z"
-											}
-										}
-									}
-								}
-							}
-						}
+												example: "2024-03-20T12:00:00Z",
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"500": {
 						description: "Error retrieving logs",
@@ -136,14 +136,14 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to retrieve logs"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to retrieve logs",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -176,12 +176,12 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 									properties: {
 										success: {
 											type: "boolean",
-											example: true
-										}
-									}
-								}
-							}
-						}
+											example: true,
+										},
+									},
+								},
+							},
+						},
 					},
 					"500": {
 						description: "Error clearing logs",
@@ -192,14 +192,14 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Could not delete all logs"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Could not delete all logs",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -232,12 +232,12 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 									properties: {
 										success: {
 											type: "boolean",
-											example: true
-										}
-									}
-								}
-							}
-						}
+											example: true,
+										},
+									},
+								},
+							},
+						},
 					},
 					"500": {
 						description: "Error clearing logs",
@@ -248,14 +248,14 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to retrieve logs"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to retrieve logs",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	);

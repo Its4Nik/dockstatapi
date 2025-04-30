@@ -78,12 +78,12 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Stack example-stack deployed successfully"
-										}
-									}
-								}
-							}
-						}
+											example: "Stack example-stack deployed successfully",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error deploying stack",
@@ -94,14 +94,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error deploying stack"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error deploying stack",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				compose_spec: t.Any(),
@@ -149,12 +149,12 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Stack 1 started successfully"
-										}
-									}
-								}
-							}
-						}
+											example: "Stack 1 started successfully",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error starting stack",
@@ -165,14 +165,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error starting stack"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error starting stack",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -213,12 +213,12 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Stack 1 stopped successfully"
-										}
-									}
-								}
-							}
-						}
+											example: "Stack 1 stopped successfully",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error stopping stack",
@@ -229,14 +229,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error stopping stack"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error stopping stack",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -277,12 +277,12 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Stack 1 restarted successfully"
-										}
-									}
-								}
-							}
-						}
+											example: "Stack 1 restarted successfully",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error restarting stack",
@@ -293,14 +293,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error restarting stack"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error restarting stack",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -341,12 +341,12 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Images for stack 1 pulled successfully"
-										}
-									}
-								}
-							}
-						}
+											example: "Images for stack 1 pulled successfully",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error pulling images",
@@ -357,14 +357,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error pulling images"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error pulling images",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -416,18 +416,18 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Stack 1 status retrieved successfully"
+											example: "Stack 1 status retrieved successfully",
 										},
 										status: {
 											type: "object",
 											properties: {
 												name: {
 													type: "string",
-													example: "example-stack"
+													example: "example-stack",
 												},
 												status: {
 													type: "string",
-													example: "running"
+													example: "running",
 												},
 												containers: {
 													type: "array",
@@ -436,21 +436,21 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 														properties: {
 															name: {
 																type: "string",
-																example: "example-stack_web_1"
+																example: "example-stack_web_1",
 															},
 															status: {
 																type: "string",
-																example: "running"
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
+																example: "running",
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error getting stack status",
@@ -461,14 +461,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error getting stack status"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error getting stack status",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			query: t.Object({
 				stackId: t.Number(),
@@ -505,29 +505,29 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 										properties: {
 											id: {
 												type: "number",
-												example: 1
+												example: 1,
 											},
 											name: {
 												type: "string",
-												example: "example-stack"
+												example: "example-stack",
 											},
 											version: {
 												type: "number",
-												example: 1
+												example: 1,
 											},
 											source: {
 												type: "string",
-												example: "github.com/example/repo"
+												example: "github.com/example/repo",
 											},
 											automatic_reboot_on_error: {
 												type: "boolean",
-												example: true
-											}
-										}
-									}
-								}
-							}
-						}
+												example: true,
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error getting stacks",
@@ -538,14 +538,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error getting stacks"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error getting stacks",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -579,12 +579,12 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Stack 1 deleted successfully"
-										}
-									}
-								}
-							}
-						}
+											example: "Stack 1 deleted successfully",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error deleting stack",
@@ -595,14 +595,14 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error deleting stack"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error deleting stack",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				stackId: t.Number(),

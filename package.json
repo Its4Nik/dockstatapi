@@ -48,7 +48,5 @@
 		"wrap-ansi": "^9.0.0"
 	},
 	"module": "src/index.js",
-	"trustedDependencies": [
-		"protobufjs"
-	]
+	"trustedDependencies": ["protobufjs"]
 }

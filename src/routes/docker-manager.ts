@@ -37,12 +37,12 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Added docker host (Localhost)"
-										}
-									}
-								}
-							}
-						}
+											example: "Added docker host (Localhost)",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error adding Docker host",
@@ -53,14 +53,14 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error adding docker Host"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error adding docker Host",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				name: t.String(),
@@ -100,12 +100,12 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Updated docker host (1)"
-										}
-									}
-								}
-							}
-						}
+											example: "Updated docker host (1)",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error updating Docker host",
@@ -116,14 +116,14 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to update host"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to update host",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				id: t.Number(),
@@ -167,25 +167,25 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 										properties: {
 											id: {
 												type: "number",
-												example: 1
+												example: 1,
 											},
 											name: {
 												type: "string",
-												example: "Localhost"
+												example: "Localhost",
 											},
 											hostAddress: {
 												type: "string",
-												example: "localhost:2375"
+												example: "localhost:2375",
 											},
 											secure: {
 												type: "boolean",
-												example: false
-											}
-										}
-									}
-								}
-							}
-						}
+												example: false,
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error retrieving Docker hosts",
@@ -196,14 +196,14 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to retrieve hosts"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to retrieve hosts",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -238,12 +238,12 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Deleted docker host (1)"
-										}
-									}
-								}
-							}
-						}
+											example: "Deleted docker host (1)",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error deleting Docker host",
@@ -254,14 +254,14 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to delete host"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to delete host",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			params: t.Object({
 				id: t.Number(),

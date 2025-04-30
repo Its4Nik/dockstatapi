@@ -69,7 +69,14 @@ const parseTimestamp = (timestamp: string): string => {
 	const [day, month] = datePart.split("/");
 	const [hours, minutes, seconds] = timePart.split(":");
 	const year = new Date().getFullYear();
-	const date = new Date(year, parseInt(month) - 1, parseInt(day), parseInt(hours), parseInt(minutes), parseInt(seconds));
+	const date = new Date(
+		year,
+		parseInt(month) - 1,
+		parseInt(day),
+		parseInt(hours),
+		parseInt(minutes),
+		parseInt(seconds),
+	);
 	return date.toISOString();
 };
 
@@ -77,7 +84,7 @@ const handleWebSocketLog = (log: log_message) => {
 	try {
 		logToClients({
 			...log,
-			timestamp: parseTimestamp(log.timestamp)
+			timestamp: parseTimestamp(log.timestamp),
 		});
 	} catch (error) {
 		console.error(
@@ -95,7 +102,7 @@ const handleDatabaseLog = (log: log_message): void => {
 	try {
 		dbFunctions.addLogEntry({
 			...log,
-			timestamp: parseTimestamp(log.timestamp)
+			timestamp: parseTimestamp(log.timestamp),
 		});
 	} catch (error) {
 		console.error(

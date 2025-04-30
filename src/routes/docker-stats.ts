@@ -123,43 +123,43 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
 												properties: {
 													id: {
 														type: "string",
-														example: "abc123def456"
+														example: "abc123def456",
 													},
 													hostId: {
 														type: "string",
-														example: "1"
+														example: "1",
 													},
 													name: {
 														type: "string",
-														example: "example-container"
+														example: "example-container",
 													},
 													image: {
 														type: "string",
-														example: "nginx:latest"
+														example: "nginx:latest",
 													},
 													status: {
 														type: "string",
-														example: "running"
+														example: "running",
 													},
 													state: {
 														type: "string",
-														example: "running"
+														example: "running",
 													},
 													cpuUsage: {
 														type: "number",
-														example: 0.5
+														example: 0.5,
 													},
 													memoryUsage: {
 														type: "number",
-														example: 1024
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
+														example: 1024,
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error retrieving container statistics",
@@ -170,14 +170,14 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to retrieve containers"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to retrieve containers",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -241,67 +241,67 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
 									properties: {
 										hostId: {
 											type: "number",
-											example: 1
+											example: 1,
 										},
 										hostName: {
 											type: "string",
-											example: "Localhost"
+											example: "Localhost",
 										},
 										dockerVersion: {
 											type: "string",
-											example: "24.0.5"
+											example: "24.0.5",
 										},
 										apiVersion: {
 											type: "string",
-											example: "1.41"
+											example: "1.41",
 										},
 										os: {
 											type: "string",
-											example: "Linux"
+											example: "Linux",
 										},
 										architecture: {
 											type: "string",
-											example: "x86_64"
+											example: "x86_64",
 										},
 										totalMemory: {
 											type: "number",
-											example: 16777216
+											example: 16777216,
 										},
 										totalCPU: {
 											type: "number",
-											example: 4
+											example: 4,
 										},
 										labels: {
 											type: "array",
 											items: {
-												type: "string"
+												type: "string",
 											},
-											example: ["environment=production"]
+											example: ["environment=production"],
 										},
 										images: {
 											type: "number",
-											example: 10
+											example: 10,
 										},
 										containers: {
 											type: "number",
-											example: 5
+											example: 5,
 										},
 										containersPaused: {
 											type: "number",
-											example: 0
+											example: 0,
 										},
 										containersRunning: {
 											type: "number",
-											example: 4
+											example: 4,
 										},
 										containersStopped: {
 											type: "number",
-											example: 1
-										}
-									}
-								}
-							}
-						}
+											example: 1,
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error retrieving host statistics",
@@ -312,14 +312,14 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Failed to retrieve host config"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Failed to retrieve host config",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	);

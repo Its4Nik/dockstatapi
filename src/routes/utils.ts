@@ -52,53 +52,54 @@ export const utilRoutes = new Elysia({ prefix: "/utils" }).get(
 								properties: {
 									version: {
 										type: "string",
-										example: "3.0.0"
+										example: "3.0.0",
 									},
 									authorEmail: {
 										type: "string",
-										example: "info@itsnik.de"
+										example: "info@itsnik.de",
 									},
 									authorName: {
 										type: "string",
-										example: "ItsNik"
+										example: "ItsNik",
 									},
 									authorWebsite: {
 										type: "string",
-										example: "https://github.com/Its4Nik"
+										example: "https://github.com/Its4Nik",
 									},
 									contributors: {
 										type: "array",
 										items: {
-											type: "string"
+											type: "string",
 										},
-										example: []
+										example: [],
 									},
 									dependencies: {
 										type: "object",
 										example: {
 											"@elysiajs/server-timing": "^1.2.1",
-											"@elysiajs/static": "^1.2.0"
-										}
+											"@elysiajs/static": "^1.2.0",
+										},
 									},
 									description: {
 										type: "string",
-										example: "DockStatAPI is an API backend featuring plugins and more for DockStat"
+										example:
+											"DockStatAPI is an API backend featuring plugins and more for DockStat",
 									},
 									devDependencies: {
 										type: "object",
 										example: {
 											"@biomejs/biome": "1.9.4",
-											"@types/dockerode": "^3.3.38"
-										}
+											"@types/dockerode": "^3.3.38",
+										},
 									},
 									license: {
 										type: "string",
-										example: "CC BY-NC 4.0"
-									}
-								}
-							}
-						}
-					}
+										example: "CC BY-NC 4.0",
+									},
+								},
+							},
+						},
+					},
 				},
 				"400": {
 					description: "Error retrieving API information",
@@ -109,14 +110,14 @@ export const utilRoutes = new Elysia({ prefix: "/utils" }).get(
 								properties: {
 									error: {
 										type: "string",
-										example: "Error getting DockStatAPI information"
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+										example: "Error getting DockStatAPI information",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 		},
 	},
 );

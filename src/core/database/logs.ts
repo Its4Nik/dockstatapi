@@ -16,7 +16,7 @@ const stmt = {
 	deleteByLevel: db.prepare("DELETE FROM backend_log_entries WHERE level = ?"),
 };
 
-function convertToLogMessage(row: any): log_message {
+function convertToLogMessage(row: log_message): log_message {
 	return {
 		level: row.level,
 		timestamp: row.timestamp,
@@ -55,16 +55,16 @@ export function addLogEntry(data: log_message) {
 }
 
 export function getAllLogs(): log_message[] {
-	return executeDbOperation(
-		"Get All Logs",
-		() => stmt.selectAll.all().map(convertToLogMessage),
+	return executeDbOperation("Get All Logs", () =>
+		stmt.selectAll.all().map((row) => convertToLogMessage(row as log_message)),
 	);
 }
 
 export function getLogsByLevel(level: string): log_message[] {
-	return executeDbOperation(
-		"Get Logs By Level",
-		() => stmt.selectByLevel.all(level).map(convertToLogMessage),
+	return executeDbOperation("Get Logs By Level", () =>
+		stmt.selectByLevel
+			.all(level)
+			.map((row) => convertToLogMessage(row as log_message)),
 	);
 }
 

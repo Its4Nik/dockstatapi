@@ -54,20 +54,20 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										fetching_interval: {
 											type: "number",
-											example: 5
+											example: 5,
 										},
 										keep_data_for: {
 											type: "number",
-											example: 7
+											example: 7,
 										},
 										api_key: {
 											type: "string",
-											example: "hashed_api_key"
-										}
-									}
-								}
-							}
-						}
+											example: "hashed_api_key",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error retrieving configuration",
@@ -78,14 +78,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error getting the DockStatAPI config"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error getting the DockStatAPI config",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -119,21 +119,21 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 										properties: {
 											name: {
 												type: "string",
-												example: "example-plugin"
+												example: "example-plugin",
 											},
 											version: {
 												type: "string",
-												example: "1.0.0"
+												example: "1.0.0",
 											},
 											status: {
 												type: "string",
-												example: "active"
-											}
-										}
-									}
-								}
-							}
-						}
+												example: "active",
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error retrieving plugins",
@@ -144,14 +144,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error getting all registered plugins"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error getting all registered plugins",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -190,12 +190,12 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Updated DockStatAPI config"
-										}
-									}
-								}
-							}
-						}
+											example: "Updated DockStatAPI config",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error updating configuration",
@@ -206,14 +206,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error updating the DockStatAPI config"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error updating the DockStatAPI config",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			body: t.Object({
 				fetching_interval: t.Number(),
@@ -261,53 +261,54 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										version: {
 											type: "string",
-											example: "3.0.0"
+											example: "3.0.0",
 										},
 										description: {
 											type: "string",
-											example: "DockStatAPI is an API backend featuring plugins and more for DockStat"
+											example:
+												"DockStatAPI is an API backend featuring plugins and more for DockStat",
 										},
 										license: {
 											type: "string",
-											example: "CC BY-NC 4.0"
+											example: "CC BY-NC 4.0",
 										},
 										authorName: {
 											type: "string",
-											example: "ItsNik"
+											example: "ItsNik",
 										},
 										authorEmail: {
 											type: "string",
-											example: "info@itsnik.de"
+											example: "info@itsnik.de",
 										},
 										authorWebsite: {
 											type: "string",
-											example: "https://github.com/Its4Nik"
+											example: "https://github.com/Its4Nik",
 										},
 										contributors: {
 											type: "array",
 											items: {
-												type: "string"
+												type: "string",
 											},
-											example: []
+											example: [],
 										},
 										dependencies: {
 											type: "object",
 											example: {
 												"@elysiajs/server-timing": "^1.2.1",
-												"@elysiajs/static": "^1.2.0"
-											}
+												"@elysiajs/static": "^1.2.0",
+											},
 										},
 										devDependencies: {
 											type: "object",
 											example: {
 												"@biomejs/biome": "1.9.4",
-												"@types/dockerode": "^3.3.38"
-											}
-										}
-									}
-								}
-							}
-						}
+												"@types/dockerode": "^3.3.38",
+											},
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error retrieving package information",
@@ -318,14 +319,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error while reading package.json"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error while reading package.json",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -353,12 +354,12 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										message: {
 											type: "string",
-											example: "backup_2024-03-20_12-00-00.db.bak"
-										}
-									}
-								}
-							}
-						}
+											example: "backup_2024-03-20_12-00-00.db.bak",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error creating backup",
@@ -369,14 +370,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Error backing up"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Error backing up",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -415,15 +416,15 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 								schema: {
 									type: "array",
 									items: {
-										type: "string"
+										type: "string",
 									},
 									example: [
 										"backup_2024-03-20_12-00-00.db.bak",
-										"backup_2024-03-19_12-00-00.db.bak"
-									]
-								}
-							}
-						}
+										"backup_2024-03-19_12-00-00.db.bak",
+									],
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error retrieving backup list",
@@ -434,14 +435,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Reading Backup directory"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Reading Backup directory",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	)
@@ -482,18 +483,19 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 								schema: {
 									type: "string",
 									format: "binary",
-									example: "Binary backup file content"
-								}
-							}
+									example: "Binary backup file content",
+								},
+							},
 						},
 						headers: {
 							"Content-Disposition": {
 								schema: {
 									type: "string",
-									example: "attachment; filename=\"backup_2024-03-20_12-00-00.db.bak\""
-								}
-							}
-						}
+									example:
+										'attachment; filename="backup_2024-03-20_12-00-00.db.bak"',
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error downloading backup",
@@ -504,14 +506,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Backup download failed"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Backup download failed",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			query: t.Object({
 				filename: t.Optional(t.String()),
@@ -565,12 +567,12 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										message: {
 											type: "string",
-											example: "Database restored successfully"
-										}
-									}
-								}
-							}
-						}
+											example: "Database restored successfully",
+										},
+									},
+								},
+							},
+						},
 					},
 					"400": {
 						description: "Error restoring database",
@@ -581,14 +583,14 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 									properties: {
 										error: {
 											type: "string",
-											example: "Database restoration error"
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+											example: "Database restoration error",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	);
