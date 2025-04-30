@@ -33,7 +33,7 @@ console.log("");
 
 logger.info("Starting DockStatAPI");
 
-export const DockStatAPI = new Elysia()
+const DockStatAPI = new Elysia()
 	.use(staticPlugin())
 	.use(serverTiming())
 	.use(
@@ -176,3 +176,5 @@ await startServer();
 
 logger.info("Started server");
 console.log("----- [ ############## ]");
+
+export type DockStatAPI = typeof DockStatAPI;
