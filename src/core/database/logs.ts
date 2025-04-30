@@ -16,6 +16,16 @@ const stmt = {
 	deleteByLevel: db.prepare("DELETE FROM backend_log_entries WHERE level = ?"),
 };
 
+function convertToLogMessage(row: any): log_message {
+	return {
+		level: row.level,
+		timestamp: row.timestamp,
+		message: row.message,
+		file: row.file,
+		line: row.line,
+	};
+}
+
 export function addLogEntry(data: log_message) {
 	return executeDbOperation(
 		"Add Log Entry",
@@ -44,17 +54,17 @@ export function addLogEntry(data: log_message) {
 	);
 }
 
-export function getAllLogs() {
-	return executeDbOperation("Get All Logs", () => stmt.selectAll.all());
+export function getAllLogs(): log_message[] {
+	return executeDbOperation(
+		"Get All Logs",
+		() => stmt.selectAll.all().map(convertToLogMessage),
+	);
 }
 
-export function getLogsByLevel(level: string) {
+export function getLogsByLevel(level: string): log_message[] {
 	return executeDbOperation(
 		"Get Logs By Level",
-		() => stmt.selectByLevel.all(level),
-		() => {
-			if (typeof level !== "string") throw new TypeError("Invalid level type");
-		},
+		() => stmt.selectByLevel.all(level).map(convertToLogMessage),
 	);
 }
 
@@ -63,11 +73,7 @@ export function clearAllLogs() {
 }
 
 export function clearLogsByLevel(level: string) {
-	return executeDbOperation(
-		"Clear Logs By Level",
-		() => stmt.deleteByLevel.run(level),
-		() => {
-			if (typeof level !== "string") throw new TypeError("Invalid level type");
-		},
+	return executeDbOperation("Clear Logs By Level", () =>
+		stmt.deleteByLevel.run(level),
 	);
 }

@@ -68,6 +68,40 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Deploys a new Docker stack using a provided compose specification, allowing custom configurations and image updates",
+				responses: {
+					"200": {
+						description: "Successfully deployed stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										message: {
+											type: "string",
+											example: "Stack example-stack deployed successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error deploying stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error deploying stack"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			body: t.Object({
 				compose_spec: t.Any(),
@@ -105,6 +139,40 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Initiates a Docker stack, starting all associated containers",
+				responses: {
+					"200": {
+						description: "Successfully started stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										message: {
+											type: "string",
+											example: "Stack 1 started successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error starting stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error starting stack"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -135,6 +203,40 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Halts a running Docker stack and its containers while preserving configurations",
+				responses: {
+					"200": {
+						description: "Successfully stopped stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										message: {
+											type: "string",
+											example: "Stack 1 stopped successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error stopping stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error stopping stack"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -165,6 +267,40 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Performs full stack restart - stops and restarts all stack components in sequence",
+				responses: {
+					"200": {
+						description: "Successfully restarted stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										message: {
+											type: "string",
+											example: "Stack 1 restarted successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error restarting stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error restarting stack"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -195,6 +331,40 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Updates container images for a stack using Docker's pull mechanism (requires stack ID)",
+				responses: {
+					"200": {
+						description: "Successfully pulled images",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										message: {
+											type: "string",
+											example: "Images for stack 1 pulled successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error pulling images",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error pulling images"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			body: t.Object({
 				stackId: t.Number(),
@@ -236,6 +406,69 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Retrieves operational status for either a specific stack (by ID) or all managed stacks",
+				responses: {
+					"200": {
+						description: "Successfully retrieved stack status",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										message: {
+											type: "string",
+											example: "Stack 1 status retrieved successfully"
+										},
+										status: {
+											type: "object",
+											properties: {
+												name: {
+													type: "string",
+													example: "example-stack"
+												},
+												status: {
+													type: "string",
+													example: "running"
+												},
+												containers: {
+													type: "array",
+													items: {
+														type: "object",
+														properties: {
+															name: {
+																type: "string",
+																example: "example-stack_web_1"
+															},
+															status: {
+																type: "string",
+																example: "running"
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error getting stack status",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error getting stack status"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			query: t.Object({
 				stackId: t.Number(),
@@ -260,6 +493,59 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Lists all registered stacks with their complete configuration details",
+				responses: {
+					"200": {
+						description: "Successfully retrieved stacks",
+						content: {
+							"application/json": {
+								schema: {
+									type: "array",
+									items: {
+										type: "object",
+										properties: {
+											id: {
+												type: "number",
+												example: 1
+											},
+											name: {
+												type: "string",
+												example: "example-stack"
+											},
+											version: {
+												type: "number",
+												example: 1
+											},
+											source: {
+												type: "string",
+												example: "github.com/example/repo"
+											},
+											automatic_reboot_on_error: {
+												type: "boolean",
+												example: true
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error getting stacks",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error getting stacks"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 		},
 	)
@@ -283,6 +569,40 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				tags: ["Stacks"],
 				description:
 					"Permanently removes a stack configuration and cleans up associated resources",
+				responses: {
+					"200": {
+						description: "Successfully deleted stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										message: {
+											type: "string",
+											example: "Stack 1 deleted successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error deleting stack",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Error deleting stack"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			body: t.Object({
 				stackId: t.Number(),

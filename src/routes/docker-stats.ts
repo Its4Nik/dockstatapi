@@ -108,6 +108,76 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
 				tags: ["Statistics"],
 				description:
 					"Collects real-time statistics for all Docker containers across monitored hosts, including CPU and memory utilization",
+				responses: {
+					"200": {
+						description: "Successfully retrieved container statistics",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										containers: {
+											type: "array",
+											items: {
+												type: "object",
+												properties: {
+													id: {
+														type: "string",
+														example: "abc123def456"
+													},
+													hostId: {
+														type: "string",
+														example: "1"
+													},
+													name: {
+														type: "string",
+														example: "example-container"
+													},
+													image: {
+														type: "string",
+														example: "nginx:latest"
+													},
+													status: {
+														type: "string",
+														example: "running"
+													},
+													state: {
+														type: "string",
+														example: "running"
+													},
+													cpuUsage: {
+														type: "number",
+														example: 0.5
+													},
+													memoryUsage: {
+														type: "number",
+														example: 1024
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error retrieving container statistics",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Failed to retrieve containers"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 		},
 	)
@@ -161,6 +231,95 @@ export const dockerStatsRoutes = new Elysia({ prefix: "/docker" })
 				tags: ["Statistics"],
 				description:
 					"Provides detailed system metrics and Docker runtime information for specified host",
+				responses: {
+					"200": {
+						description: "Successfully retrieved host statistics",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										hostId: {
+											type: "number",
+											example: 1
+										},
+										hostName: {
+											type: "string",
+											example: "Localhost"
+										},
+										dockerVersion: {
+											type: "string",
+											example: "24.0.5"
+										},
+										apiVersion: {
+											type: "string",
+											example: "1.41"
+										},
+										os: {
+											type: "string",
+											example: "Linux"
+										},
+										architecture: {
+											type: "string",
+											example: "x86_64"
+										},
+										totalMemory: {
+											type: "number",
+											example: 16777216
+										},
+										totalCPU: {
+											type: "number",
+											example: 4
+										},
+										labels: {
+											type: "array",
+											items: {
+												type: "string"
+											},
+											example: ["environment=production"]
+										},
+										images: {
+											type: "number",
+											example: 10
+										},
+										containers: {
+											type: "number",
+											example: 5
+										},
+										containersPaused: {
+											type: "number",
+											example: 0
+										},
+										containersRunning: {
+											type: "number",
+											example: 4
+										},
+										containersStopped: {
+											type: "number",
+											example: 1
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						description: "Error retrieving host statistics",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Failed to retrieve host config"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 		},
 	);

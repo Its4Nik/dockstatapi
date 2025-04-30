@@ -12,7 +12,6 @@ jobs:
   publish:
     name: Publish Container Image
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/checkout@v4
 

@@ -11,7 +11,7 @@ const activeConnections = new Set<ElysiaWS<any>>();
 export const liveLogs = new Elysia({ prefix: "/logs" }).ws("/ws", {
 	open(ws) {
 		activeConnections.add(ws);
-		ws.send({ message: "Connection established" });
+		ws.send({ message: "Connection established", level: "info", timestamp: new Date().toISOString(), file: "live-logs.ts", line: 14 });
 		logger.info(`New Logs WebSocket established (${ws.id})`);
 	},
 	close(ws) {

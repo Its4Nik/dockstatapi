@@ -23,6 +23,55 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 				tags: ["Management"],
 				description:
 					"Retrieves complete application log history from persistent storage",
+				responses: {
+					"200": {
+						description: "Successfully retrieved logs",
+						content: {
+							"application/json": {
+								schema: {
+									type: "array",
+									items: {
+										type: "object",
+										properties: {
+											id: {
+												type: "number",
+												example: 1
+											},
+											level: {
+												type: "string",
+												example: "info"
+											},
+											message: {
+												type: "string",
+												example: "Application started"
+											},
+											timestamp: {
+												type: "string",
+												example: "2024-03-20T12:00:00Z"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						description: "Error retrieving logs",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Failed to retrieve logs"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 		},
 	)
@@ -46,6 +95,55 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 				tags: ["Management"],
 				description:
 					"Filters logs by severity level (debug, info, warn, error, fatal)",
+				responses: {
+					"200": {
+						description: "Successfully retrieved logs by level",
+						content: {
+							"application/json": {
+								schema: {
+									type: "array",
+									items: {
+										type: "object",
+										properties: {
+											id: {
+												type: "number",
+												example: 1
+											},
+											level: {
+												type: "string",
+												example: "info"
+											},
+											message: {
+												type: "string",
+												example: "Application started"
+											},
+											timestamp: {
+												type: "string",
+												example: "2024-03-20T12:00:00Z"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						description: "Error retrieving logs",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Failed to retrieve logs"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 		},
 	)
@@ -68,6 +166,40 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 			detail: {
 				tags: ["Management"],
 				description: "Purges all historical log records from the database",
+				responses: {
+					"200": {
+						description: "Successfully cleared all logs",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										success: {
+											type: "boolean",
+											example: true
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						description: "Error clearing logs",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Could not delete all logs"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 		},
 	)
@@ -90,6 +222,40 @@ export const backendLogs = new Elysia({ prefix: "/logs" })
 			detail: {
 				tags: ["Management"],
 				description: "Clears log entries matching specified severity level",
+				responses: {
+					"200": {
+						description: "Successfully cleared logs by level",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										success: {
+											type: "boolean",
+											example: true
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						description: "Error clearing logs",
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									properties: {
+										error: {
+											type: "string",
+											example: "Failed to retrieve logs"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 		},
 	);

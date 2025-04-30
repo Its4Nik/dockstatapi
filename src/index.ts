@@ -76,7 +76,7 @@ export const DockStatAPI = new Elysia()
 					{
 						name: "Utils",
 						description: "Various utilities which might be useful",
-					},
+					}
 				],
 			},
 		}),
@@ -84,7 +84,7 @@ export const DockStatAPI = new Elysia()
 	.onBeforeHandle(async (context) => {
 		const { path, request, set } = context;
 
-		if (path === "/health" || path.startsWith("/swagger")) {
+		if (path === "/health" || path.startsWith("/swagger") || path.startsWith("/trpc")) {
 			logger.info(`Requested unguarded route: ${path}`);
 			return;
 		}

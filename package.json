@@ -20,7 +20,8 @@
 		"clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi*.db* && echo 'success'",
 		"clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi*.db* && echo 'success'",
 		"knip": "knip",
-		"lint": "biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src"
+		"lint": "biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src",
+		"test": "bun test src/tests/**/*.test.ts"
 	},
 	"dependencies": {
 		"@elysiajs/server-timing": "^1.2.1",
@@ -47,5 +48,7 @@
 		"wrap-ansi": "^9.0.0"
 	},
 	"module": "src/index.js",
-	"trustedDependencies": ["protobufjs"]
+	"trustedDependencies": [
+		"protobufjs"
+	]
 }

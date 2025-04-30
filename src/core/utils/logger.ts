@@ -64,9 +64,21 @@ const levelColors: Record<LogLevel | string, ChalkInstance> = {
 	ut: chalk.hex("#9D00FF"),
 };
 
+const parseTimestamp = (timestamp: string): string => {
+	const [datePart, timePart] = timestamp.split(" ");
+	const [day, month] = datePart.split("/");
+	const [hours, minutes, seconds] = timePart.split(":");
+	const year = new Date().getFullYear();
+	const date = new Date(year, parseInt(month) - 1, parseInt(day), parseInt(hours), parseInt(minutes), parseInt(seconds));
+	return date.toISOString();
+};
+
 const handleWebSocketLog = (log: log_message) => {
 	try {
-		logToClients(log);
+		logToClients({
+			...log,
+			timestamp: parseTimestamp(log.timestamp)
+		});
 	} catch (error) {
 		console.error(
 			`WebSocket logging failed: ${
@@ -81,7 +93,10 @@ const handleDatabaseLog = (log: log_message): void => {
 		return;
 	}
 	try {
-		dbFunctions.addLogEntry(log);
+		dbFunctions.addLogEntry({
+			...log,
+			timestamp: parseTimestamp(log.timestamp)
+		});
 	} catch (error) {
 		console.error(
 			`Database logging failed: ${
@@ -160,17 +175,17 @@ export const logger = createLogger({
 
 			handleDatabaseLog({
 				level: processedLevel,
-				timestamp,
+				timestamp: timestamp,
 				message: processedMessage,
-				file,
-				line,
+				file: file,
+				line: line,
 			});
 			handleWebSocketLog({
 				level: processedLevel,
-				timestamp,
+				timestamp: timestamp,
 				message: processedMessage,
-				file,
-				line,
+				file: file,
+				line: line,
 			});
 
 			return `${coloredLevel} [ ${coloredTimestamp} ] - ${formattedMessage}`;
