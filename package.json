@@ -1,52 +1,58 @@
 {
-	"name": "dockstatapi",
-	"author": {
-		"email": "info@itsnik.de",
-		"name": "ItsNik",
-		"url": "https://github.com/Its4Nik"
-	},
-	"license": "CC BY-NC 4.0",
-	"contributors": [],
-	"description": "DockStatAPI is an API backend featuring plugins and more for DockStat",
-	"version": "3.0.0",
-	"scripts": {
-		"start": "cross-env NODE_ENV=production LOG_LEVEL=info bun run src/index.ts",
-		"start:docker": "bun run build:docker && docker run -p 3000:3000 --rm -d --name dockstatapi -v 'plugins:/DockStatAPI/src/plugins' dockstatapi:local",
-		"dev": "docker compose -f docker/docker-compose.dev.yaml up -d && cross-env NODE_ENV=dev bun run --watch src/index.ts",
-		"dev:clean": "bun dev ; echo '\nExiting...' ; bun clean",
-		"build": "bun build --target bun src/index.ts --outdir ./dist",
-		"build:docker": "docker build -f docker/Dockerfile . -t 'dockstatapi:local'",
-		"clean": "bun run clean:win || bun run clean:lin",
-		"clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi*.db* && echo 'success'",
-		"clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi*.db* && echo 'success'",
-		"knip": "knip",
-		"lint": "biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src",
-		"test": "bun test src/tests/**/*.test.ts"
-	},
-	"dependencies": {
-		"@elysiajs/server-timing": "^1.2.1",
-		"@elysiajs/static": "^1.2.0",
-		"@elysiajs/swagger": "^1.2.2",
-		"chalk": "^5.4.1",
-		"docker-compose": "^1.2.0",
-		"dockerode": "^4.0.5",
-		"elysia": "latest",
-		"knip": "latest",
-		"split2": "^4.2.0",
-		"winston": "^3.17.0",
-		"yaml": "^2.7.1"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"@types/dockerode": "^3.3.38",
-		"@types/node": "^22.14.1",
-		"@types/split2": "^4.2.3",
-		"bun-types": "latest",
-		"cross-env": "^7.0.3",
-		"logform": "^2.7.0",
-		"typescript": "^5.8.3",
-		"wrap-ansi": "^9.0.0"
-	},
-	"module": "src/index.js",
-	"trustedDependencies": ["protobufjs"]
+  "name": "dockstatapi",
+  "author": {
+    "email": "info@itsnik.de",
+    "name": "ItsNik",
+    "url": "https://github.com/Its4Nik"
+  },
+  "license": "CC BY-NC 4.0",
+  "contributors": [],
+  "description": "DockStatAPI is an API backend featuring plugins and more for DockStat",
+  "version": "3.0.0",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production LOG_LEVEL=info bun run src/index.ts",
+    "start:docker": "bun run build:docker && docker run -p 3000:3000 --rm -d --name dockstatapi -v 'plugins:/DockStatAPI/src/plugins' dockstatapi:local",
+    "dev": "docker compose -f docker/docker-compose.dev.yaml up -d && cross-env NODE_ENV=dev bun run --watch src/index.ts",
+    "dev:clean": "bun dev ; echo '\nExiting...' ; bun clean",
+    "build": "bun build --target bun src/index.ts --outdir ./dist",
+    "build:prod": "NODE_ENV=production bun build --no-native --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts",
+    "build:docker": "docker build -f docker/Dockerfile . -t 'dockstatapi:local'",
+    "clean": "bun run clean:win || bun run clean:lin",
+    "clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi*.db* && echo 'success'",
+    "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi*.db* && echo 'success'",
+    "knip": "knip",
+    "lint": "biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src",
+    "test": "bun test src/tests/**/*.test.ts"
+  },
+  "dependencies": {
+    "@elysiajs/server-timing": "^1.2.1",
+    "@elysiajs/static": "^1.2.0",
+    "@elysiajs/swagger": "^1.2.2",
+    "chalk": "^5.4.1",
+    "docker-compose": "^1.2.0",
+    "dockerode": "^4.0.6",
+    "elysia": "latest",
+    "knip": "latest",
+    "split2": "^4.2.0",
+    "winston": "^3.17.0",
+    "yaml": "^2.7.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/dockerode": "^3.3.38",
+    "@types/node": "^22.15.3",
+    "@types/split2": "^4.2.3",
+    "bun-types": "latest",
+    "cross-env": "^7.0.3",
+    "logform": "^2.7.0",
+    "typescript": "^5.8.3",
+    "wrap-ansi": "^9.0.0",
+    "@types/bun": "latest"
+  },
+  "module": "src/index.js",
+  "trustedDependencies": [
+    "protobufjs"
+  ],
+  "type": "module",
+  "private": true
 }

@@ -21,7 +21,7 @@ const calculateCpuPercent = (stats: Docker.ContainerStats): number => {
 		return 0.0000001;
 	}
 
-	return data;
+	return data * 10;
 };
 
 const calculateMemoryUsage = (stats: Docker.ContainerStats): number => {
@@ -31,7 +31,7 @@ const calculateMemoryUsage = (stats: Docker.ContainerStats): number => {
 
 	const data = (stats.memory_stats.usage / stats.memory_stats.limit) * 100;
 
-	return data;
+	return data ;
 };
 
 export { calculateCpuPercent, calculateMemoryUsage };
