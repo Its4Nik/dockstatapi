@@ -78,64 +78,73 @@
 </a>
 </g>
 </g>
-<!-- events -->
+<!-- elysia&#45;remote&#45;dts -->
 <g id="node2" class="node">
+<title>elysia&#45;remote&#45;dts</title>
+<g id="a_node2"><a xlink:title="elysia&#45;remote&#45;dts">
+<path fill="#ffffcc" stroke="black" d="M217,-22C217,-22 135,-22 135,-22 132,-22 129,-19 129,-16 129,-16 129,-10 129,-10 129,-7 132,-4 135,-4 135,-4 217,-4 217,-4 220,-4 223,-7 223,-10 223,-10 223,-16 223,-16 223,-19 220,-22 217,-22"/>
+<text text-anchor="middle" x="176" y="-10.8" font-family="Helvetica,sans-Serif" font-size="9.00">elysia&#45;remote&#45;dts</text>
+</a>
+</g>
+</g>
+<!-- events -->
+<g id="node3" class="node">
 <title>events</title>
-<g id="a_node2"><a xlink:href="https://nodejs.org/api/events.html" xlink:title="events">
+<g id="a_node3"><a xlink:href="https://nodejs.org/api/events.html" xlink:title="events">
 <path fill="#ffffcc" stroke="grey" d="M562,-330C562,-330 520,-330 520,-330 517,-330 514,-327 514,-324 514,-324 514,-318 514,-318 514,-315 517,-312 520,-312 520,-312 562,-312 562,-312 565,-312 568,-315 568,-318 568,-318 568,-324 568,-324 568,-327 565,-330 562,-330"/>
 <text text-anchor="middle" x="541" y="-318.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="grey">events</text>
 </a>
 </g>
 </g>
 <!-- fs -->
-<g id="node3" class="node">
+<g id="node4" class="node">
 <title>fs</title>
-<g id="a_node3"><a xlink:href="https://nodejs.org/api/fs.html" xlink:title="fs">
+<g id="a_node4"><a xlink:href="https://nodejs.org/api/fs.html" xlink:title="fs">
 <path fill="#ffffcc" stroke="grey" d="M665,-1455C665,-1455 623,-1455 623,-1455 620,-1455 617,-1452 617,-1449 617,-1449 617,-1443 617,-1443 617,-1440 620,-1437 623,-1437 623,-1437 665,-1437 665,-1437 668,-1437 671,-1440 671,-1443 671,-1443 671,-1449 671,-1449 671,-1452 668,-1455 665,-1455"/>
 <text text-anchor="middle" x="644" y="-1443.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="grey">fs</text>
 </a>
 </g>
 </g>
 <!-- fs/promises -->
-<g id="node4" class="node">
+<g id="node5" class="node">
 <title>fs/promises</title>
-<g id="a_node4"><a xlink:href="https://nodejs.org/api/fs.html" xlink:title="promises">
+<g id="a_node5"><a xlink:href="https://nodejs.org/api/fs.html" xlink:title="promises">
 <path fill="#ffffcc" stroke="grey" d="M563.5,-1406C563.5,-1406 518.5,-1406 518.5,-1406 515.5,-1406 512.5,-1403 512.5,-1400 512.5,-1400 512.5,-1394 512.5,-1394 512.5,-1391 515.5,-1388 518.5,-1388 518.5,-1388 563.5,-1388 563.5,-1388 566.5,-1388 569.5,-1391 569.5,-1394 569.5,-1394 569.5,-1400 569.5,-1400 569.5,-1403 566.5,-1406 563.5,-1406"/>
 <text text-anchor="start" x="520.5" y="-1394.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="grey">promises</text>
 </a>
 </g>
 </g>
 <!-- package.json -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>package.json</title>
-<g id="a_node5"><a xlink:href="package.json" xlink:title="package.json">
+<g id="a_node6"><a xlink:href="package.json" xlink:title="package.json">
 <path fill="#ffee44" stroke="black" d="M573,-1346C573,-1346 509,-1346 509,-1346 506,-1346 503,-1343 503,-1340 503,-1340 503,-1334 503,-1334 503,-1331 506,-1328 509,-1328 509,-1328 573,-1328 573,-1328 576,-1328 579,-1331 579,-1334 579,-1334 579,-1340 579,-1340 579,-1343 576,-1346 573,-1346"/>
 <text text-anchor="middle" x="541" y="-1334.8" font-family="Helvetica,sans-Serif" font-size="9.00">package.json</text>
 </a>
 </g>
 </g>
 <!-- path -->
-<g id="node6" class="node">
+<g id="node7" class="node">
 <title>path</title>
-<g id="a_node6"><a xlink:href="https://nodejs.org/api/path.html" xlink:title="path">
+<g id="a_node7"><a xlink:href="https://nodejs.org/api/path.html" xlink:title="path">
 <path fill="#ffffcc" stroke="grey" d="M665,-1399C665,-1399 623,-1399 623,-1399 620,-1399 617,-1396 617,-1393 617,-1393 617,-1387 617,-1387 617,-1384 620,-1381 623,-1381 623,-1381 665,-1381 665,-1381 668,-1381 671,-1384 671,-1387 671,-1387 671,-1393 671,-1393 671,-1396 668,-1399 665,-1399"/>
 <text text-anchor="middle" x="644" y="-1387.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="grey">path</text>
 </a>
 </g>
 </g>
 <!-- src/core/database/_dbState.ts -->
-<g id="node7" class="node">
+<g id="node8" class="node">
 <title>src/core/database/_dbState.ts</title>
-<g id="a_node7"><a xlink:href="src/core/database/_dbState.ts" xlink:title="_dbState.ts">
+<g id="a_node8"><a xlink:href="src/core/database/_dbState.ts" xlink:title="_dbState.ts">
 <path fill="#ddfeff" stroke="black" d="M672,-1041C672,-1041 616,-1041 616,-1041 613,-1041 610,-1038 610,-1035 610,-1035 610,-1029 610,-1029 610,-1026 613,-1023 616,-1023 616,-1023 672,-1023 672,-1023 675,-1023 678,-1026 678,-1029 678,-1029 678,-1035 678,-1035 678,-1038 675,-1041 672,-1041"/>
 <text text-anchor="start" x="618" y="-1029.8" font-family="Helvetica,sans-Serif" font-size="9.00">_dbState.ts</text>
 </a>
 </g>
 </g>
 <!-- src/core/database/backup.ts -->
-<g id="node8" class="node">
+<g id="node9" class="node">
 <title>src/core/database/backup.ts</title>
-<g id="a_node8"><a xlink:href="src/core/database/backup.ts" xlink:title="backup.ts">
+<g id="a_node9"><a xlink:href="src/core/database/backup.ts" xlink:title="backup.ts">
 <path fill="#ddfeff" stroke="black" d="M438.5,-1100C438.5,-1100 388.5,-1100 388.5,-1100 385.5,-1100 382.5,-1097 382.5,-1094 382.5,-1094 382.5,-1088 382.5,-1088 382.5,-1085 385.5,-1082 388.5,-1082 388.5,-1082 438.5,-1082 438.5,-1082 441.5,-1082 444.5,-1085 444.5,-1088 444.5,-1088 444.5,-1094 444.5,-1094 444.5,-1097 441.5,-1100 438.5,-1100"/>
 <text text-anchor="start" x="390.5" y="-1088.8" font-family="Helvetica,sans-Serif" font-size="9.00">backup.ts</text>
 </a>
@@ -154,9 +163,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="616.1,-1047.01 614,-1041.01 611.9,-1047.01 616.1,-1047.01"/>
 </g>
 <!-- src/core/database/database.ts -->
-<g id="node9" class="node">
+<g id="node10" class="node">
 <title>src/core/database/database.ts</title>
-<g id="a_node9"><a xlink:href="src/core/database/database.ts" xlink:title="database.ts">
+<g id="a_node10"><a xlink:href="src/core/database/database.ts" xlink:title="database.ts">
 <path fill="#ddfeff" stroke="black" d="M569.5,-1075C569.5,-1075 512.5,-1075 512.5,-1075 509.5,-1075 506.5,-1072 506.5,-1069 506.5,-1069 506.5,-1063 506.5,-1063 506.5,-1060 509.5,-1057 512.5,-1057 512.5,-1057 569.5,-1057 569.5,-1057 572.5,-1057 575.5,-1060 575.5,-1063 575.5,-1063 575.5,-1069 575.5,-1069 575.5,-1072 572.5,-1075 569.5,-1075"/>
 <text text-anchor="start" x="514.5" y="-1063.8" font-family="Helvetica,sans-Serif" font-size="9.00">database.ts</text>
 </a>
@@ -169,9 +178,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="526.1,-1081.19 524,-1075.19 521.9,-1081.19 526.1,-1081.19"/>
 </g>
 <!-- src/core/database/helper.ts -->
-<g id="node10" class="node">
+<g id="node11" class="node">
 <title>src/core/database/helper.ts</title>
-<g id="a_node10"><a xlink:href="src/core/database/helper.ts" xlink:title="helper.ts">
+<g id="a_node11"><a xlink:href="src/core/database/helper.ts" xlink:title="helper.ts">
 <path fill="#ddfeff" stroke="black" d="M563,-1041C563,-1041 519,-1041 519,-1041 516,-1041 513,-1038 513,-1035 513,-1035 513,-1029 513,-1029 513,-1026 516,-1023 519,-1023 519,-1023 563,-1023 563,-1023 566,-1023 569,-1026 569,-1029 569,-1029 569,-1035 569,-1035 569,-1038 566,-1041 563,-1041"/>
 <text text-anchor="start" x="521" y="-1029.8" font-family="Helvetica,sans-Serif" font-size="9.00">helper.ts</text>
 </a>
@@ -186,9 +195,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="501.54" cy="-1027.86" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/core/utils/logger.ts -->
-<g id="node11" class="node">
+<g id="node12" class="node">
 <title>src/core/utils/logger.ts</title>
-<g id="a_node11"><a xlink:href="src/core/utils/logger.ts" xlink:title="logger.ts">
+<g id="a_node12"><a xlink:href="src/core/utils/logger.ts" xlink:title="logger.ts">
 <path fill="#ddfeff" stroke="black" d="M563,-794C563,-794 519,-794 519,-794 516,-794 513,-791 513,-788 513,-788 513,-782 513,-782 513,-779 516,-776 519,-776 519,-776 563,-776 563,-776 566,-776 569,-779 569,-782 569,-782 569,-788 569,-788 569,-791 566,-794 563,-794"/>
 <text text-anchor="start" x="521" y="-782.8" font-family="Helvetica,sans-Serif" font-size="9.00">logger.ts</text>
 </a>
@@ -203,9 +212,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="501.26" cy="-791.75" rx="2.4" ry="2.4"/>
 </g>
 <!-- ~/typings/misc -->
-<g id="node12" class="node">
+<g id="node13" class="node">
 <title>~/typings/misc</title>
-<g id="a_node12"><a xlink:title="misc">
+<g id="a_node13"><a xlink:title="misc">
 <path fill="#ffffcc" stroke="black" d="M562,-252C562,-252 520,-252 520,-252 517,-252 514,-249 514,-246 514,-246 514,-240 514,-240 514,-237 517,-234 520,-234 520,-234 562,-234 562,-234 565,-234 568,-237 568,-240 568,-240 568,-246 568,-246 568,-249 565,-252 562,-252"/>
 <text text-anchor="start" x="530" y="-240.8" font-family="Helvetica,sans-Serif" font-size="9.00">misc</text>
 </a>
@@ -256,9 +265,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="641.9,-1016.92 644,-1022.92 646.1,-1016.92 641.9,-1016.92"/>
 </g>
 <!-- src/core/database/index.ts -->
-<g id="node18" class="node">
+<g id="node19" class="node">
 <title>src/core/database/index.ts</title>
-<g id="a_node18"><a xlink:href="src/core/database/index.ts" xlink:title="index.ts">
+<g id="a_node19"><a xlink:href="src/core/database/index.ts" xlink:title="index.ts">
 <path fill="#ddfeff" stroke="black" d="M313,-980C313,-980 271,-980 271,-980 268,-980 265,-977 265,-974 265,-974 265,-968 265,-968 265,-965 268,-962 271,-962 271,-962 313,-962 313,-962 316,-962 319,-965 319,-968 319,-968 319,-974 319,-974 319,-977 316,-980 313,-980"/>
 <text text-anchor="start" x="273.5" y="-968.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.ts</text>
 </a>
@@ -273,9 +282,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="292" cy="-950.58" rx="2.4" ry="2.4"/>
 </g>
 <!-- ~/typings/database -->
-<g id="node21" class="node">
+<g id="node22" class="node">
 <title>~/typings/database</title>
-<g id="a_node21"><a xlink:title="database">
+<g id="a_node22"><a xlink:title="database">
 <path fill="#ffffcc" stroke="black" d="M564,-102C564,-102 518,-102 518,-102 515,-102 512,-99 512,-96 512,-96 512,-90 512,-90 512,-87 515,-84 518,-84 518,-84 564,-84 564,-84 567,-84 570,-87 570,-90 570,-90 570,-96 570,-96 570,-99 567,-102 564,-102"/>
 <text text-anchor="middle" x="541" y="-90.8" font-family="Helvetica,sans-Serif" font-size="9.00">database</text>
 </a>
@@ -288,9 +297,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="576.17,-93.9 570.17,-96 576.17,-98.1 576.17,-93.9"/>
 </g>
 <!-- src/routes/live&#45;logs.ts -->
-<g id="node37" class="node">
+<g id="node38" class="node">
 <title>src/routes/live&#45;logs.ts</title>
-<g id="a_node37"><a xlink:href="src/routes/live-logs.ts" xlink:title="live&#45;logs.ts">
+<g id="a_node38"><a xlink:href="src/routes/live-logs.ts" xlink:title="live&#45;logs.ts">
 <path fill="#ddfeff" stroke="black" d="M202,-426C202,-426 150,-426 150,-426 147,-426 144,-423 144,-420 144,-420 144,-414 144,-414 144,-411 147,-408 150,-408 150,-408 202,-408 202,-408 205,-408 208,-411 208,-414 208,-414 208,-420 208,-420 208,-423 205,-426 202,-426"/>
 <text text-anchor="start" x="152" y="-414.8" font-family="Helvetica,sans-Serif" font-size="9.00">live&#45;logs.ts</text>
 </a>
@@ -305,9 +314,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="219.63" cy="-423.33" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/core/database/config.ts -->
-<g id="node13" class="node">
+<g id="node14" class="node">
 <title>src/core/database/config.ts</title>
-<g id="a_node13"><a xlink:href="src/core/database/config.ts" xlink:title="config.ts">
+<g id="a_node14"><a xlink:href="src/core/database/config.ts" xlink:title="config.ts">
 <path fill="#ddfeff" stroke="black" d="M435.5,-1130C435.5,-1130 391.5,-1130 391.5,-1130 388.5,-1130 385.5,-1127 385.5,-1124 385.5,-1124 385.5,-1118 385.5,-1118 385.5,-1115 388.5,-1112 391.5,-1112 391.5,-1112 435.5,-1112 435.5,-1112 438.5,-1112 441.5,-1115 441.5,-1118 441.5,-1118 441.5,-1124 441.5,-1124 441.5,-1127 438.5,-1130 435.5,-1130"/>
 <text text-anchor="start" x="393.5" y="-1118.8" font-family="Helvetica,sans-Serif" font-size="9.00">config.ts</text>
 </a>
@@ -328,9 +337,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="501.47" cy="-1035.14" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/core/database/containerStats.ts -->
-<g id="node14" class="node">
+<g id="node15" class="node">
 <title>src/core/database/containerStats.ts</title>
-<g id="a_node14"><a xlink:href="src/core/database/containerStats.ts" xlink:title="containerStats.ts">
+<g id="a_node15"><a xlink:href="src/core/database/containerStats.ts" xlink:title="containerStats.ts">
 <path fill="#ddfeff" stroke="black" d="M454.5,-1160C454.5,-1160 372.5,-1160 372.5,-1160 369.5,-1160 366.5,-1157 366.5,-1154 366.5,-1154 366.5,-1148 366.5,-1148 366.5,-1145 369.5,-1142 372.5,-1142 372.5,-1142 454.5,-1142 454.5,-1142 457.5,-1142 460.5,-1145 460.5,-1148 460.5,-1148 460.5,-1154 460.5,-1154 460.5,-1157 457.5,-1160 454.5,-1160"/>
 <text text-anchor="start" x="374.5" y="-1148.8" font-family="Helvetica,sans-Serif" font-size="9.00">containerStats.ts</text>
 </a>
@@ -351,9 +360,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="501.39" cy="-1037.57" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/core/database/dockerHosts.ts -->
-<g id="node15" class="node">
+<g id="node16" class="node">
 <title>src/core/database/dockerHosts.ts</title>
-<g id="a_node15"><a xlink:href="src/core/database/dockerHosts.ts" xlink:title="dockerHosts.ts">
+<g id="a_node16"><a xlink:href="src/core/database/dockerHosts.ts" xlink:title="dockerHosts.ts">
 <path fill="#ddfeff" stroke="black" d="M449,-1070C449,-1070 378,-1070 378,-1070 375,-1070 372,-1067 372,-1064 372,-1064 372,-1058 372,-1058 372,-1055 375,-1052 378,-1052 378,-1052 449,-1052 449,-1052 452,-1052 455,-1055 455,-1058 455,-1058 455,-1064 455,-1064 455,-1067 452,-1070 449,-1070"/>
 <text text-anchor="start" x="380" y="-1058.8" font-family="Helvetica,sans-Serif" font-size="9.00">dockerHosts.ts</text>
 </a>
@@ -374,9 +383,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="501.55" cy="-1032.71" rx="2.4" ry="2.4"/>
 </g>
 <!-- ~/typings/docker -->
-<g id="node16" class="node">
+<g id="node17" class="node">
 <title>~/typings/docker</title>
-<g id="a_node16"><a xlink:title="docker">
+<g id="a_node17"><a xlink:title="docker">
 <path fill="#ffffcc" stroke="black" d="M562,-132C562,-132 520,-132 520,-132 517,-132 514,-129 514,-126 514,-126 514,-120 514,-120 514,-117 517,-114 520,-114 520,-114 562,-114 562,-114 565,-114 568,-117 568,-120 568,-120 568,-126 568,-126 568,-129 565,-132 562,-132"/>
 <text text-anchor="middle" x="541" y="-120.8" font-family="Helvetica,sans-Serif" font-size="9.00">docker</text>
 </a>
@@ -389,9 +398,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.89,-123.1 513.89,-121 507.89,-118.9 507.89,-123.1"/>
 </g>
 <!-- src/core/database/hostStats.ts -->
-<g id="node17" class="node">
+<g id="node18" class="node">
 <title>src/core/database/hostStats.ts</title>
-<g id="a_node17"><a xlink:href="src/core/database/hostStats.ts" xlink:title="hostStats.ts">
+<g id="a_node18"><a xlink:href="src/core/database/hostStats.ts" xlink:title="hostStats.ts">
 <path fill="#ddfeff" stroke="black" d="M443,-1040C443,-1040 384,-1040 384,-1040 381,-1040 378,-1037 378,-1034 378,-1034 378,-1028 378,-1028 378,-1025 381,-1022 384,-1022 384,-1022 443,-1022 443,-1022 446,-1022 449,-1025 449,-1028 449,-1028 449,-1034 449,-1034 449,-1037 446,-1040 443,-1040"/>
 <text text-anchor="start" x="386" y="-1028.8" font-family="Helvetica,sans-Serif" font-size="9.00">hostStats.ts</text>
 </a>
@@ -464,9 +473,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="382" cy="-1010.27" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/core/database/logs.ts -->
-<g id="node19" class="node">
+<g id="node20" class="node">
 <title>src/core/database/logs.ts</title>
-<g id="a_node19"><a xlink:href="src/core/database/logs.ts" xlink:title="logs.ts">
+<g id="a_node20"><a xlink:href="src/core/database/logs.ts" xlink:title="logs.ts">
 <path fill="#ddfeff" stroke="black" d="M434.5,-1010C434.5,-1010 392.5,-1010 392.5,-1010 389.5,-1010 386.5,-1007 386.5,-1004 386.5,-1004 386.5,-998 386.5,-998 386.5,-995 389.5,-992 392.5,-992 392.5,-992 434.5,-992 434.5,-992 437.5,-992 440.5,-995 440.5,-998 440.5,-998 440.5,-1004 440.5,-1004 440.5,-1007 437.5,-1010 434.5,-1010"/>
 <text text-anchor="start" x="398.5" y="-998.8" font-family="Helvetica,sans-Serif" font-size="9.00">logs.ts</text>
 </a>
@@ -481,9 +490,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="374.9" cy="-1001" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/core/database/stacks.ts -->
-<g id="node20" class="node">
+<g id="node21" class="node">
 <title>src/core/database/stacks.ts</title>
-<g id="a_node20"><a xlink:href="src/core/database/stacks.ts" xlink:title="stacks.ts">
+<g id="a_node21"><a xlink:href="src/core/database/stacks.ts" xlink:title="stacks.ts">
 <path fill="#ddfeff" stroke="black" d="M435.5,-980C435.5,-980 391.5,-980 391.5,-980 388.5,-980 385.5,-977 385.5,-974 385.5,-974 385.5,-968 385.5,-968 385.5,-965 388.5,-962 391.5,-962 391.5,-962 435.5,-962 435.5,-962 438.5,-962 441.5,-965 441.5,-968 441.5,-968 441.5,-974 441.5,-974 441.5,-977 438.5,-980 435.5,-980"/>
 <text text-anchor="start" x="393.5" y="-968.8" font-family="Helvetica,sans-Serif" font-size="9.00">stacks.ts</text>
 </a>
@@ -538,9 +547,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.83,-99.6 511.83,-97.5 505.83,-95.4 505.83,-99.6"/>
 </g>
 <!-- src/core/utils/helpers.ts -->
-<g id="node22" class="node">
+<g id="node23" class="node">
 <title>src/core/utils/helpers.ts</title>
-<g id="a_node22"><a xlink:href="src/core/utils/helpers.ts" xlink:title="helpers.ts">
+<g id="a_node23"><a xlink:href="src/core/utils/helpers.ts" xlink:title="helpers.ts">
 <path fill="#ddfeff" stroke="black" d="M438,-764C438,-764 389,-764 389,-764 386,-764 383,-761 383,-758 383,-758 383,-752 383,-752 383,-749 386,-746 389,-746 389,-746 438,-746 438,-746 441,-746 444,-749 444,-752 444,-752 444,-758 444,-758 444,-761 441,-764 438,-764"/>
 <text text-anchor="start" x="391" y="-752.8" font-family="Helvetica,sans-Serif" font-size="9.00">helpers.ts</text>
 </a>
@@ -555,9 +564,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="455.54" cy="-758" rx="2.4" ry="2.4"/>
 </g>
 <!-- ~/typings/docker&#45;compose -->
-<g id="node23" class="node">
+<g id="node24" class="node">
 <title>~/typings/docker&#45;compose</title>
-<g id="a_node23"><a xlink:title="docker&#45;compose">
+<g id="a_node24"><a xlink:title="docker&#45;compose">
 <path fill="#ffffcc" stroke="black" d="M580,-192C580,-192 502,-192 502,-192 499,-192 496,-189 496,-186 496,-186 496,-180 496,-180 496,-177 499,-174 502,-174 502,-174 580,-174 580,-174 583,-174 586,-177 586,-180 586,-180 586,-186 586,-186 586,-189 583,-192 580,-192"/>
 <text text-anchor="start" x="504" y="-180.8" font-family="Helvetica,sans-Serif" font-size="9.00">docker&#45;compose</text>
 </a>
@@ -578,9 +587,9 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="522" cy="-764.58" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/core/docker/client.ts -->
-<g id="node24" class="node">
+<g id="node25" class="node">
 <title>src/core/docker/client.ts</title>
-<g id="a_node24"><a xlink:href="src/core/docker/client.ts" xlink:title="client.ts">
+<g id="a_node25"><a xlink:href="src/core/docker/client.ts" xlink:title="client.ts">
 <path fill="#ddfeff" stroke="black" d="M313,-784C313,-784 271,-784 271,-784 268,-784 265,-781 265,-778 265,-778 265,-772 265,-772 265,-769 268,-766 271,-766 271,-766 313,-766 313,-766 316,-766 319,-769 319,-772 319,-772 319,-778 319,-778 319,-781 316,-784 313,-784"/>
 <text text-anchor="start" x="273.5" y="-772.8" font-family="Helvetica,sans-Serif" font-size="9.00">client.ts</text>
 </a>
@@ -599,9 +608,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.75,-126.6 513.75,-124.5 507.75,-122.4 507.75,-126.6"/>
 </g>
 <!-- src/core/docker/monitor.ts -->
-<g id="node25" class="node">
+<g id="node26" class="node">
 <title>src/core/docker/monitor.ts</title>
-<g id="a_node25"><a xlink:href="src/core/docker/monitor.ts" xlink:title="monitor.ts">
+<g id="a_node26"><a xlink:href="src/core/docker/monitor.ts" xlink:title="monitor.ts">
 <path fill="#ddfeff" stroke="black" d="M201,-814C201,-814 151,-814 151,-814 148,-814 145,-811 145,-808 145,-808 145,-802 145,-802 145,-799 148,-796 151,-796 151,-796 201,-796 201,-796 204,-796 207,-799 207,-802 207,-802 207,-808 207,-808 207,-811 204,-814 201,-814"/>
 <text text-anchor="start" x="153" y="-802.8" font-family="Helvetica,sans-Serif" font-size="9.00">monitor.ts</text>
 </a>
@@ -628,13 +637,13 @@
 <!-- src/core/docker/monitor.ts&#45;&gt;src/core/docker/client.ts -->
 <g id="edge41" class="edge">
 <title>src/core/docker/monitor.ts&#45;&gt;src/core/docker/client.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M207.09,-798.5C236.45,-798.5 276,-798.5 276,-798.5 276,-798.5 276,-790.02 276,-790.02"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="278.1,-790.02 276,-784.02 273.9,-790.02 278.1,-790.02"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M207.09,-798.5C241.45,-798.5 292,-798.5 292,-798.5 292,-798.5 292,-790.02 292,-790.02"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="294.1,-790.02 292,-784.02 289.9,-790.02 294.1,-790.02"/>
 </g>
 <!-- src/core/plugins/plugin&#45;manager.ts -->
-<g id="node26" class="node">
+<g id="node27" class="node">
 <title>src/core/plugins/plugin&#45;manager.ts</title>
-<g id="a_node26"><a xlink:href="src/core/plugins/plugin-manager.ts" xlink:title="plugin&#45;manager.ts">
+<g id="a_node27"><a xlink:href="src/core/plugins/plugin-manager.ts" xlink:title="plugin&#45;manager.ts">
 <path fill="#ddfeff" stroke="black" d="M457,-914C457,-914 370,-914 370,-914 367,-914 364,-911 364,-908 364,-908 364,-902 364,-902 364,-899 367,-896 370,-896 370,-896 457,-896 457,-896 460,-896 463,-899 463,-902 463,-902 463,-908 463,-908 463,-911 460,-914 457,-914"/>
 <text text-anchor="start" x="372" y="-902.8" font-family="Helvetica,sans-Serif" font-size="9.00">plugin&#45;manager.ts</text>
 </a>
@@ -665,9 +674,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.77,-128.35 513.77,-126.25 507.77,-124.15 507.77,-128.35"/>
 </g>
 <!-- ~/typings/plugin -->
-<g id="node34" class="node">
+<g id="node35" class="node">
 <title>~/typings/plugin</title>
-<g id="a_node34"><a xlink:title="plugin">
+<g id="a_node35"><a xlink:title="plugin">
 <path fill="#ffffcc" stroke="black" d="M562,-222C562,-222 520,-222 520,-222 517,-222 514,-219 514,-216 514,-216 514,-210 514,-210 514,-207 517,-204 520,-204 520,-204 562,-204 562,-204 565,-204 568,-207 568,-210 568,-210 568,-216 568,-216 568,-219 565,-222 562,-222"/>
 <text text-anchor="start" x="526.5" y="-210.8" font-family="Helvetica,sans-Serif" font-size="9.00">plugin</text>
 </a>
@@ -680,9 +689,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.86,-215.1 513.86,-213 507.86,-210.9 507.86,-215.1"/>
 </g>
 <!-- src/core/docker/scheduler.ts -->
-<g id="node27" class="node">
+<g id="node28" class="node">
 <title>src/core/docker/scheduler.ts</title>
-<g id="a_node27"><a xlink:href="src/core/docker/scheduler.ts" xlink:title="scheduler.ts">
+<g id="a_node28"><a xlink:href="src/core/docker/scheduler.ts" xlink:title="scheduler.ts">
 <path fill="#ddfeff" stroke="black" d="M97,-814C97,-814 38,-814 38,-814 35,-814 32,-811 32,-808 32,-808 32,-802 32,-802 32,-799 35,-796 38,-796 38,-796 97,-796 97,-796 100,-796 103,-799 103,-802 103,-802 103,-808 103,-808 103,-811 100,-814 97,-814"/>
 <text text-anchor="start" x="40" y="-802.8" font-family="Helvetica,sans-Serif" font-size="9.00">scheduler.ts</text>
 </a>
@@ -707,9 +716,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.93,-90.6 511.93,-88.5 505.93,-86.4 505.93,-90.6"/>
 </g>
 <!-- src/core/docker/store&#45;container&#45;stats.ts -->
-<g id="node28" class="node">
+<g id="node29" class="node">
 <title>src/core/docker/store&#45;container&#45;stats.ts</title>
-<g id="a_node28"><a xlink:href="src/core/docker/store-container-stats.ts" xlink:title="store&#45;container&#45;stats.ts">
+<g id="a_node29"><a xlink:href="src/core/docker/store-container-stats.ts" xlink:title="store&#45;container&#45;stats.ts">
 <path fill="#ddfeff" stroke="black" d="M230,-844C230,-844 122,-844 122,-844 119,-844 116,-841 116,-838 116,-838 116,-832 116,-832 116,-829 119,-826 122,-826 122,-826 230,-826 230,-826 233,-826 236,-829 236,-832 236,-832 236,-838 236,-838 236,-841 233,-844 230,-844"/>
 <text text-anchor="start" x="124" y="-832.8" font-family="Helvetica,sans-Serif" font-size="9.00">store&#45;container&#45;stats.ts</text>
 </a>
@@ -722,9 +731,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="133.9,-819.86 136,-825.86 138.1,-819.86 133.9,-819.86"/>
 </g>
 <!-- src/core/docker/store&#45;host&#45;stats.ts -->
-<g id="node29" class="node">
+<g id="node30" class="node">
 <title>src/core/docker/store&#45;host&#45;stats.ts</title>
-<g id="a_node29"><a xlink:href="src/core/docker/store-host-stats.ts" xlink:title="store&#45;host&#45;stats.ts">
+<g id="a_node30"><a xlink:href="src/core/docker/store-host-stats.ts" xlink:title="store&#45;host&#45;stats.ts">
 <path fill="#ddfeff" stroke="black" d="M219,-784C219,-784 133,-784 133,-784 130,-784 127,-781 127,-778 127,-778 127,-772 127,-772 127,-769 130,-766 133,-766 133,-766 219,-766 219,-766 222,-766 225,-769 225,-772 225,-772 225,-778 225,-778 225,-781 222,-784 219,-784"/>
 <text text-anchor="start" x="135" y="-772.8" font-family="Helvetica,sans-Serif" font-size="9.00">store&#45;host&#45;stats.ts</text>
 </a>
@@ -751,13 +760,13 @@
 <!-- src/core/docker/store&#45;container&#45;stats.ts&#45;&gt;src/core/docker/client.ts -->
 <g id="edge51" class="edge">
 <title>src/core/docker/store&#45;container&#45;stats.ts&#45;&gt;src/core/docker/client.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M236.05,-828.5C262.2,-828.5 287,-828.5 287,-828.5 287,-828.5 287,-790.32 287,-790.32"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="289.1,-790.32 287,-784.32 284.9,-790.32 289.1,-790.32"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M236.05,-828.5C270.12,-828.5 306,-828.5 306,-828.5 306,-828.5 306,-790.32 306,-790.32"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="308.1,-790.32 306,-784.32 303.9,-790.32 308.1,-790.32"/>
 </g>
 <!-- src/core/utils/calculations.ts -->
-<g id="node30" class="node">
+<g id="node31" class="node">
 <title>src/core/utils/calculations.ts</title>
-<g id="a_node30"><a xlink:href="src/core/utils/calculations.ts" xlink:title="calculations.ts">
+<g id="a_node31"><a xlink:href="src/core/utils/calculations.ts" xlink:title="calculations.ts">
 <path fill="#ddfeff" stroke="black" d="M448,-734C448,-734 379,-734 379,-734 376,-734 373,-731 373,-728 373,-728 373,-722 373,-722 373,-719 376,-716 379,-716 379,-716 448,-716 448,-716 451,-716 454,-719 454,-722 454,-722 454,-728 454,-728 454,-731 451,-734 448,-734"/>
 <text text-anchor="start" x="381" y="-722.8" font-family="Helvetica,sans-Serif" font-size="9.00">calculations.ts</text>
 </a>
@@ -800,9 +809,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="258.85,-777.1 264.85,-775 258.85,-772.9 258.85,-777.1"/>
 </g>
 <!-- ~/typings/dockerode -->
-<g id="node31" class="node">
+<g id="node32" class="node">
 <title>~/typings/dockerode</title>
-<g id="a_node31"><a xlink:title="dockerode">
+<g id="a_node32"><a xlink:title="dockerode">
 <path fill="#ffffcc" stroke="black" d="M567,-72C567,-72 515,-72 515,-72 512,-72 509,-69 509,-66 509,-66 509,-60 509,-60 509,-57 512,-54 515,-54 515,-54 567,-54 567,-54 570,-54 573,-57 573,-60 573,-60 573,-66 573,-66 573,-69 570,-72 567,-72"/>
 <text text-anchor="start" x="517" y="-60.8" font-family="Helvetica,sans-Serif" font-size="9.00">dockerode</text>
 </a>
@@ -815,9 +824,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="502.79,-62.1 508.79,-60 502.79,-57.9 502.79,-62.1"/>
 </g>
 <!-- src/core/plugins/loader.ts -->
-<g id="node32" class="node">
+<g id="node33" class="node">
 <title>src/core/plugins/loader.ts</title>
-<g id="a_node32"><a xlink:href="src/core/plugins/loader.ts" xlink:title="loader.ts">
+<g id="a_node33"><a xlink:href="src/core/plugins/loader.ts" xlink:title="loader.ts">
 <path fill="#ddfeff" stroke="black" d="M313.5,-914C313.5,-914 270.5,-914 270.5,-914 267.5,-914 264.5,-911 264.5,-908 264.5,-908 264.5,-902 264.5,-902 264.5,-899 267.5,-896 270.5,-896 270.5,-896 313.5,-896 313.5,-896 316.5,-896 319.5,-899 319.5,-902 319.5,-902 319.5,-908 319.5,-908 319.5,-911 316.5,-914 313.5,-914"/>
 <text text-anchor="start" x="272.5" y="-902.8" font-family="Helvetica,sans-Serif" font-size="9.00">loader.ts</text>
 </a>
@@ -826,19 +835,19 @@
 <!-- src/core/plugins/loader.ts&#45;&gt;fs -->
 <g id="edge62" class="edge">
 <title>src/core/plugins/loader.ts&#45;&gt;fs</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M264.45,-907.33C243.41,-907.33 218,-907.33 218,-907.33 218,-907.33 218,-1451.4 218,-1451.4 218,-1451.4 610.7,-1451.4 610.7,-1451.4"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M264.45,-909C243.41,-909 218,-909 218,-909 218,-909 218,-1451.4 218,-1451.4 218,-1451.4 610.7,-1451.4 610.7,-1451.4"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="610.7,-1453.5 616.7,-1451.4 610.7,-1449.3 610.7,-1453.5"/>
 </g>
 <!-- src/core/plugins/loader.ts&#45;&gt;path -->
 <g id="edge63" class="edge">
 <title>src/core/plugins/loader.ts&#45;&gt;path</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M264.34,-910.67C245.52,-910.67 224,-910.67 224,-910.67 224,-910.67 224,-1385.67 224,-1385.67 224,-1385.67 610.77,-1385.67 610.77,-1385.67"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M264.34,-911.5C245.52,-911.5 224,-911.5 224,-911.5 224,-911.5 224,-1385.67 224,-1385.67 224,-1385.67 610.77,-1385.67 610.77,-1385.67"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="610.77,-1387.77 616.77,-1385.67 610.77,-1383.57 610.77,-1387.77"/>
 </g>
 <!-- src/core/plugins/loader.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge60" class="edge">
 <title>src/core/plugins/loader.ts&#45;&gt;src/core/utils/logger.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M309,-895.64C309,-894.84 309,-894.33 309,-894.33 309,-894.33 527,-894.33 527,-894.33 527,-894.33 527,-800.32 527,-800.32"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M279,-895.64C279,-894.84 279,-894.33 279,-894.33 279,-894.33 527,-894.33 527,-894.33 527,-894.33 527,-800.32 527,-800.32"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="529.1,-800.32 527,-794.32 524.9,-800.32 529.1,-800.32"/>
 </g>
 <!-- src/core/plugins/loader.ts&#45;&gt;src/core/plugins/plugin&#45;manager.ts -->
@@ -848,9 +857,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="357.59,-912.5 363.59,-910.4 357.59,-908.3 357.59,-912.5"/>
 </g>
 <!-- src/core/utils/change&#45;me&#45;checker.ts -->
-<g id="node33" class="node">
+<g id="node34" class="node">
 <title>src/core/utils/change&#45;me&#45;checker.ts</title>
-<g id="a_node33"><a xlink:href="src/core/utils/change-me-checker.ts" xlink:title="change&#45;me&#45;checker.ts">
+<g id="a_node34"><a xlink:href="src/core/utils/change-me-checker.ts" xlink:title="change&#45;me&#45;checker.ts">
 <path fill="#ddfeff" stroke="black" d="M466,-824C466,-824 361,-824 361,-824 358,-824 355,-821 355,-818 355,-818 355,-812 355,-812 355,-809 358,-806 361,-806 361,-806 466,-806 466,-806 469,-806 472,-809 472,-812 472,-812 472,-818 472,-818 472,-821 469,-824 466,-824"/>
 <text text-anchor="start" x="363" y="-812.8" font-family="Helvetica,sans-Serif" font-size="9.00">change&#45;me&#45;checker.ts</text>
 </a>
@@ -875,9 +884,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="506.77,-787.1 512.77,-785 506.77,-782.9 506.77,-787.1"/>
 </g>
 <!-- src/core/stacks/controller.ts -->
-<g id="node35" class="node">
+<g id="node36" class="node">
 <title>src/core/stacks/controller.ts</title>
-<g id="a_node35"><a xlink:href="src/core/stacks/controller.ts" xlink:title="controller.ts">
+<g id="a_node36"><a xlink:href="src/core/stacks/controller.ts" xlink:title="controller.ts">
 <path fill="#ddfeff" stroke="black" d="M205,-904C205,-904 147,-904 147,-904 144,-904 141,-901 141,-898 141,-898 141,-892 141,-892 141,-889 144,-886 147,-886 147,-886 205,-886 205,-886 208,-886 211,-889 211,-892 211,-892 211,-898 211,-898 211,-901 208,-904 205,-904"/>
 <text text-anchor="start" x="149" y="-892.8" font-family="Helvetica,sans-Serif" font-size="9.00">controller.ts</text>
 </a>
@@ -920,9 +929,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="583.1,-198.21 581,-192.21 578.9,-198.21 583.1,-198.21"/>
 </g>
 <!-- src/routes/live&#45;stacks.ts -->
-<g id="node36" class="node">
+<g id="node37" class="node">
 <title>src/routes/live&#45;stacks.ts</title>
-<g id="a_node36"><a xlink:href="src/routes/live-stacks.ts" xlink:title="live&#45;stacks.ts">
+<g id="a_node37"><a xlink:href="src/routes/live-stacks.ts" xlink:title="live&#45;stacks.ts">
 <path fill="#ddfeff" stroke="black" d="M207,-396C207,-396 145,-396 145,-396 142,-396 139,-393 139,-390 139,-390 139,-384 139,-384 139,-381 142,-378 145,-378 145,-378 207,-378 207,-378 210,-378 213,-381 213,-384 213,-384 213,-390 213,-390 213,-393 210,-396 207,-396"/>
 <text text-anchor="start" x="147" y="-384.8" font-family="Helvetica,sans-Serif" font-size="9.00">live&#45;stacks.ts</text>
 </a>
@@ -931,32 +940,32 @@
 <!-- src/core/stacks/controller.ts&#45;&gt;src/routes/live&#45;stacks.ts -->
 <g id="edge71" class="edge">
 <title>src/core/stacks/controller.ts&#45;&gt;src/routes/live&#45;stacks.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M140.69,-898C123.72,-898 107,-898 107,-898 107,-898 107,-390 107,-390 107,-390 132.67,-390 132.67,-390"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="132.67,-392.1 138.67,-390 132.67,-387.9 132.67,-392.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M140.93,-898C124.72,-898 109,-898 109,-898 109,-898 109,-390 109,-390 109,-390 132.97,-390 132.97,-390"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="132.97,-392.1 138.97,-390 132.97,-387.9 132.97,-392.1"/>
 </g>
 <!-- src/routes/live&#45;stacks.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge137" class="edge">
+<g id="edge138" class="edge">
 <title>src/routes/live&#45;stacks.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M213.3,-387C310.66,-387 565,-387 565,-387 565,-387 565,-769.94 565,-769.94"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="562.9,-769.94 565,-775.94 567.1,-769.94 562.9,-769.94"/>
 </g>
 <!-- ~/typings/websocket -->
-<g id="node52" class="node">
+<g id="node53" class="node">
 <title>~/typings/websocket</title>
-<g id="a_node52"><a xlink:title="websocket">
+<g id="a_node53"><a xlink:title="websocket">
 <path fill="#ffffcc" stroke="black" d="M567.5,-42C567.5,-42 514.5,-42 514.5,-42 511.5,-42 508.5,-39 508.5,-36 508.5,-36 508.5,-30 508.5,-30 508.5,-27 511.5,-24 514.5,-24 514.5,-24 567.5,-24 567.5,-24 570.5,-24 573.5,-27 573.5,-30 573.5,-30 573.5,-36 573.5,-36 573.5,-39 570.5,-42 567.5,-42"/>
 <text text-anchor="start" x="516.5" y="-30.8" font-family="Helvetica,sans-Serif" font-size="9.00">websocket</text>
 </a>
 </g>
 </g>
 <!-- src/routes/live&#45;stacks.ts&#45;&gt;~/typings/websocket -->
-<g id="edge138" class="edge">
+<g id="edge139" class="edge">
 <title>src/routes/live&#45;stacks.ts&#45;&gt;~/typings/websocket</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M176,-377.89C176,-322.48 176,-33 176,-33 176,-33 502.29,-33 502.29,-33"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="502.29,-35.1 508.29,-33 502.29,-30.9 502.29,-35.1"/>
 </g>
 <!-- src/routes/live&#45;logs.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge135" class="edge">
+<g id="edge136" class="edge">
 <title>src/routes/live&#45;logs.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M208.24,-420.67C300.33,-420.67 558,-420.67 558,-420.67 558,-420.67 558,-762.19 558,-762.19"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="555.9,-769.99 558,-775.99 560.1,-769.99 555.9,-769.99"/>
@@ -964,15 +973,15 @@
 <ellipse fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" cx="558" cy="-764.59" rx="2.4" ry="2.4"/>
 </g>
 <!-- src/routes/live&#45;logs.ts&#45;&gt;~/typings/database -->
-<g id="edge136" class="edge">
+<g id="edge137" class="edge">
 <title>src/routes/live&#45;logs.ts&#45;&gt;~/typings/database</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M208.44,-413C215.03,-413 220,-413 220,-413 220,-413 220,-90.75 220,-90.75 220,-90.75 505.95,-90.75 505.95,-90.75"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.95,-92.85 511.95,-90.75 505.95,-88.65 505.95,-92.85"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M208.26,-413C213.9,-413 218,-413 218,-413 218,-413 218,-90.75 218,-90.75 218,-90.75 505.77,-90.75 505.77,-90.75"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.77,-92.85 511.77,-90.75 505.77,-88.65 505.77,-92.85"/>
 </g>
 <!-- src/core/utils/package&#45;json.ts -->
-<g id="node38" class="node">
+<g id="node39" class="node">
 <title>src/core/utils/package&#45;json.ts</title>
-<g id="a_node38"><a xlink:href="src/core/utils/package-json.ts" xlink:title="package&#45;json.ts">
+<g id="a_node39"><a xlink:href="src/core/utils/package-json.ts" xlink:title="package&#45;json.ts">
 <path fill="#ddfeff" stroke="black" d="M451,-794C451,-794 376,-794 376,-794 373,-794 370,-791 370,-788 370,-788 370,-782 370,-782 370,-779 373,-776 376,-776 376,-776 451,-776 451,-776 454,-776 457,-779 457,-782 457,-782 457,-788 457,-788 457,-791 454,-794 451,-794"/>
 <text text-anchor="start" x="378" y="-782.8" font-family="Helvetica,sans-Serif" font-size="9.00">package&#45;json.ts</text>
 </a>
@@ -985,9 +994,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="496.66,-1339.1 502.66,-1337 496.66,-1334.9 496.66,-1339.1"/>
 </g>
 <!-- src/core/utils/response&#45;handler.ts -->
-<g id="node39" class="node">
+<g id="node40" class="node">
 <title>src/core/utils/response&#45;handler.ts</title>
-<g id="a_node39"><a xlink:href="src/core/utils/response-handler.ts" xlink:title="response&#45;handler.ts">
+<g id="a_node40"><a xlink:href="src/core/utils/response-handler.ts" xlink:title="response&#45;handler.ts">
 <path fill="#ddfeff" stroke="black" d="M460,-704C460,-704 367,-704 367,-704 364,-704 361,-701 361,-698 361,-698 361,-692 361,-692 361,-689 364,-686 367,-686 367,-686 460,-686 460,-686 463,-686 466,-689 466,-692 466,-692 466,-698 466,-698 466,-701 463,-704 460,-704"/>
 <text text-anchor="start" x="369" y="-692.8" font-family="Helvetica,sans-Serif" font-size="9.00">response&#45;handler.ts</text>
 </a>
@@ -1000,9 +1009,9 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="506.93,-780.35 512.93,-778.25 506.93,-776.15 506.93,-780.35"/>
 </g>
 <!-- ~/typings/elysiajs -->
-<g id="node40" class="node">
+<g id="node41" class="node">
 <title>~/typings/elysiajs</title>
-<g id="a_node40"><a xlink:title="elysiajs">
+<g id="a_node41"><a xlink:title="elysiajs">
 <path fill="#ffffcc" stroke="black" d="M562,-162C562,-162 520,-162 520,-162 517,-162 514,-159 514,-156 514,-156 514,-150 514,-150 514,-147 517,-144 520,-144 520,-144 562,-144 562,-144 565,-144 568,-147 568,-150 568,-150 568,-156 568,-156 568,-159 565,-162 562,-162"/>
 <text text-anchor="start" x="525" y="-150.8" font-family="Helvetica,sans-Serif" font-size="9.00">elysiajs</text>
 </a>
@@ -1015,87 +1024,93 @@
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.64,-158.1 513.64,-156 507.64,-153.9 507.64,-158.1"/>
 </g>
 <!-- src/core/utils/swagger&#45;readme.ts -->
-<g id="node41" class="node">
+<g id="node42" class="node">
 <title>src/core/utils/swagger&#45;readme.ts</title>
-<g id="a_node41"><a xlink:href="src/core/utils/swagger-readme.ts" xlink:title="swagger&#45;readme.ts">
+<g id="a_node42"><a xlink:href="src/core/utils/swagger-readme.ts" xlink:title="swagger&#45;readme.ts">
 <path fill="#ddfeff" stroke="black" d="M459,-854C459,-854 368,-854 368,-854 365,-854 362,-851 362,-848 362,-848 362,-842 362,-842 362,-839 365,-836 368,-836 368,-836 459,-836 459,-836 462,-836 465,-839 465,-842 465,-842 465,-848 465,-848 465,-851 462,-854 459,-854"/>
 <text text-anchor="start" x="370" y="-842.8" font-family="Helvetica,sans-Serif" font-size="9.00">swagger&#45;readme.ts</text>
 </a>
 </g>
 </g>
 <!-- src/index.ts -->
-<g id="node42" class="node">
+<g id="node43" class="node">
 <title>src/index.ts</title>
-<g id="a_node42"><a xlink:href="src/index.ts" xlink:title="index.ts">
-<path fill="#ddfeff" stroke="black" d="M88.5,-561C88.5,-561 46.5,-561 46.5,-561 43.5,-561 40.5,-558 40.5,-555 40.5,-555 40.5,-549 40.5,-549 40.5,-546 43.5,-543 46.5,-543 46.5,-543 88.5,-543 88.5,-543 91.5,-543 94.5,-546 94.5,-549 94.5,-549 94.5,-555 94.5,-555 94.5,-558 91.5,-561 88.5,-561"/>
-<text text-anchor="start" x="49" y="-549.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.ts</text>
+<g id="a_node43"><a xlink:href="src/index.ts" xlink:title="index.ts">
+<path fill="#ddfeff" stroke="black" d="M88.5,-546C88.5,-546 46.5,-546 46.5,-546 43.5,-546 40.5,-543 40.5,-540 40.5,-540 40.5,-534 40.5,-534 40.5,-531 43.5,-528 46.5,-528 46.5,-528 88.5,-528 88.5,-528 91.5,-528 94.5,-531 94.5,-534 94.5,-534 94.5,-540 94.5,-540 94.5,-543 91.5,-546 88.5,-546"/>
+<text text-anchor="start" x="49" y="-534.8" font-family="Helvetica,sans-Serif" font-size="9.00">index.ts</text>
 </a>
 </g>
+</g>
+<!-- src/index.ts&#45;&gt;elysia&#45;remote&#45;dts -->
+<g id="edge104" class="edge">
+<title>src/index.ts&#45;&gt;elysia&#45;remote&#45;dts</title>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M48,-527.9C48,-458.32 48,-13 48,-13 48,-13 122.7,-13 122.7,-13"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="122.7,-15.1 128.7,-13 122.7,-10.9 122.7,-15.1"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/core/utils/logger.ts -->
 <g id="edge91" class="edge">
 <title>src/index.ts&#45;&gt;src/core/utils/logger.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M77,-561.29C77,-587.65 77,-661 77,-661 77,-661 529,-661 529,-661 529,-661 529,-769.68 529,-769.68"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M68,-546.32C68,-575.16 68,-661 68,-661 68,-661 529,-661 529,-661 529,-661 529,-769.68 529,-769.68"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="526.9,-769.68 529,-775.68 531.1,-769.68 526.9,-769.68"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/core/database/index.ts -->
 <g id="edge87" class="edge">
 <title>src/index.ts&#45;&gt;src/core/database/index.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M40.19,-549C24.55,-549 8,-549 8,-549 8,-549 8,-978.2 8,-978.2 8,-978.2 258.77,-978.2 258.77,-978.2"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M40.19,-534C24.55,-534 8,-534 8,-534 8,-534 8,-978.2 8,-978.2 8,-978.2 258.77,-978.2 258.77,-978.2"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="258.77,-980.3 264.77,-978.2 258.77,-976.1 258.77,-980.3"/>
 </g>
 <!-- src/index.ts&#45;&gt;~/typings/database -->
 <g id="edge103" class="edge">
 <title>src/index.ts&#45;&gt;~/typings/database</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M49,-542.7C49,-477.05 49,-86.25 49,-86.25 49,-86.25 505.7,-86.25 505.7,-86.25"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.7,-88.35 511.7,-86.25 505.7,-84.15 505.7,-88.35"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M54,-528C54,-464.47 54,-86.25 54,-86.25 54,-86.25 505.99,-86.25 505.99,-86.25"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.99,-88.35 511.99,-86.25 505.99,-84.15 505.99,-88.35"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/core/docker/monitor.ts -->
 <g id="edge88" class="edge">
 <title>src/index.ts&#45;&gt;src/core/docker/monitor.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.76,-556C104.45,-556 113,-556 113,-556 113,-556 113,-802 113,-802 113,-802 138.87,-802 138.87,-802"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="138.87,-804.1 144.87,-802 138.87,-799.9 138.87,-804.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.55,-540.86C104.78,-540.86 114,-540.86 114,-540.86 114,-540.86 114,-802 114,-802 114,-802 139,-802 139,-802"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="139,-804.1 145,-802 139,-799.9 139,-804.1"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/core/docker/scheduler.ts -->
 <g id="edge89" class="edge">
 <title>src/index.ts&#45;&gt;src/core/docker/scheduler.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M50,-561C50,-561 50,-789.84 50,-789.84"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="47.9,-789.84 50,-795.84 52.1,-789.84 47.9,-789.84"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M50,-546.23C50,-546.23 50,-789.81 50,-789.81"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="47.9,-789.81 50,-795.81 52.1,-789.81 47.9,-789.81"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/core/plugins/loader.ts -->
 <g id="edge90" class="edge">
 <title>src/index.ts&#45;&gt;src/core/plugins/loader.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M59,-561.06C59,-604.66 59,-790.67 59,-790.67 59,-790.67 298,-790.67 298,-790.67 298,-790.67 298,-889.64 298,-889.64"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="295.9,-889.64 298,-895.64 300.1,-889.64 295.9,-889.64"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.66,-543.43C101.03,-543.43 106,-543.43 106,-543.43 106,-543.43 106,-906.5 106,-906.5 106,-906.5 258.15,-906.5 258.15,-906.5"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="258.15,-908.6 264.15,-906.5 258.15,-904.4 258.15,-908.6"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/routes/live&#45;stacks.ts -->
 <g id="edge86" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/live&#45;stacks.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M56,-542.97C56,-508.07 56,-384 56,-384 56,-384 132.69,-384 132.69,-384"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="132.69,-386.1 138.69,-384 132.69,-381.9 132.69,-386.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M61,-527.89C61,-494.95 61,-384 61,-384 61,-384 132.98,-384 132.98,-384"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="132.98,-386.1 138.98,-384 132.98,-381.9 132.98,-386.1"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/routes/live&#45;logs.ts -->
 <g id="edge99" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/live&#45;logs.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M64,-542.72C64,-512.22 64,-417 64,-417 64,-417 137.91,-417 137.91,-417"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="137.91,-419.1 143.91,-417 137.91,-414.9 137.91,-419.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M75,-527.98C75,-500.07 75,-417 75,-417 75,-417 137.77,-417 137.77,-417"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="137.77,-419.1 143.77,-417 137.77,-414.9 137.77,-419.1"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/core/utils/package&#45;json.ts -->
 <g id="edge92" class="edge">
 <title>src/index.ts&#45;&gt;src/core/utils/package&#45;json.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M68,-561.23C68,-604.74 68,-787.33 68,-787.33 68,-787.33 363.74,-787.33 363.74,-787.33"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="363.74,-789.43 369.74,-787.33 363.74,-785.23 363.74,-789.43"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M59,-546.27C59,-591.73 59,-789 59,-789 59,-789 363.68,-789 363.68,-789"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="363.68,-791.1 369.68,-789 363.68,-786.9 363.68,-791.1"/>
 </g>
 <!-- src/index.ts&#45;&gt;src/core/utils/swagger&#45;readme.ts -->
 <g id="edge93" class="edge">
 <title>src/index.ts&#45;&gt;src/core/utils/swagger&#45;readme.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M40.42,-555C29.75,-555 20,-555 20,-555 20,-555 20,-849 20,-849 20,-849 355.65,-849 355.65,-849"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M40.42,-540C29.75,-540 20,-540 20,-540 20,-540 20,-849 20,-849 20,-849 355.65,-849 355.65,-849"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="355.65,-851.1 361.65,-849 355.65,-846.9 355.65,-851.1"/>
 </g>
 <!-- src/middleware/auth.ts -->
-<g id="node43" class="node">
+<g id="node44" class="node">
 <title>src/middleware/auth.ts</title>
-<g id="a_node43"><a xlink:href="src/middleware/auth.ts" xlink:title="auth.ts">
+<g id="a_node44"><a xlink:href="src/middleware/auth.ts" xlink:title="auth.ts">
 <path fill="#ddfeff" stroke="black" d="M313,-418C313,-418 271,-418 271,-418 268,-418 265,-415 265,-412 265,-412 265,-406 265,-406 265,-403 268,-400 271,-400 271,-400 313,-400 313,-400 316,-400 319,-403 319,-406 319,-406 319,-412 319,-412 319,-415 316,-418 313,-418"/>
 <text text-anchor="start" x="275.5" y="-406.8" font-family="Helvetica,sans-Serif" font-size="9.00">auth.ts</text>
 </a>
@@ -1104,13 +1119,13 @@
 <!-- src/index.ts&#45;&gt;src/middleware/auth.ts -->
 <g id="edge94" class="edge">
 <title>src/index.ts&#45;&gt;src/middleware/auth.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.85,-550C155.9,-550 298,-550 298,-550 298,-550 298,-424.25 298,-424.25"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="300.1,-424.25 298,-418.25 295.9,-424.25 300.1,-424.25"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M68,-527.86C68,-497.81 68,-404 68,-404 68,-404 258.98,-404 258.98,-404"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="258.98,-406.1 264.98,-404 258.98,-401.9 258.98,-406.1"/>
 </g>
 <!-- src/routes/api&#45;config.ts -->
-<g id="node44" class="node">
+<g id="node45" class="node">
 <title>src/routes/api&#45;config.ts</title>
-<g id="a_node44"><a xlink:href="src/routes/api-config.ts" xlink:title="api&#45;config.ts">
+<g id="a_node45"><a xlink:href="src/routes/api-config.ts" xlink:title="api&#45;config.ts">
 <path fill="#ddfeff" stroke="black" d="M206.5,-606C206.5,-606 145.5,-606 145.5,-606 142.5,-606 139.5,-603 139.5,-600 139.5,-600 139.5,-594 139.5,-594 139.5,-591 142.5,-588 145.5,-588 145.5,-588 206.5,-588 206.5,-588 209.5,-588 212.5,-591 212.5,-594 212.5,-594 212.5,-600 212.5,-600 212.5,-603 209.5,-606 206.5,-606"/>
 <text text-anchor="start" x="147.5" y="-594.8" font-family="Helvetica,sans-Serif" font-size="9.00">api&#45;config.ts</text>
 </a>
@@ -1119,13 +1134,13 @@
 <!-- src/index.ts&#45;&gt;src/routes/api&#45;config.ts -->
 <g id="edge95" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/api&#45;config.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.69,-554C116.67,-554 144,-554 144,-554 144,-554 144,-581.88 144,-581.88"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="141.9,-581.88 144,-587.88 146.1,-581.88 141.9,-581.88"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.76,-535.71C116.38,-535.71 143,-535.71 143,-535.71 143,-535.71 143,-581.96 143,-581.96"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="140.9,-581.96 143,-587.96 145.1,-581.96 140.9,-581.96"/>
 </g>
 <!-- src/routes/docker&#45;manager.ts -->
-<g id="node45" class="node">
+<g id="node46" class="node">
 <title>src/routes/docker&#45;manager.ts</title>
-<g id="a_node45"><a xlink:href="src/routes/docker-manager.ts" xlink:title="docker&#45;manager.ts">
+<g id="a_node46"><a xlink:href="src/routes/docker-manager.ts" xlink:title="docker&#45;manager.ts">
 <path fill="#ddfeff" stroke="black" d="M220.5,-456C220.5,-456 131.5,-456 131.5,-456 128.5,-456 125.5,-453 125.5,-450 125.5,-450 125.5,-444 125.5,-444 125.5,-441 128.5,-438 131.5,-438 131.5,-438 220.5,-438 220.5,-438 223.5,-438 226.5,-441 226.5,-444 226.5,-444 226.5,-450 226.5,-450 226.5,-453 223.5,-456 220.5,-456"/>
 <text text-anchor="start" x="133.5" y="-444.8" font-family="Helvetica,sans-Serif" font-size="9.00">docker&#45;manager.ts</text>
 </a>
@@ -1134,13 +1149,13 @@
 <!-- src/index.ts&#45;&gt;src/routes/docker&#45;manager.ts -->
 <g id="edge96" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/docker&#45;manager.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M72,-542.68C72,-516.98 72,-447 72,-447 72,-447 119.22,-447 119.22,-447"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="119.22,-449.1 125.22,-447 119.22,-444.9 119.22,-449.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M81,-527.71C81,-504.71 81,-447 81,-447 81,-447 119.44,-447 119.44,-447"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="119.44,-449.1 125.44,-447 119.44,-444.9 119.44,-449.1"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts -->
-<g id="node46" class="node">
+<g id="node47" class="node">
 <title>src/routes/docker&#45;stats.ts</title>
-<g id="a_node46"><a xlink:href="src/routes/docker-stats.ts" xlink:title="docker&#45;stats.ts">
+<g id="a_node47"><a xlink:href="src/routes/docker-stats.ts" xlink:title="docker&#45;stats.ts">
 <path fill="#ddfeff" stroke="black" d="M211.5,-516C211.5,-516 140.5,-516 140.5,-516 137.5,-516 134.5,-513 134.5,-510 134.5,-510 134.5,-504 134.5,-504 134.5,-501 137.5,-498 140.5,-498 140.5,-498 211.5,-498 211.5,-498 214.5,-498 217.5,-501 217.5,-504 217.5,-504 217.5,-510 217.5,-510 217.5,-513 214.5,-516 211.5,-516"/>
 <text text-anchor="start" x="142.5" y="-504.8" font-family="Helvetica,sans-Serif" font-size="9.00">docker&#45;stats.ts</text>
 </a>
@@ -1149,13 +1164,13 @@
 <!-- src/index.ts&#45;&gt;src/routes/docker&#45;stats.ts -->
 <g id="edge97" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/docker&#45;stats.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M87,-542.89C87,-529.74 87,-507 87,-507 87,-507 128.37,-507 128.37,-507"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="128.37,-509.1 134.37,-507 128.37,-504.9 128.37,-509.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.52,-530.57C117.22,-530.57 146,-530.57 146,-530.57 146,-530.57 146,-522.05 146,-522.05"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="148.1,-522.05 146,-516.05 143.9,-522.05 148.1,-522.05"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts -->
-<g id="node47" class="node">
+<g id="node48" class="node">
 <title>src/routes/docker&#45;websocket.ts</title>
-<g id="a_node47"><a xlink:href="src/routes/docker-websocket.ts" xlink:title="docker&#45;websocket.ts">
+<g id="a_node48"><a xlink:href="src/routes/docker-websocket.ts" xlink:title="docker&#45;websocket.ts">
 <path fill="#ddfeff" stroke="black" d="M224.5,-486C224.5,-486 127.5,-486 127.5,-486 124.5,-486 121.5,-483 121.5,-480 121.5,-480 121.5,-474 121.5,-474 121.5,-471 124.5,-468 127.5,-468 127.5,-468 224.5,-468 224.5,-468 227.5,-468 230.5,-471 230.5,-474 230.5,-474 230.5,-480 230.5,-480 230.5,-483 227.5,-486 224.5,-486"/>
 <text text-anchor="start" x="129.5" y="-474.8" font-family="Helvetica,sans-Serif" font-size="9.00">docker&#45;websocket.ts</text>
 </a>
@@ -1164,13 +1179,13 @@
 <!-- src/index.ts&#45;&gt;src/routes/docker&#45;websocket.ts -->
 <g id="edge98" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/docker&#45;websocket.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M80,-542.8C80,-522.78 80,-477 80,-477 80,-477 115.27,-477 115.27,-477"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M88,-527.89C88,-511.1 88,-477 88,-477 88,-477 115.27,-477 115.27,-477"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="115.27,-479.1 121.27,-477 115.27,-474.9 115.27,-479.1"/>
 </g>
 <!-- src/routes/logs.ts -->
-<g id="node48" class="node">
+<g id="node49" class="node">
 <title>src/routes/logs.ts</title>
-<g id="a_node48"><a xlink:href="src/routes/logs.ts" xlink:title="logs.ts">
+<g id="a_node49"><a xlink:href="src/routes/logs.ts" xlink:title="logs.ts">
 <path fill="#ddfeff" stroke="black" d="M197,-636C197,-636 155,-636 155,-636 152,-636 149,-633 149,-630 149,-630 149,-624 149,-624 149,-621 152,-618 155,-618 155,-618 197,-618 197,-618 200,-618 203,-621 203,-624 203,-624 203,-630 203,-630 203,-633 200,-636 197,-636"/>
 <text text-anchor="start" x="161" y="-624.8" font-family="Helvetica,sans-Serif" font-size="9.00">logs.ts</text>
 </a>
@@ -1179,13 +1194,13 @@
 <!-- src/index.ts&#45;&gt;src/routes/logs.ts -->
 <g id="edge100" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/logs.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M86,-561.2C86,-581.22 86,-627 86,-627 86,-627 143,-627 143,-627"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="143,-629.1 149,-627 143,-624.9 143,-629.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M77,-546.29C77,-569.29 77,-627 77,-627 77,-627 142.95,-627 142.95,-627"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="142.95,-629.1 148.95,-627 142.95,-624.9 142.95,-629.1"/>
 </g>
 <!-- src/routes/stacks.ts -->
-<g id="node49" class="node">
+<g id="node50" class="node">
 <title>src/routes/stacks.ts</title>
-<g id="a_node49"><a xlink:href="src/routes/stacks.ts" xlink:title="stacks.ts">
+<g id="a_node50"><a xlink:href="src/routes/stacks.ts" xlink:title="stacks.ts">
 <path fill="#ddfeff" stroke="black" d="M198,-546C198,-546 154,-546 154,-546 151,-546 148,-543 148,-540 148,-540 148,-534 148,-534 148,-531 151,-528 154,-528 154,-528 198,-528 198,-528 201,-528 204,-531 204,-534 204,-534 204,-540 204,-540 204,-543 201,-546 198,-546"/>
 <text text-anchor="start" x="156" y="-534.8" font-family="Helvetica,sans-Serif" font-size="9.00">stacks.ts</text>
 </a>
@@ -1194,13 +1209,13 @@
 <!-- src/index.ts&#45;&gt;src/routes/stacks.ts -->
 <g id="edge101" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/stacks.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.69,-548C124.15,-548 167,-548 167,-548 167,-548 167,-547.83 167,-547.83"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="169.1,-552.28 167,-546.28 164.9,-552.28 169.1,-552.28"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.6,-533.14C94.6,-533.14 141.73,-533.14 141.73,-533.14"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="141.73,-535.24 147.73,-533.14 141.73,-531.04 141.73,-535.24"/>
 </g>
 <!-- src/routes/utils.ts -->
-<g id="node50" class="node">
+<g id="node51" class="node">
 <title>src/routes/utils.ts</title>
-<g id="a_node50"><a xlink:href="src/routes/utils.ts" xlink:title="utils.ts">
+<g id="a_node51"><a xlink:href="src/routes/utils.ts" xlink:title="utils.ts">
 <path fill="#ddfeff" stroke="black" d="M197,-576C197,-576 155,-576 155,-576 152,-576 149,-573 149,-570 149,-570 149,-564 149,-564 149,-561 152,-558 155,-558 155,-558 197,-558 197,-558 200,-558 203,-561 203,-564 203,-564 203,-570 203,-570 203,-573 200,-576 197,-576"/>
 <text text-anchor="start" x="160.5" y="-564.8" font-family="Helvetica,sans-Serif" font-size="9.00">utils.ts</text>
 </a>
@@ -1209,248 +1224,248 @@
 <!-- src/index.ts&#45;&gt;src/routes/utils.ts -->
 <g id="edge102" class="edge">
 <title>src/index.ts&#45;&gt;src/routes/utils.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M94.75,-552C129.46,-552 185,-552 185,-552 185,-552 185,-552.58 185,-552.58"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="182.9,-551.76 185,-557.76 187.1,-551.76 182.9,-551.76"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M86,-546.16C86,-554.99 86,-567 86,-567 86,-567 143,-567 143,-567"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="143,-569.1 149,-567 143,-564.9 143,-569.1"/>
 </g>
 <!-- src/middleware/auth.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge105" class="edge">
+<g id="edge106" class="edge">
 <title>src/middleware/auth.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M319.02,-409C387.24,-409 561,-409 561,-409 561,-409 561,-769.71 561,-769.71"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="558.9,-769.71 561,-775.71 563.1,-769.71 558.9,-769.71"/>
 </g>
 <!-- src/middleware/auth.ts&#45;&gt;src/core/database/index.ts -->
-<g id="edge104" class="edge">
+<g id="edge105" class="edge">
 <title>src/middleware/auth.ts&#45;&gt;src/core/database/index.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M319.21,-413.5C325.3,-413.5 330,-413.5 330,-413.5 330,-413.5 330,-972.29 330,-972.29 330,-972.29 325.21,-972.29 325.21,-972.29"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="325.21,-970.19 319.21,-972.29 325.21,-974.39 325.21,-970.19"/>
 </g>
 <!-- src/middleware/auth.ts&#45;&gt;~/typings/database -->
-<g id="edge106" class="edge">
+<g id="edge107" class="edge">
 <title>src/middleware/auth.ts&#45;&gt;~/typings/database</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M319.34,-404.5C326.38,-404.5 332,-404.5 332,-404.5 332,-404.5 332,-93 332,-93 332,-93 505.94,-93 505.94,-93"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.94,-95.1 511.94,-93 505.94,-90.9 505.94,-95.1"/>
 </g>
 <!-- src/middleware/auth.ts&#45;&gt;~/typings/elysiajs -->
-<g id="edge107" class="edge">
+<g id="edge108" class="edge">
 <title>src/middleware/auth.ts&#45;&gt;~/typings/elysiajs</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M292,-399.78C292,-353.64 292,-150 292,-150 292,-150 507.88,-150 507.88,-150"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.88,-152.1 513.88,-150 507.88,-147.9 507.88,-152.1"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;fs -->
-<g id="edge116" class="edge">
+<g id="edge117" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;fs</title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M212.74,-594.75C314.06,-594.75 590,-594.75 590,-594.75 590,-594.75 590,-1440.6 590,-1440.6 590,-1440.6 610.68,-1440.6 610.68,-1440.6"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="610.68,-1442.7 616.68,-1440.6 610.68,-1438.5 610.68,-1442.7"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/core/database/backup.ts -->
-<g id="edge109" class="edge">
+<g id="edge110" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;src/core/database/backup.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.84,-601.5C256.09,-601.5 322,-601.5 322,-601.5 322,-601.5 322,-1088 322,-1088 322,-1088 376.27,-1088 376.27,-1088"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="376.27,-1090.1 382.27,-1088 376.27,-1085.9 376.27,-1090.1"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge111" class="edge">
+<g id="edge112" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.83,-597C304.59,-597 536,-597 536,-597 536,-597 536,-769.93 536,-769.93"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="533.9,-769.93 536,-775.93 538.1,-769.93 533.9,-769.93"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/core/database/index.ts -->
-<g id="edge108" class="edge">
+<g id="edge109" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;src/core/database/index.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.68,-603.75C234.52,-603.75 258,-603.75 258,-603.75 258,-603.75 258,-965.6 258,-965.6 258,-965.6 258.88,-965.6 258.88,-965.6"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="258.88,-967.7 264.88,-965.6 258.88,-963.5 258.88,-967.7"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;~/typings/database -->
-<g id="edge115" class="edge">
+<g id="edge116" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;~/typings/database</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.93,-592.5C273.67,-592.5 388,-592.5 388,-592.5 388,-592.5 388,-95.25 388,-95.25 388,-95.25 505.86,-95.25 505.86,-95.25"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="505.86,-97.35 511.86,-95.25 505.86,-93.15 505.86,-97.35"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/core/plugins/plugin&#45;manager.ts -->
-<g id="edge110" class="edge">
+<g id="edge111" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;src/core/plugins/plugin&#45;manager.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.9,-599.25C263.98,-599.25 350,-599.25 350,-599.25 350,-599.25 350,-903.2 350,-903.2 350,-903.2 357.78,-903.2 357.78,-903.2"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="357.78,-905.3 363.78,-903.2 357.78,-901.1 357.78,-905.3"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/core/utils/package&#45;json.ts -->
-<g id="edge112" class="edge">
+<g id="edge113" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;src/core/utils/package&#45;json.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M207,-606.07C207,-637.81 207,-742 207,-742 207,-742 378,-742 378,-742 378,-742 378,-769.88 378,-769.88"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="375.9,-769.88 378,-775.88 380.1,-769.88 375.9,-769.88"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
-<g id="edge113" class="edge">
+<g id="edge114" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M210,-606.32C210,-631.32 210,-698 210,-698 210,-698 354.83,-698 354.83,-698"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="354.83,-700.1 360.83,-698 354.83,-695.9 354.83,-700.1"/>
 </g>
 <!-- src/routes/api&#45;config.ts&#45;&gt;src/middleware/auth.ts -->
-<g id="edge114" class="edge">
+<g id="edge115" class="edge">
 <title>src/routes/api&#45;config.ts&#45;&gt;src/middleware/auth.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.69,-590.25C252.06,-590.25 309,-590.25 309,-590.25 309,-590.25 309,-424.24 309,-424.24"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="311.1,-424.24 309,-418.24 306.9,-424.24 311.1,-424.24"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M212.56,-590.25C251.01,-590.25 306,-590.25 306,-590.25 306,-590.25 306,-424.24 306,-424.24"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="308.1,-424.24 306,-418.24 303.9,-424.24 308.1,-424.24"/>
 </g>
 <!-- src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge118" class="edge">
+<g id="edge119" class="edge">
 <title>src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M226.83,-445.2C329.09,-445.2 550,-445.2 550,-445.2 550,-445.2 550,-769.91 550,-769.91"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="547.9,-769.91 550,-775.91 552.1,-769.91 547.9,-769.91"/>
 </g>
 <!-- src/routes/docker&#45;manager.ts&#45;&gt;~/typings/docker -->
-<g id="edge120" class="edge">
+<g id="edge121" class="edge">
 <title>src/routes/docker&#45;manager.ts&#45;&gt;~/typings/docker</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M226.86,-441.6C273.05,-441.6 334,-441.6 334,-441.6 334,-441.6 334,-115.75 334,-115.75 334,-115.75 507.94,-115.75 507.94,-115.75"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.94,-117.85 513.94,-115.75 507.94,-113.65 507.94,-117.85"/>
 </g>
 <!-- src/routes/docker&#45;manager.ts&#45;&gt;src/core/database/index.ts -->
-<g id="edge117" class="edge">
+<g id="edge118" class="edge">
 <title>src/routes/docker&#45;manager.ts&#45;&gt;src/core/database/index.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M226.61,-452.4C270.83,-452.4 328,-452.4 328,-452.4 328,-452.4 328,-969.71 328,-969.71 328,-969.71 325.29,-969.71 325.29,-969.71"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="325.29,-967.61 319.29,-969.71 325.29,-971.81 325.29,-967.61"/>
 </g>
 <!-- src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
-<g id="edge119" class="edge">
+<g id="edge120" class="edge">
 <title>src/routes/docker&#45;manager.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M226.59,-448.8C303.25,-448.8 440,-448.8 440,-448.8 440,-448.8 440,-679.95 440,-679.95"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="437.9,-679.95 440,-685.95 442.1,-679.95 437.9,-679.95"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge125" class="edge">
+<g id="edge126" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.74,-504C313.93,-504 543,-504 543,-504 543,-504 543,-769.97 543,-769.97"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="540.9,-769.97 543,-775.97 545.1,-769.97 540.9,-769.97"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;~/typings/docker -->
-<g id="edge127" class="edge">
+<g id="edge128" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;~/typings/docker</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.72,-500C265.72,-500 338,-500 338,-500 338,-500 338,-119.25 338,-119.25 338,-119.25 507.62,-119.25 507.62,-119.25"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="507.62,-121.35 513.62,-119.25 507.62,-117.15 507.62,-121.35"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/database/index.ts -->
-<g id="edge121" class="edge">
+<g id="edge122" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/database/index.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.62,-510C261.39,-510 324,-510 324,-510 324,-510 324,-964.57 324,-964.57 324,-964.57 323.53,-964.57 323.53,-964.57"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="325.28,-962.47 319.28,-964.57 325.28,-966.67 325.28,-962.47"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/helpers.ts -->
-<g id="edge124" class="edge">
+<g id="edge125" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/helpers.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.73,-508C270.34,-508 354,-508 354,-508 354,-508 354,-750.5 354,-750.5 354,-750.5 376.7,-750.5 376.7,-750.5"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="376.7,-752.6 382.7,-750.5 376.7,-748.4 376.7,-752.6"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/docker/client.ts -->
-<g id="edge122" class="edge">
+<g id="edge123" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/docker/client.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.54,-514C245.02,-514 276,-514 276,-514 276,-514 276,-759.71 276,-759.71"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="273.9,-759.71 276,-765.71 278.1,-759.71 273.9,-759.71"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.6,-514C246.18,-514 279,-514 279,-514 279,-514 279,-759.71 279,-759.71"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="276.9,-759.71 279,-765.71 281.1,-759.71 276.9,-759.71"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/calculations.ts -->
-<g id="edge123" class="edge">
+<g id="edge124" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/calculations.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.76,-512C219.79,-512 221,-512 221,-512 221,-512 221,-725 221,-725 221,-725 366.68,-725 366.68,-725"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="366.68,-727.1 372.68,-725 366.68,-722.9 366.68,-727.1"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;~/typings/dockerode -->
-<g id="edge128" class="edge">
+<g id="edge129" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;~/typings/dockerode</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.72,-502C276.07,-502 375,-502 375,-502 375,-502 375,-66 375,-66 375,-66 502.99,-66 502.99,-66"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="502.99,-68.1 508.99,-66 502.99,-63.9 502.99,-68.1"/>
 </g>
 <!-- src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
-<g id="edge126" class="edge">
+<g id="edge127" class="edge">
 <title>src/routes/docker&#45;stats.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M217.73,-506C289.1,-506 427,-506 427,-506 427,-506 427,-679.88 427,-679.88"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="424.9,-679.88 427,-685.88 429.1,-679.88 424.9,-679.88"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge132" class="edge">
+<g id="edge133" class="edge">
 <title>src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M230.74,-475.2C333.94,-475.2 547,-475.2 547,-475.2 547,-475.2 547,-769.73 547,-769.73"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="544.9,-769.73 547,-775.73 549.1,-769.73 544.9,-769.73"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/database/index.ts -->
-<g id="edge129" class="edge">
+<g id="edge130" class="edge">
 <title>src/routes/docker&#45;websocket.ts&#45;&gt;src/core/database/index.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M230.58,-478.8C273.47,-478.8 326,-478.8 326,-478.8 326,-478.8 326,-967.14 326,-967.14 326,-967.14 325.12,-967.14 325.12,-967.14"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="325.12,-965.04 319.12,-967.14 325.12,-969.24 325.12,-965.04"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/docker/client.ts -->
-<g id="edge130" class="edge">
+<g id="edge131" class="edge">
 <title>src/routes/docker&#45;websocket.ts&#45;&gt;src/core/docker/client.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M230.52,-482.4C258.6,-482.4 287,-482.4 287,-482.4 287,-482.4 287,-759.92 287,-759.92"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="284.9,-759.92 287,-765.92 289.1,-759.92 284.9,-759.92"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M230.6,-482.4C260.69,-482.4 292,-482.4 292,-482.4 292,-482.4 292,-759.92 292,-759.92"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="289.9,-759.92 292,-765.92 294.1,-759.92 289.9,-759.92"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/calculations.ts -->
-<g id="edge131" class="edge">
+<g id="edge132" class="edge">
 <title>src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/calculations.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M222,-486.25C222,-530.73 222,-720.5 222,-720.5 222,-720.5 366.89,-720.5 366.89,-720.5"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="366.89,-722.6 372.89,-720.5 366.89,-718.4 366.89,-722.6"/>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
-<g id="edge133" class="edge">
+<g id="edge134" class="edge">
 <title>src/routes/docker&#45;websocket.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M223,-486.24C223,-527.39 223,-692 223,-692 223,-692 354.94,-692 354.94,-692"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="354.94,-694.1 360.94,-692 354.94,-689.9 354.94,-694.1"/>
 </g>
 <!-- stream -->
-<g id="node51" class="node">
+<g id="node52" class="node">
 <title>stream</title>
-<g id="a_node51"><a xlink:href="https://nodejs.org/api/stream.html" xlink:title="stream">
+<g id="a_node52"><a xlink:href="https://nodejs.org/api/stream.html" xlink:title="stream">
 <path fill="#ffffcc" stroke="grey" d="M313,-128C313,-128 271,-128 271,-128 268,-128 265,-125 265,-122 265,-122 265,-116 265,-116 265,-113 268,-110 271,-110 271,-110 313,-110 313,-110 316,-110 319,-113 319,-116 319,-116 319,-122 319,-122 319,-125 316,-128 313,-128"/>
 <text text-anchor="middle" x="292" y="-116.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="grey">stream</text>
 </a>
 </g>
 </g>
 <!-- src/routes/docker&#45;websocket.ts&#45;&gt;stream -->
-<g id="edge134" class="edge">
+<g id="edge135" class="edge">
 <title>src/routes/docker&#45;websocket.ts&#45;&gt;stream</title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" stroke-opacity="0.200000" d="M230.57,-471.6C238.47,-471.6 244,-471.6 244,-471.6 244,-471.6 244,-119 244,-119 244,-119 258.91,-119 258.91,-119"/>
 <polygon fill="none" stroke="#000000" stroke-opacity="0.200000" points="258.91,-121.1 264.91,-119 258.91,-116.9 258.91,-121.1"/>
 </g>
 <!-- src/routes/logs.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge140" class="edge">
+<g id="edge141" class="edge">
 <title>src/routes/logs.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M203.05,-624C286.13,-624 532,-624 532,-624 532,-624 532,-769.88 532,-769.88"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="529.9,-769.88 532,-775.88 534.1,-769.88 529.9,-769.88"/>
 </g>
 <!-- src/routes/logs.ts&#45;&gt;src/core/database/index.ts -->
-<g id="edge139" class="edge">
+<g id="edge140" class="edge">
 <title>src/routes/logs.ts&#45;&gt;src/core/database/index.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M203.28,-630C225.77,-630 254,-630 254,-630 254,-630 254,-967.4 254,-967.4 254,-967.4 258.79,-967.4 258.79,-967.4"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="258.79,-969.5 264.79,-967.4 258.79,-965.3 258.79,-969.5"/>
 </g>
 <!-- src/routes/stacks.ts&#45;&gt;src/core/utils/logger.ts -->
-<g id="edge143" class="edge">
+<g id="edge144" class="edge">
 <title>src/routes/stacks.ts&#45;&gt;src/core/utils/logger.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M204.26,-532.5C289.78,-532.5 540,-532.5 540,-532.5 540,-532.5 540,-769.71 540,-769.71"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="537.9,-769.71 540,-775.71 542.1,-769.71 537.9,-769.71"/>
 </g>
 <!-- src/routes/stacks.ts&#45;&gt;src/core/database/index.ts -->
-<g id="edge141" class="edge">
+<g id="edge142" class="edge">
 <title>src/routes/stacks.ts&#45;&gt;src/core/database/index.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M204.3,-541.5C229.03,-541.5 261,-541.5 261,-541.5 261,-541.5 261,-963.8 261,-963.8 261,-963.8 261.38,-963.8 261.38,-963.8"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="258.8,-965.9 264.8,-963.8 258.8,-961.7 258.8,-965.9"/>
 </g>
 <!-- src/routes/stacks.ts&#45;&gt;src/core/stacks/controller.ts -->
-<g id="edge142" class="edge">
+<g id="edge143" class="edge">
 <title>src/routes/stacks.ts&#45;&gt;src/core/stacks/controller.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M147.63,-535.5C129.74,-535.5 110,-535.5 110,-535.5 110,-535.5 110,-892 110,-892 110,-892 134.68,-892 134.68,-892"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="134.68,-894.1 140.68,-892 134.68,-889.9 134.68,-894.1"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M147.68,-538.29C130.16,-538.29 111,-538.29 111,-538.29 111,-538.29 111,-892 111,-892 111,-892 134.84,-892 134.84,-892"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="134.84,-894.1 140.84,-892 134.84,-889.9 134.84,-894.1"/>
 </g>
 <!-- src/routes/stacks.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
-<g id="edge144" class="edge">
+<g id="edge145" class="edge">
 <title>src/routes/stacks.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M204.24,-537C267.28,-537 414,-537 414,-537 414,-537 414,-679.59 414,-679.59"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="411.9,-679.59 414,-685.59 416.1,-679.59 411.9,-679.59"/>
 </g>
 <!-- src/routes/utils.ts&#45;&gt;src/core/utils/package&#45;json.ts -->
-<g id="edge145" class="edge">
+<g id="edge146" class="edge">
 <title>src/routes/utils.ts&#45;&gt;src/core/utils/package&#45;json.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M203.11,-570C252.48,-570 352,-570 352,-570 352,-570 352,-780 352,-780 352,-780 363.79,-780 363.79,-780"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="363.79,-782.1 369.79,-780 363.79,-777.9 363.79,-782.1"/>
 </g>
 <!-- src/routes/utils.ts&#45;&gt;src/core/utils/response&#45;handler.ts -->
-<g id="edge146" class="edge">
+<g id="edge147" class="edge">
 <title>src/routes/utils.ts&#45;&gt;src/core/utils/response&#45;handler.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M203.14,-564C262.98,-564 401,-564 401,-564 401,-564 401,-680 401,-680"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="398.9,-680 401,-686 403.1,-680 398.9,-680"/>
