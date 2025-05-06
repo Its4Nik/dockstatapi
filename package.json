@@ -32,6 +32,7 @@
     "docker-compose": "^1.2.0",
     "dockerode": "^4.0.6",
     "elysia": "latest",
+    "elysia-remote-dts": "^1.0.2",
     "knip": "latest",
     "split2": "^4.2.0",
     "winston": "^3.17.0",

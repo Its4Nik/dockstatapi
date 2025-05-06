@@ -2,7 +2,7 @@ import { serverTiming } from "@elysiajs/server-timing";
 import staticPlugin from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
-
+import { dts } from "elysia-remote-dts";
 import { dbFunctions } from "~/core/database";
 import { monitorDockerEvents } from "~/core/docker/monitor";
 import { setSchedules } from "~/core/docker/scheduler";
@@ -14,9 +14,7 @@ import {
   license,
 } from "~/core/utils/package-json";
 import { swaggerReadme } from "~/core/utils/swagger-readme";
-
 import { validateApiKey } from "~/middleware/auth";
-
 import { apiConfigRoutes } from "~/routes/api-config";
 import { dockerRoutes } from "~/routes/docker-manager";
 import { dockerStatsRoutes } from "~/routes/docker-stats";
@@ -25,9 +23,8 @@ import { liveLogs } from "~/routes/live-logs";
 import { backendLogs } from "~/routes/logs";
 import { stackRoutes } from "~/routes/stacks";
 import { utilRoutes } from "~/routes/utils";
-import { liveStacks } from "./routes/live-stacks";
-
 import type { config } from "~/typings/database";
+import { liveStacks } from "./routes/live-stacks";
 
 console.log("");
 
@@ -36,6 +33,14 @@ logger.info("Starting DockStatAPI");
 const DockStatAPI = new Elysia()
   .use(staticPlugin())
   .use(serverTiming())
+  .use(
+    dts("./src/index.ts", {
+      tsconfig: "./tsconfig.json",
+      compilerOptions: {
+        strict: true,
+      },
+    })
+  )
   .use(
     swagger({
       documentation: {
