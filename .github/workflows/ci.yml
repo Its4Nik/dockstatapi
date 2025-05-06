@@ -56,6 +56,7 @@ jobs:
           bun clean
 
       - name: Publish Test Report
+        if: always()
         uses: mikepenz/action-junit-report@v5
         with:
           report_paths: "unit-test.xml"
