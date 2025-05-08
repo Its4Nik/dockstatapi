@@ -51,7 +51,6 @@ jobs:
           export DOCKSTATAPI_PORT=5971
           export PAD_NEW_LINES=false
           docker compose -f docker/docker-compose.dev.yaml up -d
-          bun clean
           bun test
           bun clean
 
