@@ -4,13 +4,13 @@ import { executeDbOperation } from "./helper";
 
 const stmt = {
 	insert: db.prepare(
-		"INSERT INTO backend_log_entries (timestamp, level, message, file, line) VALUES (?, ?, ?, ?, ?)",
+		"INSERT INTO backend_log_entries (level, timestamp, message, file, line) VALUES (?, ?, ?, ?, ?)",
 	),
 	selectAll: db.prepare(
-		"SELECT timestamp, level, message, file, line FROM backend_log_entries ORDER BY timestamp DESC",
+		"SELECT level, timestamp, message, file, line FROM backend_log_entries ORDER BY timestamp DESC",
 	),
 	selectByLevel: db.prepare(
-		"SELECT timestamp, level, message, file, line FROM backend_log_entries WHERE level = ?",
+		"SELECT level, timestamp, message, file, line FROM backend_log_entries WHERE level = ?",
 	),
 	deleteAll: db.prepare("DELETE FROM backend_log_entries"),
 	deleteByLevel: db.prepare("DELETE FROM backend_log_entries WHERE level = ?"),

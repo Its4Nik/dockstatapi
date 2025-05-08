@@ -47,6 +47,6 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ../:/data:ro
+      - ../data:/data:ro
     environment:
       - SQLITE_DATABASE=dockstatapi.db

@@ -11,7 +11,6 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 		"/add-host",
 		async ({ set, body }) => {
 			try {
-				set.headers["Content-Type"] = "application/json";
 				dbFunctions.addDockerHost(body as DockerHost);
 				return responseHandler.ok(set, `Added docker host (${body.name})`);
 			} catch (error: unknown) {
@@ -139,7 +138,7 @@ export const dockerRoutes = new Elysia({ prefix: "/docker-config" })
 		async ({ set }) => {
 			try {
 				const dockerHosts = dbFunctions.getDockerHosts();
-				set.headers["Content-Type"] = "application/json";
+
 				logger.debug("Retrieved docker hosts");
 				return dockerHosts;
 			} catch (error) {
