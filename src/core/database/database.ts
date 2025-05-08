@@ -7,10 +7,17 @@ if (!existsSync(dataFolder)) {
   mkdirSync(dataFolder, { recursive: true });
 }
 
-const databasePath = "data/dockstatapi.db";
-export const db = new Database(databasePath, { strict: true });
+export let db: Database;
 
-db.exec("PRAGMA journal_mode = WAL;");
+try {
+  const databasePath = "data/dockstatapi.db";
+  db = new Database(databasePath, { strict: true });
+  db.exec("PRAGMA journal_mode = WAL;");
+} catch (error) {
+  console.error(`Cannot start DockStatAPI: ${error}`);
+  process.exit;
+  throw new Error(error as string);
+}
 
 export function init() {
   db.exec(`
