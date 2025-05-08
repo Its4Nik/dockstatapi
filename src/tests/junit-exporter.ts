@@ -2,11 +2,33 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { format } from "date-fns";
 import { logger } from "~/core/utils/logger";
 
+export type TestContext = {
+  request: {
+    method: string;
+    url: string;
+    headers: Record<string, string>;
+    query?: Record<string, string>;
+    body?: unknown;
+  };
+  response: {
+    status: number;
+    headers: Record<string, string>;
+    body?: unknown;
+  };
+};
+
+type ErrorDetails = {
+  expected?: unknown;
+  received?: unknown;
+};
+
 type TestResult = {
   name: string;
   suite: string;
   time: number;
   error?: Error;
+  context?: TestContext;
+  errorDetails?: ErrorDetails;
 };
 
 export function recordTestResult(result: TestResult) {
@@ -15,6 +37,47 @@ export function recordTestResult(result: TestResult) {
 }
 
 export let testResults: TestResult[] = [];
+
+function formatContext(
+  context?: TestContext,
+  errorDetails?: ErrorDetails
+): string {
+  if (!context) return "";
+
+  let output = "=== REQUEST ===\n";
+  output += `Method: ${context.request.method}\n`;
+  output += `URL: ${context.request.url}\n`;
+
+  if (context.request.query) {
+    output += `Query Params: ${JSON.stringify(
+      context.request.query,
+      null,
+      2
+    )}\n`;
+  }
+
+  output += `Headers: ${JSON.stringify(context.request.headers, null, 2)}\n`;
+
+  if (context.request.body) {
+    output += `Body: ${JSON.stringify(context.request.body, null, 2)}\n`;
+  }
+
+  output += "\n=== RESPONSE ===\n";
+  output += `Status: ${context.response.status}\n`;
+  output += `Headers: ${JSON.stringify(context.response.headers, null, 2)}\n`;
+
+  if (context.response.body) {
+    output += `Body: ${JSON.stringify(context.response.body, null, 2)}\n`;
+  }
+
+  if (errorDetails) {
+    output += "\n=== ERROR DETAILS ===\n";
+    output += `Expected: ${JSON.stringify(errorDetails.expected, null, 2)}\n`;
+    output += `Received: ${JSON.stringify(errorDetails.received, null, 2)}\n`;
+  }
+
+  return output.replace(/]]>/g, "]]]]><![CDATA[>");
+}
 
 export function generateJunitReport() {
   if (testResults.length === 0) {
@@ -39,9 +102,9 @@ export function generateJunitReport() {
     .map(([suiteName, cases]) => {
       const suiteErrors = cases.filter((c) => c.error).length;
       return `
-  <testsuite name="${suiteName}" 
-             tests="${cases.length}" 
-             errors="${suiteErrors}" 
+  <testsuite name="${suiteName}"
+             tests="${cases.length}"
+             errors="${suiteErrors}"
              timestamp="${format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")}">
     ${cases
       .map(
@@ -57,6 +120,9 @@ export function generateJunitReport() {
       </failure>`
           : ""
       }
+      <system-out>
+        <![CDATA[${formatContext(testCase.context)}]]>
+      </system-out>
     </testcase>`
       )
       .join("\n")}

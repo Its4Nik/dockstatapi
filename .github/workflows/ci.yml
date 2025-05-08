@@ -52,14 +52,14 @@ jobs:
           export PAD_NEW_LINES=false
           docker compose -f docker/docker-compose.dev.yaml up -d
           bun clean
-          bun test --reporter=junit --reporter-outfile=./unit-test.xml
+          bun test
           bun clean
 
       - name: Publish Test Report
         if: always()
         uses: mikepenz/action-junit-report@v5
         with:
-          report_paths: "unit-test.xml"
+          report_paths: "reports/junit/*.xml"
 
       - name: Commit and push lint changes
         if: |

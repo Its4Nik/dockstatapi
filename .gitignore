@@ -7,3 +7,4 @@ data
 *.xml
 dependency-*
 Knip-Report.md
+reports/**

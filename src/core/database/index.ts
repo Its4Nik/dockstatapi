@@ -11,11 +11,13 @@ import * as logs from "~/core/database/logs";
 import * as stacks from "~/core/database/stacks";
 
 export const dbFunctions = {
-	...dockerHosts,
-	...logs,
-	...config,
-	...containerStats,
-	...hostStats,
-	...stacks,
-	...backup,
+  ...dockerHosts,
+  ...logs,
+  ...config,
+  ...containerStats,
+  ...hostStats,
+  ...stacks,
+  ...backup,
 };
+
+export type dbFunctions = typeof dbFunctions;
