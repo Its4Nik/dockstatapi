@@ -3,19 +3,19 @@ import { existsSync, mkdirSync } from "node:fs";
 
 const dataFolder = "data";
 
-if (!existsSync(dataFolder)) {
-  mkdirSync(dataFolder, { recursive: true });
-}
-
 export let db: Database;
 
 try {
-  const databasePath = "data/dockstatapi.db";
-  db = new Database(databasePath, { strict: true });
+  const databasePath = `${dataFolder}/dockstatapi.db`;
+
+  if (!existsSync(dataFolder)) {
+    mkdirSync(dataFolder, { recursive: true });
+  }
+
+  db = new Database(databasePath, { strict: true, create: true });
   db.exec("PRAGMA journal_mode = WAL;");
 } catch (error) {
   console.error(`Cannot start DockStatAPI: ${error}`);
-  process.exit;
   throw new Error(error as string);
 }
 
