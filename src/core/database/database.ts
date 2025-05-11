@@ -1,22 +1,34 @@
 import { Database } from "bun:sqlite";
-import { existsSync, mkdirSync } from "node:fs";
+import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+import { userInfo } from "node:os";
 
-const dataFolder = "data";
+const dataFolder = path.join(process.cwd(), "data");
+
+const username = userInfo().username;
+const gid = userInfo().gid;
+const uid = userInfo().uid;
 
 export let db: Database;
 
 try {
-  const databasePath = `${dataFolder}/dockstatapi.db`;
+  const databasePath = path.join(dataFolder, "dockstatapi.db");
+  console.log("Database path:", databasePath);
+  console.log(`Running as: ${username} (${uid}:${gid})`);
 
   if (!existsSync(dataFolder)) {
-    mkdirSync(dataFolder, { recursive: true });
+    await mkdir(dataFolder, { recursive: true, mode: 0o777 });
+    console.log("Created data directory:", dataFolder);
   }
 
-  db = new Database(databasePath, { strict: true, create: true });
+  db = new Database(databasePath, { create: true });
+  console.log("Database opened successfully");
+
   db.exec("PRAGMA journal_mode = WAL;");
 } catch (error) {
   console.error(`Cannot start DockStatAPI: ${error}`);
-  throw new Error(error as string);
+  process.exit(500);
 }
 
 export function init() {

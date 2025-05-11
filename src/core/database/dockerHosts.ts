@@ -1,4 +1,3 @@
-import type { DockerHost } from "~/typings/docker";
 import { db } from "./database";
 import { executeDbOperation } from "./helper";
 
