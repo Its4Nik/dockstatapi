@@ -3,7 +3,6 @@
 /node_modules
 .test
 build
-data
 *.xml
 dependency-*.{mmd,dot,svg}
 Knip-Report.md
