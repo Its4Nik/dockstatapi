@@ -43,7 +43,7 @@ jobs:
           for element in $(ls reports/markdown); do
             SUMMARY="$(echo -e "${SUMMARY}\n$(cat "reports/markdown/${element}")")"
           done
-          cho "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
   build-scan:
     name: Build and Security Scan
     runs-on: ubuntu-latest
