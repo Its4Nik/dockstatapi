@@ -33,6 +33,10 @@ jobs:
           bun test
           bun clean
 
+      - name: Log unit test files
+        run: |
+          ls -lah reports/junit
+
       - name: Publish Test Report
         if: always()
         uses: mikepenz/action-junit-report@v5
