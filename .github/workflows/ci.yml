@@ -34,15 +34,16 @@ jobs:
 
       - name: Log unit test files
         run: |
-          ls -lah reports/junit
+          ls -lah reports/markdown
 
       - name: Publish Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v5
-        with:
-          report_paths: "reports/junit/*.xml"
-          include_passed: true
-
+        run: |
+          SUMMARY=""
+          for element in $(ls reports/markdown); do
+            SUMMARY="$(echo -e "${SUMMARY}\n$(cat "${element}")")"
+          done
+          cho "$SUMMARY" >> $GITHUB_STEP_SUMMARY
   build-scan:
     name: Build and Security Scan
     runs-on: ubuntu-latest

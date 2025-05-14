@@ -18,8 +18,8 @@
     "build:prod": "NODE_ENV=production bun build --no-native --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts",
     "build:docker": "docker build -f docker/Dockerfile . -t 'dockstatapi:local'",
     "clean": "bun run clean:win || bun run clean:lin",
-    "clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi* && cmd /c del /Q reports/junit/*.xml && echo 'success'",
-    "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi* && rm -f reports/junit/*.xml && echo 'success'",
+    "clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi* && cmd /c del /Q reports/markdown/*.md && echo 'success'",
+    "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi* && rm -f reports/markdown/*.md && echo 'success'",
     "knip": "knip",
     "lint": "biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src"
   },
