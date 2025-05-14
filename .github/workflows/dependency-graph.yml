@@ -1,4 +1,4 @@
-name: Generate Dependency Graph
+name: "Generate Dependency Graph"
 
 on:
   push:
