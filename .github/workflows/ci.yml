@@ -6,7 +6,7 @@ on:
 
 jobs:
   unit-test:
-    name: Test
+    name: Unit Testing
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,7 +31,6 @@ jobs:
           export PAD_NEW_LINES=false
           docker compose -f docker/docker-compose.dev.yaml up -d
           bun test
-          bun clean
 
       - name: Log unit test files
         run: |
