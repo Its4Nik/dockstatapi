@@ -41,7 +41,7 @@ jobs:
         run: |
           SUMMARY=""
           for element in $(ls reports/markdown); do
-            SUMMARY="$(echo -e "${SUMMARY}\n$(cat "reports/markdown${element}")")"
+            SUMMARY="$(echo -e "${SUMMARY}\n$(cat "reports/markdown/${element}")")"
           done
           cho "$SUMMARY" >> $GITHUB_STEP_SUMMARY
   build-scan:
