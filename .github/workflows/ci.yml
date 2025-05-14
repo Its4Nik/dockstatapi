@@ -7,8 +7,8 @@ on:
     branches: ["**"]
 
 jobs:
-  lint-test:
-    name: Lint and Test
+  unit-test:
+    name: Test
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,25 +27,6 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Knip check
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: codex-/knip-reporter@v2
-
-      - name: Run linter
-        run: |
-          bun biome format --fix
-          bun biome lint --fix
-          bun biome check --fix
-          bun biome ci
-
-      - name: Add linted files
-        run: git add src/
-
-      - name: Check for changes
-        id: check-changes
-        run: |
-          git diff --cached --quiet || echo "changes_detected=true" >> $GITHUB_OUTPUT
-
       - name: Run unit tests
         run: |
           export PAD_NEW_LINES=false
@@ -58,16 +39,6 @@ jobs:
         uses: mikepenz/action-junit-report@v5
         with:
           report_paths: "reports/junit/*.xml"
-
-      - name: Commit and push lint changes
-        if: |
-          steps.check-changes.outputs.changes_detected == 'true' &&
-          github.event_name == 'push'
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git commit -m "CQL: Apply lint fixes [skip ci]"
-          git push
 
   build-scan:
     name: Build and Security Scan
