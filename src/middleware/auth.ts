@@ -47,13 +47,13 @@ export async function validateApiKey(request: Request, set: set) {
 		logger.warn(
 			"API Key validation deactivated, since running in development mode",
 		);
-		return { apiKey };
+		return { success: true, apiKey };
 	}
 
 	if (!apiKey) {
 		logger.error(`API key missing from request ${request.url}`);
 		set.status = 401;
-		return { error: "API key required" };
+		return { error: "API key required", success: false, apiKey };
 	}
 
 	logger.debug("API key validation initiated");
@@ -64,7 +64,12 @@ export async function validateApiKey(request: Request, set: set) {
 		if (!dbRecord) {
 			logger.error("API key not found in database");
 			set.status = 401;
-			return { error: "Invalid API key" };
+			return { success: false, error: "Invalid API key" };
+		}
+
+		if (dbRecord.hash === "changeme") {
+			logger.error("Please change your API Key!");
+			return { success: true, apiKey };
 		}
 
 		const isValid = await validateApiKeyHash(apiKey, dbRecord.hash);
@@ -72,13 +77,13 @@ export async function validateApiKey(request: Request, set: set) {
 		if (!isValid) {
 			logger.error("Invalid API key provided");
 			set.status = 401;
-			return { error: "Invalid API key" };
+			return { success: false, error: "Invalid API key", apiKey };
 		}
 
-		return logger.info("Valid API key used");
+		logger.info("Valid API key used");
 	} catch (error) {
 		logger.error("Error during API key validation", error);
 		set.status = 500;
-		return { error: "Internal server error" };
+		return { success: false, error: "Internal server error", apiKey };
 	}
 }

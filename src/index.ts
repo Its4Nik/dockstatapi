@@ -3,6 +3,7 @@ import staticPlugin from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { dts } from "elysia-remote-dts";
+import { Logestic } from "logestic";
 import { dbFunctions } from "~/core/database";
 import { monitorDockerEvents } from "~/core/docker/monitor";
 import { setSchedules } from "~/core/docker/scheduler";
@@ -22,7 +23,6 @@ import { dockerWebsocketRoutes } from "~/routes/docker-websocket";
 import { liveLogs } from "~/routes/live-logs";
 import { backendLogs } from "~/routes/logs";
 import { stackRoutes } from "~/routes/stacks";
-import { utilRoutes } from "~/routes/utils";
 import type { config } from "~/typings/database";
 import { liveStacks } from "./routes/live-stacks";
 
@@ -30,7 +30,11 @@ console.log("");
 
 logger.info("Starting DockStatAPI");
 
-const DockStatAPI = new Elysia()
+const DockStatAPI = new Elysia({
+	normalize: true,
+	precompile: true,
+})
+	.use(Logestic.preset("fancy"))
 	.use(staticPlugin())
 	.use(serverTiming())
 	.use(
@@ -92,7 +96,7 @@ const DockStatAPI = new Elysia()
 		if (
 			path === "/health" ||
 			path.startsWith("/swagger") ||
-			path.startsWith("/trpc")
+			path.startsWith("/public")
 		) {
 			logger.info(`Requested unguarded route: ${path}`);
 			return;
@@ -100,26 +104,34 @@ const DockStatAPI = new Elysia()
 
 		const validation = await validateApiKey(request, set);
 
-		if (validation.error) {
+		if (!validation) {
+			throw new Error("Error while checking API key");
+		}
+
+		if (!validation.success) {
 			set.status = 400;
 
-			return { error: validation.error };
+			throw new Error(validation.error);
 		}
 	})
-	.onError(({ code, set, path }) => {
+	.onError(({ code, set, path, error }) => {
 		if (code === "NOT_FOUND") {
 			logger.warn(`Unknown route (${path}), showing error page!`);
 			set.status = 404;
 			set.headers["Content-Type"] = "text/html";
 			return Bun.file("public/404.html");
 		}
+
+		logger.error(`Internal server error at ${path}: ${error.message}`);
+		set.status = 500;
+		set.headers["Content-Type"] = "text/html";
+		return { success: false, message: error.message };
 	})
 	.use(dockerRoutes)
 	.use(dockerStatsRoutes)
 	.use(backendLogs)
 	.use(dockerWebsocketRoutes)
 	.use(apiConfigRoutes)
-	.use(utilRoutes)
 	.use(stackRoutes)
 	.use(liveLogs)
 	.use(liveStacks)

@@ -1,5 +1,4 @@
 import { Elysia, t } from "elysia";
-
 import { dbFunctions } from "~/core/database";
 import {
 	deployStack,
@@ -13,45 +12,14 @@ import {
 } from "~/core/stacks/controller";
 import { logger } from "~/core/utils/logger";
 import { responseHandler } from "~/core/utils/response-handler";
+import type { stacks_config } from "~/typings/database";
 
 export const stackRoutes = new Elysia({ prefix: "/stacks" })
 	.post(
 		"/deploy",
 		async ({ set, body }) => {
 			try {
-				const isCustom = body.isCustom || false;
-
-				const image_updates = body.image_updates || false;
-
-				const missingParams: string[] = [];
-				if (!body.compose_spec) {
-					missingParams.push("compose_spec");
-				}
-				if (body.automatic_reboot_on_error === undefined) {
-					missingParams.push("automatic_reboot_on_error");
-				}
-				if (!body.source) {
-					missingParams.push("source");
-				}
-				if (!body.name) {
-					missingParams.push("name");
-				}
-
-				if (missingParams.length > 0) {
-					const errMsg = `Missing values of: ${missingParams.join("; ")}`;
-					return responseHandler.error(set, errMsg, errMsg);
-				}
-
-				await deployStack(
-					body.compose_spec,
-					body.name,
-					body.version,
-					body.source,
-					body.automatic_reboot_on_error,
-					isCustom,
-					image_updates,
-					body.stack_prefix,
-				);
+				await deployStack(body as stacks_config);
 				logger.info(`Deployed Stack (${body.name})`);
 				return responseHandler.ok(
 					set,
@@ -60,7 +28,11 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 			} catch (error) {
 				const errorMsg = error instanceof Error ? error.message : String(error);
 
-				return responseHandler.error(set, errorMsg, "Error deploying stack");
+				return responseHandler.error(
+					set,
+					errorMsg,
+					"Error deploying stack, please check the server logs for more information",
+				);
 			}
 		},
 		{
@@ -104,14 +76,11 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 				},
 			},
 			body: t.Object({
-				compose_spec: t.Any(),
 				name: t.String(),
 				version: t.Number(),
-				automatic_reboot_on_error: t.Boolean(),
-				isCustom: t.Boolean(),
-				image_updates: t.Boolean(),
+				custom: t.Boolean(),
 				source: t.String(),
-				stack_prefix: t.Optional(t.String()),
+				compose_spec: t.Any(),
 			}),
 		},
 	)
@@ -375,24 +344,41 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 		"/status",
 		async ({ set, query }) => {
 			try {
-				//biome-ignore lint/suspicious/noExplicitAny:
+				// biome-ignore lint/suspicious/noExplicitAny:
 				let status: Record<string, any>;
 				let res = {};
+
+				logger.debug("Entering stack status handler");
+				logger.debug(`Request body: ${JSON.stringify(query)}`);
+
 				if (query.stackId) {
+					logger.debug(`Fetching status for stackId=${query.stackId}`);
 					status = await getStackStatus(query.stackId);
+					logger.debug(
+						`Retrieved status for stackId=${query.stackId}: ${JSON.stringify(status)}`,
+					);
+
 					res = responseHandler.ok(
 						set,
 						`Stack ${query.stackId} status retrieved successfully`,
 					);
 					logger.info("Fetched Stack status");
 				} else {
+					logger.debug("Fetching status for all stacks");
 					status = await getAllStacksStatus();
+					logger.debug(
+						`Retrieved status for all stacks: ${JSON.stringify(status)}`,
+					);
+
 					res = responseHandler.ok(set, "Fetched all Stack's status");
 					logger.info("Fetched all Stack status");
 				}
+
+				logger.debug("Returning response with status data");
 				return { ...res, status: status };
 			} catch (error) {
 				const errorMsg = error instanceof Error ? error.message : String(error);
+				logger.debug(`Error occurred while fetching stack status: ${errorMsg}`);
 
 				return responseHandler.error(
 					set,
@@ -470,9 +456,11 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 					},
 				},
 			},
-			query: t.Object({
-				stackId: t.Number(),
-			}),
+			query: t.Optional(
+				t.Object({
+					stackId: t.Number(),
+				}),
+			),
 		},
 	)
 	.get(
@@ -549,7 +537,6 @@ export const stackRoutes = new Elysia({ prefix: "/stacks" })
 			},
 		},
 	)
-
 	.delete(
 		"/",
 		async ({ set, body }) => {

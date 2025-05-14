@@ -9,339 +9,393 @@ import type { ComposeSpec, Stack } from "~/typings/docker-compose";
 import { findObjectByKey } from "../utils/helpers";
 
 const wrapProgressCallback = (progressCallback?: (log: string) => void) => {
-	return progressCallback
-		? (chunk: Buffer, streamSource?: "stdout" | "stderr") => {
-				const log = chunk.toString();
-				progressCallback(log);
-			}
-		: undefined;
+  return progressCallback
+    ? (chunk: Buffer, streamSource?: "stdout" | "stderr") => {
+        const log = chunk.toString();
+        progressCallback(log);
+      }
+    : undefined;
 };
 
 async function getStackName(stack_id: number): Promise<string> {
-	logger.debug(`Fetching stack name for id ${stack_id}`);
-	const stacks = dbFunctions.getStacks();
-	const stack = findObjectByKey(stacks, "id", stack_id);
-	if (!stack) {
-		throw new Error(`Stack with id ${stack_id} not found`);
-	}
-	return stack.name;
+  logger.debug(`Fetching stack name for id ${stack_id}`);
+  const stacks = dbFunctions.getStacks();
+  const stack = findObjectByKey(stacks, "id", stack_id);
+  if (!stack) {
+    throw new Error(`Stack with id ${stack_id} not found`);
+  }
+  return stack.name;
 }
 
 async function runStackCommand<T>(
-	stack_id: number,
-	command: (
-		cwd: string,
-		progressCallback?: (log: string) => void,
-	) => Promise<T>,
-	action: string,
+  stack_id: number,
+  command: (
+    cwd: string,
+    progressCallback?: (log: string) => void
+  ) => Promise<T>,
+  action: string
 ): Promise<T> {
-	try {
-		const stackName = await getStackName(stack_id);
-		const stackPath = await getStackPath({
-			id: stack_id,
-			name: stackName,
-		} as Stack);
+  try {
+    logger.debug(
+      `Starting runStackCommand for stack_id=${stack_id}, action="${action}"`
+    );
 
-		const progressCallback = (log: string) => {
-			postToClient({
-				type: "stack-progress",
-				data: {
-					stack_id,
-					action,
-					message: log.trim(),
-					timestamp: new Date().toISOString(),
-				},
-			});
-		};
+    const stackName = await getStackName(stack_id);
+    logger.debug(
+      `Retrieved stack name "${stackName}" for stack_id=${stack_id}`
+    );
 
-		return await command(stackPath, progressCallback);
-	} catch (error) {
-		postToClient({
-			type: "stack-error",
-			data: {
-				stack_id,
-				action,
-				message: String(error),
-				timestamp: new Date().toISOString(),
-			},
-		});
-		throw new Error(
-			`Error while ${action} stack "${stack_id}": ${String(error)}`,
-		);
-	}
+    const stackPath = await getStackPath({
+      id: stack_id,
+      name: stackName,
+    } as Stack);
+    logger.debug(`Resolved stack path "${stackPath}" for stack_id=${stack_id}`);
+
+    const progressCallback = (log: string) => {
+      const message = log.trim();
+      logger.debug(
+        `Progress for stack_id=${stack_id}, action="${action}": ${message}`
+      );
+
+      // ERROR HANDLING FOR COMPOSE ACTIONS
+      if (message.includes("Error response from daemon")) {
+        logger.error(
+          `Error response from daemon: ${
+            message.split("Error response from daemon:")[1]
+          }`
+        );
+      }
+
+      postToClient({
+        type: "stack-progress",
+        data: {
+          stack_id,
+          action,
+          message,
+          timestamp: new Date().toISOString(),
+        },
+      });
+    };
+
+    logger.debug(
+      `Executing command for stack_id=${stack_id}, action="${action}"`
+    );
+    const result = await command(stackPath, progressCallback);
+    logger.debug(
+      `Successfully completed command for stack_id=${stack_id}, action="${action}"`
+    );
+
+    return result;
+  } catch (error) {
+    logger.debug(
+      `Error occurred for stack_id=${stack_id}, action="${action}": ${String(
+        error
+      )}`
+    );
+    postToClient({
+      type: "stack-error",
+      data: {
+        stack_id,
+        action,
+        message: String(error),
+        timestamp: new Date().toISOString(),
+      },
+    });
+    throw new Error(
+      `Error while ${action} stack "${stack_id}": ${String(error)}`
+    );
+  }
 }
 
 async function getStackPath(stack: Stack): Promise<string> {
-	const stackName = stack.name.trim().replace(/\s+/g, "_");
-	return `stacks/${stackName}`;
+  const stackName = stack.name.trim().replace(/\s+/g, "_");
+  const stackId = stack.id;
+
+  if (!stackId) {
+    logger.error("Stack could not be parsed");
+    throw new Error("Stack could not be parsed");
+  }
+
+  return `stacks/${stackId}-${stackName}`;
 }
 
 async function createStackYAML(compose_spec: Stack): Promise<void> {
-	const yaml = YAML.stringify(compose_spec.compose_spec);
-	const stackPath = await getStackPath(compose_spec);
-	await Bun.write(`${stackPath}/docker-compose.yaml`, yaml, {
-		createPath: true,
-	});
+  const yaml = YAML.stringify(compose_spec.compose_spec);
+  const stackPath = await getStackPath(compose_spec);
+  await Bun.write(`${stackPath}/docker-compose.yaml`, yaml, {
+    createPath: true,
+  });
 }
 
-export async function deployStack(
-	stack: ComposeSpec,
-	name: string,
-	version: number,
-	source: string,
-	automatic_reboot_on_error: boolean,
-	isCustom: boolean,
-	image_updates: boolean,
-	stack_prefix?: string,
-): Promise<void> {
-	let stackId: number;
+export async function deployStack(stack_config: stacks_config): Promise<void> {
+  try {
+    logger.debug(`Deploying Stack: ${JSON.stringify(stack_config)}`);
 
-	try {
-		logger.debug(`Deploying Stack: ${JSON.stringify(stack)}`);
-		const serviceCount = stack.services
-			? Object.keys(stack.services).length
-			: 0;
-		const resolvedPrefix = stack_prefix ?? "";
+    if (!stack_config.name) {
+      throw new Error("Stack name needed");
+    }
 
-		const stack_config: stacks_config = {
-			id: 0,
-			name,
-			version,
-			source,
-			stack_prefix: resolvedPrefix,
-			automatic_reboot_on_error,
-			container_count: serviceCount,
-			custom: isCustom,
-			image_updates,
-		};
+    const jsonStringStack = {
+      ...stack_config,
+      compose_spec: JSON.stringify(stack_config.compose_spec),
+    };
 
-		if (!name) {
-			throw new Error("Stack name needed");
-		}
+    const stackId = dbFunctions.addStack(jsonStringStack);
 
-		stackId = dbFunctions.addStack(stack_config) as number;
-		postToClient({
-			type: "stack-status",
-			data: {
-				stack_id: stackId,
-				status: "pending",
-				message: "Creating stack configuration",
-			},
-		});
+    if (!stackId) {
+      throw new Error("Failed to add stack to database");
+    }
 
-		const stackYaml: Stack = {
-			id: stackId,
-			name,
-			source,
-			version,
-			compose_spec: stack,
-		};
+    postToClient({
+      type: "stack-status",
+      data: {
+        stack_id: stackId,
+        status: "pending",
+        message: "Creating stack configuration",
+      },
+    });
 
-		await createStackYAML(stackYaml);
+    const stackYaml: Stack = {
+      id: stackId,
+      name: stack_config.name,
+      source: stack_config.source,
+      version: stack_config.version,
+      compose_spec: stack_config.compose_spec as unknown as ComposeSpec, // Weird stuff i am doing here... smh
+    };
 
-		await runStackCommand(
-			stackId,
-			(cwd, progressCallback) =>
-				DockerCompose.upAll({
-					cwd,
-					log: true,
-					callback: wrapProgressCallback(progressCallback),
-				}),
-			"deploying",
-		);
+    await createStackYAML(stackYaml);
 
-		postToClient({
-			type: "stack-status",
-			data: {
-				stack_id: stackId,
-				status: "deployed",
-				message: "Stack deployed successfully",
-			},
-		});
-	} catch (error: unknown) {
-		const errorMsg = error instanceof Error ? error.message : String(error);
-		logger.error(errorMsg);
-		postToClient({
-			type: "stack-error",
-			data: {
-				stack_id: 0,
-				action: "deploying",
-				message: errorMsg,
-				timestamp: new Date().toISOString(),
-			},
-		});
-		throw new Error(errorMsg);
-	}
+    await runStackCommand(
+      stackId,
+      (cwd, progressCallback) =>
+        DockerCompose.upAll({
+          cwd,
+          log: true,
+          callback: wrapProgressCallback(progressCallback),
+        }),
+      "deploying"
+    );
+
+    postToClient({
+      type: "stack-status",
+      data: {
+        stack_id: stackId,
+        status: "deployed",
+        message: "Stack deployed successfully",
+      },
+    });
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    postToClient({
+      type: "stack-error",
+      data: {
+        stack_id: 0,
+        action: "deploying",
+        message: errorMsg,
+        timestamp: new Date().toISOString(),
+      },
+    });
+    throw new Error(errorMsg);
+  }
 }
 
 export async function stopStack(stack_id: number): Promise<void> {
-	// Note the await to discard the result (convert to void)
-	await runStackCommand(
-		stack_id,
-		(cwd, progressCallback) =>
-			DockerCompose.downAll({
-				cwd,
-				log: true,
-				callback: wrapProgressCallback(progressCallback),
-			}),
-		"stopping",
-	);
+  // Note the await to discard the result (convert to void)
+  await runStackCommand(
+    stack_id,
+    (cwd, progressCallback) =>
+      DockerCompose.downAll({
+        cwd,
+        log: true,
+        callback: wrapProgressCallback(progressCallback),
+      }),
+    "stopping"
+  );
 }
 
 export async function startStack(stack_id: number): Promise<void> {
-	await runStackCommand(
-		stack_id,
-		(cwd, progressCallback) =>
-			DockerCompose.upAll({
-				cwd,
-				log: true,
-				callback: wrapProgressCallback(progressCallback),
-			}),
-		"starting",
-	);
+  await runStackCommand(
+    stack_id,
+    (cwd, progressCallback) =>
+      DockerCompose.upAll({
+        cwd,
+        log: true,
+        callback: wrapProgressCallback(progressCallback),
+      }),
+    "starting"
+  );
 }
 
 export async function pullStackImages(stack_id: number): Promise<void> {
-	await runStackCommand(
-		stack_id,
-		(cwd, progressCallback) =>
-			DockerCompose.pullAll({
-				cwd,
-				log: true,
-				callback: wrapProgressCallback(progressCallback),
-			}),
-		"pulling-images",
-	);
+  await runStackCommand(
+    stack_id,
+    (cwd, progressCallback) =>
+      DockerCompose.pullAll({
+        cwd,
+        log: true,
+        callback: wrapProgressCallback(progressCallback),
+      }),
+    "pulling-images"
+  );
 }
 
 export async function restartStack(stack_id: number): Promise<void> {
-	await runStackCommand(
-		stack_id,
-		(cwd, progressCallback) =>
-			DockerCompose.restartAll({
-				cwd,
-				log: true,
-				callback: wrapProgressCallback(progressCallback),
-			}),
-		"restarting",
-	);
+  await runStackCommand(
+    stack_id,
+    (cwd, progressCallback) =>
+      DockerCompose.restartAll({
+        cwd,
+        log: true,
+        callback: wrapProgressCallback(progressCallback),
+      }),
+    "restarting"
+  );
 }
 
 export async function getStackStatus(
-	stack_id: number,
-	//biome-ignore lint/suspicious/noExplicitAny:
+  stack_id: number
+  //biome-ignore lint/suspicious/noExplicitAny:
 ): Promise<Record<string, any>> {
-	const status = await runStackCommand(
-		stack_id,
-		async (cwd) => {
-			const rawStatus = await DockerCompose.ps({ cwd });
-			//biome-ignore lint/suspicious/noExplicitAny:
-			return rawStatus.data.services.reduce((acc: any, service: any) => {
-				acc[service.name] = service.state;
-				return acc;
-			}, {});
-		},
-		"status-check",
-	);
-	return status;
+  const status = await runStackCommand(
+    stack_id,
+    async (cwd) => {
+      const rawStatus = await DockerCompose.ps({ cwd });
+      //biome-ignore lint/suspicious/noExplicitAny:
+      return rawStatus.data.services.reduce((acc: any, service: any) => {
+        acc[service.name] = service.state;
+        return acc;
+      }, {});
+    },
+    "status-check"
+  );
+  return status;
 }
 
 export async function removeStack(stack_id: number): Promise<void> {
-	try {
-		await runStackCommand(
-			stack_id,
-			async (cwd, progressCallback) => {
-				await DockerCompose.down({
-					cwd,
-					log: true,
-					callback: wrapProgressCallback(progressCallback),
-				});
-			},
-			"removing",
-		);
+  try {
+    const _ = dbFunctions.deleteStack(stack_id);
 
-		const stackName = await getStackName(stack_id);
-		const stackPath = await getStackPath({
-			id: stack_id,
-			name: stackName,
-		} as Stack);
+    await runStackCommand(
+      stack_id,
+      async (cwd, progressCallback) => {
+        await DockerCompose.down({
+          cwd,
+          log: true,
+          callback: wrapProgressCallback(progressCallback),
+        });
+      },
+      "removing"
+    );
 
-		try {
-			await rm(stackPath, { recursive: true });
-		} catch (error) {
-			const errorMsg = error instanceof Error ? error.message : String(error);
-			logger.error(errorMsg);
-			postToClient({
-				type: "stack-error",
-				data: {
-					stack_id,
-					action: "removing",
-					message: errorMsg,
-					timestamp: new Date().toISOString(),
-				},
-			});
-			throw new Error(errorMsg);
-		}
+    const stackName = await getStackName(stack_id);
+    const stackPath = await getStackPath({
+      id: stack_id,
+      name: stackName,
+    } as Stack);
 
-		dbFunctions.deleteStack(stack_id);
-		postToClient({
-			type: "stack-removed",
-			data: {
-				stack_id,
-				message: "Stack removed successfully",
-			},
-		});
-	} catch (error: unknown) {
-		const errorMsg = error instanceof Error ? error.message : String(error);
-		logger.error(errorMsg);
-		postToClient({
-			type: "stack-error",
-			data: {
-				stack_id,
-				action: "removing",
-				message: errorMsg,
-				timestamp: new Date().toISOString(),
-			},
-		});
-		throw new Error(errorMsg);
-	}
+    try {
+      await rm(stackPath, { recursive: true });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      logger.error(errorMsg);
+      postToClient({
+        type: "stack-error",
+        data: {
+          stack_id,
+          action: "removing",
+          message: errorMsg,
+          timestamp: new Date().toISOString(),
+        },
+      });
+      throw new Error(errorMsg);
+    }
+
+    postToClient({
+      type: "stack-removed",
+      data: {
+        stack_id,
+        message: "Stack removed successfully",
+      },
+    });
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    postToClient({
+      type: "stack-error",
+      data: {
+        stack_id,
+        action: "removing",
+        message: errorMsg,
+        timestamp: new Date().toISOString(),
+      },
+    });
+    throw new Error(errorMsg);
+  }
 }
 
-//biome-ignore lint/suspicious/noExplicitAny:
-export async function getAllStacksStatus(): Promise<Record<string, any>> {
-	try {
-		const stacks = dbFunctions.getStacks();
+interface DockerServiceStatus {
+  status: string;
+  ports: string[];
+}
 
-		const statusResults = await Promise.all(
-			stacks.map(async (stack) => {
-				const status = await runStackCommand(
-					stack.id as number,
-					async (cwd) => {
-						const rawStatus = await DockerCompose.ps({ cwd });
-						//biome-ignore lint/suspicious/noExplicitAny:
-						return rawStatus.data.services.reduce((acc: any, service: any) => {
-							acc[service.name] = service.state;
-							return acc;
-						}, {});
-					},
-					"status-check",
-				);
-				return { stackId: stack.id, status };
-			}),
-		);
+interface StackStatus {
+  services: Record<string, DockerServiceStatus>;
+  healthy: number;
+  unhealthy: number;
+  total: number;
+}
 
-		return statusResults.reduce(
-			(acc, { stackId, status }) => {
-				// Ensure stackId is used as a string if necessary, e.g.
-				acc[String(stackId)] = status;
-				return acc;
-			},
-			//biome-ignore lint/suspicious/noExplicitAny:
-			{} as Record<string, any>,
-		);
-	} catch (error: unknown) {
-		const errorMsg = error instanceof Error ? error.message : String(error);
-		logger.error(errorMsg);
-		throw new Error(errorMsg);
-	}
+type StacksStatus = Record<string, StackStatus>;
+
+export async function getAllStacksStatus(): Promise<StacksStatus> {
+  try {
+    const stacks = dbFunctions.getStacks();
+
+    const statusResults = await Promise.all(
+      stacks.map(async (stack) => {
+        const status = await runStackCommand(
+          stack.id as number,
+          async (cwd) => {
+            const rawStatus = await DockerCompose.ps({ cwd });
+            const services = rawStatus.data.services.reduce(
+              (acc: Record<string, DockerServiceStatus>, service) => {
+                acc[service.name] = {
+                  status: service.state,
+                  ports: service.ports.map(
+                    (port) => `${port.mapped?.address}:${port.mapped?.port}`
+                  ),
+                };
+                return acc;
+              },
+              {}
+            );
+
+            const statusValues = Object.values(services);
+            return {
+              services,
+              healthy: statusValues.filter(
+                (s) => s.status === "running" || s.status.includes("Up")
+              ).length,
+              unhealthy: statusValues.filter(
+                (s) => s.status !== "running" && !s.status.includes("Up")
+              ).length,
+              total: statusValues.length,
+            };
+          },
+          "status-check"
+        );
+        return { stackId: stack.id, status };
+      })
+    );
+
+    return statusResults.reduce((acc, { stackId, status }) => {
+      acc[String(stackId)] = status;
+      return acc;
+    }, {} as StacksStatus);
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 }

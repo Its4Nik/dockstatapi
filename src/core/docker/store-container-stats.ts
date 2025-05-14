@@ -10,7 +10,7 @@ import { logger } from "../utils/logger";
 async function storeContainerData() {
 	try {
 		const hosts = dbFunctions.getDockerHosts();
-		logger.debug("Retrieved docker hosts for storring container data");
+		logger.debug("Retrieved docker hosts for storing container data");
 
 		// Process each host concurrently and wait for them all to finish
 		await Promise.all(

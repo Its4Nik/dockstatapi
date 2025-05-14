@@ -32,11 +32,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 				logger.debug("Fetched backend config");
 				return distinct;
 			} catch (error) {
-				return responseHandler.error(
-					set,
-					error as string,
-					"Error getting the DockStatAPI config",
-				);
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{
@@ -95,11 +92,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 			try {
 				return pluginManager.getLoadedPlugins();
 			} catch (error) {
-				return responseHandler.error(
-					set,
-					error as string,
-					"Error getting all registered plugins",
-				);
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{
@@ -168,11 +162,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 				);
 				return responseHandler.ok(set, "Updated DockStatAPI config");
 			} catch (error) {
-				return responseHandler.error(
-					set,
-					"Error updating the DockStatAPI config",
-					error as string,
-				);
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{
@@ -224,10 +215,10 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 	)
 	.get(
 		"/package",
-		async ({ set }) => {
+		async () => {
 			try {
 				logger.debug("Fetching package.json");
-				return {
+				const data = {
 					version: version,
 					description: description,
 					license: license,
@@ -238,12 +229,19 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 					dependencies: dependencies,
 					devDependencies: devDependencies,
 				};
-			} catch (error) {
-				return responseHandler.error(
-					set,
-					error as string,
-					"Error while reading package.json",
+
+				logger.debug(
+					`Received: ${JSON.stringify(data).length} chars in package.json`,
 				);
+
+				if (JSON.stringify(data).length <= 10) {
+					throw new Error("Failed to read package.json");
+				}
+
+				return data;
+			} catch (error) {
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{
@@ -337,7 +335,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 				const backupFilename = await dbFunctions.backupDatabase();
 				return responseHandler.ok(set, backupFilename);
 			} catch (error) {
-				return responseHandler.error(set, error as string, "Error backing up");
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{
@@ -397,11 +396,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 
 				return filteredFiles;
 			} catch (error) {
-				return responseHandler.error(
-					set,
-					error as string,
-					"Reading Backup directory",
-				);
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{
@@ -463,11 +459,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 					`attachment; filename="${filename}"`;
 				return Bun.file(filePath);
 			} catch (error) {
-				return responseHandler.error(
-					set,
-					error as string,
-					"Backup download failed",
-				);
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{
@@ -545,11 +538,8 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 
 				return responseHandler.ok(set, "Database restored successfully");
 			} catch (error) {
-				return responseHandler.error(
-					set,
-					error instanceof Error ? error.message : "Restoration failed",
-					"Database restoration error",
-				);
+				const errMsg = error instanceof Error ? error.message : String(error);
+				throw new Error(errMsg);
 			}
 		},
 		{

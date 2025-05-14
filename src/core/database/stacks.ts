@@ -7,20 +7,17 @@ import { executeDbOperation } from "./helper";
 const stmt = {
 	insert: db.prepare(`
     INSERT INTO stacks_config (
-      name, version, custom, source, container_count,
-      stack_prefix, automatic_reboot_on_error, image_updates
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      name, version, custom, source, compose_spec
+    ) VALUES (?, ?, ?, ?, ?)
   `),
 	selectAll: db.prepare(`
-    SELECT id, name, version, custom, source, container_count, stack_prefix,
-           automatic_reboot_on_error, image_updates
+    SELECT id, name, version, custom, source, compose_spec
     FROM stacks_config
     ORDER BY name DESC
   `),
 	update: db.prepare(`
-    UPDATE stacks_config SET
-      version = ?, custom = ?, source = ?, container_count = ?,
-      stack_prefix = ?, automatic_reboot_on_error = ?, image_updates = ?
+   	UPDATE stacks_config 
+   	SET name = ?, custom = ?, source = ?, compose_spec = ?
     WHERE name = ?
   `),
 	delete: db.prepare("DELETE FROM stacks_config WHERE id = ?"),
@@ -33,10 +30,7 @@ export function addStack(stack: stacks_config) {
 			stack.version,
 			stack.custom,
 			stack.source,
-			stack.container_count,
-			stack.stack_prefix,
-			stack.automatic_reboot_on_error,
-			stack.image_updates,
+			stack.compose_spec,
 		),
 	);
 
@@ -65,11 +59,8 @@ export function updateStack(stack: stacks_config) {
 			stack.version,
 			stack.custom,
 			stack.source,
-			stack.container_count,
-			stack.stack_prefix,
-			stack.automatic_reboot_on_error,
-			stack.image_updates,
 			stack.name,
+			stack.compose_spec,
 		),
 	);
 }
