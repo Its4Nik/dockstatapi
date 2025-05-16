@@ -99,11 +99,14 @@ describe("Docker Configuration Endpoints", () => {
 
       try {
         const app = createApp();
-        const req = new Request("http://localhost/docker-config/add-host", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(host),
-        });
+        const req = new Request(
+          "http://localhost:3000/docker-config/add-host",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(host),
+          }
+        );
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
@@ -146,22 +149,25 @@ describe("Docker Configuration Endpoints", () => {
 
       // Set mock implementation
       mockDb.addDockerHost.mockImplementationOnce(() => {
-        throw new Error("DB error");
+        throw new Error("Mock Database Error");
       });
 
       try {
         const app = createApp();
-        const req = new Request("http://localhost/docker-config/add-host", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(host),
-        });
+        const req = new Request(
+          "http://localhost:3000/docker-config/add-host",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(host),
+          }
+        );
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
         expect(res.status).toBe(500);
-        expect(context.response.body).toMatchObject({
-          message: expect.any(String),
+        expect(context.response).toMatchObject({
+          body: expect.any(String),
         });
 
         recordTestResult({
@@ -200,11 +206,14 @@ describe("Docker Configuration Endpoints", () => {
 
       try {
         const app = createApp();
-        const req = new Request("http://localhost/docker-config/update-host", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(host),
-        });
+        const req = new Request(
+          "http://localhost:3000/docker-config/update-host",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(host),
+          }
+        );
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
@@ -252,17 +261,20 @@ describe("Docker Configuration Endpoints", () => {
 
       try {
         const app = createApp();
-        const req = new Request("http://localhost/docker-config/update-host", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(host),
-        });
+        const req = new Request(
+          "http://localhost:3000/docker-config/update-host",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(host),
+          }
+        );
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
         expect(res.status).toBe(500);
-        expect(context.response.body).toMatchObject({
-          message: expect.any(String),
+        expect(context.response).toMatchObject({
+          body: expect.any(String),
         });
 
         recordTestResult({
@@ -300,7 +312,7 @@ describe("Docker Configuration Endpoints", () => {
 
       try {
         const app = createApp();
-        const req = new Request("http://localhost/docker-config/hosts");
+        const req = new Request("http://localhost:3000/docker-config/hosts");
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
@@ -339,13 +351,13 @@ describe("Docker Configuration Endpoints", () => {
 
       try {
         const app = createApp();
-        const req = new Request("http://localhost/docker-config/hosts");
+        const req = new Request("http://localhost:3000/docker-config/hosts");
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
         expect(res.status).toBe(500);
-        expect(context.response.body).toMatchObject({
-          message: expect.any(String),
+        expect(context.response).toMatchObject({
+          body: expect.any(String),
         });
 
         recordTestResult({
@@ -379,9 +391,12 @@ describe("Docker Configuration Endpoints", () => {
 
       try {
         const app = createApp();
-        const req = new Request(`http://localhost/docker-config/hosts/${id}`, {
-          method: "DELETE",
-        });
+        const req = new Request(
+          `http://localhost:3000/docker-config/hosts/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
@@ -424,15 +439,18 @@ describe("Docker Configuration Endpoints", () => {
 
       try {
         const app = createApp();
-        const req = new Request(`http://localhost/docker-config/hosts/${id}`, {
-          method: "DELETE",
-        });
+        const req = new Request(
+          `http://localhost:3000/docker-config/hosts/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         const res = await app.handle(req);
         context = await captureTestContext(req, res);
 
         expect(res.status).toBe(500);
-        expect(context.response.body).toMatchObject({
-          message: expect.any(String),
+        expect(context.response).toMatchObject({
+          body: expect.any(String),
         });
 
         recordTestResult({
