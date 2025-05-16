@@ -12,34 +12,34 @@ services:
     ports:
       - 2375:2375
     environment:
-      - ALLOW_START=1 #optional
-      - ALLOW_STOP=1 #optional
-      - ALLOW_RESTARTS=1 #optional
-      - AUTH=1 #optional
-      - BUILD=1 #optional
-      - COMMIT=1 #optional
-      - CONFIGS=1 #optional
-      - CONTAINERS=1 #optional
-      - DISABLE_IPV6=1 #optional
-      - DISTRIBUTION=1 #optional
-      - EVENTS=1 #optional
-      - EXEC=1 #optional
-      - IMAGES=1 #optional
-      - INFO=1 #optional
-      - NETWORKS=1 #optional
-      - NODES=1 #optional
-      - PING=1 #optional
-      - PLUGINS=1 #optional
-      - POST=1 #optional
-      - PROXY_READ_TIMEOUT=240 #optional
-      - SECRETS=1 #optional
-      - SERVICES=1 #optional
-      - SESSION=1 #optional
-      - SWARM=1 #optional
-      - SYSTEM=1 #optional
-      - TASKS=1 #optional
-      - VERSION=1 #optional
-      - VOLUMES=1 #optional
+      - ALLOW_START=1
+      - ALLOW_STOP=1
+      - ALLOW_RESTARTS=1
+      - AUTH=1
+      - BUILD=1
+      - COMMIT=1
+      - CONFIGS=1
+      - CONTAINERS=1
+      - DISABLE_IPV6=1
+      - DISTRIBUTION=1
+      - EVENTS=1
+      - EXEC=1
+      - IMAGES=1
+      - INFO=1
+      - NETWORKS=1
+      - NODES=1
+      - PING=1
+      - PLUGINS=1
+      - POST=1
+      - PROXY_READ_TIMEOUT=240
+      - SECRETS=1
+      - SERVICES=1
+      - SESSION=1
+      - SWARM=1
+      - SYSTEM=1
+      - TASKS=1
+      - VERSION=1
+      - VOLUMES=1
 
   sqlite-web:
     container_name: sqlite-web
