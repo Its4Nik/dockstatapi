@@ -7,10 +7,11 @@ import { postToClient } from "~/routes/live-stacks";
 import type { stacks_config } from "~/typings/database";
 import type { ComposeSpec, Stack } from "~/typings/docker-compose";
 import { findObjectByKey } from "../utils/helpers";
+import { checkStacks } from "./checker";
 
 const wrapProgressCallback = (progressCallback?: (log: string) => void) => {
 	return progressCallback
-		? (chunk: Buffer, streamSource?: "stdout" | "stderr") => {
+		? (chunk: Buffer) => {
 				const log = chunk.toString();
 				progressCallback(log);
 			}
@@ -197,6 +198,8 @@ export async function deployStack(stack_config: stacks_config): Promise<void> {
 			},
 		});
 		throw new Error(errorMsg);
+	} finally {
+		await checkStacks();
 	}
 }
 
@@ -398,20 +401,4 @@ export async function getAllStacksStatus(): Promise<StacksStatus> {
 		logger.error(errorMsg);
 		throw new Error(errorMsg);
 	}
-}
-
-async function backupStack(stackId: number) {
-	if (!stackId) {
-		throw new Error("No Stack ID provided");
-	}
-
-	const stacks = dbFunctions.getStacks();
-
-	const stack = findObjectByKey(stacks, "id", stackId);
-
-	if (!stack) {
-		throw new Error(`No Stack with Id: ${stackId} found`);
-	}
-
-	const stack_path = `${stack.id}-${stack.name}`;
 }

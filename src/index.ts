@@ -24,6 +24,7 @@ import { liveLogs } from "~/routes/live-logs";
 import { backendLogs } from "~/routes/logs";
 import { stackRoutes } from "~/routes/stacks";
 import type { config } from "~/typings/database";
+import { checkStacks } from "./core/stacks/checker";
 import { liveStacks } from "./routes/live-stacks";
 
 console.log("");
@@ -167,6 +168,8 @@ const initializeServer = async () => {
 				"Default API Key of 'changeme' detected. Please change your API Key via the `/config/update` route!",
 			);
 		}
+
+		await checkStacks();
 
 		logger.info("Started server");
 		console.log("----- [ ############## ]");

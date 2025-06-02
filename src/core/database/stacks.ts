@@ -1,5 +1,4 @@
 import type { stacks_config } from "~/typings/database";
-import type { Stack } from "~/typings/docker-compose";
 import { findObjectByKey } from "../utils/helpers";
 import { db } from "./database";
 import { executeDbOperation } from "./helper";
@@ -7,19 +6,24 @@ import { executeDbOperation } from "./helper";
 const stmt = {
 	insert: db.prepare(`
     INSERT INTO stacks_config (
-      name, version, custom, source, compose_spec
-    ) VALUES (?, ?, ?, ?, ?)
+      name, version, custom, source, compose_spec, status
+    ) VALUES (?, ?, ?, ?, ?, ?)
   `),
 	selectAll: db.prepare(`
-    SELECT id, name, version, custom, source, compose_spec
+    SELECT id, name, version, custom, source, compose_spec, status
     FROM stacks_config
-    ORDER BY name DESC
+    ORDER BY id DESC
   `),
 	update: db.prepare(`
    	UPDATE stacks_config
    	SET name = ?, custom = ?, source = ?, compose_spec = ?
-    WHERE name = ?
+    WHERE id = ?
   `),
+	setStatus: db.prepare(`
+    UPDATE stacks_config
+    SET status = ?
+    WHERE id = ?
+    `),
 	delete: db.prepare("DELETE FROM stacks_config WHERE id = ?"),
 };
 
@@ -31,6 +35,7 @@ export function addStack(stack: stacks_config) {
 			stack.custom,
 			stack.source,
 			stack.compose_spec,
+			"active",
 		),
 	);
 
@@ -40,7 +45,7 @@ export function addStack(stack: stacks_config) {
 export function getStacks() {
 	return executeDbOperation("Get Stacks", () =>
 		stmt.selectAll.all(),
-	) as Stack[];
+	) as stacks_config[];
 }
 
 export function deleteStack(id: number) {
@@ -54,13 +59,27 @@ export function deleteStack(id: number) {
 }
 
 export function updateStack(stack: stacks_config) {
-	return executeDbOperation("Update Stack", () =>
+	return executeDbOperation("Update Stack", () => {
+		if (!stack.id) {
+			throw new Error("Stack ID needed");
+		}
 		stmt.update.run(
+			stack.id,
 			stack.version,
 			stack.custom,
 			stack.source,
 			stack.name,
 			stack.compose_spec,
-		),
-	);
+		);
+	});
+}
+
+export function setStackStatus(
+	stack: stacks_config,
+	status: "active" | "error" = "active",
+) {
+	if (!stack.id) {
+		throw new Error("Stack ID needed");
+	}
+	stmt.setStatus.run(status, stack.id);
 }

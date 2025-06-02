@@ -47,7 +47,8 @@ export function init() {
       version INTEGER NOT NULL,
       custom BOOLEAN NOT NULL,
       source TEXT NOT NULL,
-      compose_spec TEXT NOT NULL
+      compose_spec TEXT NOT NULL,
+      status TEXT NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS docker_hosts (
