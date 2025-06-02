@@ -18,8 +18,8 @@
     "build:prod": "NODE_ENV=production bun build --no-native --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts",
     "build:docker": "docker build -f docker/Dockerfile . -t 'dockstatapi:local'",
     "clean": "bun run clean:win || bun run clean:lin",
-    "clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi* && cmd /c del /Q reports/markdown/*.md && echo 'success'",
-    "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi* && rm -f reports/markdown/*.md && echo 'success'",
+    "clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi* && cmd /c del /Q stacks/* && cmd /c del /Q reports/markdown/*.md && echo 'success'",
+    "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi* && rm -rf stacks/* && rm -f reports/markdown/*.md && echo 'success'",
     "knip": "knip",
     "lint": "biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src"
   },
@@ -32,18 +32,18 @@
     "docker-compose": "^1.2.0",
     "dockerode": "^4.0.6",
     "elysia": "latest",
-    "elysia-remote-dts": "^1.0.2",
+    "elysia-remote-dts": "^1.0.3",
     "knip": "latest",
     "logestic": "^1.2.4",
     "split2": "^4.2.0",
     "winston": "^3.17.0",
-    "yaml": "^2.7.1"
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/bun": "latest",
-    "@types/dockerode": "^3.3.38",
-    "@types/node": "^22.15.17",
+    "@types/dockerode": "^3.3.39",
+    "@types/node": "^22.15.29",
     "@types/split2": "^4.2.3",
     "bun-types": "latest",
     "cross-env": "^7.0.3",

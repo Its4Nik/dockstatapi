@@ -29,7 +29,7 @@ jobs:
       - name: Run unit tests
         run: |
           export PAD_NEW_LINES=false
-          docker compose -f docker/docker-compose.dev.yaml up -d
+          docker compose -f docker/docker-compose.unit-test.yaml up -d
           bun test
 
       - name: Log unit test files
@@ -44,6 +44,7 @@ jobs:
             SUMMARY="$(echo -e "${SUMMARY}\n$(cat "reports/markdown/${element}")")"
           done
           echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+
   build-scan:
     name: Build and Security Scan
     runs-on: ubuntu-latest
