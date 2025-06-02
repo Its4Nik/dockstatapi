@@ -10,13 +10,13 @@ import { logger } from "./logger";
  * @returns {T | undefined} The first matching object, or undefined if no match is found.
  */
 export function findObjectByKey<T>(
-  array: T[],
-  key: keyof T,
-  value: T[keyof T]
+	array: T[],
+	key: keyof T,
+	value: T[keyof T],
 ): T | undefined {
-  logger.debug(
-    `Searching for key: ${String(key)} with value: ${String(value)}`
-  );
-  const data = array.find((item) => item[key] === value);
-  return data;
+	logger.debug(
+		`Searching for key: ${String(key)} with value: ${String(value)}`,
+	);
+	const data = array.find((item) => item[key] === value);
+	return data;
 }
