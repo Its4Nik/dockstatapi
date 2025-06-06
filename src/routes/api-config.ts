@@ -381,12 +381,13 @@ export const apiConfigRoutes = new Elysia({ prefix: "/config" })
 	)
 	.get(
 		"/backup",
-		async ({ set }) => {
+		async () => {
 			try {
 				const backupFiles = readdirSync(backupDir);
 
 				const filteredFiles = backupFiles.filter((file: string) => {
 					return !(
+						file.startsWith(".") ||
 						file.endsWith(".db") ||
 						file.endsWith(".db-shm") ||
 						file.endsWith(".db-wal")
