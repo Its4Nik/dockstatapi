@@ -8,10 +8,13 @@ export async function checkStacks() {
 	logger.debug(`Checking ${stacks.length} stack(s)`);
 	for (const stack of stacks) {
 		try {
-			logger.debug(`Checking ${stack.id}`);
-			const composeFile = Bun.file(
-				`stacks/${stack.id}-${stack.name}/docker-compose.yaml`,
-			);
+			const composeFilePath =
+				`stacks/${stack.id}-${stack.name}/docker-compose.yaml`.replaceAll(
+					" ",
+					"_",
+				);
+			const composeFile = Bun.file(composeFilePath);
+			logger.debug(`Checking ${stack.id} - ${composeFilePath}`);
 
 			if (!(await composeFile.exists())) {
 				logger.error(`Stack (${stack.id} - ${stack.name}) has no compose file`);

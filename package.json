@@ -19,7 +19,7 @@
     "build:docker": "docker build -f docker/Dockerfile . -t 'dockstatapi:local'",
     "clean": "bun run clean:win || bun run clean:lin",
     "clean:win": "node -e \"process.exit(process.platform === 'win32' ? 0 : 1)\" && cmd /c del /Q data/dockstatapi* && cmd /c del /Q stacks/* && cmd /c del /Q reports/markdown/*.md && echo 'success'",
-    "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi* && rm -rf stacks/* && rm -f reports/markdown/*.md && echo 'success'",
+    "clean:lin": "node -e \"process.exit(process.platform !== 'win32' ? 0 : 1)\" && rm -f data/dockstatapi* && sudo rm -rf stacks/* && rm -f reports/markdown/*.md && echo 'success'",
     "knip": "knip",
     "lint": "biome check --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true --fix src"
   },
