@@ -10,3 +10,4 @@
 src/tests
 .github
 .local-tests
+.gitai.json

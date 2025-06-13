@@ -7,3 +7,4 @@ build
 dependency-*.{mmd,dot,svg}
 Knip-Report.md
 reports/**
+.gitai.json
