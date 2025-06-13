@@ -13,26 +13,26 @@ const uid = userInfo().uid;
 export let db: Database;
 
 try {
-  const databasePath = path.join(dataFolder, "dockstatapi.db");
-  console.log("Database path:", databasePath);
-  console.log(`Running as: ${username} (${uid}:${gid})`);
+	const databasePath = path.join(dataFolder, "dockstatapi.db");
+	console.log("Database path:", databasePath);
+	console.log(`Running as: ${username} (${uid}:${gid})`);
 
-  if (!existsSync(dataFolder)) {
-    await mkdir(dataFolder, { recursive: true, mode: 0o777 });
-    console.log("Created data directory:", dataFolder);
-  }
+	if (!existsSync(dataFolder)) {
+		await mkdir(dataFolder, { recursive: true, mode: 0o777 });
+		console.log("Created data directory:", dataFolder);
+	}
 
-  db = new Database(databasePath, { create: true });
-  console.log("Database opened successfully");
+	db = new Database(databasePath, { create: true });
+	console.log("Database opened successfully");
 
-  db.exec("PRAGMA journal_mode = WAL;");
+	db.exec("PRAGMA journal_mode = WAL;");
 } catch (error) {
-  console.error(`Cannot start DockStatAPI: ${error}`);
-  process.exit(500);
+	console.error(`Cannot start DockStatAPI: ${error}`);
+	process.exit(500);
 }
 
 export function init() {
-  db.exec(`
+	db.exec(`
     CREATE TABLE IF NOT EXISTS backend_log_entries (
       timestamp STRING NOT NULL,
       level TEXT NOT NULL,
@@ -95,25 +95,25 @@ export function init() {
     );
   `);
 
-  const configRow = db
-    .prepare("SELECT COUNT(*) AS count FROM config")
-    .get() as { count: number };
+	const configRow = db
+		.prepare("SELECT COUNT(*) AS count FROM config")
+		.get() as { count: number };
 
-  if (configRow.count === 0) {
-    db.prepare(
-      'INSERT INTO config (keep_data_for, fetching_interval, api_key) VALUES (7, 5, "changeme")'
-    ).run();
-  }
+	if (configRow.count === 0) {
+		db.prepare(
+			'INSERT INTO config (keep_data_for, fetching_interval, api_key) VALUES (7, 5, "changeme")',
+		).run();
+	}
 
-  const hostRow = db
-    .prepare("SELECT COUNT(*) AS count FROM docker_hosts")
-    .get() as { count: number };
+	const hostRow = db
+		.prepare("SELECT COUNT(*) AS count FROM docker_hosts")
+		.get() as { count: number };
 
-  if (hostRow.count === 0) {
-    db.prepare(
-      "INSERT INTO docker_hosts (name, hostAddress, secure) VALUES (?, ?, ?)"
-    ).run("Localhost", "localhost:2375", false);
-  }
+	if (hostRow.count === 0) {
+		db.prepare(
+			"INSERT INTO docker_hosts (name, hostAddress, secure) VALUES (?, ?, ?)",
+		).run("Localhost", "localhost:2375", false);
+	}
 }
 
 init();
