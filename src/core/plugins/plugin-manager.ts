@@ -3,143 +3,170 @@ import type { ContainerInfo } from "~/typings/docker";
 import type { Hooks, Plugin, PluginInfo } from "~/typings/plugin";
 import { logger } from "../utils/logger";
 
+function getHooks(plugin: Plugin) {
+  return {
+    onContainerStart: !!plugin.onContainerStart,
+    onContainerStop: !!plugin.onContainerStop,
+    onContainerExit: !!plugin.onContainerExit,
+    onContainerCreate: !!plugin.onContainerCreate,
+    onContainerKill: !!plugin.onContainerKill,
+    handleContainerDie: !!plugin.handleContainerDie,
+    onContainerDestroy: !!plugin.onContainerDestroy,
+    onContainerPause: !!plugin.onContainerPause,
+    onContainerUnpause: !!plugin.onContainerUnpause,
+    onContainerRestart: !!plugin.onContainerRestart,
+    onContainerUpdate: !!plugin.onContainerUpdate,
+    onContainerRename: !!plugin.onContainerRename,
+    onContainerHealthStatus: !!plugin.onContainerHealthStatus,
+    onHostUnreachable: !!plugin.onHostUnreachable,
+    onHostReachableAgain: !!plugin.onHostReachableAgain,
+  };
+}
+
 class PluginManager extends EventEmitter {
-	private plugins: Map<string, Plugin> = new Map();
+  private plugins: Map<string, Plugin> = new Map();
+  private failedPlugins: Map<string, Plugin> = new Map();
 
-	register(plugin: Plugin) {
-		try {
-			this.plugins.set(plugin.name, plugin);
-			logger.debug(`Registered plugin: ${plugin.name}`);
-		} catch (error) {
-			logger.error(
-				`Registering plugin ${plugin.name} failed: ${error as string}`,
-			);
-		}
-	}
+  fail(plugin: Plugin) {
+    try {
+      this.failedPlugins.set(plugin.name, plugin);
+      logger.debug(`Set status to failed for plugin: ${plugin.name}`);
+    } catch (error) {
+      logger.error(`Adding failed plugin to list failed: ${error as string}`);
+    }
+  }
 
-	unregister(name: string) {
-		this.plugins.delete(name);
-	}
+  register(plugin: Plugin) {
+    try {
+      this.plugins.set(plugin.name, plugin);
+      logger.debug(`Registered plugin: ${plugin.name}`);
+    } catch (error) {
+      logger.error(
+        `Registering plugin ${plugin.name} failed: ${error as string}`
+      );
+    }
+  }
 
-	getLoadedPlugins(): PluginInfo[] {
-		return Array.from(this.plugins.values()).map((plugin) => {
-			const hooks: Hooks = {
-				onContainerStart: !!plugin.onContainerStart,
-				onContainerStop: !!plugin.onContainerStop,
-				onContainerExit: !!plugin.onContainerExit,
-				onContainerCreate: !!plugin.onContainerCreate,
-				onContainerKill: !!plugin.onContainerKill,
-				handleContainerDie: !!plugin.handleContainerDie,
-				onContainerDestroy: !!plugin.onContainerDestroy,
-				onContainerPause: !!plugin.onContainerPause,
-				onContainerUnpause: !!plugin.onContainerUnpause,
-				onContainerRestart: !!plugin.onContainerRestart,
-				onContainerUpdate: !!plugin.onContainerUpdate,
-				onContainerRename: !!plugin.onContainerRename,
-				onContainerHealthStatus: !!plugin.onContainerHealthStatus,
-				onHostUnreachable: !!plugin.onHostUnreachable,
-				onHostReachableAgain: !!plugin.onHostReachableAgain,
-			};
+  unregister(name: string) {
+    this.plugins.delete(name);
+  }
 
-			return {
-				name: plugin.name,
-				version: plugin.version,
-				status: "active",
-				usedHooks: hooks,
-			};
-		});
-	}
+  getPlugins(): PluginInfo[] {
+    const loadedPlugins = Array.from(this.plugins.values()).map((plugin) => {
+      const hooks: Hooks = getHooks(plugin);
 
-	// Trigger plugin flows:
-	handleContainerStop(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerStop?.(containerInfo);
-		}
-	}
+      return {
+        name: plugin.name,
+        status: "active",
+        usedHooks: hooks,
+      };
+    });
 
-	handleContainerStart(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerStart?.(containerInfo);
-		}
-	}
+    const failedPlugins = Array.from(this.failedPlugins.values()).map(
+      (plugin) => {
+        const hooks: Hooks = getHooks(plugin);
 
-	handleContainerExit(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerExit?.(containerInfo);
-		}
-	}
+        return {
+          name: plugin.name,
+          status: "inactive",
+          usedHooks: hooks,
+        };
+      }
+    );
 
-	handleContainerCreate(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerCreate?.(containerInfo);
-		}
-	}
+    return loadedPlugins.concat(failedPlugins);
+  }
 
-	handleContainerDestroy(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerDestroy?.(containerInfo);
-		}
-	}
+  // Trigger plugin flows:
+  handleContainerStop(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerStop?.(containerInfo);
+    }
+  }
 
-	handleContainerPause(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerPause?.(containerInfo);
-		}
-	}
+  handleContainerStart(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerStart?.(containerInfo);
+    }
+  }
 
-	handleContainerUnpause(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerUnpause?.(containerInfo);
-		}
-	}
+  handleContainerExit(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerExit?.(containerInfo);
+    }
+  }
 
-	handleContainerRestart(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerRestart?.(containerInfo);
-		}
-	}
+  handleContainerCreate(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerCreate?.(containerInfo);
+    }
+  }
 
-	handleContainerUpdate(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerUpdate?.(containerInfo);
-		}
-	}
+  handleContainerDestroy(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerDestroy?.(containerInfo);
+    }
+  }
 
-	handleContainerRename(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerRename?.(containerInfo);
-		}
-	}
+  handleContainerPause(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerPause?.(containerInfo);
+    }
+  }
 
-	handleContainerHealthStatus(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerHealthStatus?.(containerInfo);
-		}
-	}
+  handleContainerUnpause(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerUnpause?.(containerInfo);
+    }
+  }
 
-	handleHostUnreachable(host: string, err: string) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onHostUnreachable?.(host, err);
-		}
-	}
+  handleContainerRestart(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerRestart?.(containerInfo);
+    }
+  }
 
-	handleHostReachableAgain(host: string) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onHostReachableAgain?.(host);
-		}
-	}
+  handleContainerUpdate(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerUpdate?.(containerInfo);
+    }
+  }
 
-	handleContainerKill(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.onContainerKill?.(containerInfo);
-		}
-	}
+  handleContainerRename(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerRename?.(containerInfo);
+    }
+  }
 
-	handleContainerDie(containerInfo: ContainerInfo) {
-		for (const [, plugin] of this.plugins) {
-			plugin.handleContainerDie?.(containerInfo);
-		}
-	}
+  handleContainerHealthStatus(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerHealthStatus?.(containerInfo);
+    }
+  }
+
+  handleHostUnreachable(host: string, err: string) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onHostUnreachable?.(host, err);
+    }
+  }
+
+  handleHostReachableAgain(host: string) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onHostReachableAgain?.(host);
+    }
+  }
+
+  handleContainerKill(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.onContainerKill?.(containerInfo);
+    }
+  }
+
+  handleContainerDie(containerInfo: ContainerInfo) {
+    for (const [, plugin] of this.plugins) {
+      plugin.handleContainerDie?.(containerInfo);
+    }
+  }
 }
 
 export const pluginManager = new PluginManager();
