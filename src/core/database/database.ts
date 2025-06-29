@@ -90,9 +90,7 @@ export function init() {
 
     CREATE TABLE IF NOT EXISTS config (
       keep_data_for NUMBER NOT NULL,
-      fetching_interval NUMBER NOT NULL,
-      api_key TEXT NOT NULL
-    );
+      fetching_interval NUMBER NOT NULL    );
   `);
 
 	const configRow = db
@@ -101,7 +99,7 @@ export function init() {
 
 	if (configRow.count === 0) {
 		db.prepare(
-			'INSERT INTO config (keep_data_for, fetching_interval, api_key) VALUES (7, 5, "changeme")',
+			"INSERT INTO config (keep_data_for, fetching_interval) VALUES (7, 5)",
 		).run();
 	}
 

@@ -6,7 +6,7 @@ import wrapAnsi from "wrap-ansi";
 
 import { dbFunctions } from "~/core/database";
 
-import { logToClients } from "~/routes/live-logs";
+import { logToClients } from "~/handlers/modules/logs-socket";
 
 import type { log_message } from "~/typings/database";
 

@@ -2,7 +2,7 @@ import { rm } from "node:fs/promises";
 import DockerCompose from "docker-compose";
 import { dbFunctions } from "~/core/database";
 import { logger } from "~/core/utils/logger";
-import { postToClient } from "~/routes/live-stacks";
+import { postToClient } from "~/handlers/modules/live-stacks";
 import type { stacks_config } from "~/typings/database";
 import type { Stack } from "~/typings/docker-compose";
 import type { ComposeSpec } from "~/typings/docker-compose";

@@ -3,11 +3,9 @@ import { executeDbOperation } from "./helper";
 
 const stmt = {
 	update: db.prepare(
-		"UPDATE config SET fetching_interval = ?, keep_data_for = ?, api_key = ?",
+		"UPDATE config SET fetching_interval = ?, keep_data_for = ?",
 	),
-	select: db.prepare(
-		"SELECT keep_data_for, fetching_interval, api_key FROM config",
-	),
+	select: db.prepare("SELECT keep_data_for, fetching_interval FROM config"),
 	deleteOld: db.prepare(
 		`DELETE FROM container_stats WHERE timestamp < datetime('now', '-' || ? || ' days')`,
 	),
@@ -16,14 +14,10 @@ const stmt = {
 	),
 };
 
-export function updateConfig(
-	fetching_interval: number,
-	keep_data_for: number,
-	api_key: string,
-) {
+export function updateConfig(fetching_interval: number, keep_data_for: number) {
 	return executeDbOperation(
 		"Update Config",
-		() => stmt.update.run(fetching_interval, keep_data_for, api_key),
+		() => stmt.update.run(fetching_interval, keep_data_for),
 		() => {
 			if (
 				typeof fetching_interval !== "number" ||
