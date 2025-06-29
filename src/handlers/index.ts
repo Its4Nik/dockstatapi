@@ -1,13 +1,13 @@
-import { BasicDockerHandler } from "./docker";
 import { ApiHandler } from "./config";
 import { DatabaseHandler } from "./database";
-import { StackHandler } from "./stacks";
+import { BasicDockerHandler } from "./docker";
 import { LogHandler } from "./logs";
+import { StackHandler } from "./stacks";
 
 export const handlers = {
-  BasicDockerHandler,
-  ApiHandler,
-  DatabaseHandler,
-  StackHandler,
-  LogHandler,
+	BasicDockerHandler,
+	ApiHandler,
+	DatabaseHandler,
+	StackHandler,
+	LogHandler,
 };
