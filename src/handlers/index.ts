@@ -8,12 +8,12 @@ import { StackHandler } from "./stacks";
 import { CheckHealth } from "./utils";
 
 export const handlers = {
-  BasicDockerHandler,
-  ApiHandler,
-  DatabaseHandler,
-  StackHandler,
-  LogHandler,
-  CheckHealth,
-  Sockets: Sockets,
-  Start: setSchedules(),
+	BasicDockerHandler,
+	ApiHandler,
+	DatabaseHandler,
+	StackHandler,
+	LogHandler,
+	CheckHealth,
+	Sockets: Sockets,
+	Start: setSchedules(),
 };
