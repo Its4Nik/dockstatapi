@@ -43,7 +43,7 @@ export async function loadPlugins(pluginDir: string) {
 			pluginManager.register(plugin);
 			pluginCount++;
 		} catch (error) {
-			pluginManager.fail({ name: file });
+			pluginManager.fail({ name: file, version: "0.0.0" });
 			logger.error(
 				`Error while registering plugin ${absolutePath}: ${error as string}`,
 			);

@@ -1,5 +1,5 @@
 import path from "node:path";
-import chalk, { type ChalkInstance } from "chalk";
+import chalk, { type ChalkFunction } from "chalk";
 import type { TransformableInfo } from "logform";
 import { createLogger, format, transports } from "winston";
 import wrapAnsi from "wrap-ansi";
@@ -8,7 +8,7 @@ import { dbFunctions } from "~/core/database";
 
 import { logToClients } from "~/handlers/modules/logs-socket";
 
-import type { log_message } from "../../../typings/database";
+import type { log_message } from "~/typings/database";
 
 import { backupInProgress } from "../database/_dbState";
 
@@ -53,7 +53,7 @@ const formatTerminalMessage = (message: string, prefix: string): string => {
 	}
 };
 
-const levelColors: Record<LogLevel | string, ChalkInstance> = {
+const levelColors: Record<LogLevel | string, ChalkFunction> = {
 	error: chalk.red.bold,
 	warn: chalk.yellow.bold,
 	info: chalk.green.bold,

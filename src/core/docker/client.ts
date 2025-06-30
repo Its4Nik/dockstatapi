@@ -1,6 +1,6 @@
 import Docker from "dockerode";
 import { logger } from "~/core/utils/logger";
-import type { DockerHost } from "../../../typings/docker";
+import type { DockerHost } from "~/typings/docker";
 
 export const getDockerClient = (host: DockerHost): Docker => {
 	try {

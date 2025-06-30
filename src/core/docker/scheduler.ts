@@ -2,7 +2,7 @@ import { dbFunctions } from "~/core/database";
 import storeContainerData from "~/core/docker/store-container-stats";
 import storeHostData from "~/core/docker/store-host-stats";
 import { logger } from "~/core/utils/logger";
-import type { config } from "../../../typings/database";
+import type { config } from "~/typings/database";
 
 function convertFromMinToMs(minutes: number): number {
 	return minutes * 60 * 1000;

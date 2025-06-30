@@ -7,7 +7,7 @@ import {
 	calculateMemoryUsage,
 } from "~/core/utils/calculations";
 import { logger } from "~/core/utils/logger";
-import type { DockerStatsEvent } from "../../../typings/docker";
+import type { DockerStatsEvent } from "~/typings/docker";
 
 export function createDockerStatsStream(): Readable {
 	const stream = new Readable({

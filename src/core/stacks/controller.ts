@@ -35,6 +35,7 @@ export async function deployStack(stack_config: stacks_config): Promise<void> {
 
 		postToClient({
 			type: "stack-status",
+			timestamp: new Date(),
 			data: {
 				stack_id: stackId,
 				status: "pending",
@@ -66,6 +67,7 @@ export async function deployStack(stack_config: stacks_config): Promise<void> {
 
 		postToClient({
 			type: "stack-status",
+			timestamp: new Date(),
 			data: {
 				stack_id: stackId,
 				status: "deployed",
@@ -109,6 +111,7 @@ export async function deployStack(stack_config: stacks_config): Promise<void> {
 
 		postToClient({
 			type: "stack-error",
+			timestamp: new Date(),
 			data: {
 				stack_id: stackId ?? 0,
 				action: "deploying",
@@ -210,6 +213,7 @@ export async function removeStack(stack_id: number): Promise<void> {
 			logger.error(errorMsg);
 			postToClient({
 				type: "stack-error",
+				timestamp: new Date(),
 				data: {
 					stack_id,
 					action: "removing",
@@ -224,6 +228,7 @@ export async function removeStack(stack_id: number): Promise<void> {
 
 		postToClient({
 			type: "stack-removed",
+			timestamp: new Date(),
 			data: {
 				stack_id,
 				message: "Stack removed successfully",
@@ -234,6 +239,7 @@ export async function removeStack(stack_id: number): Promise<void> {
 		logger.error(errorMsg);
 		postToClient({
 			type: "stack-error",
+			timestamp: new Date(),
 			data: {
 				stack_id,
 				action: "removing",

@@ -3,12 +3,8 @@ import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
 import { findObjectByKey } from "~/core/utils/helpers";
 import { logger } from "~/core/utils/logger";
-import type {
-	ContainerInfo,
-	DockerHost,
-	HostStats,
-} from "../../typings/docker";
-import type { DockerInfo } from "../../typings/dockerode";
+import type { ContainerInfo, DockerHost, HostStats } from "~/typings/docker";
+import type { DockerInfo } from "~/typings/dockerode";
 
 class basicDockerHandler {
 	async getContainers(): Promise<ContainerInfo[]> {

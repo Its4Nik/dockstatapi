@@ -1,6 +1,6 @@
-import type { Stack } from "~/../typings/docker-compose";
 import { logger } from "~/core/utils/logger";
 import { postToClient } from "~/handlers/modules/live-stacks";
+import type { Stack } from "~/typings/docker-compose";
 import { getStackName, getStackPath } from "./stackHelpers";
 
 export function wrapProgressCallback(progressCallback?: (log: string) => void) {
@@ -51,6 +51,7 @@ export async function runStackCommand<T>(
 
 			postToClient({
 				type: "stack-progress",
+				timestamp: new Date(),
 				data: {
 					stack_id,
 					action,
@@ -77,6 +78,7 @@ export async function runStackCommand<T>(
 		);
 		postToClient({
 			type: "stack-error",
+			timestamp: new Date(),
 			data: {
 				stack_id,
 				action,

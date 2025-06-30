@@ -1,7 +1,7 @@
 import { logger } from "~/core/utils/logger";
 
-import type { ContainerInfo } from "../../typings/docker";
-import type { Plugin } from "../../typings/plugin";
+import type { ContainerInfo } from "~/typings/docker";
+import type { Plugin } from "~/typings/plugin";
 
 // See https://outline.itsnik.de/s/dockstat/doc/plugin-development-3UBj9gNMKF for more info
 

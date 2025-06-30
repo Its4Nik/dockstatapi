@@ -1,4 +1,4 @@
-import type { containerStatistics } from "~/typings/database";
+import type { container_stats } from "~/typings/database";
 import { db } from "./database";
 import { executeDbOperation } from "./helper";
 
@@ -9,35 +9,26 @@ const insert = db.prepare(`
 
 const get = db.prepare("SELECT * FROM container_stats");
 
-export function addContainerStats(
-	id: string,
-	hostId: string,
-	name: string,
-	image: string,
-	status: string,
-	state: string,
-	cpu_usage: number,
-	memory_usage: number,
-) {
+export function addContainerStats(stats: container_stats) {
 	return executeDbOperation(
 		"Add Container Stats",
 		() =>
 			insert.run(
-				id,
-				hostId,
-				name,
-				image,
-				status,
-				state,
-				cpu_usage,
-				memory_usage,
+				stats.id,
+				stats.hostId,
+				stats.name,
+				stats.image,
+				stats.status,
+				stats.state,
+				stats.cpu_usage,
+				stats.memory_usage,
 			),
 		() => {
 			if (
-				typeof id !== "string" ||
-				typeof hostId !== "string" ||
-				typeof cpu_usage !== "number" ||
-				typeof memory_usage !== "number"
+				typeof stats.id !== "string" ||
+				typeof stats.hostId !== "number" ||
+				typeof stats.cpu_usage !== "number" ||
+				typeof stats.memory_usage !== "number"
 			) {
 				throw new TypeError("Invalid container stats parameters");
 			}
@@ -45,8 +36,8 @@ export function addContainerStats(
 	);
 }
 
-export function getContainerStats(): containerStatistics[] {
+export function getContainerStats(): container_stats[] {
 	return executeDbOperation("Get Container Stats", () =>
 		get.all(),
-	) as containerStatistics[];
+	) as container_stats[];
 }

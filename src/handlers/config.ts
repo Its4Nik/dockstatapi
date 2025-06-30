@@ -14,9 +14,9 @@ import {
 	license,
 	version,
 } from "~/core/utils/package-json";
-import type { config } from "../../typings/database";
-import type { DockerHost } from "../../typings/docker";
-import type { PluginInfo } from "../../typings/plugin";
+import type { config } from "~/typings/database";
+import type { DockerHost } from "~/typings/docker";
+import type { PluginInfo } from "~/typings/plugin";
 
 class apiHandler {
 	getConfig() {

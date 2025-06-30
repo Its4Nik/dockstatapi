@@ -68,7 +68,7 @@ async function startFor(host: DockerHost) {
 				if (event.Type === "container") {
 					const containerInfo: ContainerInfo = {
 						id: event.Actor?.ID || event.id || "",
-						hostId: host.name,
+						hostId: host.id,
 						name: event.Actor?.Attributes?.name || "",
 						image: event.Actor?.Attributes?.image || event.from || "",
 						status: event.status || event.Actor?.Attributes?.status || "",
