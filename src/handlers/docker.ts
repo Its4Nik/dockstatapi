@@ -11,7 +11,7 @@ import type {
 import type { DockerInfo } from "../../typings/dockerode";
 
 class basicDockerHandler {
-  async getContainers() {
+  async getContainers(): Promise<ContainerInfo[]> {
     try {
       const hosts = dbFunctions.getDockerHosts() as DockerHost[];
       const containers: ContainerInfo[] = [];
@@ -48,7 +48,7 @@ class basicDockerHandler {
 
                   containers.push({
                     id: containerInfo.Id,
-                    hostId: `${host.id}`,
+                    hostId: host.id,
                     name: containerInfo.Names[0].replace(/^\//, ""),
                     image: containerInfo.Image,
                     status: containerInfo.Status,
@@ -76,7 +76,7 @@ class basicDockerHandler {
       );
 
       logger.debug("Fetched all containers across all hosts");
-      return { containers };
+      return containers;
     } catch (error) {
       const errMsg = error instanceof Error ? error.message : String(error);
       throw new Error(errMsg);
@@ -152,7 +152,7 @@ class basicDockerHandler {
       logger.debug(`Fetched config for ${host.name}`);
       return config;
     } catch (error) {
-      throw new Error("Failed to retrieve host config");
+      throw new Error(`Failed to retrieve host config: ${error}`);
     }
   }
 }
