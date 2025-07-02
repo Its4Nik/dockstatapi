@@ -38,7 +38,7 @@ export async function loadPlugins(pluginDir: string) {
 		logger.info(`Loading plugin: ${absolutePath}`);
 		try {
 			await checkFileForChangeMe(absolutePath);
-			const module = await import(absolutePath);
+			const module = await import(/* @vite-ignore */ absolutePath);
 			const plugin = module.default;
 			pluginManager.register(plugin);
 			pluginCount++;

@@ -1,7 +1,6 @@
 import type Docker from "dockerode";
 import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
-import { findObjectByKey } from "~/core/utils/helpers";
 import { logger } from "~/core/utils/logger";
 import type { ContainerInfo, DockerHost, HostStats } from "~/typings/docker";
 import type { DockerInfo } from "~/typings/dockerode";
@@ -79,77 +78,77 @@ class basicDockerHandler {
 		}
 	}
 
-	async getHostStats(id?: number) {
-		if (!id) {
-			try {
-				const hosts = dbFunctions.getDockerHosts() as DockerHost[];
-
-				const stats: HostStats[] = [];
-
-				for (const host of hosts) {
-					const docker = getDockerClient(host);
-					const info: DockerInfo = await docker.info();
-
-					const config: HostStats = {
-						hostId: host.id as number,
-						hostName: host.name,
-						dockerVersion: info.ServerVersion,
-						apiVersion: info.Driver,
-						os: info.OperatingSystem,
-						architecture: info.Architecture,
-						totalMemory: info.MemTotal,
-						totalCPU: info.NCPU,
-						labels: info.Labels,
-						images: info.Images,
-						containers: info.Containers,
-						containersPaused: info.ContainersPaused,
-						containersRunning: info.ContainersRunning,
-						containersStopped: info.ContainersStopped,
-					};
-
-					stats.push(config);
-				}
-
-				logger.debug("Fetched all hosts");
-				return stats;
-			} catch (error) {
-				throw new Error(error as string);
-			}
-		}
-
+	async getHostStats() {
+		//if (true) {
 		try {
 			const hosts = dbFunctions.getDockerHosts() as DockerHost[];
 
-			const host = findObjectByKey(hosts, "id", Number(id));
-			if (!host) {
-				throw new Error(`Host (${id}) not found`);
+			const stats: HostStats[] = [];
+
+			for (const host of hosts) {
+				const docker = getDockerClient(host);
+				const info: DockerInfo = await docker.info();
+
+				const config: HostStats = {
+					hostId: host.id as number,
+					hostName: host.name,
+					dockerVersion: info.ServerVersion,
+					apiVersion: info.Driver,
+					os: info.OperatingSystem,
+					architecture: info.Architecture,
+					totalMemory: info.MemTotal,
+					totalCPU: info.NCPU,
+					labels: info.Labels,
+					images: info.Images,
+					containers: info.Containers,
+					containersPaused: info.ContainersPaused,
+					containersRunning: info.ContainersRunning,
+					containersStopped: info.ContainersStopped,
+				};
+
+				stats.push(config);
 			}
 
-			const docker = getDockerClient(host);
-			const info: DockerInfo = await docker.info();
-
-			const config: HostStats = {
-				hostId: host.id as number,
-				hostName: host.name,
-				dockerVersion: info.ServerVersion,
-				apiVersion: info.Driver,
-				os: info.OperatingSystem,
-				architecture: info.Architecture,
-				totalMemory: info.MemTotal,
-				totalCPU: info.NCPU,
-				labels: info.Labels,
-				images: info.Images,
-				containers: info.Containers,
-				containersPaused: info.ContainersPaused,
-				containersRunning: info.ContainersRunning,
-				containersStopped: info.ContainersStopped,
-			};
-
-			logger.debug(`Fetched config for ${host.name}`);
-			return config;
+			logger.debug("Fetched all hosts");
+			return stats;
 		} catch (error) {
-			throw new Error(`Failed to retrieve host config: ${error}`);
+			throw new Error(error as string);
 		}
+		//}
+
+		//try {
+		//  const hosts = dbFunctions.getDockerHosts() as DockerHost[];
+		//
+		//  const host = findObjectByKey(hosts, "id", Number(id));
+		//  if (!host) {
+		//    throw new Error(`Host (${id}) not found`);
+		//  }
+		//
+		//  const docker = getDockerClient(host);
+		//  const info: DockerInfo = await docker.info();
+		//
+		//  const config: HostStats = {
+		//    hostId: host.id as number,
+		//    hostName: host.name,
+		//    dockerVersion: info.ServerVersion,
+		//    apiVersion: info.Driver,
+		//    os: info.OperatingSystem,
+		//    architecture: info.Architecture,
+		//    totalMemory: info.MemTotal,
+		//    totalCPU: info.NCPU,
+		//    labels: info.Labels,
+		//    images: info.Images,
+		//    containers: info.Containers,
+		//    containersPaused: info.ContainersPaused,
+		//    containersRunning: info.ContainersRunning,
+		//    containersStopped: info.ContainersStopped,
+		//  };
+		//
+		//  logger.debug(`Fetched config for ${host.name}`);
+		//  return config;
+		//} catch (error) {
+		//  throw new Error(`Failed to retrieve host config: ${error}`);
+		//}
 	}
 }
 

@@ -1,4 +1,5 @@
 import { setSchedules } from "~/core/docker/scheduler";
+import { pluginManager } from "~/core/plugins/plugin-manager";
 import { ApiHandler } from "./config";
 import { DatabaseHandler } from "./database";
 import { BasicDockerHandler } from "./docker";
@@ -15,5 +16,6 @@ export const handlers = {
 	LogHandler,
 	CheckHealth,
 	Sockets: Sockets,
-	Start: setSchedules(),
+	StartServer: setSchedules(),
+	ImportPlugins: await pluginManager.start(),
 };

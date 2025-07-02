@@ -2,6 +2,7 @@ import { EventEmitter } from "node:events";
 import type { ContainerInfo } from "~/typings/docker";
 import type { Plugin, PluginInfo } from "~/typings/plugin";
 import { logger } from "../utils/logger";
+import { loadPlugins } from "./loader";
 
 function getHooks(plugin: Plugin) {
 	return {
@@ -26,6 +27,15 @@ function getHooks(plugin: Plugin) {
 class PluginManager extends EventEmitter {
 	private plugins: Map<string, Plugin> = new Map();
 	private failedPlugins: Map<string, Plugin> = new Map();
+
+	async start() {
+		try {
+			return await loadPlugins("./server/src/plugins");
+		} catch (error) {
+			logger.error(`Failed to init plugin manager: ${error}`);
+			return;
+		}
+	}
 
 	fail(plugin: Plugin) {
 		try {
