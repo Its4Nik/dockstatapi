@@ -12,7 +12,7 @@ import type { log_message } from "~/typings/database";
 
 import { backupInProgress } from "../database/_dbState";
 
-const padNewlines = process.env.PAD_NEW_LINES !== "false";
+const padNewlines = true; //process.env.PAD_NEW_LINES !== "false";
 
 type LogLevel =
 	| "error"

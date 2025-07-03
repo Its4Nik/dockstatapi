@@ -1,4 +1,4 @@
-import { Readable, type Transform } from "node:stream";
+import { serve } from "bun";
 import split2 from "split2";
 import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
@@ -9,134 +9,119 @@ import {
 import { logger } from "~/core/utils/logger";
 import type { DockerStatsEvent } from "~/typings/docker";
 
-export function createDockerStatsStream(): Readable {
-	const stream = new Readable({
-		objectMode: true,
-		read() {},
-	});
+// Track all connected WebSocket clients
+const clients = new Set<Bun.ServerWebSocket<unknown>>();
 
-	const substreams: Array<{
-		statsStream: Readable;
-		splitStream: Transform;
-	}> = [];
-
-	const cleanup = () => {
-		for (const { statsStream, splitStream } of substreams) {
-			try {
-				statsStream.unpipe(splitStream);
-				statsStream.destroy();
-				splitStream.destroy();
-			} catch (error) {
-				logger.error(`Cleanup error: ${error}`);
-			}
+// Broadcast a DockerStatsEvent to every connected client
+function broadcast(event: DockerStatsEvent) {
+	const message = JSON.stringify(event);
+	for (const ws of clients) {
+		if (ws.readyState === 1) {
+			ws.send(message);
 		}
-		substreams.length = 0;
-	};
+	}
+}
 
-	stream.on("close", cleanup);
-	stream.on("error", cleanup);
+// Start Docker stats polling and broadcasting
+export async function startDockerStatsBroadcast() {
+	logger.debug("Starting Docker stats broadcast...");
 
-	(async () => {
-		try {
-			const hosts = dbFunctions.getDockerHosts();
-			logger.debug(`Retrieved ${hosts.length} docker host(s)`);
+	try {
+		const hosts = dbFunctions.getDockerHosts();
+		logger.debug(`Retrieved ${hosts.length} Docker host(s)`);
 
-			for (const host of hosts) {
-				if (stream.destroyed) break;
+		for (const host of hosts) {
+			try {
+				const docker = getDockerClient(host);
+				await docker.ping();
+				const containers = await docker.listContainers({ all: true });
+				logger.debug(
+					`Host ${host.name} contains ${containers.length} containers`,
+				);
 
-				try {
-					const docker = getDockerClient(host);
-					await docker.ping();
-					const containers = await docker.listContainers({
-						all: true,
-					});
-
-					logger.debug(
-						`Found ${containers.length} containers on ${host.name} (id: ${host.id})`,
-					);
-
-					for (const containerInfo of containers) {
-						if (stream.destroyed) break;
-
+				for (const info of containers) {
+					// Kick off one independent async task per container
+					(async () => {
 						try {
-							const container = docker.getContainer(containerInfo.Id);
-							const statsStream = (await container.stats({
-								stream: true,
-							})) as Readable;
-							const splitStream = split2();
+							const statsStream = await docker
+								.getContainer(info.Id)
+								.stats({ stream: true });
+							const splitter = split2();
+							statsStream.pipe(splitter);
 
-							substreams.push({ statsStream, splitStream });
-
-							statsStream
-								.on("close", () => splitStream.destroy())
-								.pipe(splitStream)
-								.on("data", (line: string) => {
-									if (stream.destroyed || !line) return;
-
-									try {
-										const stats = JSON.parse(line);
-										const event: DockerStatsEvent = {
-											type: "stats",
-											id: containerInfo.Id,
-											hostId: host.id,
-											name: containerInfo.Names[0].replace(/^\//, ""),
-											image: containerInfo.Image,
-											status: containerInfo.Status,
-											state: containerInfo.State,
-											cpuUsage: calculateCpuPercent(stats) ?? 0,
-											memoryUsage: calculateMemoryUsage(stats) ?? 0,
-										};
-										stream.push(event);
-									} catch (error) {
-										stream.push({
-											type: "error",
-											hostId: host.id,
-											containerId: containerInfo.Id,
-											error: `Parse error: ${
-												error instanceof Error ? error.message : String(error)
-											}`,
-										});
-									}
-								})
-								.on("error", (error: Error) => {
-									stream.push({
+							for await (const line of splitter) {
+								if (!line) continue;
+								try {
+									const stats = JSON.parse(line);
+									broadcast({
+										type: "stats",
+										id: info.Id,
+										hostId: host.id,
+										name: info.Names[0].replace(/^\//, ""),
+										image: info.Image,
+										status: info.Status,
+										state: stats.state || info.State,
+										cpuUsage: calculateCpuPercent(stats) ?? 0,
+										memoryUsage: calculateMemoryUsage(stats) ?? 0,
+									});
+								} catch (err) {
+									broadcast({
 										type: "error",
 										hostId: host.id,
-										containerId: containerInfo.Id,
-										error: `Stream error: ${error.message}`,
+										containerId: info.Id,
+										error: `Parse error: ${(err as Error).message}`,
 									});
-								});
-						} catch (error) {
-							stream.push({
+								}
+							}
+						} catch (err) {
+							broadcast({
 								type: "error",
 								hostId: host.id,
-								containerId: containerInfo.Id,
-								error: `Container error: ${
-									error instanceof Error ? error.message : String(error)
-								}`,
+								containerId: info.Id,
+								error: `Stats stream error: ${(err as Error).message}`,
 							});
 						}
-					}
-				} catch (error) {
-					stream.push({
-						type: "error",
-						hostId: host.id,
-						error: `Host connection error: ${
-							error instanceof Error ? error.message : String(error)
-						}`,
-					});
+					})();
 				}
+			} catch (err) {
+				broadcast({
+					type: "error",
+					hostId: host.id,
+					error: `Host connection error: ${(err as Error).message}`,
+				});
 			}
-		} catch (error) {
-			stream.push({
-				type: "error",
-				error: `Initialization error: ${
-					error instanceof Error ? error.message : String(error)
-				}`,
-			});
-			stream.destroy();
 		}
-	})();
-
-	return stream;
+	} catch (err) {
+		broadcast({
+			type: "error",
+			hostId: 0,
+			error: `Initialization error: ${(err as Error).message}`,
+		});
+	}
 }
+
+serve({
+	port: 4837,
+	reusePort: true,
+	fetch(req, server) {
+		// Upgrade requests to WebSocket
+		if (req.url.endsWith("/ws/docker")) {
+			if (server.upgrade(req)) {
+				return; // auto 101 Switching Protocols
+			}
+		}
+		return new Response("Expected WebSocket upgrade", { status: 426 });
+	},
+
+	websocket: {
+		open(ws) {
+			logger.debug("Client connected via WebSocket");
+			clients.add(ws);
+		},
+		close(ws, code, reason) {
+			logger.debug(`Client disconnected (${code}): ${reason}`);
+			clients.delete(ws);
+		},
+		message() {},
+	},
+});

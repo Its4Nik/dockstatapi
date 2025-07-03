@@ -44,6 +44,7 @@ class apiHandler {
 
 	getPlugins(): PluginInfo[] {
 		try {
+			logger.debug("Gathering plugins");
 			return pluginManager.getPlugins();
 		} catch (error) {
 			const errMsg = error instanceof Error ? error.message : String(error);

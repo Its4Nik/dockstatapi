@@ -117,7 +117,7 @@ async function setSchedules() {
 		logger.info("Schedules have been set successfully.");
 	} catch (error) {
 		logger.error("Error setting schedules:", error);
-		throw error;
+		throw new Error(error as string);
 	}
 }
 

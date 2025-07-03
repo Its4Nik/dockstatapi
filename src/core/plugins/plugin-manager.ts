@@ -30,7 +30,8 @@ class PluginManager extends EventEmitter {
 
 	async start() {
 		try {
-			return await loadPlugins("./server/src/plugins");
+			await loadPlugins("./server/src/plugins");
+			return;
 		} catch (error) {
 			logger.error(`Failed to init plugin manager: ${error}`);
 			return;
@@ -65,7 +66,7 @@ class PluginManager extends EventEmitter {
 		const plugins: PluginInfo[] = [];
 
 		for (const plugin of this.plugins.values()) {
-			logger.debug(`Loaded plugin: ${plugin}`);
+			logger.debug(`Loaded plugin: ${JSON.stringify(plugin)}`);
 			const hooks = getHooks(plugin);
 			plugins.push({
 				name: plugin.name,
@@ -76,7 +77,7 @@ class PluginManager extends EventEmitter {
 		}
 
 		for (const plugin of this.failedPlugins.values()) {
-			logger.debug(`Loaded plugin: ${plugin}`);
+			logger.debug(`Loaded plugin: ${JSON.stringify(plugin)}`);
 			const hooks = getHooks(plugin);
 			plugins.push({
 				name: plugin.name,

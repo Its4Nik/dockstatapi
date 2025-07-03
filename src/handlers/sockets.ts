@@ -1,9 +1,11 @@
-import { createDockerStatsStream } from "./modules/docker-socket";
 import { createStackStream } from "./modules/live-stacks";
 import { createLogStream } from "./modules/logs-socket";
 
 export const Sockets = {
-	createDockerStatsStream,
+	stats: {
+		port: 4837,
+		path: "/ws/docker",
+	},
 	createLogStream,
 	createStackStream,
 };

@@ -60,9 +60,9 @@ export async function backupDatabase(): Promise<string> {
 			copyFileSync(`${backupDir}dockstatapi.db`, backupFilename);
 			logger.info(`Backup created successfully: ${backupFilename}`);
 			logger.debug("File copy operation completed without errors");
-		} catch (e) {
-			logger.error(`Failed to create backup file: ${(e as Error).message}`);
-			throw e;
+		} catch (error) {
+			logger.error(`Failed to create backup file: ${(error as Error).message}`);
+			throw new Error(error as string);
 		}
 
 		return backupFilename;
@@ -97,9 +97,9 @@ export function restoreDatabase(backupFilename: string): void {
 					copyFileSync(backupFile, `${backupDir}dockstatapi.db`);
 					logger.info(`Database restored successfully from: ${backupFilename}`);
 					logger.debug("Database file replacement completed");
-				} catch (e) {
-					logger.error(`Restore failed: ${(e as Error).message}`);
-					throw e;
+				} catch (error) {
+					logger.error(`Restore failed: ${(error as Error).message}`);
+					throw new Error(error as string);
 				}
 			},
 			() => {
