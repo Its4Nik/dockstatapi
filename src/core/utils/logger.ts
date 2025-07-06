@@ -1,5 +1,6 @@
 import path from "node:path";
-import chalk, { type ChalkFunction } from "chalk";
+import chalk from "chalk";
+import type { ChalkInstance } from "chalk";
 import type { TransformableInfo } from "logform";
 import { createLogger, format, transports } from "winston";
 import wrapAnsi from "wrap-ansi";
@@ -53,7 +54,7 @@ const formatTerminalMessage = (message: string, prefix: string): string => {
 	}
 };
 
-const levelColors: Record<LogLevel | string, ChalkFunction> = {
+const levelColors: Record<LogLevel | string, ChalkInstance> = {
 	error: chalk.red.bold,
 	warn: chalk.yellow.bold,
 	info: chalk.green.bold,

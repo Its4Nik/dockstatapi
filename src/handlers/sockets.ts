@@ -1,11 +1,9 @@
+import { WSServer } from "./modules/docker-socket";
 import { createStackStream } from "./modules/live-stacks";
 import { createLogStream } from "./modules/logs-socket";
 
 export const Sockets = {
-	stats: {
-		port: 4837,
-		path: "/ws/docker",
-	},
+	dockerStatsStream: `${WSServer.hostname}${WSServer.port}/ws`,
 	createLogStream,
 	createStackStream,
 };

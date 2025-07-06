@@ -18,7 +18,7 @@ export const handlers = {
 	StackHandler,
 	LogHandler,
 	CheckHealth,
-	Sockets: Sockets,
+	Socket: "ws://localhost:4837/ws",
 };
 
 Starter.startAll();

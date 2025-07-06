@@ -1,6 +1,5 @@
 import { PassThrough, type Readable } from "node:stream";
 import { logger } from "~/core/utils/logger";
-import type { stackSocketMessage } from "~/typings/websocket";
 
 const activeStreams = new Set<PassThrough>();
 
@@ -29,15 +28,4 @@ export function createStackStream(): Readable {
 	});
 
 	return stream;
-}
-
-export function postToClient(stackMessage: stackSocketMessage) {
-	for (const stream of activeStreams) {
-		try {
-			stream.push(JSON.stringify(stackMessage));
-		} catch (error) {
-			activeStreams.delete(stream);
-			logger.error("Failed to send to Socket:", error);
-		}
-	}
 }

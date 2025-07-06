@@ -1,6 +1,6 @@
 import { logger } from "~/core/utils/logger";
-import { postToClient } from "~/handlers/modules/live-stacks";
 import type { Stack } from "~/typings/docker-compose";
+import { broadcast } from "../../../handlers/modules/docker-socket";
 import { getStackName, getStackPath } from "./stackHelpers";
 
 export function wrapProgressCallback(progressCallback?: (log: string) => void) {
@@ -49,14 +49,17 @@ export async function runStackCommand<T>(
 				}
 			}
 
-			postToClient({
-				type: "stack-progress",
-				timestamp: new Date(),
+			// Broadcast progress
+			broadcast({
+				topic: "stack",
 				data: {
-					stack_id,
-					action,
-					message,
-					timestamp: new Date().toISOString(),
+					timestamp: new Date(),
+					type: "stack-progress",
+					data: {
+						stack_id,
+						message,
+						action,
+					},
 				},
 			});
 		};
@@ -69,6 +72,21 @@ export async function runStackCommand<T>(
 			`Successfully completed command for stack_id=${stack_id}, action="${action}"`,
 		);
 
+		// Optionally broadcast status on completion
+		broadcast({
+			topic: "stack",
+			data: {
+				timestamp: new Date(),
+				type: "stack-status",
+				data: {
+					stack_id,
+					status: "completed",
+					message: `Completed ${action}`,
+					action,
+				},
+			},
+		});
+
 		return result;
 	} catch (error: unknown) {
 		const errorMsg =
@@ -76,16 +94,21 @@ export async function runStackCommand<T>(
 		logger.debug(
 			`Error occurred for stack_id=${stack_id}, action="${action}": ${errorMsg}`,
 		);
-		postToClient({
-			type: "stack-error",
-			timestamp: new Date(),
+
+		// Broadcast error
+		broadcast({
+			topic: "stack",
 			data: {
-				stack_id,
-				action,
-				message: errorMsg,
-				timestamp: new Date().toISOString(),
+				timestamp: new Date(),
+				type: "stack-error",
+				data: {
+					stack_id,
+					action,
+					message: errorMsg,
+				},
 			},
 		});
+
 		throw new Error(`Error while ${action} stack "${stack_id}": ${errorMsg}`);
 	}
 }
