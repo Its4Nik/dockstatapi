@@ -9,6 +9,7 @@ import * as dockerHosts from "~/core/database/dockerHosts";
 import * as hostStats from "~/core/database/hostStats";
 import * as logs from "~/core/database/logs";
 import * as stacks from "~/core/database/stacks";
+import * as stores from "~/core/database/stores";
 
 export const dbFunctions = {
 	...dockerHosts,
@@ -18,6 +19,7 @@ export const dbFunctions = {
 	...hostStats,
 	...stacks,
 	...backup,
+	...stores,
 };
 
 export type dbFunctions = typeof dbFunctions;

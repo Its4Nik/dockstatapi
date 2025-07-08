@@ -13,6 +13,23 @@ import { logger } from "~/core/utils/logger";
 import type { stacks_config } from "~/typings/database";
 
 class stackHandler {
+	/**
+	 * Deploys a Stack on the DockStatAPI
+	 *
+	 * @example
+	 * ```ts
+	 * deploy({
+	 *  id: 0,
+	 *  name: "example",
+	 *  vesion: 1,
+	 *  custom: false,
+	 *  source: "https://github.com/Its4Nik/DockStacks"
+	 *  compose_spec: "{services: {web: {image: "nginx:latest",ports: ["80:80"]}}"
+	 * })
+	 * ```
+	 * @param config
+	 * @returns "Stack ${config.name} deployed successfully"
+	 */
 	async deploy(config: stacks_config) {
 		try {
 			await deployStack(config);
@@ -24,7 +41,11 @@ class stackHandler {
 			return `${errorMsg}, Error deploying stack, please check the server logs for more information`;
 		}
 	}
-
+	/**
+	 * Runs `docker compose -f "./stacks/[StackID]-[StackName]" up -d`
+	 * @param stackId
+	 * @returns `Started Stack (${stackId})`
+	 */
 	async start(stackId: number) {
 		try {
 			if (!stackId) {
@@ -40,6 +61,11 @@ class stackHandler {
 		}
 	}
 
+	/**
+	 * Runs `docker compose -f "./stacks/[StackID]-[StackName]" down`
+	 * @param stackId
+	 * @returns `Stack ${stackId} stopped successfully`
+	 */
 	async stop(stackId: number) {
 		try {
 			if (!stackId) {
@@ -55,6 +81,11 @@ class stackHandler {
 		}
 	}
 
+	/**
+	 * Runs `docker compose -f "./stacks/[StackID]-[StackName]" restart`
+	 * @param stackId
+	 * @returns `Stack ${stackId} restarted successfully`
+	 */
 	async restart(stackId: number) {
 		try {
 			if (!stackId) {
@@ -70,6 +101,11 @@ class stackHandler {
 		}
 	}
 
+	/**
+	 * Runs `docker compose -f "./stacks/[StackID]-[StackName]" pull`
+	 * @param stackId
+	 * @returns `Images for stack ${stackId} pulled successfully`
+	 */
 	async pullImages(stackId: number) {
 		try {
 			if (!stackId) {
@@ -85,6 +121,11 @@ class stackHandler {
 		}
 	}
 
+	/**
+	 * Runs `docker compose -f "./stacks/[StackID]-[StackName]" ps` with custom formatting
+	 * @param stackId
+	 * @returns Idfk
+	 */
 	async getStatus(stackId?: number) {
 		if (stackId) {
 			const status = await getStackStatus(stackId);
@@ -101,6 +142,19 @@ class stackHandler {
 		return status;
 	}
 
+	/**
+	 * @example
+	 * ```json
+	 * [{
+	 *  id: 1;
+	 *  name: "example";
+	 *  version: 1;
+	 *  custom: false;
+	 *  source: "https://github.com/Its4Nik/DockStacks";
+	 *  compose_spec: "{services: {web: {image: "nginx:latest",ports: ["80:80"]}}"
+	 * }]
+	 * ```
+	 */
 	listStacks(): stacks_config[] {
 		try {
 			const stacks = dbFunctions.getStacks();
@@ -112,6 +166,11 @@ class stackHandler {
 		}
 	}
 
+	/**
+	 * Deletes a whole Stack and it's local folder, this action is irreversible
+	 * @param stackId
+	 * @returns `Stack ${stackId} deleted successfully`
+	 */
 	async deleteStack(stackId: number) {
 		try {
 			await removeStack(stackId);

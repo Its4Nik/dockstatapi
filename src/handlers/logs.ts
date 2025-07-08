@@ -19,8 +19,8 @@ class logHandler {
 			logger.debug(`Retrieved logs (level: ${level})`);
 			return logs;
 		} catch (error) {
-			logger.error("Failed to retrieve logs");
-			throw new Error("Failed to retrieve logs");
+			logger.error(`Failed to retrieve logs: ${error}`);
+			throw new Error(`Failed to retrieve logs: ${error}`);
 		}
 	}
 

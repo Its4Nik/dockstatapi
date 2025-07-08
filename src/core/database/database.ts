@@ -91,6 +91,11 @@ export function init() {
     CREATE TABLE IF NOT EXISTS config (
       keep_data_for NUMBER NOT NULL,
       fetching_interval NUMBER NOT NULL    );
+
+    CREATE TABLE IF NOT EXISTS store_repos (
+      slug TEXT NOT NULL,
+      base TEXT NOT NULL
+    );
   `);
 
 	const configRow = db
@@ -111,6 +116,17 @@ export function init() {
 		db.prepare(
 			"INSERT INTO docker_hosts (name, hostAddress, secure) VALUES (?, ?, ?)",
 		).run("Localhost", "localhost:2375", false);
+	}
+
+	const storeRow = db
+		.prepare("SELECT COUNT(*) AS count FROM store_repos")
+		.get() as { count: number };
+
+	if (storeRow.count === 0) {
+		db.prepare("INSERT INTO store_repos (slug, base) VALUES (?, ?)").run(
+			"DockStacks",
+			"https://raw.githubusercontent.com/Its4Nik/DockStacks/refs/heads/main/Index.json",
+		);
 	}
 }
 
