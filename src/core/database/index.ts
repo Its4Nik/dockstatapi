@@ -10,16 +10,18 @@ import * as hostStats from "~/core/database/hostStats";
 import * as logs from "~/core/database/logs";
 import * as stacks from "~/core/database/stacks";
 import * as stores from "~/core/database/stores";
+import * as themes from "~/core/database/themes";
 
 export const dbFunctions = {
-	...dockerHosts,
-	...logs,
-	...config,
-	...containerStats,
-	...hostStats,
-	...stacks,
-	...backup,
-	...stores,
+  ...dockerHosts,
+  ...logs,
+  ...config,
+  ...containerStats,
+  ...hostStats,
+  ...stacks,
+  ...backup,
+  ...stores,
+  ...themes,
 };
 
 export type dbFunctions = typeof dbFunctions;
