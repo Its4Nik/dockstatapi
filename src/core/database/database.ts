@@ -113,12 +113,12 @@ export function init() {
     .root,
     #root,
     #docs-root {
-    --accent: #f9a8d4;
-    --secondary-accent: #fbcfe8;
-    --border: #e5a3be;
-    --muted-bg: #fbeff3;
-    --gradient-from: #f8dbe2;
-    --gradient-to: #f6e3eb;
+        --accent: #818cf8;
+        --secondary-accent: #a5b4fc;
+        --border: #4b5563;
+        --muted-bg: #18212f;
+        --gradient-from: #1f2937;
+        --gradient-to: #111827;
     }
     `;
 
