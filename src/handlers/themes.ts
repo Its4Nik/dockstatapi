@@ -7,9 +7,23 @@ class themeHandler {
   }
   addTheme(theme: Theme) {
     try {
-      return dbFunctions.addTheme({ ...theme });
+      const rawVars =
+        typeof theme.vars === "string" ? JSON.parse(theme.vars) : theme.vars;
+
+      const cssVars = Object.entries(rawVars)
+        .map(([key, value]) => `--${key}: ${value};`)
+        .join(" ");
+
+      const varsString = `.root, #root, #docs-root { ${cssVars} }`;
+
+      return dbFunctions.addTheme({
+        ...theme,
+        vars: varsString,
+      });
     } catch (error) {
-      throw new Error(`Could not save theme ${theme}, error: ${error}`);
+      throw new Error(
+        `Could not save theme ${JSON.stringify(theme)}, error: ${error}`,
+      );
     }
   }
   deleteTheme({ name }: Theme) {

@@ -98,7 +98,7 @@ export function init() {
     );
 
     CREATE TABLE IF NOT EXISTS themes (
-      name TEXT NOT NULL,
+      name TEXT PRIMARY KEY,
       creator TEXT NOT NULL,
       vars TEXT NOT NULL,
       tags TEXT NOT NULL
