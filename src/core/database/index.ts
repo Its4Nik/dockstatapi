@@ -13,15 +13,15 @@ import * as stores from "~/core/database/stores";
 import * as themes from "~/core/database/themes";
 
 export const dbFunctions = {
-  ...dockerHosts,
-  ...logs,
-  ...config,
-  ...containerStats,
-  ...hostStats,
-  ...stacks,
-  ...backup,
-  ...stores,
-  ...themes,
+	...dockerHosts,
+	...logs,
+	...config,
+	...containerStats,
+	...hostStats,
+	...stacks,
+	...backup,
+	...stores,
+	...themes,
 };
 
 export type dbFunctions = typeof dbFunctions;

@@ -9,15 +9,15 @@ import { ThemeHandler } from "./themes";
 import { CheckHealth } from "./utils";
 
 export const handlers = {
-  BasicDockerHandler,
-  ApiHandler,
-  DatabaseHandler,
-  StackHandler,
-  LogHandler,
-  CheckHealth,
-  Socket: "ws://localhost:4837/ws",
-  StoreHandler,
-  ThemeHandler,
+	BasicDockerHandler,
+	ApiHandler,
+	DatabaseHandler,
+	StackHandler,
+	LogHandler,
+	CheckHealth,
+	Socket: "ws://localhost:4837/ws",
+	StoreHandler,
+	ThemeHandler,
 };
 
 Starter.startAll();
