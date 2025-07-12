@@ -1,5 +1,4 @@
 import { existsSync, readdirSync, unlinkSync } from "node:fs";
-import { PackageJson } from "knip/dist/types/package-json";
 import { dbFunctions } from "~/core/database";
 import { backupDir } from "~/core/database/backup";
 import { pluginManager } from "~/core/plugins/plugin-manager";
