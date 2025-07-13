@@ -5,6 +5,7 @@ import {
 	calculateCpuPercent,
 	calculateMemoryUsage,
 } from "~/core/utils/calculations";
+import type { container_stats } from "~/typings/database";
 import { logger } from "../utils/logger";
 
 async function storeContainerData() {
@@ -68,16 +69,18 @@ async function storeContainerData() {
 								},
 							);
 
-							dbFunctions.addContainerStats(
-								containerInfo.Id,
-								host.name,
-								containerName,
-								containerInfo.Image,
-								containerInfo.Status,
-								containerInfo.State,
-								calculateCpuPercent(stats),
-								calculateMemoryUsage(stats),
-							);
+							const parsed: container_stats = {
+								cpu_usage: calculateCpuPercent(stats),
+								hostId: host.id,
+								id: containerInfo.Id,
+								image: containerInfo.Image,
+								memory_usage: calculateMemoryUsage(stats),
+								name: containerName,
+								state: containerInfo.State,
+								status: containerInfo.Status,
+							};
+
+							dbFunctions.addContainerStats(parsed);
 						} catch (error) {
 							const errMsg =
 								error instanceof Error ? error.message : String(error);

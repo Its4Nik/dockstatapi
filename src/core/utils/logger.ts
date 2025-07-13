@@ -1,18 +1,19 @@
 import path from "node:path";
-import chalk, { type ChalkInstance } from "chalk";
+import chalk from "chalk";
+import type { ChalkInstance } from "chalk";
 import type { TransformableInfo } from "logform";
 import { createLogger, format, transports } from "winston";
 import wrapAnsi from "wrap-ansi";
 
 import { dbFunctions } from "~/core/database";
 
-import { logToClients } from "~/routes/live-logs";
+import { logToClients } from "../../handlers/modules/logs-socket";
 
 import type { log_message } from "~/typings/database";
 
 import { backupInProgress } from "../database/_dbState";
 
-const padNewlines = process.env.PAD_NEW_LINES !== "false";
+const padNewlines = true; //process.env.PAD_NEW_LINES !== "false";
 
 type LogLevel =
 	| "error"
@@ -24,7 +25,7 @@ type LogLevel =
 	| "task"
 	| "ut";
 
-// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
+// biome-ignore lint/suspicious/noControlCharactersInRegex: <benis>
 const ansiRegex = /\x1B\[[0-?9;]*[mG]/g;
 
 const formatTerminalMessage = (message: string, prefix: string): string => {
@@ -127,7 +128,7 @@ export const logger = createLogger({
 					const lineStr = stack[i].trim();
 					if (
 						!lineStr.includes("node_modules") &&
-						!lineStr.includes(path.basename(__filename))
+						!lineStr.includes(path.basename(import.meta.url))
 					) {
 						const matches = lineStr.match(/\(?(.+):(\d+):(\d+)\)?$/);
 						if (matches) {

@@ -2,10 +2,10 @@ import { rm } from "node:fs/promises";
 import DockerCompose from "docker-compose";
 import { dbFunctions } from "~/core/database";
 import { logger } from "~/core/utils/logger";
-import { postToClient } from "~/routes/live-stacks";
 import type { stacks_config } from "~/typings/database";
 import type { Stack } from "~/typings/docker-compose";
 import type { ComposeSpec } from "~/typings/docker-compose";
+import { broadcast } from "../../handlers/modules/docker-socket";
 import { checkStacks } from "./checker";
 import { runStackCommand } from "./operations/runStackCommand";
 import { wrapProgressCallback } from "./operations/runStackCommand";
@@ -33,12 +33,17 @@ export async function deployStack(stack_config: stacks_config): Promise<void> {
 			throw new Error("Failed to add stack to database");
 		}
 
-		postToClient({
-			type: "stack-status",
+		// Broadcast pending status
+		broadcast({
+			topic: "stack",
 			data: {
-				stack_id: stackId,
-				status: "pending",
-				message: "Creating stack configuration",
+				timestamp: new Date(),
+				type: "stack-status",
+				data: {
+					stack_id: stackId,
+					status: "pending",
+					message: "Creating stack configuration",
+				},
 			},
 		});
 
@@ -64,12 +69,17 @@ export async function deployStack(stack_config: stacks_config): Promise<void> {
 			"deploying",
 		);
 
-		postToClient({
-			type: "stack-status",
+		// Broadcast deployed status
+		broadcast({
+			topic: "stack",
 			data: {
-				stack_id: stackId,
-				status: "deployed",
-				message: "Stack deployed successfully",
+				timestamp: new Date(),
+				type: "stack-status",
+				data: {
+					stack_id: stackId,
+					status: "deployed",
+					message: "Stack deployed successfully",
+				},
 			},
 		});
 
@@ -107,13 +117,17 @@ export async function deployStack(stack_config: stacks_config): Promise<void> {
 			}
 		}
 
-		postToClient({
-			type: "stack-error",
+		// Broadcast deployment error
+		broadcast({
+			topic: "stack",
 			data: {
-				stack_id: stackId ?? 0,
-				action: "deploying",
-				message: errorMsg,
-				timestamp: new Date().toISOString(),
+				timestamp: new Date(),
+				type: "stack-error",
+				data: {
+					stack_id: stackId ?? 0,
+					action: "deploying",
+					message: errorMsg,
+				},
 			},
 		});
 		throw new Error(errorMsg);
@@ -208,13 +222,17 @@ export async function removeStack(stack_id: number): Promise<void> {
 		} catch (error) {
 			const errorMsg = error instanceof Error ? error.message : String(error);
 			logger.error(errorMsg);
-			postToClient({
-				type: "stack-error",
+			// Broadcast removal error
+			broadcast({
+				topic: "stack",
 				data: {
-					stack_id,
-					action: "removing",
-					message: `Directory removal failed: ${errorMsg}`,
-					timestamp: new Date().toISOString(),
+					timestamp: new Date(),
+					type: "stack-error",
+					data: {
+						stack_id,
+						action: "removing",
+						message: `Directory removal failed: ${errorMsg}`,
+					},
 				},
 			});
 			throw new Error(errorMsg);
@@ -222,23 +240,32 @@ export async function removeStack(stack_id: number): Promise<void> {
 
 		dbFunctions.deleteStack(stack_id);
 
-		postToClient({
-			type: "stack-removed",
+		// Broadcast successful removal
+		broadcast({
+			topic: "stack",
 			data: {
-				stack_id,
-				message: "Stack removed successfully",
+				timestamp: new Date(),
+				type: "stack-removed",
+				data: {
+					stack_id,
+					message: "Stack removed successfully",
+				},
 			},
 		});
 	} catch (error: unknown) {
 		const errorMsg = error instanceof Error ? error.message : String(error);
 		logger.error(errorMsg);
-		postToClient({
-			type: "stack-error",
+		// Broadcast removal error
+		broadcast({
+			topic: "stack",
 			data: {
-				stack_id,
-				action: "removing",
-				message: errorMsg,
-				timestamp: new Date().toISOString(),
+				timestamp: new Date(),
+				type: "stack-error",
+				data: {
+					stack_id,
+					action: "removing",
+					message: errorMsg,
+				},
 			},
 		});
 		throw new Error(errorMsg);

@@ -1,7 +1,8 @@
 import { EventEmitter } from "node:events";
 import type { ContainerInfo } from "~/typings/docker";
-import type { Hooks, Plugin, PluginInfo } from "~/typings/plugin";
+import type { Plugin, PluginInfo } from "~/typings/plugin";
 import { logger } from "../utils/logger";
+import { loadPlugins } from "./loader";
 
 function getHooks(plugin: Plugin) {
 	return {
@@ -26,6 +27,16 @@ function getHooks(plugin: Plugin) {
 class PluginManager extends EventEmitter {
 	private plugins: Map<string, Plugin> = new Map();
 	private failedPlugins: Map<string, Plugin> = new Map();
+
+	async start() {
+		try {
+			await loadPlugins("./server/src/plugins");
+			return;
+		} catch (error) {
+			logger.error(`Failed to init plugin manager: ${error}`);
+			return;
+		}
+	}
 
 	fail(plugin: Plugin) {
 		try {
@@ -52,29 +63,31 @@ class PluginManager extends EventEmitter {
 	}
 
 	getPlugins(): PluginInfo[] {
-		const loadedPlugins = Array.from(this.plugins.values()).map((plugin) => {
-			const hooks: Hooks = getHooks(plugin);
+		const plugins: PluginInfo[] = [];
 
-			return {
+		for (const plugin of this.plugins.values()) {
+			logger.debug(`Loaded plugin: ${JSON.stringify(plugin)}`);
+			const hooks = getHooks(plugin);
+			plugins.push({
 				name: plugin.name,
+				version: plugin.version,
 				status: "active",
 				usedHooks: hooks,
-			};
-		});
+			});
+		}
 
-		const failedPlugins = Array.from(this.failedPlugins.values()).map(
-			(plugin) => {
-				const hooks: Hooks = getHooks(plugin);
+		for (const plugin of this.failedPlugins.values()) {
+			logger.debug(`Loaded plugin: ${JSON.stringify(plugin)}`);
+			const hooks = getHooks(plugin);
+			plugins.push({
+				name: plugin.name,
+				version: plugin.version,
+				status: "inactive",
+				usedHooks: hooks,
+			});
+		}
 
-				return {
-					name: plugin.name,
-					status: "inactive",
-					usedHooks: hooks,
-				};
-			},
-		);
-
-		return loadedPlugins.concat(failedPlugins);
+		return plugins;
 	}
 
 	// Trigger plugin flows:

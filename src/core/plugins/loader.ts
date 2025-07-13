@@ -38,12 +38,12 @@ export async function loadPlugins(pluginDir: string) {
 		logger.info(`Loading plugin: ${absolutePath}`);
 		try {
 			await checkFileForChangeMe(absolutePath);
-			const module = await import(absolutePath);
+			const module = await import(/* @vite-ignore */ absolutePath);
 			const plugin = module.default;
 			pluginManager.register(plugin);
 			pluginCount++;
 		} catch (error) {
-			pluginManager.fail({ name: file });
+			pluginManager.fail({ name: file, version: "0.0.0" });
 			logger.error(
 				`Error while registering plugin ${absolutePath}: ${error as string}`,
 			);

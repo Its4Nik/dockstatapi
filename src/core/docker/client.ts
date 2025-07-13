@@ -4,6 +4,8 @@ import type { DockerHost } from "~/typings/docker";
 
 export const getDockerClient = (host: DockerHost): Docker => {
 	try {
+		logger.info(`Setting up host: ${JSON.stringify(host)}`);
+
 		const inputUrl = host.hostAddress.includes("://")
 			? host.hostAddress
 			: `${host.secure ? "https" : "http"}://${host.hostAddress}`;
