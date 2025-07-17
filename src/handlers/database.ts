@@ -1,13 +1,15 @@
 import { dbFunctions } from "~/core/database";
+import type { container_stats } from "~/typings/database";
+import type { HostStats } from "~/typings/docker";
 
 class databaseHandler {
-	async getContainers() {
-		return dbFunctions.getContainerStats();
-	}
+  getContainers(): container_stats[] {
+    return dbFunctions.getContainerStats();
+  }
 
-	async getHosts() {
-		return dbFunctions.getHostStats();
-	}
+  getHosts(): HostStats[] {
+    return dbFunctions.getHostStats();
+  }
 }
 
 export const DatabaseHandler = new databaseHandler();

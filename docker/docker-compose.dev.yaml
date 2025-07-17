@@ -5,7 +5,7 @@ services:
     image: lscr.io/linuxserver/socket-proxy:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: never
+    restart: no
     read_only: true
     tmpfs:
       - /run
@@ -44,10 +44,10 @@ services:
   sqlite-web:
     container_name: sqlite-web
     image: ghcr.io/coleifer/sqlite-web:latest
-    restart: never
+    restart: no
     ports:
       - 8080:8080
     volumes:
-      - /home/nik/Documents/Code-local/dockstat-project/DockStat/data:/data:ro
+      - /home/nik/Documents/Code-local/dockstat-project/DockStat/server/data:/data:ro
     environment:
       - SQLITE_DATABASE=dockstatapi.db

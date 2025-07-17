@@ -84,7 +84,11 @@ export function init() {
       status TEXT NOT NULL,
       state TEXT NOT NULL,
       cpu_usage FLOAT NOT NULL,
-      memory_usage,
+      memory_usage FLOAT NOT NULL,
+      network_rx_rate NUMBER NOT NULL,
+      network_tx_rate NUMBER NOT NULL,
+      network_rx_bytes NUMBER NOT NULL,
+      network_tx_bytes NUMBER NOT NULL,
       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -118,7 +122,7 @@ export function init() {
       --gradient-from: #1e293b;
       --gradient-to: #334155;
       --border: #334155;
-      --border-accent: rgba(129, 140, 249, 0.3);
+      --border-accent: #818cf94d;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-tertiary: #64748b;
@@ -126,7 +130,7 @@ export function init() {
       --state-warning: #facc15;
       --state-error: #f87171;
       --state-info: #38bdf8;
-      --shadow-glow: 0 0 15px rgba(129, 140, 249, 0.5);
+      --shadow-glow: 0 0 15px #818cf980;
       --background-gradient: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
     }
   `;
@@ -134,7 +138,7 @@ export function init() {
   if (themeRows.count === 0) {
     db.prepare(
       "INSERT INTO themes (name, creator, vars, tags) VALUES (?,?,?,?)",
-    ).run("default", "Its4Nik", defaultCss, "[default]");
+    ).run("default", "Its4Nik", defaultCss, "default, dark");
   }
 
   const configRow = db

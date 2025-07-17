@@ -2,100 +2,83 @@ import type Docker from "dockerode";
 import { dbFunctions } from "~/core/database";
 import { getDockerClient } from "~/core/docker/client";
 import {
-	calculateCpuPercent,
-	calculateMemoryUsage,
+  calculateCpuPercent,
+  calculateMemoryUsage,
+  sumNetworkBytes,
+  calcRate,
 } from "~/core/utils/calculations";
 import type { container_stats } from "~/typings/database";
 import { logger } from "../utils/logger";
 
 async function storeContainerData() {
-	try {
-		const hosts = dbFunctions.getDockerHosts();
-		logger.debug("Retrieved docker hosts for storing container data");
+  const hosts = dbFunctions.getDockerHosts();
+  logger.debug("Retrieved docker hosts");
 
-		// Process each host concurrently and wait for them all to finish
-		await Promise.all(
-			hosts.map(async (host) => {
-				const docker = getDockerClient(host);
+  await Promise.all(
+    hosts.map(async (host) => {
+      const docker = getDockerClient(host);
+      await docker.ping();
 
-				// Test the connection with a ping
-				try {
-					await docker.ping();
-				} catch (error) {
-					const errMsg = error instanceof Error ? error.message : String(error);
-					throw new Error(
-						`Failed to ping docker host "${host.name}": ${errMsg}`,
-					);
-				}
+      const containers = await docker.listContainers({ all: true });
+      await Promise.all(
+        containers.map(async (info) => {
+          const container = docker.getContainer(info.Id);
+          const rawStats: Docker.ContainerStats = await new Promise(
+            (res, rej) =>
+              container.stats({ stream: false }, (err, stats) =>
+                err ? rej(err) : res(stats as Docker.ContainerStats),
+              ),
+          );
 
-				let containers: Docker.ContainerInfo[] = [];
-				try {
-					containers = await docker.listContainers({ all: true });
-				} catch (error) {
-					const errMsg = error instanceof Error ? error.message : String(error);
-					throw new Error(
-						`Failed to list containers on host "${host.name}": ${errMsg}`,
-					);
-				}
+          const now = new Date();
 
-				// Process each container concurrently
-				await Promise.all(
-					containers.map(async (containerInfo) => {
-						const containerName = containerInfo.Names[0].replace(/^\//, "");
-						try {
-							const container = docker.getContainer(containerInfo.Id);
+          const cpu_usage = calculateCpuPercent(rawStats);
+          const memory_usage = calculateMemoryUsage(rawStats);
 
-							const stats: Docker.ContainerStats = await new Promise(
-								(resolve, reject) => {
-									container.stats({ stream: false }, (error, stats) => {
-										if (error) {
-											const errMsg =
-												error instanceof Error ? error.message : String(error);
-											return reject(
-												new Error(
-													`Failed to get stats for container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}": ${errMsg}`,
-												),
-											);
-										}
-										if (!stats) {
-											return reject(
-												new Error(
-													`No stats returned for container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}".`,
-												),
-											);
-										}
-										resolve(stats);
-									});
-								},
-							);
+          const { rx: network_rx_bytes, tx: network_tx_bytes } =
+            sumNetworkBytes(rawStats);
 
-							const parsed: container_stats = {
-								cpu_usage: calculateCpuPercent(stats),
-								hostId: host.id,
-								id: containerInfo.Id,
-								image: containerInfo.Image,
-								memory_usage: calculateMemoryUsage(stats),
-								name: containerName,
-								state: containerInfo.State,
-								status: containerInfo.Status,
-							};
+          const prev = dbFunctions.getLastContainerStats(host.id, info.Id);
 
-							dbFunctions.addContainerStats(parsed);
-						} catch (error) {
-							const errMsg =
-								error instanceof Error ? error.message : String(error);
-							throw new Error(
-								`Error processing container "${containerName}" (ID: ${containerInfo.Id}) on host "${host.name}": ${errMsg}`,
-							);
-						}
-					}),
-				);
-			}),
-		);
-	} catch (error) {
-		const errMsg = error instanceof Error ? error.message : String(error);
-		throw new Error(`Failed to store container data: ${errMsg}`);
-	}
+          let network_rx_rate: number | null = null;
+          let network_tx_rate: number | null = null;
+          if (prev) {
+            logger.debug(`Loaded previous data: ${JSON.stringify(prev)}`);
+            network_rx_rate = calcRate(
+              prev.network_rx_bytes,
+              prev.timestamp || new Date().toISOString(),
+              network_rx_bytes,
+              now,
+            );
+            network_tx_rate = calcRate(
+              prev.network_tx_bytes,
+              prev.timestamp || new Date().toISOString(),
+              network_tx_bytes,
+              now,
+            );
+          }
+
+          const parsed: container_stats = {
+            id: info.Id,
+            hostId: host.id,
+            name: info.Names[0].replace(/^\//, ""),
+            image: info.Image,
+            state: info.State,
+            status: info.Status,
+            cpu_usage,
+            memory_usage,
+            network_rx_bytes,
+            network_tx_bytes,
+            network_rx_rate: network_rx_rate || 0,
+            network_tx_rate: network_tx_rate || 0,
+            timestamp: now.toISOString(),
+          };
+
+          dbFunctions.addContainerStats(parsed);
+        }),
+      );
+    }),
+  );
 }
 
 export default storeContainerData;
