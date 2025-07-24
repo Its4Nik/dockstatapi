@@ -105,6 +105,7 @@ export function init() {
       name TEXT PRIMARY KEY,
       creator TEXT NOT NULL,
       vars TEXT NOT NULL,
+      options TEXT NOT NULL,
       tags TEXT NOT NULL
     )
   `);
@@ -135,10 +136,23 @@ export function init() {
     }
   `;
 
+  const defaultThemeOptions = {
+    backgroundAnimation: {
+      enabled: true,
+      from: ["#c084fc", "#818cf9", "#60a5fa"],
+    },
+  };
+
   if (themeRows.count === 0) {
     db.prepare(
-      "INSERT INTO themes (name, creator, vars, tags) VALUES (?,?,?,?)",
-    ).run("default", "Its4Nik", defaultCss, "default, dark");
+      "INSERT INTO themes (name, creator, vars, options, tags) VALUES (?,?,?,?,?)",
+    ).run(
+      "default",
+      "Its4Nik",
+      defaultCss,
+      JSON.stringify(defaultThemeOptions),
+      "default, dark",
+    );
   }
 
   const configRow = db
